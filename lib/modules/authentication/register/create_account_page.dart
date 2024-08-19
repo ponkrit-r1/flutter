@@ -1,8 +1,10 @@
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/register/create_account_controller.dart';
+import 'package:deemmi/modules/authentication/terms/term_and_condition_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 import '../../../core/global_widgets/pettagu_text_field.dart';
 import '../../../core/global_widgets/primary_button.dart';
@@ -64,8 +66,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   const SizedBox(
                     height: 24,
                   ),
-                  ...formSections(context),
-                  Obx(() =>termAndCondition()),
+                  Obx(() => formSections(context)),
+                  Obx(() => termAndCondition()),
                   const SizedBox(
                     height: 16,
                   ),
@@ -83,9 +85,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             )
                           : PrimaryButton(
                               title: stringRes(context)!.continueWithOtpLabel,
-                              onPressed: () {
-                                navigateToOtpVerification();
-                              },
+                              onPressed: _controller.isInformationCompleted
+                                  ? () {
+                                      navigateToOtpVerification();
+                                    }
+                                  : null,
                               color: AppColor.primary500,
                             ),
                     ),
@@ -152,8 +156,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     return const SizedBox.shrink();
   }
 
-  List<Widget> formSections(BuildContext context) {
-    return [
+  Widget formSections(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         stringRes(context)!.emailLabel,
         style: textTheme(context)
@@ -229,13 +233,25 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         height: 10,
       ),
       _lastnameForm(context),
-    ];
+    ]);
   }
 
   termAndCondition() {
     return InkWell(
       onTap: () {
-        _controller.setTermAccept(!_controller.isTermAccepted);
+        if (!_controller.isTermAccepted) {
+          Get.bottomSheet(
+            enableDrag: true,
+            isScrollControlled: true,
+            TermAndConditionBottomSheet(
+              onTermAccepted: (isAccept) {
+                _controller.setTermAccept(isAccept);
+              },
+            ),
+          );
+        } else {
+          _controller.setTermAccept(!_controller.isTermAccepted);
+        }
       },
       child: CheckboxListTile(
         contentPadding: EdgeInsets.zero,
@@ -247,8 +263,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 .bodyLarge
                 ?.copyWith(color: AppColor.textColor),
             children: [
+              const TextSpan(text: ' '),
               TextSpan(
-                text: ' ${stringRes(context)!.termAndCondition}',
+                text: stringRes(context)!.termAndCondition,
                 style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(
                     decoration: TextDecoration.underline,
                     color: AppColor.primary500),
@@ -258,8 +275,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
         value: _controller.isTermAccepted,
         onChanged: null,
-        selectedTileColor: AppColor.primary500,
-        checkColor: AppColor.primary500,
+        side: const BorderSide(color: AppColor.borderColor),
+        checkColor: Colors.white,
+        fillColor: MaterialStateProperty.all(
+            _controller.isTermAccepted ? AppColor.primary500 : Colors.white),
         controlAffinity:
             ListTileControlAffinity.leading, //  <-- leading Checkbox
       ),
@@ -272,6 +291,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       keyboardType: TextInputType.emailAddress,
       controller: _controller.emailController,
       fillColor: Colors.white,
+      errorText: (_controller.isEmailFormatCorrect == false)
+          ? stringRes(context)!.invalidEmailLabel
+          : null,
     );
   }
 
@@ -282,6 +304,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       obscureText: true,
       controller: _controller.passwordController,
       fillColor: Colors.white,
+      errorText: (_controller.isPasswordFormatCorrect == false)
+          ? stringRes(context)!.invalidPasswordLabel
+          : null,
     );
   }
 
@@ -292,6 +317,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       obscureText: true,
       controller: _controller.confirmPasswordController,
       fillColor: Colors.white,
+      errorText: _controller.isConfirmPasswordMatched == false
+          ? stringRes(context)!.passwordNotMatch
+          : null,
     );
   }
 
@@ -330,7 +358,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }
 
   navigateToOtpVerification() {
-    Get.toNamed(Routes.otpVerification);
+    Get.toNamed(Routes.otpVerification, arguments: {
+      RouteParams.userEmail: _controller.emailController.text,
+    });
   }
 
   navigateToPolicyWebview() {}

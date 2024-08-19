@@ -6,6 +6,7 @@ abstract class AppColor {
   static const secondary500 = Color(0xff00D797);
 
   static const secondaryBgColor = Color(0xffF8FAFC);
+  static const brandYellow = Color(0xffE7B569);
 
   static const base100 = Color(0xffF2F2F2);
   static const base200 = Color(0xffF8F8F8);
@@ -17,7 +18,7 @@ abstract class AppColor {
 
   static const dark500 = Color(0xff161616);
 
-  static const redError = Color(0xffA84646);
+  static const redError = Color(0xffEF4444);
   static const notificationRed = Color(0xffEA4C46);
   static const yellowWarning = Color(0xffF4BF59);
   static const greenNormal = Color(0xff89C596);

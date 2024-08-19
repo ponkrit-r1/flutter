@@ -1,3 +1,4 @@
+import 'package:deemmi/modules/authentication/complete/create_account_success_page.dart';
 import 'package:deemmi/modules/authentication/register/create_account_binding.dart';
 import 'package:deemmi/modules/authentication/register/create_account_page.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_binding.dart';
@@ -7,35 +8,29 @@ import 'package:deemmi/modules/authentication/verification/otp_verification_bind
 import 'package:deemmi/modules/authentication/verification/otp_verification_page.dart';
 import 'package:deemmi/modules/on_boarding/on_boarding_binding.dart';
 import 'package:deemmi/modules/on_boarding/on_boarding_page.dart';
+import 'package:deemmi/modules/pet/add_pet/add_pet_binding.dart';
+import 'package:deemmi/modules/pet/add_pet/add_pet_page.dart';
 import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_controller.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:get/get.dart';
 
+import '../modules/root/root_page.dart';
 import 'app_routes.dart';
 
 abstract class AppPages {
   static final pages = [
-    // GetPage(name: Routes.root, page: () => const RootPage(), bindings: [
-    //   DashboardBinding(),
-    //   MyPlanBinding(),
-    //   PrePostureBinding(),
-    //   SettingBinding(),
-    //   ActivityCalendarBinding(),
-    // ]),
-
+    GetPage(name: Routes.root, page: () => const RootPage(), bindings: []),
     GetPage(
       name: Routes.routing,
       page: () => const RoutingPage(),
       binding: RoutingBinding(),
     ),
-
     GetPage(
       name: Routes.onboarding,
       page: () => const OnBoardingScreen(),
       binding: OnBoardingBinding(),
     ),
-
     GetPage(
       name: Routes.signIn,
       page: () => const SignInPage(),
@@ -50,6 +45,15 @@ abstract class AppPages {
       name: Routes.otpVerification,
       page: () => const OtpVerificationPage(),
       binding: OtpVerificationBinding(),
+    ),
+    GetPage(
+      name: Routes.createAccountSuccess,
+      page: () => const CreateAccountSuccessPage(),
+    ),
+    GetPage(
+      name: Routes.addPet,
+      page: () => AddPetPage(),
+      binding: AddPetBinding(),
     ),
   ];
 }

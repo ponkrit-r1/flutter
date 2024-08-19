@@ -59,6 +59,7 @@ dependencies:
   loading_animation_widget: ^1.2.1
   persistent_bottom_nav_bar: ^5.0.2
   pinput: ^5.0.0
+  email_validator: '^3.0.0'
 
 dependency_overrides:
   watcher: ^1.1.0

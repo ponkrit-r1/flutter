@@ -5,18 +5,22 @@ import 'app_colors.dart';
 import 'app_text_theme.dart';
 
 final ThemeData appThemeData = ThemeData(
-    useMaterial3: false,
-    primaryColor: AppColor.primary500,
-    splashColor: Colors.grey.shade50,
-    highlightColor: Colors.grey.shade50,
-    textTheme: _textTheme,
-    primaryTextTheme: _textTheme,
-    appBarTheme: const AppBarTheme(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black),
-    colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColor.primaryBlack)
-        .copyWith(secondary: AppColor.secondary500));
+  useMaterial3: false,
+  primaryColor: AppColor.primary500,
+  splashColor: Colors.grey.shade50,
+  highlightColor: Colors.grey.shade50,
+  textTheme: _textTheme,
+  primaryTextTheme: _textTheme,
+  appBarTheme:  AppBarTheme(
+      centerTitle: true,
+      titleTextStyle: _textTheme.labelMedium,
+      backgroundColor: Colors.transparent,
+      foregroundColor: Colors.black),
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColor.primaryBlack)
+      .copyWith(secondary: AppColor.secondary500),
+  unselectedWidgetColor: Colors.white,
+
+);
 
 final _textTheme = GoogleFonts.poppinsTextTheme(TextTheme(
   displayLarge: headline1TextStyle,

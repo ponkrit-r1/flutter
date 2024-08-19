@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../routes/app_routes.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   const OtpVerificationPage({super.key});
@@ -181,19 +182,36 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   }
 
   Widget resendOtpButton(bool canRequest, BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      child: Text(
-        stringRes(context)!.resendOtpLabel,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (!_controller.canRequestOtp)
+          const Icon(Icons.timer_outlined,
+              color: AppColor.secondaryContentGray),
+        if (!_controller.canRequestOtp) const SizedBox(width: 8),
+        if (!_controller.canRequestOtp)
+          Text(
+            _controller.remainingCount,
+            style: textTheme(context).bodyLarge?.copyWith(
+                  color: AppColor.secondaryContentGray,
+                ),
+          ),
+        if (!_controller.canRequestOtp) const SizedBox(width: 16),
+        TextButton(
+          onPressed: _controller.canRequestOtp
+              ? () {
+                  _controller.requestOtp();
+                }
+              : null,
+          child: Text(
+            stringRes(context)!.resendOtpLabel,
+          ),
+        ),
+      ],
     );
   }
 
   _submit() async {
-    // final verified = await controller.verifyOtp();
-    // final lastRequestId = controller.lastRequestId;
-    // if (verified && lastRequestId != null) {
-    //   widget.onVerifiedOtp(lastRequestId);
-    // }
+    Get.toNamed(Routes.createAccountSuccess);
   }
 }

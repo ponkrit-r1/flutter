@@ -19,7 +19,7 @@ class PettaguTextField extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final String? errorText;
 
-  String? get displayError => errorText != null ? 'ⓘ $errorText' : null;
+  String? get displayError => errorText != null ? '$errorText' : null;
   final FormFieldValidator<String>? validator;
   final String? initialValue;
   final TextInputType? keyboardType;
@@ -156,10 +156,11 @@ class _PettaguTextField extends State<PettaguTextField> {
               keyboardType: widget.keyboardType ?? TextInputType.text,
               maxLength: widget.maxLength,
               decoration: InputDecoration(
-                errorMaxLines: 2,
+                errorMaxLines: 4,
                 fillColor: widget.fillColor,
                 filled: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 16,horizontal: 20),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 errorText: widget.displayError,
                 alignLabelWithHint: true,
                 prefixIcon: _prefixIcon(context),
@@ -182,7 +183,7 @@ class _PettaguTextField extends State<PettaguTextField> {
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: AppColor.borderColor,
+                    color: AppColor.redError,
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                 ),
@@ -273,6 +274,12 @@ class _PettaguTextField extends State<PettaguTextField> {
   }
 
   Widget? _suffixIcon() {
+    if (widget.errorText != null) {
+      return const Icon(
+        Icons.error,
+        color: AppColor.redError,
+      );
+    }
     if (widget.obscureText) {
       return IconButton(
         onPressed: () {

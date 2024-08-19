@@ -150,6 +150,26 @@ class S {
     );
   }
 
+  /// `browse`
+  String get browseLabel {
+    return Intl.message(
+      'browse',
+      name: 'browseLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get selectLabel {
+    return Intl.message(
+      'Select',
+      name: 'selectLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Keep your pet healthy`
   String get onboarding1Title {
     return Intl.message(
@@ -375,6 +395,296 @@ class S {
     return Intl.message(
       'Continue OTP verification',
       name: 'continueWithOtpLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email`
+  String get invalidEmailLabel {
+    return Intl.message(
+      'Invalid email',
+      name: 'invalidEmailLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nSpecial characters optionally`
+  String get invalidPasswordLabel {
+    return Intl.message(
+      'At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nSpecial characters optionally',
+      name: 'invalidPasswordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password not match`
+  String get passwordNotMatch {
+    return Intl.message(
+      'Password not match',
+      name: 'passwordNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis vulputate est, id lacinia ligula sodales vitae. Sed eget nibh libero. Vivamus porttitor non lorem eu iaculis. Maecenas ultricies vel dui et aliquet. Curabitur molestie ante arcu, in facilisis mauris rutrum eget. Nam neque odio, tincidunt sed dapibus at, faucibus quis ante. Nullam luctus scelerisque ex quis sollicitudin. Ut mattis tristique nibh, et porttitor ipsum eleifend eget. In ac est rutrum, molestie mi nec, convallis lectus. Etiam molestie felis vel leo lobortis, nec tempus nibh imperdiet. Integer et euismod purus, ut posuere nibh. Ut neque dui, iaculis id semper at, consequat vitae sem. Aliquam rutrum ac erat in congue.\n\nAliquam a maximus augue. Maecenas mattis efficitur sem, nec elementum quam scelerisque mollis. Quisque eu volutpat dui. Etiam facilisis sem at ex convallis, ac finibus ante rutrum. Curabitur ultricies tellus dictum nulla tempor, quis vestibulum nibh dignissim. Vestibulum semper semper mi, eleifend auctor urna mollis at. Aliquam at dolor arcu. Maecenas eleifend nulla eu nunc cursus scelerisque. Sed commodo rhoncus congue. Pellentesque tempus ultricies turpis, at placerat nibh venenatis eget. Sed viverra euismod magna quis volutpat. Praesent bibendum dui purus, sit amet gravida eros finibus eu. Cras lobortis luctus ipsum.\n\nPhasellus mollis blandit nunc eget laoreet. Proin facilisis quam vitae leo aliquet sagittis. Nam at mollis lorem. Sed ac ligula iaculis, hendrerit risus quis, pellentesque mauris. Mauris viverra accumsan eleifend. Phasellus ac faucibus nulla, ut fermentum tortor. Vivamus sed neque non felis tempor venenatis. Nulla facilisi. Duis sed commodo mauris. Suspendisse finibus, lacus et dictum tristique, nisi mauris venenatis nulla, sed varius libero massa vitae mauris. Cras nec tellus sit amet lorem porttitor eleifend ac eu leo. In lacinia, ex sed ullamcorper iaculis, risus diam dapibus dui, et semper justo quam eget erat.\n\nPhasellus feugiat, urna id aliquam malesuada, est lorem vehicula nisi, a semper felis felis et justo. Donec vitae mauris nisl. Suspendisse gravida varius lacus, a congue leo efficitur non. Proin vel quam mi. Nam finibus felis odio, quis pulvinar ex ornare eu. Aliquam pellentesque nec leo id tincidunt. Vivamus at blandit leo, porttitor cursus ligula. Curabitur vel augue neque. Nulla fringilla consequat lacus ut porta. Aliquam ut libero vitae nunc dignissim fringilla. Aliquam erat volutpat. Vivamus maximus sodales nisl, ac facilisis lorem convallis vitae. Duis erat dolor, maximus sit amet blandit nec, tincidunt a quam.\n\nSed lacinia vel odio sit amet tristique. Aliquam ut nisl augue. Aliquam vel nibh sapien. Vivamus interdum nibh risus, non pellentesque justo aliquam quis. Duis bibendum lorem in nulla iaculis lacinia. Quisque id ante id nisl consequat condimentum. Cras accumsan facilisis lectus, eget rutrum eros eleifend a. Sed nibh nisi, auctor iaculis leo a, rutrum consequat nisl.`
+  String get placeHolderTermAndCondition {
+    return Intl.message(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis vulputate est, id lacinia ligula sodales vitae. Sed eget nibh libero. Vivamus porttitor non lorem eu iaculis. Maecenas ultricies vel dui et aliquet. Curabitur molestie ante arcu, in facilisis mauris rutrum eget. Nam neque odio, tincidunt sed dapibus at, faucibus quis ante. Nullam luctus scelerisque ex quis sollicitudin. Ut mattis tristique nibh, et porttitor ipsum eleifend eget. In ac est rutrum, molestie mi nec, convallis lectus. Etiam molestie felis vel leo lobortis, nec tempus nibh imperdiet. Integer et euismod purus, ut posuere nibh. Ut neque dui, iaculis id semper at, consequat vitae sem. Aliquam rutrum ac erat in congue.\n\nAliquam a maximus augue. Maecenas mattis efficitur sem, nec elementum quam scelerisque mollis. Quisque eu volutpat dui. Etiam facilisis sem at ex convallis, ac finibus ante rutrum. Curabitur ultricies tellus dictum nulla tempor, quis vestibulum nibh dignissim. Vestibulum semper semper mi, eleifend auctor urna mollis at. Aliquam at dolor arcu. Maecenas eleifend nulla eu nunc cursus scelerisque. Sed commodo rhoncus congue. Pellentesque tempus ultricies turpis, at placerat nibh venenatis eget. Sed viverra euismod magna quis volutpat. Praesent bibendum dui purus, sit amet gravida eros finibus eu. Cras lobortis luctus ipsum.\n\nPhasellus mollis blandit nunc eget laoreet. Proin facilisis quam vitae leo aliquet sagittis. Nam at mollis lorem. Sed ac ligula iaculis, hendrerit risus quis, pellentesque mauris. Mauris viverra accumsan eleifend. Phasellus ac faucibus nulla, ut fermentum tortor. Vivamus sed neque non felis tempor venenatis. Nulla facilisi. Duis sed commodo mauris. Suspendisse finibus, lacus et dictum tristique, nisi mauris venenatis nulla, sed varius libero massa vitae mauris. Cras nec tellus sit amet lorem porttitor eleifend ac eu leo. In lacinia, ex sed ullamcorper iaculis, risus diam dapibus dui, et semper justo quam eget erat.\n\nPhasellus feugiat, urna id aliquam malesuada, est lorem vehicula nisi, a semper felis felis et justo. Donec vitae mauris nisl. Suspendisse gravida varius lacus, a congue leo efficitur non. Proin vel quam mi. Nam finibus felis odio, quis pulvinar ex ornare eu. Aliquam pellentesque nec leo id tincidunt. Vivamus at blandit leo, porttitor cursus ligula. Curabitur vel augue neque. Nulla fringilla consequat lacus ut porta. Aliquam ut libero vitae nunc dignissim fringilla. Aliquam erat volutpat. Vivamus maximus sodales nisl, ac facilisis lorem convallis vitae. Duis erat dolor, maximus sit amet blandit nec, tincidunt a quam.\n\nSed lacinia vel odio sit amet tristique. Aliquam ut nisl augue. Aliquam vel nibh sapien. Vivamus interdum nibh risus, non pellentesque justo aliquam quis. Duis bibendum lorem in nulla iaculis lacinia. Quisque id ante id nisl consequat condimentum. Cras accumsan facilisis lectus, eget rutrum eros eleifend a. Sed nibh nisi, auctor iaculis leo a, rutrum consequat nisl.',
+      name: 'placeHolderTermAndCondition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scroll down to agree`
+  String get scrollToBottomLabel {
+    return Intl.message(
+      'Scroll down to agree',
+      name: 'scrollToBottomLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I Agree`
+  String get iAgreeLabel {
+    return Intl.message(
+      'I Agree',
+      name: 'iAgreeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add pet info`
+  String get addPetInfoLabel {
+    return Intl.message(
+      'Add pet info',
+      name: 'addPetInfoLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your pet photo`
+  String get addYourPetPhoto {
+    return Intl.message(
+      'Add your pet photo',
+      name: 'addYourPetPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum size: 5MB`
+  String get maximumSizeLabel {
+    return Intl.message(
+      'Maximum size: 5MB',
+      name: 'maximumSizeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pet type`
+  String get petTypeLabel {
+    return Intl.message(
+      'Pet type',
+      name: 'petTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dog`
+  String get dogLabel {
+    return Intl.message(
+      'Dog',
+      name: 'dogLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cat`
+  String get catLabel {
+    return Intl.message(
+      'Cat',
+      name: 'catLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pet name`
+  String get petNameLabel {
+    return Intl.message(
+      'Pet name',
+      name: 'petNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Microchip ID (optional)`
+  String get microchipIdLabel {
+    return Intl.message(
+      'Microchip ID (optional)',
+      name: 'microchipIdLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breed`
+  String get breedLabel {
+    return Intl.message(
+      'Breed',
+      name: 'breedLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get genderLabel {
+    return Intl.message(
+      'Gender',
+      name: 'genderLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get maleLabel {
+    return Intl.message(
+      'Male',
+      name: 'maleLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get femaleLabel {
+    return Intl.message(
+      'Female',
+      name: 'femaleLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't know`
+  String get dontKnowLabel {
+    return Intl.message(
+      'Don\'t know',
+      name: 'dontKnowLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date of birth`
+  String get dateOfBirthLabel {
+    return Intl.message(
+      'Date of birth',
+      name: 'dateOfBirthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Age`
+  String get ageLabel {
+    return Intl.message(
+      'Age',
+      name: 'ageLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `months`
+  String get monthsLabel {
+    return Intl.message(
+      'months',
+      name: 'monthsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weight (optional)`
+  String get weightLabel {
+    return Intl.message(
+      'Weight (optional)',
+      name: 'weightLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `kg`
+  String get kgLabel {
+    return Intl.message(
+      'kg',
+      name: 'kgLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Animal care system (optional)`
+  String get animalCareSystemLabel {
+    return Intl.message(
+      'Animal care system (optional)',
+      name: 'animalCareSystemLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Indoor`
+  String get indoorLabel {
+    return Intl.message(
+      'Indoor',
+      name: 'indoorLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outdoor`
+  String get outdoorLabel {
+    return Intl.message(
+      'Outdoor',
+      name: 'outdoorLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Special characteristics (optional)`
+  String get specialCharacteristicsLabel {
+    return Intl.message(
+      'Special characteristics (optional)',
+      name: 'specialCharacteristicsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maybe later`
+  String get maybeLaterLabel {
+    return Intl.message(
+      'Maybe later',
+      name: 'maybeLaterLabel',
       desc: '',
       args: [],
     );

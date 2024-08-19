@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517564010498",
+    "project_id": "petagu-ef4bb",
+    "storage_bucket": "petagu-ef4bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517564010498:android:849bcb81595c5e22b6571b",
+        "android_client_info": {
+          "package_name": "com.deemmi.pettagu.deemmi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAgroXnXHx6p7oaUfjxz438gNXwsGU7Ws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
