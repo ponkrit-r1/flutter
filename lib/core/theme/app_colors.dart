@@ -26,6 +26,7 @@ abstract class AppColor {
 
   static const textColor = Color(0xff1F2937);
   static const secondaryContentGray = Color(0xff6B7280);
+  static const formTextColor = Color(0xff9CA3AF);
   static const disableColor = Color(0xffF3F4F6);
   static const borderColor = Color(0xffE5E7EB);
 

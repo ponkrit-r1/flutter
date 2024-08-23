@@ -42,17 +42,13 @@ class CreateAccountController extends GetxController {
     super.onReady();
     emailController.addListener(() {
       checkInformation();
-      _isEmailFormatCorrect.value = emailController.text.validateEmail();
     });
     passwordController.addListener(() {
       checkInformation();
-      _isPasswordFormatCorrect.value = passwordController.text.isStrongPassword();
     });
 
     confirmPasswordController.addListener(() {
       checkInformation();
-      _isConfirmPasswordMatched.value =
-          confirmPasswordController.text == passwordController.text;
     });
   }
 
@@ -60,12 +56,21 @@ class CreateAccountController extends GetxController {
     _isTermAccepted.value = termAccepted;
   }
 
+  bool checkAndDisplayFieldError() {
+    _isEmailFormatCorrect.value = emailController.text.validateEmail();
+    _isPasswordFormatCorrect.value = passwordController.text.isStrongPassword();
+    _isConfirmPasswordMatched.value =
+        confirmPasswordController.text == passwordController.text;
+    return emailController.text.validateEmail() &&
+        passwordController.text.isStrongPassword() &&
+        (confirmPasswordController.text == passwordController.text);
+  }
+
   checkInformation() {
     _isInformationCompleted.value = emailController.text.validateEmail() &&
         passwordController.text.isNotEmpty &&
         userNameController.text.isNotEmpty &&
-        confirmPasswordController.text.isNotEmpty &&
-        passwordController.text == confirmPasswordController.text;
+        confirmPasswordController.text.isNotEmpty;
   }
 
   @override

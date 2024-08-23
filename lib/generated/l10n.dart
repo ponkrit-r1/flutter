@@ -530,10 +530,10 @@ class S {
     );
   }
 
-  /// `Microchip ID (optional)`
+  /// `Microchip ID `
   String get microchipIdLabel {
     return Intl.message(
-      'Microchip ID (optional)',
+      'Microchip ID ',
       name: 'microchipIdLabel',
       desc: '',
       args: [],
@@ -620,10 +620,10 @@ class S {
     );
   }
 
-  /// `Weight (optional)`
+  /// `Weight `
   String get weightLabel {
     return Intl.message(
-      'Weight (optional)',
+      'Weight ',
       name: 'weightLabel',
       desc: '',
       args: [],
@@ -640,10 +640,10 @@ class S {
     );
   }
 
-  /// `Animal care system (optional)`
+  /// `Animal care system `
   String get animalCareSystemLabel {
     return Intl.message(
-      'Animal care system (optional)',
+      'Animal care system ',
       name: 'animalCareSystemLabel',
       desc: '',
       args: [],
@@ -670,10 +670,10 @@ class S {
     );
   }
 
-  /// `Special characteristics (optional)`
+  /// `Special characteristics `
   String get specialCharacteristicsLabel {
     return Intl.message(
-      'Special characteristics (optional)',
+      'Special characteristics ',
       name: 'specialCharacteristicsLabel',
       desc: '',
       args: [],
@@ -685,6 +685,26 @@ class S {
     return Intl.message(
       'Maybe later',
       name: 'maybeLaterLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select month`
+  String get selectMonthLabel {
+    return Intl.message(
+      'Select month',
+      name: 'selectMonthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select year`
+  String get selectYearLabel {
+    return Intl.message(
+      'Select year',
+      name: 'selectYearLabel',
       desc: '',
       args: [],
     );

@@ -1,10 +1,8 @@
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/register/create_account_controller.dart';
 import 'package:deemmi/modules/authentication/terms/term_and_condition_bottom_sheet.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 import '../../../core/global_widgets/pettagu_text_field.dart';
 import '../../../core/global_widgets/primary_button.dart';
@@ -87,7 +85,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               title: stringRes(context)!.continueWithOtpLabel,
                               onPressed: _controller.isInformationCompleted
                                   ? () {
-                                      navigateToOtpVerification();
+                                      var isInformationCompleted = _controller
+                                          .checkAndDisplayFieldError();
+                                      if (isInformationCompleted) {
+                                        navigateToOtpVerification();
+                                      }
                                     }
                                   : null,
                               color: AppColor.primary500,

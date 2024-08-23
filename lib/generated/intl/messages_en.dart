@@ -27,8 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addYourPetPhoto":
             MessageLookupByLibrary.simpleMessage("Add your pet photo"),
         "ageLabel": MessageLookupByLibrary.simpleMessage("Age"),
-        "animalCareSystemLabel": MessageLookupByLibrary.simpleMessage(
-            "Animal care system (optional)"),
+        "animalCareSystemLabel":
+            MessageLookupByLibrary.simpleMessage("Animal care system "),
         "breedLabel": MessageLookupByLibrary.simpleMessage("Breed"),
         "browseLabel": MessageLookupByLibrary.simpleMessage("browse"),
         "cancelLabel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -68,7 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Maximum size: 5MB"),
         "maybeLaterLabel": MessageLookupByLibrary.simpleMessage("Maybe later"),
         "microchipIdLabel":
-            MessageLookupByLibrary.simpleMessage("Microchip ID (optional)"),
+            MessageLookupByLibrary.simpleMessage("Microchip ID "),
         "monthsLabel": MessageLookupByLibrary.simpleMessage("months"),
         "nextLabel": MessageLookupByLibrary.simpleMessage("Next"),
         "onboarding1Subtitle": MessageLookupByLibrary.simpleMessage(
@@ -101,18 +101,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "scrollToBottomLabel":
             MessageLookupByLibrary.simpleMessage("Scroll down to agree"),
         "selectLabel": MessageLookupByLibrary.simpleMessage("Select"),
+        "selectMonthLabel":
+            MessageLookupByLibrary.simpleMessage("Select month"),
+        "selectYearLabel": MessageLookupByLibrary.simpleMessage("Select year"),
         "signInDescription": MessageLookupByLibrary.simpleMessage(
             "Helping you to keep your bestie stay healthy!"),
         "skipLabel": MessageLookupByLibrary.simpleMessage("Skip"),
-        "specialCharacteristicsLabel": MessageLookupByLibrary.simpleMessage(
-            "Special characteristics (optional)"),
+        "specialCharacteristicsLabel":
+            MessageLookupByLibrary.simpleMessage("Special characteristics "),
         "termAndCondition":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "userNameLabel": MessageLookupByLibrary.simpleMessage("Username"),
         "userVerificationLabel":
             MessageLookupByLibrary.simpleMessage("User verification"),
-        "weightLabel":
-            MessageLookupByLibrary.simpleMessage("Weight (optional)"),
+        "weightLabel": MessageLookupByLibrary.simpleMessage("Weight "),
         "welcomeLabel": MessageLookupByLibrary.simpleMessage("Welcome!")
       };
 }

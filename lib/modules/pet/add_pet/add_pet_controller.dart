@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPetController extends GetxController {
   final _isLoading = false.obs;
@@ -20,6 +23,10 @@ class AddPetController extends GetxController {
   final RxnBool _isConfirmPasswordMatched = RxnBool();
 
   bool? get isConfirmPasswordMatched => _isConfirmPasswordMatched.value;
+
+  final Rxn<Uint8List> _selectedImage = Rxn();
+
+  Uint8List? get selectedImage => _selectedImage.value;
 
   var microChipController = TextEditingController();
   var weightForm = TextEditingController();
@@ -78,6 +85,10 @@ class AddPetController extends GetxController {
       _isConfirmPasswordMatched.value =
           weightForm.text == microChipController.text;
     });
+  }
+
+  setSelectedImage(XFile file) async {
+    _selectedImage.value = await file.readAsBytes();
   }
 
   setSelectedBreed(String? breed, int idx) {

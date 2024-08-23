@@ -2,6 +2,7 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/global_widgets/pettagu_text_field.dart';
 import '../../../core/global_widgets/primary_button.dart';
@@ -41,41 +42,58 @@ class _AddPetPageState extends State<AddPetPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Card(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 48),
-                          const Icon(
-                            Icons.photo_library_outlined,
-                            color: AppColor.primary500,
-                          ),
-                          Text.rich(
-                            TextSpan(
-                              text: stringRes(context)!.addYourPetPhoto,
-                              style: textTheme(context).bodyLarge?.copyWith(
-                                    color: AppColor.textColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                              children: <TextSpan>[
-                                const TextSpan(text: ' '),
-                                TextSpan(
-                                  text: stringRes(context)!.browseLabel,
-                                  style: textTheme(context).bodyLarge?.copyWith(
-                                        color: AppColor.primary500,
-                                      ),
-                                ),
-                              ],
+                    InkWell(
+                      onTap: () async {
+                        final result = await ImagePicker().pickImage(
+                          imageQuality: 70,
+                          maxWidth: 1440,
+                          source: ImageSource.gallery,
+                        );
+                        if (result != null) {
+                          _controller.setSelectedImage(result);
+                        }
+                      },
+                      child: Card(
+                        child: _controller.selectedImage == null ? Column(
+                          children: [
+                            const SizedBox(height: 48),
+                            const Icon(
+                              Icons.photo_library_outlined,
+                              color: AppColor.primary500,
+                              size: 56,
                             ),
-                            textAlign: TextAlign.start,
-                          ),
-                          Text(
-                            stringRes(context)!.maximumSizeLabel,
-                            style: textTheme(context).bodyMedium?.copyWith(
-                                  color: AppColor.secondaryContentGray,
-                                ),
-                          ),
-                          const SizedBox(height: 48),
-                        ],
+                            const SizedBox(height: 24),
+                            Text.rich(
+                              TextSpan(
+                                text: stringRes(context)!.addYourPetPhoto,
+                                style: textTheme(context).bodyLarge?.copyWith(
+                                      color: AppColor.textColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                children: <TextSpan>[
+                                  const TextSpan(text: ' '),
+                                  TextSpan(
+                                    text: stringRes(context)!.browseLabel,
+                                    style:
+                                        textTheme(context).bodyLarge?.copyWith(
+                                              color: AppColor.primary500,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              stringRes(context)!.maximumSizeLabel,
+                              style: textTheme(context).bodyMedium?.copyWith(
+                                    color: AppColor.formTextColor,
+                                  ),
+                            ),
+                            const SizedBox(height: 48),
+                          ],
+                        ) : Image.memory(_controller.selectedImage!) ,
                       ),
                     ),
                     const SizedBox(
@@ -152,6 +170,10 @@ class _AddPetPageState extends State<AddPetPage> {
                       _controller.setSelectedBreed,
                       ['Breed1', 'Breed2'],
                       _controller.selectedBreed,
+                      stringRes(context)!.selectLabel,
+                    ),
+                    const SizedBox(
+                      height: 24,
                     ),
                     Text(
                       stringRes(context)!.genderLabel,
@@ -192,6 +214,7 @@ class _AddPetPageState extends State<AddPetPage> {
                             _controller.setSelectedYear,
                             ['2024', '2023', '2022'],
                             _controller.selectedYear,
+                            stringRes(context)!.selectMonthLabel,
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -200,9 +223,13 @@ class _AddPetPageState extends State<AddPetPage> {
                             _controller.setSelectedMonth,
                             ['Jan', 'Feb', 'March'],
                             _controller.selectedMonth,
+                            stringRes(context)!.selectYearLabel,
                           ),
                         )
                       ],
+                    ),
+                    const SizedBox(
+                      height: 24,
                     ),
                     Row(
                       children: [
@@ -257,7 +284,7 @@ class _AddPetPageState extends State<AddPetPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 12,
+                      height: 24,
                     ),
                     Row(
                       children: [
@@ -295,7 +322,7 @@ class _AddPetPageState extends State<AddPetPage> {
                                 ),
                               )
                             : PrimaryButton(
-                                title: stringRes(context)!.continueWithOtpLabel,
+                                title: stringRes(context)!.nextLabel,
                                 onPressed: _controller.isInformationCompleted
                                     ? () {}
                                     : null,
@@ -310,9 +337,10 @@ class _AddPetPageState extends State<AddPetPage> {
                         },
                         child: Text(
                           stringRes(context)!.maybeLaterLabel,
-                          style: textTheme(context)
-                              .bodyLarge
-                              ?.copyWith(color: AppColor.primary500),
+                          style: textTheme(context).bodyLarge?.copyWith(
+                                color: AppColor.primary500,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
                     ),
@@ -340,9 +368,8 @@ class _AddPetPageState extends State<AddPetPage> {
 
   _microchipForm(BuildContext context) {
     return PettaguTextField(
-      hintText: "abcdefg1234567890",
+      hintText: '',
       keyboardType: TextInputType.text,
-      obscureText: true,
       controller: _controller.microChipController,
       fillColor: Colors.white,
     );
@@ -389,17 +416,20 @@ class _AddPetPageState extends State<AddPetPage> {
     Function(String?, int) onItemSelected,
     List<String> items,
     String selectedValue,
+    String hintValue,
   ) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(100))),
+          border: Border.all(
+            width: 1,
+            color: AppColor.borderColor,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(100))),
       child: DropdownButtonFormField<String>(
         decoration: const InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColor.borderColor, width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-            ),
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
             contentPadding: EdgeInsets.all(16.0)),
         items: dropDownChoice.map((String value) {
           return DropdownMenuItem<String>(
@@ -416,10 +446,12 @@ class _AddPetPageState extends State<AddPetPage> {
         ),
         hint: Align(
             alignment: Alignment.centerLeft,
-            child: Text(stringRes(context)!.selectLabel,
-                style: textTheme(context)
-                    .bodyMedium!
-                    .copyWith(color: AppColor.secondaryContentGray))),
+            child: Text(hintValue,
+                style: textTheme(context).bodyMedium!.copyWith(
+                      color: AppColor.secondaryContentGray,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ))),
         onChanged: (value) {
           onItemSelected(
             value,
@@ -481,6 +513,7 @@ class _AddPetPageState extends State<AddPetPage> {
                           values[0],
                           style: textTheme(context).bodyLarge!.copyWith(
                                 color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
                               ),
                         )
                       ],
@@ -518,6 +551,7 @@ class _AddPetPageState extends State<AddPetPage> {
                           values[1],
                           style: textTheme(context).bodyLarge!.copyWith(
                                 color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
                               ),
                         ),
                       ],
@@ -563,6 +597,7 @@ class _AddPetPageState extends State<AddPetPage> {
                           values[0],
                           style: textTheme(context).bodyLarge!.copyWith(
                                 color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
                               ),
                         )
                       ],
@@ -595,6 +630,7 @@ class _AddPetPageState extends State<AddPetPage> {
                           values[1],
                           style: textTheme(context).bodyLarge!.copyWith(
                                 color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
                               ),
                         ),
                       ],
@@ -630,6 +666,7 @@ class _AddPetPageState extends State<AddPetPage> {
                           values[2],
                           style: textTheme(context).bodyLarge!.copyWith(
                                 color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
                               ),
                         ),
                       ],

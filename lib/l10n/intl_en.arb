@@ -53,7 +53,7 @@
   "dogLabel": "Dog",
   "catLabel": "Cat",
   "petNameLabel": "Pet name",
-  "microchipIdLabel": "Microchip ID (optional)",
+  "microchipIdLabel": "Microchip ID ",
   "breedLabel": "Breed",
   "genderLabel": "Gender",
   "maleLabel": "Male",
@@ -62,11 +62,13 @@
   "dateOfBirthLabel": "Date of birth",
   "ageLabel": "Age",
   "monthsLabel": "months",
-  "weightLabel": "Weight (optional)",
+  "weightLabel": "Weight ",
   "kgLabel": "kg",
-  "animalCareSystemLabel": "Animal care system (optional)",
+  "animalCareSystemLabel": "Animal care system ",
   "indoorLabel": "Indoor",
   "outdoorLabel": "Outdoor",
-  "specialCharacteristicsLabel": "Special characteristics (optional)",
-  "maybeLaterLabel": "Maybe later"
+  "specialCharacteristicsLabel": "Special characteristics ",
+  "maybeLaterLabel": "Maybe later",
+  "selectMonthLabel": "Select month",
+  "selectYearLabel": "Select year"
 }
