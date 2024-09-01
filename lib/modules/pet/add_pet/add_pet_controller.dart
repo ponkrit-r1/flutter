@@ -1,9 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:deemmi/core/data/repository/pet_repository.dart';
+import 'package:deemmi/core/domain/auth/animal_breed.dart';
+import 'package:deemmi/core/domain/pet/pet_model.dart';
 import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../core/domain/auth/animal_type.dart';
 
 class AddPetController extends GetxController {
   final _isLoading = false.obs;
@@ -28,6 +33,10 @@ class AddPetController extends GetxController {
 
   Uint8List? get selectedImage => _selectedImage.value;
 
+  final PetRepository petRepository;
+
+  AddPetController(this.petRepository);
+
   var microChipController = TextEditingController();
   var weightForm = TextEditingController();
   var characteristicController = TextEditingController();
@@ -44,13 +53,13 @@ class AddPetController extends GetxController {
 
   Function(String)? displayError;
 
-  final _selectedBreed = ''.obs;
+  final Rxn<AnimalBreed> _selectedBreed = Rxn();
 
-  String get selectedBreed => _selectedBreed.value;
+  AnimalBreed? get selectedBreed => _selectedBreed.value;
 
-  final RxnString _selectedPetType = RxnString();
+  final Rxn<AnimalType> _selectedPetType = Rxn();
 
-  String? get selectedPetType => _selectedPetType.value;
+  AnimalType? get selectedPetType => _selectedPetType.value;
 
   final RxnString _selectedCareSystem = RxnString();
 
@@ -60,13 +69,27 @@ class AddPetController extends GetxController {
 
   String get selectedYear => _selectedYear.value;
 
+  int? _selectedYearIdx;
+
   final _selectedMonth = ''.obs;
 
   String get selectedMonth => _selectedMonth.value;
 
+  int? _selectedMonthIdx;
+
+  String? get displayPetAge => getDisplayAge(selectedMonth, selectedYear);
+
   final RxnString _selectedGender = RxnString();
 
   String? get selectGender => _selectedGender.value;
+
+  final RxList<AnimalType> _animalTypes = RxList.empty();
+
+  List<AnimalType> get animalTypes => _animalTypes;
+
+  final RxList<AnimalBreed> _animalBreed = RxList.empty();
+
+  List<AnimalBreed> get animalBreed => _animalBreed;
 
   @override
   void onReady() {
@@ -91,21 +114,45 @@ class AddPetController extends GetxController {
     _selectedImage.value = await file.readAsBytes();
   }
 
-  setSelectedBreed(String? breed, int idx) {
-    if (breed != null) {
-      _selectedBreed.value = breed;
+  setSelectedBreed(AnimalBreed breed) {
+    _selectedBreed.value = breed;
+  }
+
+  getAnimalType() async {
+    _animalTypes.value = await petRepository.getAnimalType();
+  }
+
+  onPetTypeSelect() async {
+    if (_selectedPetType.value != null) {
+      _animalBreed.value = await petRepository.getAnimalBreed(
+        _selectedPetType.value!.id,
+      );
     }
   }
 
-  setSelectedYear(String? year, int idx) {
-    if(year != null) {
+  String? getDisplayAge(String month, String year) {
+    if (month.isNotEmpty && year.isNotEmpty) {
+      return ((DateTime(int.parse(year), _selectedMonthIdx! + 1, 1)
+                  .difference(DateTime.now())
+                  .inDays) ~/
+              30)
+          .abs()
+          .toString();
+    } else {
+      return null;
+    }
+  }
+
+  setSelectedYear(String? year) {
+    if (year != null) {
       _selectedYear.value = year;
     }
   }
 
-  setSelectedMonth(String? month, int idx) {
-    if(month != null) {
+  setSelectedMonth(String? month) {
+    if (month != null) {
       _selectedMonth.value = month;
+      // _selectedMonthIdx = idx;
     }
   }
 
@@ -114,17 +161,16 @@ class AddPetController extends GetxController {
   }
 
   setPetType(
-    String type,
+    AnimalType type,
     int idx,
   ) {
     _selectedPetType.value = type;
   }
 
-
   setCareSystem(
-      String type,
-      int idx,
-      ) {
+    String type,
+    int idx,
+  ) {
     _selectedCareSystem.value = type;
   }
 
@@ -133,6 +179,23 @@ class AddPetController extends GetxController {
     int idx,
   ) {
     _selectedGender.value = gender;
+  }
+
+  onAddPet() {
+    var pet = petRepository.addPet(
+      PetModel(
+        owner: "",
+        name: petNameController.text,
+        animalType: 1,
+        microchipNumber: microChipController.text,
+        dob: null,
+        weight: double.tryParse(weightForm.text) ?? 0.0,
+        careSystem: 'Outdoor',
+        characteristics: characteristicController.text,
+        birthMonth: _selectedMonthIdx!,
+        birthYear: _selectedYearIdx!,
+      ),
+    );
   }
 
   checkInformation() {

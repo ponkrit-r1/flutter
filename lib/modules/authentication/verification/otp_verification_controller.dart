@@ -3,11 +3,18 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../core/data/api/authentication_api.dart';
+
 class OtpVerificationController extends GetxController {
   final RxString _userEmail = ''.obs;
+  final int _userId;
   static const otpLimit = 10;
 
-  OtpVerificationController(this.registeredEmail);
+  OtpVerificationController(
+    this.registeredEmail,
+    this._userId,
+    this.authenticationAPI,
+  );
 
   String get userEmail => _userEmail.value;
 
@@ -18,6 +25,8 @@ class OtpVerificationController extends GetxController {
   final RxBool _canRequestOtp = false.obs;
 
   bool get canRequestOtp => _canRequestOtp.value;
+
+  final AuthenticationAPI authenticationAPI;
 
   final String registeredEmail;
 
@@ -49,9 +58,21 @@ class OtpVerificationController extends GetxController {
     super.onClose();
   }
 
+  Future<dynamic> verifyOtp() async {
+    try {
+      await authenticationAPI.verifyOtp(
+        _userEmail.value,
+        otpController.text,
+      );
+      scheduleTimeout();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
   Future<void> requestOtp() async {
     try {
-      //TODO call request OTP
+      await authenticationAPI.requestOtp(_userId, _userEmail.value);
       scheduleTimeout();
     } catch (error) {
       debugPrint(error.toString());

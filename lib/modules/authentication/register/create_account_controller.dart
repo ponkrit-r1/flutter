@@ -1,3 +1,4 @@
+import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -21,11 +22,17 @@ class CreateAccountController extends GetxController {
 
   bool? get isConfirmPasswordMatched => _isConfirmPasswordMatched.value;
 
+  dynamic termData;
+
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
   var userNameController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
+
+  final AuthenticationAPI authenticationAPI;
+
+  CreateAccountController({required this.authenticationAPI});
 
   final _isInformationCompleted = false.obs;
 
@@ -40,6 +47,7 @@ class CreateAccountController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    getTermData();
     emailController.addListener(() {
       checkInformation();
     });
@@ -50,6 +58,10 @@ class CreateAccountController extends GetxController {
     confirmPasswordController.addListener(() {
       checkInformation();
     });
+  }
+
+  getTermData() async {
+    termData = await authenticationAPI.getLatestConditionFile();
   }
 
   setTermAccept(bool termAccepted) {

@@ -709,6 +709,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Network error`
+  String get networkErrorMessage {
+    return Intl.message(
+      'Network error',
+      name: 'networkErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown error`
+  String get unknownErrorMessage {
+    return Intl.message(
+      'Unknown error',
+      name: 'unknownErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

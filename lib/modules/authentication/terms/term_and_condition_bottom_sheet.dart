@@ -1,16 +1,20 @@
 import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 
 class TermAndConditionBottomSheet extends StatefulWidget {
   final Function(bool) onTermAccepted;
+  final String termPdfUrl;
 
-  const TermAndConditionBottomSheet({super.key, required this.onTermAccepted});
+  const TermAndConditionBottomSheet({
+    super.key,
+    required this.onTermAccepted,
+    required this.termPdfUrl,
+  });
 
   @override
   State<TermAndConditionBottomSheet> createState() =>
@@ -31,9 +35,7 @@ class _TermAndConditionBottomSheetState
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
           isScrollToBottom = true;
-          setState(() {
-
-          });
+          setState(() {});
         }
       }
     });
@@ -74,8 +76,13 @@ class _TermAndConditionBottomSheetState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(stringRes(context)!.placeHolderTermAndCondition),
-                      const SizedBox(height: 56),
+                      const PDF().cachedFromUrl(
+                        widget.termPdfUrl,
+                        placeholder: (progress) =>
+                            Center(child: Text('$progress %')),
+                        errorWidget: (error) =>
+                            Center(child: Text(error.toString())),
+                      )
                     ],
                   ),
                 ),

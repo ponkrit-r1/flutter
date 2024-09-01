@@ -70,6 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "microchipIdLabel":
             MessageLookupByLibrary.simpleMessage("Microchip ID "),
         "monthsLabel": MessageLookupByLibrary.simpleMessage("months"),
+        "networkErrorMessage":
+            MessageLookupByLibrary.simpleMessage("Network error"),
         "nextLabel": MessageLookupByLibrary.simpleMessage("Next"),
         "onboarding1Subtitle": MessageLookupByLibrary.simpleMessage(
             "Reminders and tracking for your pet\'s health."),
@@ -111,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Special characteristics "),
         "termAndCondition":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
+        "unknownErrorMessage":
+            MessageLookupByLibrary.simpleMessage("Unknown error"),
         "userNameLabel": MessageLookupByLibrary.simpleMessage("Username"),
         "userVerificationLabel":
             MessageLookupByLibrary.simpleMessage("User verification"),

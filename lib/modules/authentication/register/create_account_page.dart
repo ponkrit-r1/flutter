@@ -241,11 +241,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   termAndCondition() {
     return InkWell(
       onTap: () {
-        if (!_controller.isTermAccepted) {
+        if (!_controller.isTermAccepted && _controller.termData != null) {
           Get.bottomSheet(
             enableDrag: true,
             isScrollControlled: true,
             TermAndConditionBottomSheet(
+              termPdfUrl: _controller.termData['file_location']!,
               onTermAccepted: (isAccept) {
                 _controller.setTermAccept(isAccept);
               },

@@ -70,5 +70,8 @@
   "specialCharacteristicsLabel": "Special characteristics ",
   "maybeLaterLabel": "Maybe later",
   "selectMonthLabel": "Select month",
-  "selectYearLabel": "Select year"
+  "selectYearLabel": "Select year",
+
+  "networkErrorMessage": "Network error",
+  "unknownErrorMessage": "Unknown error"
 }

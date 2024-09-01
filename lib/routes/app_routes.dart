@@ -18,6 +18,7 @@ abstract class Routes {
 
 abstract class RouteParams {
   static const userEmail = 'user_email';
+  static const userId = 'user_id';
 }
 
 abstract class RouteAction {

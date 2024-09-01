@@ -1,3 +1,4 @@
+import 'package:deemmi/core/domain/auth/animal_breed.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_controller.dart';
 import 'package:flutter/material.dart';
@@ -42,58 +43,82 @@ class _AddPetPageState extends State<AddPetPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    InkWell(
-                      onTap: () async {
-                        final result = await ImagePicker().pickImage(
-                          imageQuality: 70,
-                          maxWidth: 1440,
-                          source: ImageSource.gallery,
-                        );
-                        if (result != null) {
-                          _controller.setSelectedImage(result);
-                        }
-                      },
-                      child: Card(
-                        child: _controller.selectedImage == null ? Column(
-                          children: [
-                            const SizedBox(height: 48),
-                            const Icon(
-                              Icons.photo_library_outlined,
-                              color: AppColor.primary500,
-                              size: 56,
+                    Obx(
+                      () => InkWell(
+                        onTap: () async {
+                          final result = await ImagePicker().pickImage(
+                            imageQuality: 70,
+                            maxWidth: 1440,
+                            source: ImageSource.gallery,
+                          );
+                          if (result != null) {
+                            _controller.setSelectedImage(result);
+                          }
+                        },
+                        child: SizedBox(
+                          height: 256,
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            const SizedBox(height: 24),
-                            Text.rich(
-                              TextSpan(
-                                text: stringRes(context)!.addYourPetPhoto,
-                                style: textTheme(context).bodyLarge?.copyWith(
-                                      color: AppColor.textColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                children: <TextSpan>[
-                                  const TextSpan(text: ' '),
-                                  TextSpan(
-                                    text: stringRes(context)!.browseLabel,
-                                    style:
-                                        textTheme(context).bodyLarge?.copyWith(
-                                              color: AppColor.primary500,
-                                              fontWeight: FontWeight.bold,
+                            child: _controller.selectedImage == null
+                                ? Column(
+                                    children: [
+                                      const SizedBox(height: 48),
+                                      const Icon(
+                                        Icons.photo_library_outlined,
+                                        color: AppColor.primary500,
+                                        size: 56,
+                                      ),
+                                      const SizedBox(height: 24),
+                                      Text.rich(
+                                        TextSpan(
+                                          text: stringRes(context)!
+                                              .addYourPetPhoto,
+                                          style: textTheme(context)
+                                              .bodyLarge
+                                              ?.copyWith(
+                                                color: AppColor.textColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                          children: <TextSpan>[
+                                            const TextSpan(text: ' '),
+                                            TextSpan(
+                                              text: stringRes(context)!
+                                                  .browseLabel,
+                                              style: textTheme(context)
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                    color: AppColor.primary500,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                             ),
+                                          ],
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        stringRes(context)!.maximumSizeLabel,
+                                        style: textTheme(context)
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: AppColor.formTextColor,
+                                            ),
+                                      ),
+                                      const SizedBox(height: 48),
+                                    ],
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.memory(
+                                      _controller.selectedImage!,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ],
-                              ),
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              stringRes(context)!.maximumSizeLabel,
-                              style: textTheme(context).bodyMedium?.copyWith(
-                                    color: AppColor.formTextColor,
-                                  ),
-                            ),
-                            const SizedBox(height: 48),
-                          ],
-                        ) : Image.memory(_controller.selectedImage!) ,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -110,11 +135,8 @@ class _AddPetPageState extends State<AddPetPage> {
                     ),
                     Obx(
                       () => tabSelectorWidget(
-                        [
-                          stringRes(context)!.dogLabel,
-                          stringRes(context)!.catLabel,
-                        ],
-                        _controller.selectedPetType ?? '',
+                        _controller.animalTypes,
+                        _controller.selectedPetType,
                         (value, idx) => _controller.setPetType(value, idx),
                       ),
                     ),
@@ -166,9 +188,13 @@ class _AddPetPageState extends State<AddPetPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    _dropDownFormField(
-                      _controller.setSelectedBreed,
-                      ['Breed1', 'Breed2'],
+                    _dropDownFormField<AnimalBreed>(
+                      (value) {
+                        if (value != null) {
+                          _controller.setSelectedBreed(value);
+                        }
+                      },
+                      _controller.animalBreed,
                       _controller.selectedBreed,
                       stringRes(context)!.selectLabel,
                     ),
@@ -185,7 +211,7 @@ class _AddPetPageState extends State<AddPetPage> {
                       height: 12,
                     ),
                     Obx(
-                      () => tabSelectorWidget(
+                      () => tabSelectorWidget<String>(
                         [
                           stringRes(context)!.maleLabel,
                           stringRes(context)!.femaleLabel,
@@ -210,23 +236,100 @@ class _AddPetPageState extends State<AddPetPage> {
                     Row(
                       children: [
                         Expanded(
-                          child: _dropDownFormField(
-                            _controller.setSelectedYear,
-                            ['2024', '2023', '2022'],
+                          child: _dropDownFormField<String>(
+                            (value) {
+                              _controller.setSelectedYear(value);
+                            },
+                            [
+                              "2023",
+                              "2022",
+                              "2021",
+                              "2020",
+                              "2019",
+                              "2018",
+                              "2017",
+                              "2016",
+                              "2015",
+                              "2014",
+                              "2013",
+                              "2012",
+                              "2011",
+                              "2010",
+                              "2009",
+                              "2008",
+                              "2007",
+                              "2006",
+                              "2005",
+                              "2004",
+                              "2003",
+                              "2002",
+                              "2001",
+                              "2000",
+                              "1999",
+                              "1998",
+                              "1997",
+                              "1996",
+                              "1995",
+                              "1994"
+                            ],
                             _controller.selectedYear,
                             stringRes(context)!.selectMonthLabel,
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _dropDownFormField(
-                            _controller.setSelectedMonth,
-                            ['Jan', 'Feb', 'March'],
+                          child: _dropDownFormField<String>(
+                            (value) {
+                              _controller.setSelectedMonth(value);
+                            },
+                            [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December"
+                            ],
                             _controller.selectedMonth,
                             stringRes(context)!.selectYearLabel,
                           ),
                         )
                       ],
+                    ),
+                    Obx(
+                      () => _controller.displayPetAge != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text.rich(
+                                TextSpan(
+                                  text: stringRes(context)!.ageLabel,
+                                  style:
+                                      textTheme(context).bodyMedium?.copyWith(
+                                            color: AppColor.textColor,
+                                          ),
+                                  children: <TextSpan>[
+                                    const TextSpan(text: ': '),
+                                    TextSpan(
+                                      text:
+                                          "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
+                                      style: textTheme(context)
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: AppColor.secondary500,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                     const SizedBox(
                       height: 24,
@@ -363,6 +466,7 @@ class _AddPetPageState extends State<AddPetPage> {
       keyboardType: TextInputType.name,
       controller: _controller.petNameController,
       fillColor: Colors.white,
+      maxLength: 30,
     );
   }
 
@@ -372,6 +476,7 @@ class _AddPetPageState extends State<AddPetPage> {
       keyboardType: TextInputType.text,
       controller: _controller.microChipController,
       fillColor: Colors.white,
+      maxLength: 20,
     );
   }
 
@@ -379,7 +484,6 @@ class _AddPetPageState extends State<AddPetPage> {
     return PettaguTextField(
       hintText: "",
       keyboardType: TextInputType.number,
-      obscureText: true,
       controller: _controller.weightForm,
       fillColor: Colors.white,
     );
@@ -391,6 +495,7 @@ class _AddPetPageState extends State<AddPetPage> {
       keyboardType: TextInputType.text,
       controller: _controller.characteristicController,
       fillColor: Colors.white,
+      maxLength: 150,
     );
   }
 
@@ -412,10 +517,10 @@ class _AddPetPageState extends State<AddPetPage> {
     );
   }
 
-  _dropDownFormField(
-    Function(String?, int) onItemSelected,
-    List<String> items,
-    String selectedValue,
+  _dropDownFormField<T>(
+    Function(T?) onItemSelected,
+    List<T> items,
+    T? selectedValue,
     String hintValue,
   ) {
     return Container(
@@ -426,17 +531,18 @@ class _AddPetPageState extends State<AddPetPage> {
             color: AppColor.borderColor,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(100))),
-      child: DropdownButtonFormField<String>(
+      child: DropdownButtonFormField<T>(
         decoration: const InputDecoration(
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
             contentPadding: EdgeInsets.all(16.0)),
-        items: dropDownChoice.map((String value) {
-          return DropdownMenuItem<String>(
+        items: items.map((T value) {
+          return DropdownMenuItem<T>(
             value: value,
             child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(value, style: textTheme(context).bodyMedium)),
+                child: Text(value.toString(),
+                    style: textTheme(context).bodyMedium)),
           );
         }).toList(),
         isExpanded: true,
@@ -445,18 +551,18 @@ class _AddPetPageState extends State<AddPetPage> {
           color: AppColor.secondaryContentGray,
         ),
         hint: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(hintValue,
-                style: textTheme(context).bodyMedium!.copyWith(
-                      color: AppColor.secondaryContentGray,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ))),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            hintValue,
+            style: textTheme(context).bodyMedium!.copyWith(
+                  color: AppColor.secondaryContentGray,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+          ),
+        ),
         onChanged: (value) {
-          onItemSelected(
-            value,
-            value != null ? items.indexOf(value) : -1,
-          );
+          onItemSelected(value);
         },
       ),
     );
@@ -469,11 +575,11 @@ class _AddPetPageState extends State<AddPetPage> {
     _globalKey.currentState?.showSnackBar(snackBar);
   }
 
-  tabSelectorWidget(
-    List<String> values,
-    String selectedValue,
+  tabSelectorWidget<T>(
+    List<T> values,
+    T? selectedValue,
     Function(
-      String,
+      T,
       int,
     ) onValueSelected,
   ) {
@@ -510,11 +616,11 @@ class _AddPetPageState extends State<AddPetPage> {
                         // ),
                         // const SizedBox(width: 8),
                         Text(
-                          values[0],
+                          values[0].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
-                                color: AppColor.secondaryContentGray,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              color: AppColor.secondaryContentGray,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
                         )
                       ],
                     ),
@@ -548,11 +654,11 @@ class _AddPetPageState extends State<AddPetPage> {
                         // const Icon(Icons.pets_rounded),
                         // const SizedBox(width: 8),
                         Text(
-                          values[1],
+                          values[1].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
-                                color: AppColor.secondaryContentGray,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              color: AppColor.secondaryContentGray,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
                         ),
                       ],
                     ),
@@ -594,11 +700,11 @@ class _AddPetPageState extends State<AddPetPage> {
                         // ),
                         // const SizedBox(width: 8),
                         Text(
-                          values[0],
+                          values[0].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
-                                color: AppColor.secondaryContentGray,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              color: AppColor.secondaryContentGray,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
                         )
                       ],
                     ),
@@ -627,11 +733,11 @@ class _AddPetPageState extends State<AddPetPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          values[1],
+                          values[1].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
-                                color: AppColor.secondaryContentGray,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              color: AppColor.secondaryContentGray,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
                         ),
                       ],
                     ),
@@ -663,10 +769,11 @@ class _AddPetPageState extends State<AddPetPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          values[2],
+                          values[2].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
                                 color: AppColor.secondaryContentGray,
                                 fontWeight: FontWeight.bold,
+                                fontSize: 15,
                               ),
                         ),
                       ],
