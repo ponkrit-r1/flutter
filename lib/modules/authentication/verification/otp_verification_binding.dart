@@ -8,7 +8,9 @@ class OtpVerificationBinding extends Bindings {
   @override
   void dependencies() {
     String email = Get.arguments?[RouteParams.userEmail] ?? '';
-    int userId = Get.arguments?[RouteParams.userId];
+    int userId = Get.arguments?[RouteParams.userId] ?? 0;
+    String userName = Get.arguments[RouteParams.userName];
+    String password = Get.arguments[RouteParams.password];
     Get.lazyPut(
       () => OtpVerificationController(
         email,
@@ -17,6 +19,9 @@ class OtpVerificationBinding extends Bindings {
           Get.find(),
           Get.find(),
         ),
+        userName,
+        password,
+        Get.find(),
       ),
     );
   }

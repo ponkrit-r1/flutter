@@ -27,4 +27,14 @@ class AnimalType {
   String toString() {
     return name;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AnimalType &&
+          runtimeType == other.runtimeType &&
+          id == other.id);
+
+  @override
+  int get hashCode => id;
 }

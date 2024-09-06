@@ -1,4 +1,5 @@
 class CreateAccountModel {
+  final int? id;
   final String username;
   final String password;
   final String password2;
@@ -8,6 +9,7 @@ class CreateAccountModel {
   final int confirmedConditionId;
 
   CreateAccountModel({
+    this.id,
     required this.username,
     required this.password,
     required this.password2,
@@ -20,6 +22,7 @@ class CreateAccountModel {
   // Factory method to create an instance of UserModel from a JSON object
   factory CreateAccountModel.fromJson(Map<String, dynamic> json) {
     return CreateAccountModel(
+      id: json['id'],
       username: json['username'],
       password: json['password'],
       password2: json['password2'],
@@ -33,6 +36,7 @@ class CreateAccountModel {
   // Method to convert a UserModel instance to a JSON object
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'username': username,
       'password': password,
       'password2': password2,

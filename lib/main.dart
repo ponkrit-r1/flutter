@@ -1,5 +1,8 @@
+import 'package:deemmi/core/data/api/pet_api.dart';
+import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/network/api_client.dart';
 import 'package:deemmi/core/network/url.dart';
+import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:deemmi/routes/app_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,6 +25,16 @@ void main() async {
   );
   Get.put(appStorage, permanent: true);
   Get.put(apiClient, permanent: true);
+  Get.put(
+    PetListController(
+      PetRepository(
+        PetAPI(
+          Get.find(),
+          Get.find(),
+        ),
+      ),
+    ),
+  );
   //var initialRoute = await Get.find<RoutingController>().getInitialRoute();
   runApp(const MyApp(initialRoute: Routes.routing));
 }

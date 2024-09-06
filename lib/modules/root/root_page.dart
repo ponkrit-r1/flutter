@@ -1,11 +1,7 @@
 import 'package:deemmi/core/theme/app_colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:deemmi/modules/pet/list/pet_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
-import '../../routes/app_routes.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -63,14 +59,7 @@ class _RootPageState extends State<RootPage> {
   _buildScreens() {
     return [
       const SafeArea(child: Text('Home')),
-      SafeArea(
-        child: TextButton(
-          child: const Text('Add Pet'),
-          onPressed: () {
-            Get.toNamed(Routes.addPet);
-          },
-        ),
-      ),
+      const PetListPage(),
       const SafeArea(child: Text('Explore')),
       const SafeArea(
         child: Text('Community'),

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class PetModel {
   final int? id;
   final String owner;
@@ -13,6 +15,7 @@ class PetModel {
   final String characteristics;
   final int birthMonth;
   final int birthYear;
+  Uint8List? imageData;
 
   PetModel({
     this.id,

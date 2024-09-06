@@ -1,4 +1,6 @@
 import 'package:deemmi/core/data/api/authentication_api.dart';
+import 'package:deemmi/core/domain/auth/create_account_request.dart';
+import 'package:deemmi/core/domain/auth/term_data.dart';
 import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -22,7 +24,7 @@ class CreateAccountController extends GetxController {
 
   bool? get isConfirmPasswordMatched => _isConfirmPasswordMatched.value;
 
-  dynamic termData;
+  TermData? termData;
 
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
@@ -66,6 +68,29 @@ class CreateAccountController extends GetxController {
 
   setTermAccept(bool termAccepted) {
     _isTermAccepted.value = termAccepted;
+  }
+
+  createAccount() async {
+    if (termData == null) return;
+    try {
+      var response = await authenticationAPI.register(
+        CreateAccountModel(
+          username: userNameController.text,
+          password: passwordController.text,
+          password2: confirmPasswordController.text,
+          email: emailController.text,
+          firstName: firstNameController.text,
+          lastName: lastNameController.text,
+          confirmedConditionId: termData!.id,
+        ),
+      );
+      return response;
+    } catch (e) {
+      debugPrint(
+        e.toString(),
+      );
+      return null;
+    }
   }
 
   bool checkAndDisplayFieldError() {

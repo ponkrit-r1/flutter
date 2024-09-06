@@ -302,35 +302,35 @@ class _AddPetPageState extends State<AddPetPage> {
                         )
                       ],
                     ),
-                    Obx(
-                      () => _controller.displayPetAge != null
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text.rich(
-                                TextSpan(
-                                  text: stringRes(context)!.ageLabel,
-                                  style:
-                                      textTheme(context).bodyMedium?.copyWith(
-                                            color: AppColor.textColor,
-                                          ),
-                                  children: <TextSpan>[
-                                    const TextSpan(text: ': '),
-                                    TextSpan(
-                                      text:
-                                          "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
-                                      style: textTheme(context)
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            color: AppColor.secondary500,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ),
+                    // Obx(
+                    //   () => _controller.displayPetAge != null
+                    //       ? Padding(
+                    //           padding: const EdgeInsets.only(top: 8.0),
+                    //           child: Text.rich(
+                    //             TextSpan(
+                    //               text: stringRes(context)!.ageLabel,
+                    //               style:
+                    //                   textTheme(context).bodyMedium?.copyWith(
+                    //                         color: AppColor.textColor,
+                    //                       ),
+                    //               children: <TextSpan>[
+                    //                 const TextSpan(text: ': '),
+                    //                 TextSpan(
+                    //                   text:
+                    //                       "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
+                    //                   style: textTheme(context)
+                    //                       .bodyMedium
+                    //                       ?.copyWith(
+                    //                         color: AppColor.secondary500,
+                    //                       ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //             textAlign: TextAlign.start,
+                    //           ),
+                    //         )
+                    //       : const SizedBox.shrink(),
+                    // ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -427,7 +427,9 @@ class _AddPetPageState extends State<AddPetPage> {
                             : PrimaryButton(
                                 title: stringRes(context)!.nextLabel,
                                 onPressed: _controller.isInformationCompleted
-                                    ? () {}
+                                    ? () {
+                                        _controller.onAddPet();
+                                      }
                                     : null,
                                 color: AppColor.primary500,
                               ),
@@ -784,6 +786,8 @@ class _AddPetPageState extends State<AddPetPage> {
             )
           ],
         );
+      default:
+        return const SizedBox.shrink();
     }
   }
 }

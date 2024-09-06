@@ -115,8 +115,8 @@ class ApiClient {
     return BaseOptions(
         baseUrl: url,
         responseType: ResponseType.json,
-        connectTimeout: const Duration(seconds: 60),
-        receiveTimeout: const Duration(seconds: 60),
+        connectTimeout: const Duration(seconds: 300),
+        receiveTimeout: const Duration(seconds: 300),
 
         /// When use cancel token, Dio send user agent as a null and the app always get 403 status
         /// We need this user agent header to fix the issue;

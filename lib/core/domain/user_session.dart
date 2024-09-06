@@ -22,7 +22,7 @@ class UserSession {
 
   Map<String, dynamic> toMap() {
     return {
-      'access_token': accessToken,
+      'key': accessToken,
       'token_type': tokenType,
       'expires_in': expiresIn,
       'refresh_token': refreshToken,

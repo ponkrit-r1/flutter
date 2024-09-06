@@ -1,5 +1,6 @@
 import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:get/get.dart';
@@ -73,17 +74,15 @@ class _TermAndConditionBottomSheetState
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const PDF().cachedFromUrl(
-                        widget.termPdfUrl,
-                        placeholder: (progress) =>
-                            Center(child: Text('$progress %')),
-                        errorWidget: (error) =>
-                            Center(child: Text(error.toString())),
-                      )
-                    ],
+                  child: SizedBox(
+                    height: Get.height,
+                    child: const PDF().cachedFromUrl(
+                      widget.termPdfUrl,
+                      placeholder: (progress) =>
+                          Center(child: Text('$progress %')),
+                      errorWidget: (error) =>
+                          Center(child: Text(error.toString())),
+                    ),
                   ),
                 ),
               ),

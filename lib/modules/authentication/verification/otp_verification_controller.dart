@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:deemmi/core/data/app_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -8,12 +9,17 @@ import '../../../core/data/api/authentication_api.dart';
 class OtpVerificationController extends GetxController {
   final RxString _userEmail = ''.obs;
   final int _userId;
+  final String _password;
+  final String _username;
   static const otpLimit = 10;
 
   OtpVerificationController(
     this.registeredEmail,
     this._userId,
     this.authenticationAPI,
+    this._password,
+    this._username,
+    this.storage,
   );
 
   String get userEmail => _userEmail.value;
@@ -22,11 +28,13 @@ class OtpVerificationController extends GetxController {
 
   bool get isOtpCompleted => _isOtpComplete.value;
 
-  final RxBool _canRequestOtp = false.obs;
+  final RxBool _canRequestOtp = true.obs;
 
   bool get canRequestOtp => _canRequestOtp.value;
 
   final AuthenticationAPI authenticationAPI;
+
+  final AppStorage storage;
 
   final String registeredEmail;
 
@@ -60,14 +68,20 @@ class OtpVerificationController extends GetxController {
 
   Future<dynamic> verifyOtp() async {
     try {
-      await authenticationAPI.verifyOtp(
+      var response = await authenticationAPI.verifyOtp(
         _userEmail.value,
         otpController.text,
       );
       scheduleTimeout();
+      return response;
     } catch (error) {
       debugPrint(error.toString());
     }
+  }
+
+  Future<dynamic> login() async {
+    var response = await authenticationAPI.signIn(_username, _password);
+    storage.setUserSession(response.accessToken);
   }
 
   Future<void> requestOtp() async {

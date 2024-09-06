@@ -1,3 +1,5 @@
+import 'package:deemmi/core/domain/auth/create_account_request.dart';
+import 'package:deemmi/core/network/url.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/register/create_account_controller.dart';
 import 'package:deemmi/modules/authentication/terms/term_and_condition_bottom_sheet.dart';
@@ -84,11 +86,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           : PrimaryButton(
                               title: stringRes(context)!.continueWithOtpLabel,
                               onPressed: _controller.isInformationCompleted
-                                  ? () {
+                                  ? () async {
                                       var isInformationCompleted = _controller
                                           .checkAndDisplayFieldError();
                                       if (isInformationCompleted) {
-                                        navigateToOtpVerification();
+                                        var response =
+                                            await _controller.createAccount();
+                                        if (response != null) {
+                                          navigateToOtpVerification(response);
+                                        }
                                       }
                                     }
                                   : null,
@@ -246,7 +252,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             enableDrag: true,
             isScrollControlled: true,
             TermAndConditionBottomSheet(
-              termPdfUrl: _controller.termData['file_location']!,
+              termPdfUrl: "$baseUrl${_controller.termData!.fileLocation}",
               onTermAccepted: (isAccept) {
                 _controller.setTermAccept(isAccept);
               },
@@ -360,9 +366,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     _globalKey.currentState?.showSnackBar(snackBar);
   }
 
-  navigateToOtpVerification() {
+  navigateToOtpVerification(CreateAccountModel response) {
     Get.toNamed(Routes.otpVerification, arguments: {
       RouteParams.userEmail: _controller.emailController.text,
+      RouteParams.userName: _controller.userNameController.text,
+      RouteParams.password: _controller.passwordController.text,
+      RouteParams.userId: response.id,
     });
   }
 

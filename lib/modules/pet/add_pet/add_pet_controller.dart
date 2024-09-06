@@ -77,7 +77,7 @@ class AddPetController extends GetxController {
 
   int? _selectedMonthIdx;
 
-  String? get displayPetAge => getDisplayAge(selectedMonth, selectedYear);
+  String? get displayPetAge => null;
 
   final RxnString _selectedGender = RxnString();
 
@@ -85,37 +85,56 @@ class AddPetController extends GetxController {
 
   final RxList<AnimalType> _animalTypes = RxList.empty();
 
-  List<AnimalType> get animalTypes => _animalTypes;
+  // List<AnimalType> get animalTypes => _animalTypes;
+  List<AnimalType> get animalTypes =>
+      [AnimalType(id: 1, name: "Dog"), AnimalType(id: 2, name: "Cat"), AnimalType(id: 3, name: "Rabbit")];
 
   final RxList<AnimalBreed> _animalBreed = RxList.empty();
 
-  List<AnimalBreed> get animalBreed => _animalBreed;
+  //List<AnimalBreed> get animalBreed => _animalBreed;
+
+  List<AnimalBreed> get animalBreed => [
+        AnimalBreed(id: 1, name: 'Labrador Retriever'),
+        AnimalBreed(id: 2, name: 'German Shepherd'),
+        AnimalBreed(id: 3, name: 'Golden Retriever'),
+        AnimalBreed(id: 4, name: 'Bulldog'),
+        AnimalBreed(id: 5, name: 'Poodle'),
+        AnimalBreed(id: 6, name: 'Beagle'),
+        AnimalBreed(id: 7, name: 'Rottweiler'),
+        AnimalBreed(id: 8, name: 'Yorkshire Terrier'),
+        AnimalBreed(id: 9, name: 'Boxer'),
+        AnimalBreed(id: 10, name: 'Dachshund'),
+        AnimalBreed(id: 11, name: 'Siberian Husky'),
+        AnimalBreed(id: 12, name: 'Great Dane'),
+        AnimalBreed(id: 13, name: 'Doberman Pinscher'),
+        AnimalBreed(id: 14, name: 'Australian Shepherd'),
+        AnimalBreed(id: 15, name: 'Shih Tzu'),
+      ];
 
   @override
   void onReady() {
     super.onReady();
     petNameController.addListener(() {
       checkInformation();
-      _isEmailFormatCorrect.value = petNameController.text.validateEmail();
     });
     microChipController.addListener(() {
       checkInformation();
-      _isPasswordFormatCorrect.value = microChipController.text.validateEmail();
     });
 
     weightForm.addListener(() {
       checkInformation();
-      _isConfirmPasswordMatched.value =
-          weightForm.text == microChipController.text;
     });
+    getAnimalType();
   }
 
   setSelectedImage(XFile file) async {
     _selectedImage.value = await file.readAsBytes();
+    checkInformation();
   }
 
   setSelectedBreed(AnimalBreed breed) {
     _selectedBreed.value = breed;
+    checkInformation();
   }
 
   getAnimalType() async {
@@ -128,11 +147,12 @@ class AddPetController extends GetxController {
         _selectedPetType.value!.id,
       );
     }
+    checkInformation();
   }
 
   String? getDisplayAge(String month, String year) {
     if (month.isNotEmpty && year.isNotEmpty) {
-      return ((DateTime(int.parse(year), _selectedMonthIdx! + 1, 1)
+      return ((DateTime(int.parse(year), 1, 1)
                   .difference(DateTime.now())
                   .inDays) ~/
               30)
@@ -147,13 +167,15 @@ class AddPetController extends GetxController {
     if (year != null) {
       _selectedYear.value = year;
     }
+    checkInformation();
   }
 
   setSelectedMonth(String? month) {
     if (month != null) {
       _selectedMonth.value = month;
-      // _selectedMonthIdx = idx;
+      _selectedMonthIdx = 0;
     }
+    checkInformation();
   }
 
   setTermAccept(bool termAccepted) {
@@ -182,28 +204,31 @@ class AddPetController extends GetxController {
   }
 
   onAddPet() {
-    var pet = petRepository.addPet(
-      PetModel(
-        owner: "",
-        name: petNameController.text,
-        animalType: 1,
-        microchipNumber: microChipController.text,
-        dob: null,
-        weight: double.tryParse(weightForm.text) ?? 0.0,
-        careSystem: 'Outdoor',
-        characteristics: characteristicController.text,
-        birthMonth: _selectedMonthIdx!,
-        birthYear: _selectedYearIdx!,
-      ),
+    var petModel = PetModel(
+      owner: "",
+      name: petNameController.text,
+      animalType: selectedPetType!.id,
+      breed: selectedBreed!.name,
+      microchipNumber: microChipController.text,
+      dob: null,
+      weight: double.tryParse(weightForm.text) ?? 0.0,
+      careSystem: 'Outdoor',
+      characteristics: characteristicController.text,
+      birthMonth: 0,
+      birthYear: 0,
     );
+    petModel.imageData = selectedImage;
+
+    Get.back(result: petModel);
+    var pet = petRepository.addPet(petModel);
   }
 
   checkInformation() {
-    _isInformationCompleted.value = petNameController.text.validateEmail() &&
-        microChipController.text.isNotEmpty &&
-        characteristicController.text.isNotEmpty &&
-        weightForm.text.isNotEmpty &&
-        microChipController.text == weightForm.text;
+    _isInformationCompleted.value = petNameController.text.isNotEmpty &&
+        selectedPetType != null &&
+        selectedBreed != null &&
+    selectGender != null &&
+    _selectedYear.isNotEmpty && _selectedMonth.isNotEmpty;
   }
 
   @override
