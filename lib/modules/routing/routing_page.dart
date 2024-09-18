@@ -45,8 +45,8 @@ class _RoutingPageState extends State<RoutingPage> {
 
   navigateToInitialDestination() {
     Future.delayed(const Duration(seconds: 2), () {
-      //Get.toNamed(Routes.onboarding);
-      Get.toNamed(Routes.root);
+      Get.toNamed(Routes.onboarding);
+      //Get.toNamed(Routes.root);
     });
   }
 }

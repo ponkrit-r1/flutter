@@ -2,7 +2,6 @@ import 'package:deemmi/modules/authentication/complete/create_account_success_pa
 import 'package:deemmi/modules/authentication/register/create_account_binding.dart';
 import 'package:deemmi/modules/authentication/register/create_account_page.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_binding.dart';
-import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_page.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_binding.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_page.dart';
@@ -10,8 +9,9 @@ import 'package:deemmi/modules/on_boarding/on_boarding_binding.dart';
 import 'package:deemmi/modules/on_boarding/on_boarding_page.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_binding.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_page.dart';
+import 'package:deemmi/modules/pet/profile/pet_profile_binding.dart';
+import 'package:deemmi/modules/pet/profile/pet_profile_page.dart';
 import 'package:deemmi/modules/routing/routing_binding.dart';
-import 'package:deemmi/modules/routing/routing_controller.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:get/get.dart';
 
@@ -52,8 +52,13 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.addPet,
-      page: () => AddPetPage(),
+      page: () => const AddPetPage(),
       binding: AddPetBinding(),
+    ),
+    GetPage(
+      name: Routes.petProfile,
+      page: () => PetProfilePage(),
+      binding: PetProfileBinding(),
     ),
   ];
 }

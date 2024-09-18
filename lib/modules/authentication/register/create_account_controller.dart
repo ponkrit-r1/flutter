@@ -1,6 +1,7 @@
 import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/domain/auth/create_account_request.dart';
 import 'package:deemmi/core/domain/auth/term_data.dart';
+import 'package:deemmi/core/domain/auth/user_model.dart';
 import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -70,10 +71,10 @@ class CreateAccountController extends GetxController {
     _isTermAccepted.value = termAccepted;
   }
 
-  createAccount() async {
-    if (termData == null) return;
+  Future<User?> createAccount() async {
+    if (termData == null) return null;
     try {
-      var response = await authenticationAPI.register(
+      return await authenticationAPI.register(
         CreateAccountModel(
           username: userNameController.text,
           password: passwordController.text,
@@ -84,7 +85,6 @@ class CreateAccountController extends GetxController {
           confirmedConditionId: termData!.id,
         ),
       );
-      return response;
     } catch (e) {
       debugPrint(
         e.toString(),

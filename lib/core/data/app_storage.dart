@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../domain/user_session.dart';
-import '../domain/usre.dart';
+import '../domain/auth/user_model.dart';
 
 const _latestAcceptedAppTermAndConditionVersion =
     'latestAcceptedAppTermAndConditionId';
@@ -114,7 +112,7 @@ class AppStorage {
     if (userString != null) {
       try {
         final userMap = jsonDecode(userString);
-        return User.fromMap(userMap);
+        return User.fromJson(userMap);
       } catch (error) {
         return null;
       }
@@ -125,7 +123,7 @@ class AppStorage {
 
   Future<bool> setUser(User? user) {
     if (user != null) {
-      String userString = user.toJson();
+      String userString = jsonEncode(user.toJson());
       return _prefs.setString(_userKey, userString);
     } else {
       return _prefs.remove(_userKey);

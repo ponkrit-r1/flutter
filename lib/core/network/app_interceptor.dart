@@ -24,7 +24,7 @@ class AppInterceptor extends Interceptor {
     //options.headers[languageHeader] = language.value;
 
     if (userSession != null) {
-      options.headers['Authorization'] = 'Token $userSession';
+      options.headers['Authorization'] = 'Bearer $userSession';
     } else {
       // Not logged in
       options.headers.remove('Authorization');

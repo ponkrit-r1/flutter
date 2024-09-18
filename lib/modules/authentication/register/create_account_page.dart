@@ -1,4 +1,4 @@
-import 'package:deemmi/core/domain/auth/create_account_request.dart';
+import 'package:deemmi/core/domain/auth/user_model.dart';
 import 'package:deemmi/core/network/url.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/register/create_account_controller.dart';
@@ -249,7 +249,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       onTap: () {
         if (!_controller.isTermAccepted && _controller.termData != null) {
           Get.bottomSheet(
-            enableDrag: true,
+            enableDrag: false,
             isScrollControlled: true,
             TermAndConditionBottomSheet(
               termPdfUrl: "$baseUrl${_controller.termData!.fileLocation}",
@@ -366,7 +366,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     _globalKey.currentState?.showSnackBar(snackBar);
   }
 
-  navigateToOtpVerification(CreateAccountModel response) {
+  navigateToOtpVerification(User response) {
     Get.toNamed(Routes.otpVerification, arguments: {
       RouteParams.userEmail: _controller.emailController.text,
       RouteParams.userName: _controller.userNameController.text,

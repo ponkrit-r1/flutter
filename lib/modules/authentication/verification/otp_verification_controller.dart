@@ -51,12 +51,11 @@ class OtpVerificationController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
-    requestOtp();
     _userEmail.value = registeredEmail;
     otpController.addListener(() {
       _isOtpComplete.value = (otpController.text.length == 6);
     });
+    requestOtp();
   }
 
   @override

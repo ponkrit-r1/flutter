@@ -9,6 +9,7 @@ abstract class Routes {
   static const root = '/root';
   static const onboarding = '/on_boarding';
   static const createAccountSuccess = '/create_account_success';
+  static const petProfile = '/pet_profile';
 
   //Restriction
   static const noConnection = '/noConnection';
@@ -21,6 +22,7 @@ abstract class RouteParams {
   static const userId = 'user_id';
   static const userName = 'username';
   static const password = 'password';
+  static const petModel = 'pet_model';
 }
 
 abstract class RouteAction {

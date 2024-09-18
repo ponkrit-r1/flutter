@@ -1,8 +1,8 @@
 import 'package:deemmi/core/domain/auth/term_data.dart';
 
 import '../../domain/auth/create_account_request.dart';
+import '../../domain/auth/user_model.dart';
 import '../../domain/user_session.dart';
-import '../../domain/usre.dart';
 import '../../network/api_client.dart';
 import '../app_storage.dart';
 
@@ -35,8 +35,6 @@ class AuthenticationAPI {
     return user;
   }
 
-
-
   // Future<List<Consent>> consents() async {
   //   final params = {"latest_version": true};
   //
@@ -54,9 +52,9 @@ class AuthenticationAPI {
     return TermData.fromJson(response.data);
   }
 
-  Future<dynamic> register(CreateAccountModel model) async {
+  Future<User> register(CreateAccountModel model) async {
     var response = await apiClient.postHTTP('/signup/', model.toJson());
-    return response;
+    return User.fromJson(response.data);
   }
 
   Future<void> resetPassword(

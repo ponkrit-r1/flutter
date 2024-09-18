@@ -136,7 +136,9 @@ class _PetListPageState extends State<PetListPage> {
     int idx,
   ) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        navigateToPetProfile(petModel);
+      },
       child: Card(
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
@@ -238,24 +240,29 @@ class _PetListPageState extends State<PetListPage> {
         height: 150,
         child: Column(
           children: [
-            ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                  color: AppColor.secondaryBgColor,
-                  borderRadius: BorderRadius.circular(20),
+            InkWell(
+              onTap: () {
+                navigateToPetProfile(petModel);
+              },
+              child: ListTile(
+                leading: Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.secondaryBgColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Icon(Icons.remove_red_eye_sharp,
+                      color: AppColor.primary500),
                 ),
-                child: const Icon(Icons.remove_red_eye_sharp,
-                    color: AppColor.primary500),
-              ),
-              title: Text(
-                "View pet profile",
-                style: textTheme(context)
-                    .bodyMedium
-                    ?.copyWith(color: AppColor.primary500),
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: AppColor.primary500,
+                title: Text(
+                  "View pet profile",
+                  style: textTheme(context)
+                      .bodyMedium
+                      ?.copyWith(color: AppColor.primary500),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppColor.primary500,
+                ),
               ),
             ),
             ListTile(
@@ -264,7 +271,8 @@ class _PetListPageState extends State<PetListPage> {
                   color: AppColor.secondaryBgColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.delete_rounded, color: AppColor.redError),
+                child:
+                    const Icon(Icons.delete_rounded, color: AppColor.redError),
               ),
               title: Text(
                 "Remove",
@@ -282,6 +290,12 @@ class _PetListPageState extends State<PetListPage> {
       ),
     );
     Get.bottomSheet(bottomSheet);
+  }
+
+  navigateToPetProfile(PetModel pet) async {
+    var result = await Get.toNamed(Routes.petProfile, arguments: {
+      RouteParams.petModel: pet,
+    });
   }
 
   navigateToAddPet() async {

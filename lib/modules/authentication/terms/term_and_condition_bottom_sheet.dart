@@ -1,6 +1,5 @@
 import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:get/get.dart';
@@ -24,7 +23,7 @@ class TermAndConditionBottomSheet extends StatefulWidget {
 
 class _TermAndConditionBottomSheetState
     extends State<TermAndConditionBottomSheet> {
-  var isScrollToBottom = false;
+  var isScrollToBottom = true;
 
   ScrollController scrollController = ScrollController();
 
@@ -72,19 +71,17 @@ class _TermAndConditionBottomSheetState
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  child: SizedBox(
-                    height: Get.height,
-                    child: const PDF().cachedFromUrl(
+                child: const PDF()
+                    .cachedFromUrl(
                       widget.termPdfUrl,
                       placeholder: (progress) =>
                           Center(child: Text('$progress %')),
                       errorWidget: (error) =>
                           Center(child: Text(error.toString())),
-                    ),
-                  ),
-                ),
+
+                    )
+                    .marginAll(0)
+                    .paddingAll(0),
               ),
               const SizedBox(height: 16),
               TextButton(
