@@ -19,15 +19,17 @@ class PetProfilePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
+        centerTitle: true,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(8), // Border width
+              padding: const EdgeInsets.all(4), // Border width
               decoration: const BoxDecoration(
                   color: AppColor.secondary500, shape: BoxShape.circle),
               child: ClipOval(
                 child: SizedBox.fromSize(
-                  size: const Size.fromRadius(48), // Image radius
+                  size: const Size.fromRadius(16), // Image radius
                   child: Image.memory(
                     controller.petModel.imageData!,
                     fit: BoxFit.cover,
@@ -35,8 +37,14 @@ class PetProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 4),
-            Text(controller.petName),
+            const SizedBox(width: 8),
+            Text(
+              controller.petName,
+              style: textTheme(context)
+                  .headlineSmall
+                  ?.copyWith(color: AppColor.textColor),
+            ),
+            const SizedBox(width: 8),
             const Icon(Icons.keyboard_arrow_down_rounded),
           ],
         ),
@@ -65,175 +73,254 @@ class PetProfilePage extends StatelessWidget {
                         right: 0.0,
                         bottom: 0.0,
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
+                          decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.only(topLeft: Radius.circular(8)),
                             color: AppColor.secondaryBgColor,
                           ),
-                          child: const Icon(
-                            Icons.male_rounded,
-                            color: AppColor.primary500,
+                          child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.male_rounded,
+                              color: AppColor.primary500,
+                            ),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            controller.petName,
-                            style: textTheme(context).headlineLarge,
-                          ),
-                          const SizedBox(width: 8),
-                          const Icon(
-                            Icons.edit_rounded,
-                            color: AppColor.primary500,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        controller.petModel.breed ?? '',
-                        style: textTheme(context)
-                            .bodyMedium!
-                            .copyWith(color: AppColor.secondaryContentGray),
-                      ),
-                      Text(
-                        '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
-                        style: textTheme(context)
-                            .bodyMedium!
-                            .copyWith(color: AppColor.secondaryContentGray),
-                      ),
-                      Text(
-                        '${stringRes(context)!.specialCharacteristicsLabel} ${controller.petModel.characteristics}',
-                        style: textTheme(context)
-                            .bodyMedium!
-                            .copyWith(color: AppColor.secondaryContentGray),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: petInfoItem(
-                              const Icon(
-                                Icons.cake_rounded,
-                                color: AppColor.secondaryContentGray,
-                              ),
-                              'Age 3 Months',
-                              context,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 3,
-                            child: CustomPaint(
-                                painter: VerticalDashedLinePainter()),
-                          ),
-                          Expanded(
-                            child: petInfoItem(
-                              const Icon(
-                                Icons.monitor_weight_rounded,
-                                color: AppColor.secondaryContentGray,
-                              ),
-                              'Weight 5 Kg',
-                              context,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 3,
-                            child: CustomPaint(
-                                painter: VerticalDashedLinePainter()),
-                          ),
-                          Expanded(
-                            child: petInfoItem(
-                              const Icon(
-                                Icons.house_rounded,
-                                color: AppColor.secondaryContentGray,
-                              ),
-                              'Animal Care Indoor',
-                              context,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 3,
-                        child: CustomPaint(
-                          painter: HorizontalDashedLinePainter(),
-                        ),
-                      ),
-                      petInfoSection('Health information', context),
-                      SizedBox(
-                        height: 3,
-                        child: CustomPaint(
-                          painter: HorizontalDashedLinePainter(),
-                        ),
-                      ),
-                      petInfoSection('Clinic information', context),
-                      SizedBox(
-                        height: 3,
-                        child: CustomPaint(
-                          painter: HorizontalDashedLinePainter(),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Card(
-                              child: petInfoItem(
-                                Image.asset('assets/icons/vaccine.webp'),
-                                'Vaccine',
-                                context,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 3,
-                            child: CustomPaint(
-                                painter: VerticalDashedLinePainter()),
-                          ),
-                          Expanded(
-                            child: Card(
-                              child: petInfoItem(
-                                Image.asset('assets/icons/medication.webp'),
-                                'Flea & Tick',
-                                context,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 3,
-                            child: CustomPaint(
-                                painter: VerticalDashedLinePainter()),
-                          ),
-                          Expanded(
-                            child: Card(
-                              child: petInfoItem(
-                                Image.asset(
-                                    'assets/icons/file-text-check.webp'),
-                                'Insurance',
-                                context,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Card(
-                              child: petInfoItem(
-                                Image.asset(
-                                    'assets/icons/sliders-horizontal-alt.webp'),
-                                'Others',
-                                context,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Image.asset('assets/image/empty_pet_info.webp'),
                       ),
                     ],
                   ),
-                )
+                ),
+                petInformationSystem(context),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  petInformationSystem(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                controller.petName,
+                style: textTheme(context).headlineLarge?.copyWith(
+                      fontSize: 30,
+                      color: AppColor.textColor,
+                    ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(
+                Icons.edit_rounded,
+                color: AppColor.primary500,
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            controller.petModel.breed ?? '',
+            style: textTheme(context)
+                .bodyMedium!
+                .copyWith(color: AppColor.secondaryContentGray),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
+            style: textTheme(context)
+                .bodyMedium!
+                .copyWith(color: AppColor.secondaryContentGray),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${stringRes(context)!.specialCharacteristicsLabel} ${controller.petModel.characteristics}',
+            style: textTheme(context)
+                .bodyMedium!
+                .copyWith(color: AppColor.secondaryContentGray),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 72,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: petInfoItem(
+                    const Icon(
+                      Icons.cake_rounded,
+                      color: AppColor.secondaryContentGray,
+                    ),
+                    'Age 3 Months',
+                    context,
+                  ),
+                ),
+                SizedBox(
+                  width: 3,
+                  child: CustomPaint(painter: VerticalDashedLinePainter()),
+                ),
+                Expanded(
+                  child: petInfoItem(
+                    const Icon(
+                      Icons.monitor_weight_rounded,
+                      color: AppColor.secondaryContentGray,
+                    ),
+                    'Weight 5 Kg',
+                    context,
+                  ),
+                ),
+                SizedBox(
+                  width: 3,
+                  child: CustomPaint(painter: VerticalDashedLinePainter()),
+                ),
+                Expanded(
+                  child: petInfoItem(
+                    const Icon(
+                      Icons.house_rounded,
+                      color: AppColor.secondaryContentGray,
+                    ),
+                    'Animal Care Indoor',
+                    context,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 3,
+            width: double.infinity,
+            child: CustomPaint(
+              painter: HorizontalDashedLinePainter(),
+            ),
+          ),
+          const SizedBox(height: 16),
+          petInfoSection('Health information', context),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 3,
+            width: double.infinity,
+            child: CustomPaint(
+              painter: HorizontalDashedLinePainter(),
+            ),
+          ),
+          const SizedBox(height: 16),
+          petInfoSection('Clinic information', context),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 3,
+            width: double.infinity,
+            child: CustomPaint(
+              painter: HorizontalDashedLinePainter(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 3,
+                  color: AppColor.secondaryBgColor,
+                  child: petInfoItem(
+                    Image.asset('assets/icons/vaccine.webp'),
+                    'Vaccine',
+                    context,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Card(
+                  color: AppColor.secondaryBgColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 3,
+                  child: petInfoItem(
+                    Image.asset('assets/icons/medication.webp'),
+                    'Flea & Tick',
+                    context,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Card(
+                  color: AppColor.secondaryBgColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 3,
+                  child: petInfoItem(
+                    Image.asset('assets/icons/file-text-check.webp'),
+                    'Insurance',
+                    context,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Card(
+                  color: AppColor.secondaryBgColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 3,
+                  child: petInfoItem(
+                    Image.asset('assets/icons/sliders-horizontal-alt.webp'),
+                    'Others',
+                    context,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: 120,
+            child: upcomingTitle(context),
+          ),
+          const SizedBox(height: 40),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Image.asset('assets/images/empty_pet_info.webp'),
+            ),
+          ),
+          const SizedBox(height: 40),
+        ],
+      ),
+    );
+  }
+
+  upcomingTitle(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: [
+          const Icon(
+            Icons.calendar_month_rounded,
+            color: AppColor.primary500,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            'Upcoming',
+            style: textTheme(context).headlineMedium?.copyWith(
+                  color: AppColor.primary500,
+                ),
+          )
+        ]),
+        const SizedBox(height: 8),
+        Container(
+          height: 2,
+          color: AppColor.primary500,
+        )
+      ],
     );
   }
 
@@ -266,13 +353,22 @@ class PetProfilePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(height: 8),
         widget,
-        Text(
-          label,
-          style: textTheme(context)
-              .bodyMedium!
-              .copyWith(color: AppColor.secondaryContentGray),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            label,
+            style: textTheme(context)
+                .bodyMedium!
+                .copyWith(color: AppColor.secondaryContentGray),
+            textAlign: TextAlign.center,
+          ),
         ),
+        const SizedBox(height: 8),
       ],
     );
   }
