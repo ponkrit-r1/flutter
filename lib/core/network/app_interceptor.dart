@@ -24,7 +24,7 @@ class AppInterceptor extends Interceptor {
     //options.headers[languageHeader] = language.value;
 
     if (userSession != null) {
-      options.headers['Authorization'] = 'Bearer $userSession';
+      options.headers['Authorization'] = 'Bearer ${userSession.accessToken}';
     } else {
       // Not logged in
       options.headers.remove('Authorization');
@@ -39,23 +39,23 @@ class AppInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       debugPrint('Need refresh');
 
-      // final userSession = await store.value.getUserSession();
-      // final refreshToken = userSession?.refreshToken;
-      // if (refreshToken == null) {
-      //   super.onError(err, handler);
-      //   return;
-      // }
-      //
-      // try {
-      //   debugPrint("refreshed");
-      //   final newSession = await _refresh(refreshToken);
-      //   handleRetryRequest(err, handler);
-      // } catch (error) {
-      // Failed refresh token
-      // For easy handler we pass back 401 which mean log out.
-      await store.value.logout();
-      super.onError(err, handler);
-      // }
+      final userSession = await store.value.getUserSession();
+      final refreshToken = userSession?.refreshToken;
+      if (refreshToken == null) {
+        super.onError(err, handler);
+        return;
+      }
+
+      try {
+        debugPrint("refreshed");
+        final newSession = await _refresh(refreshToken);
+        handleRetryRequest(err, handler);
+      } catch (error) {
+        // Failed refresh token
+        // For easy handler we pass back 401 which mean log out.
+        await store.value.logout();
+        super.onError(err, handler);
+      }
     } else {
       super.onError(err, handler);
     }
@@ -74,24 +74,23 @@ class AppInterceptor extends Interceptor {
   }
 
   // Refresh token.
-  Future<String?> _refresh(String refreshToken) async {
-    // final params = {
-    //   "grant_type": "refresh_token",
-    //   "refresh_token": refreshToken
-    // };
-    //
-    // debugPrint("_refresh");
-    //
-    // final response = await dio.post(
-    //   '/spree_oauth/token',
-    //   queryParameters: params,
-    // );
-    // final userSession = UserSession.fromJson(response.data);
-    //
-    // await store.value.setUserSession(userSession);
-    // store.refresh();
+  Future<UserSession?> _refresh(String refreshToken) async {
+    final params = {
+      "refresh": refreshToken,
+    };
 
-    return 'userSession';
+    debugPrint("_refreshing");
+
+    final response = await dio.post(
+      '/login/refresh/',
+      queryParameters: params,
+    );
+    final userSession = UserSession.fromJson(response.data);
+
+    await store.value.setUserSession(userSession);
+    store.refresh();
+
+    return userSession;
   }
 
   // Retry failed request

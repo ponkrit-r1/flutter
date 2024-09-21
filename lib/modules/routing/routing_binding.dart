@@ -5,7 +5,9 @@ class RoutingBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(
-      () => RoutingController(),
+      () => RoutingController(
+        appStorage: Get.find(),
+      ),
     );
   }
 }

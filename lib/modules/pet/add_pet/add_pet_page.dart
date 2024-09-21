@@ -1,6 +1,7 @@
 import 'package:deemmi/core/domain/auth/animal_breed.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,7 +63,7 @@ class _AddPetPageState extends State<AddPetPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: _controller.selectedImage == null
+                            child: _controller.displaySelectedImage == null
                                 ? Column(
                                     children: [
                                       const SizedBox(height: 48),
@@ -113,7 +114,7 @@ class _AddPetPageState extends State<AddPetPage> {
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.memory(
-                                      _controller.selectedImage!,
+                                      _controller.displaySelectedImage!,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -188,15 +189,17 @@ class _AddPetPageState extends State<AddPetPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    _dropDownFormField<AnimalBreed>(
-                      (value) {
-                        if (value != null) {
-                          _controller.setSelectedBreed(value);
-                        }
-                      },
-                      _controller.animalBreed,
-                      _controller.selectedBreed,
-                      stringRes(context)!.selectLabel,
+                    Obx(
+                      () => _dropDownFormField<AnimalBreed>(
+                        (value) {
+                          if (value != null) {
+                            _controller.setSelectedBreed(value);
+                          }
+                        },
+                        _controller.animalBreed,
+                        _controller.selectedBreed,
+                        stringRes(context)!.selectLabel,
+                      ),
                     ),
                     const SizedBox(
                       height: 24,
@@ -233,104 +236,82 @@ class _AddPetPageState extends State<AddPetPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _dropDownFormField<String>(
-                            (value) {
-                              _controller.setSelectedYear(value);
-                            },
-                            [
-                              "2023",
-                              "2022",
-                              "2021",
-                              "2020",
-                              "2019",
-                              "2018",
-                              "2017",
-                              "2016",
-                              "2015",
-                              "2014",
-                              "2013",
-                              "2012",
-                              "2011",
-                              "2010",
-                              "2009",
-                              "2008",
-                              "2007",
-                              "2006",
-                              "2005",
-                              "2004",
-                              "2003",
-                              "2002",
-                              "2001",
-                              "2000",
-                              "1999",
-                              "1998",
-                              "1997",
-                              "1996",
-                              "1995",
-                              "1994"
-                            ],
-                            _controller.selectedYear,
-                            stringRes(context)!.selectMonthLabel,
+                    Obx(
+                      () => InkWell(
+                        onTap: () {
+                          _showDatePicker();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                width: 1,
+                                color: AppColor.borderColor,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(100.0),
+                              )),
+                          child: SizedBox(
+                            height: 54,
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 16),
+                                  Text(
+                                    _controller.displayDate ??
+                                        stringRes(context)!
+                                            .selectDateOfBirthLabel,
+                                    style: textTheme(context)
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: AppColor.secondaryContentGray,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const Spacer(),
+                                  const Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppColor.secondaryContentGray,
+                                  ),
+                                  const SizedBox(width: 16),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _dropDownFormField<String>(
-                            (value) {
-                              _controller.setSelectedMonth(value);
-                            },
-                            [
-                              "January",
-                              "February",
-                              "March",
-                              "April",
-                              "May",
-                              "June",
-                              "July",
-                              "August",
-                              "September",
-                              "October",
-                              "November",
-                              "December"
-                            ],
-                            _controller.selectedMonth,
-                            stringRes(context)!.selectYearLabel,
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                    // Obx(
-                    //   () => _controller.displayPetAge != null
-                    //       ? Padding(
-                    //           padding: const EdgeInsets.only(top: 8.0),
-                    //           child: Text.rich(
-                    //             TextSpan(
-                    //               text: stringRes(context)!.ageLabel,
-                    //               style:
-                    //                   textTheme(context).bodyMedium?.copyWith(
-                    //                         color: AppColor.textColor,
-                    //                       ),
-                    //               children: <TextSpan>[
-                    //                 const TextSpan(text: ': '),
-                    //                 TextSpan(
-                    //                   text:
-                    //                       "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
-                    //                   style: textTheme(context)
-                    //                       .bodyMedium
-                    //                       ?.copyWith(
-                    //                         color: AppColor.secondary500,
-                    //                       ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //             textAlign: TextAlign.start,
-                    //           ),
-                    //         )
-                    //       : const SizedBox.shrink(),
-                    // ),
+                    Obx(
+                      () => _controller.displayPetAge != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text.rich(
+                                TextSpan(
+                                  text: stringRes(context)!.ageLabel,
+                                  style:
+                                      textTheme(context).bodyMedium?.copyWith(
+                                            color: AppColor.textColor,
+                                          ),
+                                  children: <TextSpan>[
+                                    const TextSpan(text: ': '),
+                                    TextSpan(
+                                      text:
+                                          "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
+                                      style: textTheme(context)
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: AppColor.secondary500,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -586,6 +567,40 @@ class _AddPetPageState extends State<AddPetPage> {
     ) onValueSelected,
   ) {
     switch (values.length) {
+      case 1:
+        return InkWell(
+          onTap: () {
+            onValueSelected(values[0], 0);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  width: selectedValue == values[0] ? 2 : 1,
+                  color: selectedValue == values[0]
+                      ? AppColor.primary500
+                      : AppColor.borderColor,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(100.0),
+                )),
+            child: SizedBox(
+              height: 54,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    values[0].toString(),
+                    style: textTheme(context).bodyLarge!.copyWith(
+                        color: AppColor.secondaryContentGray,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
       case 2:
         return Row(
           children: [
@@ -789,5 +804,40 @@ class _AddPetPageState extends State<AddPetPage> {
       default:
         return const SizedBox.shrink();
     }
+  }
+
+  _showDatePicker() {
+    Get.bottomSheet(Container(
+      color: Colors.white,
+      height: Get.height / 2.5,
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  stringRes(context)!.doneLabel,
+                  style: textTheme(context)!
+                      .labelLarge
+                      ?.copyWith(color: AppColor.primary500),
+                )),
+          ),
+          Expanded(
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              initialDateTime: _controller.selectedDate ?? DateTime.now(),
+              maximumDate: DateTime.now(),
+              onDateTimeChanged: (DateTime newDateTime) {
+                _controller.onDobSelected(newDateTime);
+              },
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 }

@@ -301,7 +301,6 @@ class _PetListPageState extends State<PetListPage> {
   navigateToAddPet() async {
     var result = await Get.toNamed(Routes.addPet);
     if (result != null) {
-      _controller.onAddPet(result);
       _controller.getMyPet();
     }
   }

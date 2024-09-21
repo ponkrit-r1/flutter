@@ -282,7 +282,7 @@ class PetProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           SizedBox(
-            width: 120,
+            width: 124,
             child: upcomingTitle(context),
           ),
           const SizedBox(height: 40),

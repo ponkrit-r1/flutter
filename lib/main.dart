@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 
 import 'core/data/app_storage.dart';
 import 'core/theme/app_theme.dart';
+import 'modules/routing/routing_controller.dart';
 import 'routes/app_routes.dart';
 
 void main() async {
@@ -25,17 +26,6 @@ void main() async {
   );
   Get.put(appStorage, permanent: true);
   Get.put(apiClient, permanent: true);
-  Get.put(
-    PetListController(
-      PetRepository(
-        PetAPI(
-          Get.find(),
-          Get.find(),
-        ),
-      ),
-    ),
-  );
-  //var initialRoute = await Get.find<RoutingController>().getInitialRoute();
   runApp(const MyApp(initialRoute: Routes.routing));
 }
 

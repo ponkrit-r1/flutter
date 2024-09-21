@@ -214,7 +214,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   _submit() async {
     try {
       var response = await _controller.verifyOtp();
-      Get.toNamed(Routes.createAccountSuccess);
+      if (response != null) {
+        await _controller.login();
+        Get.toNamed(Routes.createAccountSuccess);
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

@@ -3,10 +3,10 @@ import 'dart:typed_data';
 import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/domain/auth/animal_breed.dart';
 import 'package:deemmi/core/domain/pet/pet_model.dart';
-import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/domain/auth/animal_type.dart';
 
@@ -29,11 +29,23 @@ class AddPetController extends GetxController {
 
   bool? get isConfirmPasswordMatched => _isConfirmPasswordMatched.value;
 
-  final Rxn<Uint8List> _selectedImage = Rxn();
+  XFile? _selectedImage;
 
-  Uint8List? get selectedImage => _selectedImage.value;
+  final Rxn<Uint8List> _displaySelectedImage = Rxn();
+
+  Uint8List? get displaySelectedImage => _displaySelectedImage.value;
 
   final PetRepository petRepository;
+
+  final Rxn<DateTime> _selectedDate = Rxn();
+
+  DateTime? get selectedDate => _selectedDate.value;
+
+  String? get displayDate => _selectedDate.value != null
+      ? DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY).format(_selectedDate.value!)
+      : null;
+
+  DateTime? preSelectedDate;
 
   AddPetController(this.petRepository);
 
@@ -77,7 +89,9 @@ class AddPetController extends GetxController {
 
   int? _selectedMonthIdx;
 
-  String? get displayPetAge => null;
+  String? get displayPetAge => selectedDate != null
+      ? ((DateTime.now().difference(selectedDate!).inDays) ~/ (30)).toString()
+      : null;
 
   final RxnString _selectedGender = RxnString();
 
@@ -85,31 +99,11 @@ class AddPetController extends GetxController {
 
   final RxList<AnimalType> _animalTypes = RxList.empty();
 
-  // List<AnimalType> get animalTypes => _animalTypes;
-  List<AnimalType> get animalTypes =>
-      [AnimalType(id: 1, name: "Dog"), AnimalType(id: 2, name: "Cat"), AnimalType(id: 3, name: "Rabbit")];
+  List<AnimalType> get animalTypes => _animalTypes;
 
   final RxList<AnimalBreed> _animalBreed = RxList.empty();
 
-  //List<AnimalBreed> get animalBreed => _animalBreed;
-
-  List<AnimalBreed> get animalBreed => [
-        AnimalBreed(id: 1, name: 'Labrador Retriever'),
-        AnimalBreed(id: 2, name: 'German Shepherd'),
-        AnimalBreed(id: 3, name: 'Golden Retriever'),
-        AnimalBreed(id: 4, name: 'Bulldog'),
-        AnimalBreed(id: 5, name: 'Poodle'),
-        AnimalBreed(id: 6, name: 'Beagle'),
-        AnimalBreed(id: 7, name: 'Rottweiler'),
-        AnimalBreed(id: 8, name: 'Yorkshire Terrier'),
-        AnimalBreed(id: 9, name: 'Boxer'),
-        AnimalBreed(id: 10, name: 'Dachshund'),
-        AnimalBreed(id: 11, name: 'Siberian Husky'),
-        AnimalBreed(id: 12, name: 'Great Dane'),
-        AnimalBreed(id: 13, name: 'Doberman Pinscher'),
-        AnimalBreed(id: 14, name: 'Australian Shepherd'),
-        AnimalBreed(id: 15, name: 'Shih Tzu'),
-      ];
+  List<AnimalBreed> get animalBreed => _animalBreed;
 
   @override
   void onReady() {
@@ -128,7 +122,8 @@ class AddPetController extends GetxController {
   }
 
   setSelectedImage(XFile file) async {
-    _selectedImage.value = await file.readAsBytes();
+    _selectedImage = file;
+    _displaySelectedImage.value = await file.readAsBytes();
     checkInformation();
   }
 
@@ -150,24 +145,19 @@ class AddPetController extends GetxController {
     checkInformation();
   }
 
-  String? getDisplayAge(String month, String year) {
-    if (month.isNotEmpty && year.isNotEmpty) {
-      return ((DateTime(int.parse(year), 1, 1)
-                  .difference(DateTime.now())
-                  .inDays) ~/
-              30)
-          .abs()
-          .toString();
-    } else {
-      return null;
-    }
-  }
-
   setSelectedYear(String? year) {
     if (year != null) {
       _selectedYear.value = year;
     }
     checkInformation();
+  }
+
+  onDatePreSelected(DateTime dateTime) {
+    preSelectedDate = dateTime;
+  }
+
+  onDobSelected(DateTime dateTime) {
+    _selectedDate.value = dateTime;
   }
 
   setSelectedMonth(String? month) {
@@ -187,6 +177,7 @@ class AddPetController extends GetxController {
     int idx,
   ) {
     _selectedPetType.value = type;
+    onPetTypeSelect();
   }
 
   setCareSystem(
@@ -203,32 +194,36 @@ class AddPetController extends GetxController {
     _selectedGender.value = gender;
   }
 
-  onAddPet() {
+  onAddPet() async {
     var petModel = PetModel(
       owner: "",
       name: petNameController.text,
       animalType: selectedPetType!.id,
       breed: selectedBreed!.name,
       microchipNumber: microChipController.text,
-      dob: null,
+      dob: selectedDate,
       weight: double.tryParse(weightForm.text) ?? 0.0,
-      careSystem: 'Outdoor',
+      careSystem: selectedCareSystem ?? '',
       characteristics: characteristicController.text,
       birthMonth: 0,
       birthYear: 0,
     );
-    petModel.imageData = selectedImage;
+    petModel.imageData = displaySelectedImage;
 
-    Get.back(result: petModel);
-    var pet = petRepository.addPet(petModel);
+    var response = await petRepository.addPet(petModel);
+    if(_selectedImage != null) {
+      var petWithImage = await petRepository.uploadPetImage(response.id!, _selectedImage!);
+    }
+    Get.back(result: response);
   }
 
   checkInformation() {
     _isInformationCompleted.value = petNameController.text.isNotEmpty &&
         selectedPetType != null &&
         selectedBreed != null &&
-    selectGender != null &&
-    _selectedYear.isNotEmpty && _selectedMonth.isNotEmpty;
+        selectGender != null &&
+        _selectedYear.isNotEmpty &&
+        _selectedMonth.isNotEmpty;
   }
 
   @override

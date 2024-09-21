@@ -74,6 +74,7 @@ class CreateAccountController extends GetxController {
   Future<User?> createAccount() async {
     if (termData == null) return null;
     try {
+      _isLoading.value = true;
       return await authenticationAPI.register(
         CreateAccountModel(
           username: userNameController.text,
@@ -90,6 +91,8 @@ class CreateAccountController extends GetxController {
         e.toString(),
       );
       return null;
+    } finally {
+      _isLoading.value = true;
     }
   }
 

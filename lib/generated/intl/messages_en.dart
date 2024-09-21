@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dateOfBirthLabel":
             MessageLookupByLibrary.simpleMessage("Date of birth"),
         "dogLabel": MessageLookupByLibrary.simpleMessage("Dog"),
+        "doneLabel": MessageLookupByLibrary.simpleMessage("Done"),
         "dontKnowLabel": MessageLookupByLibrary.simpleMessage("Don\'t know"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
         "femaleLabel": MessageLookupByLibrary.simpleMessage("Female"),
@@ -102,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "resendOtpLabel": MessageLookupByLibrary.simpleMessage("Resend OTP"),
         "scrollToBottomLabel":
             MessageLookupByLibrary.simpleMessage("Scroll down to agree"),
+        "selectDateOfBirthLabel":
+            MessageLookupByLibrary.simpleMessage("Select date of birth"),
         "selectLabel": MessageLookupByLibrary.simpleMessage("Select"),
         "selectMonthLabel":
             MessageLookupByLibrary.simpleMessage("Select month"),

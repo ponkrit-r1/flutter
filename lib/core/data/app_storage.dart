@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:deemmi/core/domain/user_session.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../domain/auth/user_model.dart';
 
 const _latestAcceptedAppTermAndConditionVersion =
@@ -51,7 +53,7 @@ class AppStorage {
 
   Future<String?> get refreshToken async {
     final currentSession = await getUserSession();
-    return currentSession;
+    return currentSession?.refreshToken;
   }
 
   Future<void> logout() async {
@@ -86,22 +88,27 @@ class AppStorage {
     }
   }
 
-  Future<void> setUserSession(String? userSession) async {
+  Future<void> setUserSession(UserSession? userSession) async {
     if (userSession != null) {
       _storage.write(
         key: _userSessionKey,
-        value: userSession,
+        value: userSession.serialize,
       );
     } else {
       _storage.delete(key: _userSessionKey);
     }
   }
 
-  Future<String?> getUserSession() async {
+  Future<UserSession?> getUserSession() async {
     final userSessionData = await _storage.read(key: _userSessionKey);
-    if (userSessionData != null) {
-      return userSessionData;
-    } else {
+    try {
+      if (userSessionData != null) {
+        return UserSession.deserialize(userSessionData);
+      } else {
+        return null;
+      }
+    } catch(_) {
+      _storage.delete(key: _userSessionKey);
       return null;
     }
   }

@@ -2,41 +2,32 @@ import 'dart:convert';
 
 class UserSession {
   final String accessToken;
-  final String? tokenType;
-  final int? expiresIn;
-  final String? refreshToken;
-  final DateTime? createdAt;
-
-  // bool get isExpired {
-  //   final expiredAt = createdAt.add(Duration(seconds: expiresIn));
-  //   return DateTime.now().isAfter(expiredAt);
-  // }
+  final DateTime? expiresAt;
+  final String refreshToken;
+  final String? lifeTime;
 
   UserSession({
     required this.accessToken,
-    required this.tokenType,
-    required this.expiresIn,
+    this.expiresAt,
     required this.refreshToken,
-    required this.createdAt,
+    this.lifeTime,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'key': accessToken,
-      'token_type': tokenType,
-      'expires_in': expiresIn,
-      'refresh_token': refreshToken,
-      'created_at': createdAt?.millisecondsSinceEpoch,
+      'access': accessToken,
+      'access_token_expiry': expiresAt?.toIso8601String(),
+      'refresh': refreshToken,
+      'access_token_lifetime': lifeTime,
     };
   }
 
   factory UserSession.fromMap(Map<String, dynamic> map) {
     return UserSession(
-      accessToken: map['key'] ?? '',
-      tokenType: map['token_type'] ?? '',
-      expiresIn: map['expires_in']?.toInt() ?? 0,
-      refreshToken: map['refresh_token'] ?? '',
-      createdAt: null,
+      accessToken: map['access'] ?? '',
+      expiresAt: DateTime.parse(map['access_token_expiry']),
+      refreshToken: map['refresh'] ?? '',
+      lifeTime: map['access_token_lifetime'],
     );
   }
 
@@ -45,12 +36,13 @@ class UserSession {
   factory UserSession.fromJson(Map<String, dynamic> source) =>
       UserSession.fromMap(source);
 
-  static String serialize(UserSession model) => json.encode(model.toMap());
+  String get serialize => json.encode(toMap());
+
   static UserSession deserialize(String source) =>
       UserSession.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'UserSession(accessToken: $accessToken, tokenType: $tokenType, expiresIn: $expiresIn, refreshToken: $refreshToken, createdAt: $createdAt)';
+    return 'UserSession(accessToken: $accessToken, expiresAt: $expiresAt, refreshToken: $refreshToken, lifetime: $lifeTime)';
   }
 }

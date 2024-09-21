@@ -15,12 +15,19 @@ import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:get/get.dart';
 
+import '../modules/pet/list/pet_list_binding.dart';
 import '../modules/root/root_page.dart';
 import 'app_routes.dart';
 
 abstract class AppPages {
   static final pages = [
-    GetPage(name: Routes.root, page: () => const RootPage(), bindings: []),
+    GetPage(
+      name: Routes.root,
+      page: () => const RootPage(),
+      bindings: [
+        PetListBinding(),
+      ],
+    ),
     GetPage(
       name: Routes.routing,
       page: () => const RoutingPage(),

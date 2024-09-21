@@ -131,10 +131,12 @@ class AuthenticationAPI {
     };
 
     var response = await apiClient.postHTTP(
-      '/spree_oauth/token',
+      '/login/',
       params,
     );
-    return UserSession.fromJson(response.data);
+    var userSession = UserSession.fromJson(response.data);
+    appStorage.setUserSession(userSession);
+    return userSession;
   }
 
   Future<dynamic> requestOtp(int userId, String email) async {
@@ -151,17 +153,17 @@ class AuthenticationAPI {
     return response.data;
   }
 
-  Future<void> verifyOtp(
+  Future<dynamic> verifyOtp(
     String email,
     String code,
   ) async {
     Map<String, dynamic> params = {
-      'type': 'otp',
-      'code': code,
+      'email': email,
+      'otp': code,
     };
 
     await apiClient.postHTTP(
-      "/verify",
+      "/verify/",
       params,
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class PetModel {
   final int? id;
@@ -65,7 +66,7 @@ class PetModel {
       'microchip_number': microchipNumber,
       'breed': breed,
       'gender': gender,
-      'dob': dob?.toIso8601String(),
+      'dob': dob != null ? DateFormat('yyyy-MM-dd').format(dob!) : null,
       'weight': weight,
       'care_system': careSystem,
       'characteristics': characteristics,

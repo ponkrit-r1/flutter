@@ -60,6 +60,7 @@
   "femaleLabel": "Female",
   "dontKnowLabel": "Don't know",
   "dateOfBirthLabel": "Date of birth",
+  "selectDateOfBirthLabel": "Select date of birth",
   "ageLabel": "Age",
   "monthsLabel": "months",
   "weightLabel": "Weight ",
@@ -71,6 +72,7 @@
   "maybeLaterLabel": "Maybe later",
   "selectMonthLabel": "Select month",
   "selectYearLabel": "Select year",
+  "doneLabel": "Done",
 
   "networkErrorMessage": "Network error",
   "unknownErrorMessage": "Unknown error"

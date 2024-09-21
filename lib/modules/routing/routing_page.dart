@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:deemmi/modules/routing/routing_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../routes/app_routes.dart';
 
 class RoutingPage extends StatefulWidget {
   const RoutingPage({super.key});
@@ -14,6 +13,8 @@ class RoutingPage extends StatefulWidget {
 }
 
 class _RoutingPageState extends State<RoutingPage> {
+  final RoutingController _controller = Get.find();
+
   @override
   void initState() {
     super.initState();
@@ -44,9 +45,9 @@ class _RoutingPageState extends State<RoutingPage> {
   }
 
   navigateToInitialDestination() {
-    Future.delayed(const Duration(seconds: 2), () {
-      //Get.toNamed(Routes.onboarding);
-      Get.toNamed(Routes.root);
+    Future.delayed(const Duration(seconds: 2), () async {
+      var initRoute = await _controller.getInitialRoute();
+      Get.toNamed(initRoute);
     });
   }
 }

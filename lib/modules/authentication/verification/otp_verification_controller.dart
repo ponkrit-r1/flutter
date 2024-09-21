@@ -55,7 +55,7 @@ class OtpVerificationController extends GetxController {
     otpController.addListener(() {
       _isOtpComplete.value = (otpController.text.length == 6);
     });
-    requestOtp();
+    scheduleTimeout();
   }
 
   @override
@@ -73,14 +73,13 @@ class OtpVerificationController extends GetxController {
       );
       scheduleTimeout();
       return response;
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
   Future<dynamic> login() async {
-    var response = await authenticationAPI.signIn(_username, _password);
-    storage.setUserSession(response.accessToken);
+    await authenticationAPI.signIn(userEmail, _password);
   }
 
   Future<void> requestOtp() async {

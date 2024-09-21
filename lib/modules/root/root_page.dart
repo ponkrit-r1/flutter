@@ -58,11 +58,11 @@ class _RootPageState extends State<RootPage> {
 
   _buildScreens() {
     return [
-      const SafeArea(child: Text('Home')),
+      const SafeArea(child: Center(child: Text('Home'))),
       const PetListPage(),
-      const SafeArea(child: Text('Explore')),
+      const SafeArea(child: Center(child: Text('Explore'))),
       const SafeArea(
-        child: Text('Community'),
+        child: Center(child: Text('Community')),
       ),
     ];
   }

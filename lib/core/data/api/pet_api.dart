@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../../domain/auth/animal_breed.dart';
 import '../../domain/auth/animal_type.dart';
 import '../../domain/pet/pet_model.dart';
@@ -36,9 +39,20 @@ class PetAPI {
   }
 
   Future<List<PetModel>> getMyPet() async {
-    var response = await apiClient.getHTTP('/mypet');
+    var response = await apiClient.getHTTP('/mypet/');
     return List<PetModel>.from(
       response.data.map((e) => PetModel.fromJson(e)),
     );
+  }
+
+  Future<PetModel> uploadPetImage(int petId, XFile file) async {
+    FormData formData = FormData.fromMap({
+      "image": await MultipartFile.fromFile(file.path, filename: file.name),
+    });
+    var response = await apiClient.patchHTTP(
+      '/mypet/upload_image/$petId/',
+      formData,
+    );
+    return PetModel.fromJson(response.data);
   }
 }

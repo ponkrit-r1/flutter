@@ -600,6 +600,16 @@ class S {
     );
   }
 
+  /// `Select date of birth`
+  String get selectDateOfBirthLabel {
+    return Intl.message(
+      'Select date of birth',
+      name: 'selectDateOfBirthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Age`
   String get ageLabel {
     return Intl.message(
@@ -705,6 +715,16 @@ class S {
     return Intl.message(
       'Select year',
       name: 'selectYearLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get doneLabel {
+    return Intl.message(
+      'Done',
+      name: 'doneLabel',
       desc: '',
       args: [],
     );

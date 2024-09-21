@@ -3,9 +3,7 @@ import 'package:deemmi/core/global_widgets/primary_style_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 import 'package:deemmi/routes/app_routes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../core/global_widgets/primary_button.dart';
@@ -165,14 +163,18 @@ class _SignInPageState extends State<SignInPage> {
           child: _controller.isLoading
               ? const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColor.secondary500),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColor.secondary500),
+                    ),
                   ),
                 )
               : PrimaryButton(
                   title: stringRes(context)!.loginLabel,
-                  onPressed: () {},
+                  onPressed: () {
+                    beginSignIn();
+                  },
                   color: AppColor.primary500,
                 ),
         ),
@@ -238,6 +240,15 @@ class _SignInPageState extends State<SignInPage> {
   onDisplaySnackBar(String message) {
     var snackBar = SnackBar(content: Text(message));
     _globalKey.currentState?.showSnackBar(snackBar);
+  }
+
+  beginSignIn() async {
+    await _controller.signIn();
+    navigateToHome();
+  }
+
+  navigateToHome() {
+    Get.offAllNamed(Routes.root);
   }
 
   navigateToCreateAccount() {
