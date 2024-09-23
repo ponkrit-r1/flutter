@@ -30,8 +30,8 @@ class PetProfilePage extends StatelessWidget {
               child: ClipOval(
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(16), // Image radius
-                  child: Image.memory(
-                    controller.petModel.imageData!,
+                  child: Image.network(
+                    controller.petModel.image!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -64,8 +64,8 @@ class PetProfilePage extends StatelessWidget {
                   child: Stack(
                     children: [
                       Positioned.fill(
-                        child: Image.memory(
-                          controller.petModel.imageData!,
+                        child: Image.network(
+                          controller.petModel.image ?? '',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -122,12 +122,12 @@ class PetProfilePage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 4),
-          Text(
-            controller.petModel.breed ?? '',
-            style: textTheme(context)
-                .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
-          ),
+          // Text(
+          //   controller.petModel.breed ?? '',
+          //   style: textTheme(context)
+          //       .bodyMedium!
+          //       .copyWith(color: AppColor.secondaryContentGray),
+          // ),
           const SizedBox(height: 4),
           Text(
             '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
@@ -154,7 +154,7 @@ class PetProfilePage extends StatelessWidget {
                       Icons.cake_rounded,
                       color: AppColor.secondaryContentGray,
                     ),
-                    'Age 3 Months',
+                    "${stringRes(context)!.ageLabel} ${controller.petModel.getAgeInMonth().toString()} ${stringRes(context)!.monthsLabel}",
                     context,
                   ),
                 ),
@@ -168,7 +168,7 @@ class PetProfilePage extends StatelessWidget {
                       Icons.monitor_weight_rounded,
                       color: AppColor.secondaryContentGray,
                     ),
-                    'Weight 5 Kg',
+                    '${stringRes(context)!.ageLabel} ${controller.petModel.weight ?? '-'} Kg',
                     context,
                   ),
                 ),

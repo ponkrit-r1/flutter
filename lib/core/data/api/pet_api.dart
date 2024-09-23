@@ -13,9 +13,24 @@ class PetAPI {
 
   PetAPI(this.apiClient, this.appStorage);
 
-  Future<PetModel> addPet(PetModel petModel) async {
-    var response = await apiClient.postHTTP('/mypet', petModel.toJson());
+  Future<PetModel> addPet(
+    PetModel petModel,
+    XFile? file,
+  ) async {
+    var requestModel = petModel.toRequestJson();
+    if (file != null) {
+      var imageData = await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      );
+      requestModel['image'] = imageData;
+    }
+    final body = FormData.fromMap(requestModel);
 
+    var response = await apiClient.postHTTP(
+      '/mypet/',
+      body,
+    );
     var petResponse = PetModel.fromJson(response.data);
 
     return petResponse;

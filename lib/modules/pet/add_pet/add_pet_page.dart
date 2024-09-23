@@ -33,7 +33,12 @@ class _AddPetPageState extends State<AddPetPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(stringRes(context)!.addPetInfoLabel),
+          title: Text(
+            stringRes(context)!.addPetInfoLabel,
+            style: textTheme(context).headlineSmall!.copyWith(
+                  color: AppColor.textColor,
+                ),
+          ),
         ),
         body: SafeArea(
           child: Container(

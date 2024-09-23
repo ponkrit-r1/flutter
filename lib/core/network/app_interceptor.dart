@@ -83,7 +83,7 @@ class AppInterceptor extends Interceptor {
 
     final response = await dio.post(
       '/login/refresh/',
-      queryParameters: params,
+      data: params,
     );
     final userSession = UserSession.fromJson(response.data);
 

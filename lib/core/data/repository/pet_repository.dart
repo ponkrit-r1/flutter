@@ -9,8 +9,8 @@ class PetRepository {
 
   PetRepository(this.petAPI);
 
-  Future<PetModel> addPet(PetModel model) async {
-    return await petAPI.addPet(model);
+  Future<PetModel> addPet(PetModel model, XFile? file) async {
+    return await petAPI.addPet(model, file);
   }
 
   Future<List<AnimalType>> getAnimalType() async {

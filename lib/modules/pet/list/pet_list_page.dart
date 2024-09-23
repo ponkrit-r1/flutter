@@ -160,10 +160,12 @@ class _PetListPageState extends State<PetListPage> {
                   ),
                   child: Stack(children: [
                     Positioned.fill(
-                      child: Image.memory(
-                        petModel.imageData!,
-                        fit: BoxFit.cover,
-                      ),
+                      child: petModel.image != null
+                          ? Image.network(
+                              petModel.image!,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset('assets/images/empty_pet_info.webp'),
                     ),
                     Positioned(
                       right: 0.0,
@@ -202,7 +204,7 @@ class _PetListPageState extends State<PetListPage> {
                           .copyWith(color: AppColor.secondaryContentGray),
                     ),
                     Text(
-                      "${petModel.weight.toString()} kg",
+                      "${petModel.weight?.toString() ?? '-'} kg",
                       style: textTheme(context)
                           .bodyMedium!
                           .copyWith(color: AppColor.secondaryContentGray),

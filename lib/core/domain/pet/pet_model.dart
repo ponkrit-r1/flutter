@@ -3,15 +3,15 @@ import 'package:intl/intl.dart';
 
 class PetModel {
   final int? id;
-  final String owner;
+  final String? owner;
   final String name;
   final String? image;
   final int animalType;
-  final String microchipNumber;
-  final String? breed;
+  final String? microchipNumber;
+  final int? breed;
   final String? gender;
   final DateTime? dob;
-  final num weight;
+  final num? weight;
   final String careSystem;
   final String characteristics;
   final int birthMonth;
@@ -20,20 +20,26 @@ class PetModel {
 
   PetModel({
     this.id,
-    required this.owner,
+    this.owner,
     required this.name,
     this.image,
     required this.animalType,
     required this.microchipNumber,
     this.breed,
     this.gender,
-    required this.dob,
+    this.dob,
     required this.weight,
     required this.careSystem,
     required this.characteristics,
     required this.birthMonth,
     required this.birthYear,
   });
+
+  getAgeInMonth() {
+    var now = DateTime.now();
+    var birthDate = DateTime(birthYear, birthMonth, 1);
+    return (now.difference(birthDate).inDays ~/ 30);
+  }
 
   // Factory method to create an instance of PetModel from a JSON object
   factory PetModel.fromJson(Map<String, dynamic> json) {
@@ -46,7 +52,7 @@ class PetModel {
       microchipNumber: json['microchip_number'],
       breed: json['breed'],
       gender: json['gender'],
-      dob: DateTime.parse(json['dob']),
+      //dob: DateTime.parse(json['dob']),
       weight: json['weight'],
       careSystem: json['care_system'],
       characteristics: json['characteristics'],
@@ -68,6 +74,22 @@ class PetModel {
       'gender': gender,
       'dob': dob != null ? DateFormat('yyyy-MM-dd').format(dob!) : null,
       'weight': weight,
+      'care_system': careSystem,
+      'characteristics': characteristics,
+      'birth_month': birthMonth,
+      'birth_year': birthYear,
+    };
+  }
+
+  Map<String, dynamic> toRequestJson() {
+    return {
+      'name': name,
+      'animal_type': animalType,
+      //'microchip_number': microchipNumber,
+      //'breed': breed,
+      //'gender': gender,
+      //'dob': dob != null ? DateFormat('yyyy-MM-dd').format(dob!) : null,
+      // 'weight': weight,
       'care_system': careSystem,
       'characteristics': characteristics,
       'birth_month': birthMonth,

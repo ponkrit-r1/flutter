@@ -145,19 +145,13 @@ class AddPetController extends GetxController {
     checkInformation();
   }
 
-  setSelectedYear(String? year) {
-    if (year != null) {
-      _selectedYear.value = year;
-    }
-    checkInformation();
-  }
-
   onDatePreSelected(DateTime dateTime) {
     preSelectedDate = dateTime;
   }
 
   onDobSelected(DateTime dateTime) {
     _selectedDate.value = dateTime;
+    checkInformation();
   }
 
   setSelectedMonth(String? month) {
@@ -195,26 +189,29 @@ class AddPetController extends GetxController {
   }
 
   onAddPet() async {
-    var petModel = PetModel(
-      owner: "",
-      name: petNameController.text,
-      animalType: selectedPetType!.id,
-      breed: selectedBreed!.name,
-      microchipNumber: microChipController.text,
-      dob: selectedDate,
-      weight: double.tryParse(weightForm.text) ?? 0.0,
-      careSystem: selectedCareSystem ?? '',
-      characteristics: characteristicController.text,
-      birthMonth: 0,
-      birthYear: 0,
-    );
-    petModel.imageData = displaySelectedImage;
+    try {
+      _isLoading.value = true;
+      var petModel = PetModel(
+        name: petNameController.text,
+        animalType: selectedPetType!.id,
+        breed: selectedBreed?.id,
+        microchipNumber: microChipController.text,
+        dob: selectedDate,
+        weight: double.tryParse(weightForm.text) ?? 0.0,
+        careSystem: selectedCareSystem ?? '',
+        characteristics: characteristicController.text,
+        birthMonth: selectedDate!.month,
+        birthYear: selectedDate!.year,
+      );
+      petModel.imageData = displaySelectedImage;
 
-    var response = await petRepository.addPet(petModel);
-    if(_selectedImage != null) {
-      var petWithImage = await petRepository.uploadPetImage(response.id!, _selectedImage!);
+      var response = await petRepository.addPet(petModel, _selectedImage);
+      Get.back(result: response);
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      _isLoading.value = false;
     }
-    Get.back(result: response);
   }
 
   checkInformation() {
@@ -222,8 +219,7 @@ class AddPetController extends GetxController {
         selectedPetType != null &&
         selectedBreed != null &&
         selectGender != null &&
-        _selectedYear.isNotEmpty &&
-        _selectedMonth.isNotEmpty;
+        selectedDate != null;
   }
 
   @override
