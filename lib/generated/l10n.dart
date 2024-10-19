@@ -800,6 +800,96 @@ class S {
     );
   }
 
+  /// `Add pet health`
+  String get addPetHealthLabel {
+    return Intl.message(
+      'Add pet health',
+      name: 'addPetHealthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit pet health`
+  String get editPetHealthLabel {
+    return Intl.message(
+      'Edit pet health',
+      name: 'editPetHealthLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sterilization`
+  String get sterilizationLabel {
+    return Intl.message(
+      'Sterilization',
+      name: 'sterilizationLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yesLabel {
+    return Intl.message(
+      'Yes',
+      name: 'yesLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get noLabel {
+    return Intl.message(
+      'No',
+      name: 'noLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chronic disease`
+  String get chronicDiseaseLabel {
+    return Intl.message(
+      'Chronic disease',
+      name: 'chronicDiseaseLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Food allergy`
+  String get foodAllergyLabel {
+    return Intl.message(
+      'Food allergy',
+      name: 'foodAllergyLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vaccine Allergy`
+  String get vaccineAllergyLabel {
+    return Intl.message(
+      'Vaccine Allergy',
+      name: 'vaccineAllergyLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drug allergy`
+  String get drugAllergyLabel {
+    return Intl.message(
+      'Drug allergy',
+      name: 'drugAllergyLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get homeLabel {
     return Intl.message(

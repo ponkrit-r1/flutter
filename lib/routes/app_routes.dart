@@ -4,6 +4,7 @@ abstract class Routes {
   static const createAccount = '/create_account';
   static const otpVerification = '/otp_verification';
   static const addPet = '/add_pet';
+  static const healthInfo = '/health_info';
   static const webView = '/web_view';
   static const routing = '/routing';
   static const root = '/root';

@@ -82,6 +82,17 @@
   "saveLabel": "Save",
   "comingSoonLabel": "Coming Soon",
 
+  "@_ADD_PET_HEALTH": {},
+  "addPetHealthLabel": "Add pet health",
+  "editPetHealthLabel": "Edit pet health",
+  "sterilizationLabel": "Sterilization",
+  "yesLabel": "Yes",
+  "noLabel": "No",
+  "chronicDiseaseLabel": "Chronic disease",
+  "foodAllergyLabel": "Food allergy",
+  "vaccineAllergyLabel": "Vaccine Allergy",
+  "drugAllergyLabel": "Drug allergy",
+
   "@_ROOT": {},
   "homeLabel": "Home",
   "myPetLabel": "My pet",

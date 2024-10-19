@@ -9,6 +9,8 @@ import 'package:deemmi/modules/on_boarding/on_boarding_binding.dart';
 import 'package:deemmi/modules/on_boarding/on_boarding_page.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_binding.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_page.dart';
+import 'package:deemmi/modules/pet/health_info/pet_health_info_binding.dart';
+import 'package:deemmi/modules/pet/health_info/pet_health_info_page.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_binding.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_page.dart';
 import 'package:deemmi/modules/routing/restriction/no_connection_page.dart';
@@ -68,6 +70,14 @@ abstract class AppPages {
       page: () => PetProfilePage(),
       binding: PetProfileBinding(),
     ),
-    GetPage(name: Routes.noConnection, page: ()=> NoConnectionPage())
+    GetPage(
+      name: Routes.noConnection,
+      page: () => NoConnectionPage(),
+    ),
+    GetPage(
+      name: Routes.healthInfo,
+      page: () => const PetHealthInfoPage(),
+      binding: PetHealthInfoBinding(),
+    )
   ];
 }

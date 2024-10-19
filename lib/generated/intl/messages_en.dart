@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "acceptLabel": MessageLookupByLibrary.simpleMessage("Accept"),
+        "addPetHealthLabel":
+            MessageLookupByLibrary.simpleMessage("Add pet health"),
         "addPetInfoLabel": MessageLookupByLibrary.simpleMessage("Add pet info"),
         "addYourPetPhoto":
             MessageLookupByLibrary.simpleMessage("Add your pet photo"),
@@ -33,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "browseLabel": MessageLookupByLibrary.simpleMessage("browse"),
         "cancelLabel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "catLabel": MessageLookupByLibrary.simpleMessage("Cat"),
+        "chronicDiseaseLabel":
+            MessageLookupByLibrary.simpleMessage("Chronic disease"),
         "comingSoonLabel": MessageLookupByLibrary.simpleMessage("Coming Soon"),
         "communityLabel": MessageLookupByLibrary.simpleMessage("Community"),
         "confirmLabel": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -50,11 +54,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "dogLabel": MessageLookupByLibrary.simpleMessage("Dog"),
         "doneLabel": MessageLookupByLibrary.simpleMessage("Done"),
         "dontKnowLabel": MessageLookupByLibrary.simpleMessage("Don\'t know"),
+        "drugAllergyLabel":
+            MessageLookupByLibrary.simpleMessage("Drug allergy"),
+        "editPetHealthLabel":
+            MessageLookupByLibrary.simpleMessage("Edit pet health"),
         "editPetLabel": MessageLookupByLibrary.simpleMessage("Edit pet"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
         "exploreLabel": MessageLookupByLibrary.simpleMessage("Explore"),
         "femaleLabel": MessageLookupByLibrary.simpleMessage("Female"),
         "firstNameLabel": MessageLookupByLibrary.simpleMessage("First name"),
+        "foodAllergyLabel":
+            MessageLookupByLibrary.simpleMessage("Food allergy"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password?"),
         "genderLabel": MessageLookupByLibrary.simpleMessage("Gender"),
@@ -81,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "networkErrorMessage":
             MessageLookupByLibrary.simpleMessage("Network error"),
         "nextLabel": MessageLookupByLibrary.simpleMessage("Next"),
+        "noLabel": MessageLookupByLibrary.simpleMessage("No"),
         "onboarding1Subtitle": MessageLookupByLibrary.simpleMessage(
             "Reminders and tracking for your pet\'s health."),
         "onboarding1Title":
@@ -124,6 +135,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "skipLabel": MessageLookupByLibrary.simpleMessage("Skip"),
         "specialCharacteristicsLabel":
             MessageLookupByLibrary.simpleMessage("Special characteristics "),
+        "sterilizationLabel":
+            MessageLookupByLibrary.simpleMessage("Sterilization"),
         "termAndCondition":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "unknownErrorMessage":
@@ -131,7 +144,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNameLabel": MessageLookupByLibrary.simpleMessage("Username"),
         "userVerificationLabel":
             MessageLookupByLibrary.simpleMessage("User verification"),
+        "vaccineAllergyLabel":
+            MessageLookupByLibrary.simpleMessage("Vaccine Allergy"),
         "weightLabel": MessageLookupByLibrary.simpleMessage("Weight "),
-        "welcomeLabel": MessageLookupByLibrary.simpleMessage("Welcome!")
+        "welcomeLabel": MessageLookupByLibrary.simpleMessage("Welcome!"),
+        "yesLabel": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }
