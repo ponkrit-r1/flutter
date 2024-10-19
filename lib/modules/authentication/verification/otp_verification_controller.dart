@@ -11,14 +11,14 @@ class OtpVerificationController extends GetxController {
   final int _userId;
   final String _password;
   final String _username;
-  static const otpLimit = 10;
+  static const otpLimit = 60;
 
   OtpVerificationController(
     this.registeredEmail,
     this._userId,
     this.authenticationAPI,
-    this._password,
     this._username,
+    this._password,
     this.storage,
   );
 
@@ -65,17 +65,17 @@ class OtpVerificationController extends GetxController {
     super.onClose();
   }
 
+  clearOtp() {
+    otpController.clear();
+  }
+
   Future<dynamic> verifyOtp() async {
-    try {
-      var response = await authenticationAPI.verifyOtp(
-        _userEmail.value,
-        otpController.text,
-      );
-      scheduleTimeout();
-      return response;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    var response = await authenticationAPI.verifyOtp(
+      _userEmail.value,
+      otpController.text,
+    );
+    scheduleTimeout();
+    return response;
   }
 
   Future<dynamic> login() async {

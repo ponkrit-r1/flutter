@@ -4,6 +4,7 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 import 'package:deemmi/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../core/global_widgets/primary_button.dart';
@@ -21,6 +22,8 @@ class _SignInPageState extends State<SignInPage> {
 
   final _globalKey = GlobalKey<ScaffoldMessengerState>();
 
+  DateTime? currentBackPressTime;
+
   @override
   void initState() {
     super.initState();
@@ -33,44 +36,47 @@ class _SignInPageState extends State<SignInPage> {
       key: _globalKey,
       child: Scaffold(
         backgroundColor: AppColor.secondaryBgColor,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${stringRes(context)!.helloLabel},",
-                    style: textTheme(context).displayLarge?.copyWith(
-                        color: AppColor.textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 36),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    stringRes(context)!.welcomeLabel,
-                    style: textTheme(context).headlineLarge?.copyWith(
-                          color: AppColor.primary500,
+        body: WillPopScope(
+          onWillPop: onWillPopToastConfirmExit,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${stringRes(context)!.helloLabel},",
+                      style: textTheme(context).displayLarge?.copyWith(
+                          color: AppColor.textColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 36,
-                        ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    stringRes(context)!.signInDescription,
-                    style: textTheme(context).bodyLarge?.copyWith(
-                          color: AppColor.secondaryContentGray,
-                        ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  ..._emailPasswordAuthentication(context),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                ],
+                          fontSize: 36),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      stringRes(context)!.welcomeLabel,
+                      style: textTheme(context).headlineLarge?.copyWith(
+                            color: AppColor.primary500,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 36,
+                          ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      stringRes(context)!.signInDescription,
+                      style: textTheme(context).bodyLarge?.copyWith(
+                            color: AppColor.secondaryContentGray,
+                          ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    ..._emailPasswordAuthentication(context),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -172,9 +178,11 @@ class _SignInPageState extends State<SignInPage> {
                 )
               : PrimaryButton(
                   title: stringRes(context)!.loginLabel,
-                  onPressed: () {
-                    beginSignIn();
-                  },
+                  onPressed: _controller.isInformationCompleted
+                      ? () {
+                          beginSignIn();
+                        }
+                      : null,
                   color: AppColor.primary500,
                 ),
         ),
@@ -243,8 +251,12 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   beginSignIn() async {
-    await _controller.signIn();
-    navigateToHome();
+    try {
+      await _controller.signIn();
+      navigateToHome();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   navigateToHome() {
@@ -256,4 +268,17 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   navigateToPolicyWebview() {}
+
+  Future<bool> onWillPopToastConfirmExit() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(
+        msg: stringRes(context)!.pressAgainToExitTheApp,
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
 }

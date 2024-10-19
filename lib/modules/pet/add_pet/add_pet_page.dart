@@ -22,8 +22,6 @@ class _AddPetPageState extends State<AddPetPage> {
 
   final _controller = Get.find<AddPetController>();
 
-  static final dropDownChoice = ['item1', 'item2', 'item3', 'item4', 'item5'];
-
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -34,7 +32,9 @@ class _AddPetPageState extends State<AddPetPage> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: Text(
-            stringRes(context)!.addPetInfoLabel,
+            _controller.editingPet != null
+                ? stringRes(context)!.editPetLabel
+                : stringRes(context)!.addPetInfoLabel,
             style: textTheme(context).headlineSmall!.copyWith(
                   color: AppColor.textColor,
                 ),
@@ -405,16 +405,20 @@ class _AddPetPageState extends State<AddPetPage> {
                         child: _controller.isLoading
                             ? const Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppColor.secondary500),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColor.secondary500),
+                                  ),
                                 ),
                               )
                             : PrimaryButton(
-                                title: stringRes(context)!.nextLabel,
+                                title: _controller.editingPet != null
+                                    ? stringRes(context)!.saveLabel
+                                    : stringRes(context)!.nextLabel,
                                 onPressed: _controller.isInformationCompleted
                                     ? () {
-                                        _controller.onAddPet();
+                                        _controller.onNextActionClick();
                                       }
                                     : null,
                                 color: AppColor.primary500,

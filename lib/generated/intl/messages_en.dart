@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "browseLabel": MessageLookupByLibrary.simpleMessage("browse"),
         "cancelLabel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "catLabel": MessageLookupByLibrary.simpleMessage("Cat"),
+        "comingSoonLabel": MessageLookupByLibrary.simpleMessage("Coming Soon"),
+        "communityLabel": MessageLookupByLibrary.simpleMessage("Community"),
         "confirmLabel": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmPasswordLabel":
             MessageLookupByLibrary.simpleMessage("Confirm password"),
@@ -41,13 +43,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccountWith":
             MessageLookupByLibrary.simpleMessage("Create account with"),
         "createAccountWithEmail":
-            MessageLookupByLibrary.simpleMessage("Create account with E-mail"),
+            MessageLookupByLibrary.simpleMessage("Create account with Email"),
         "dateOfBirthLabel":
             MessageLookupByLibrary.simpleMessage("Date of birth"),
+        "deleteLabel": MessageLookupByLibrary.simpleMessage("Delete"),
         "dogLabel": MessageLookupByLibrary.simpleMessage("Dog"),
         "doneLabel": MessageLookupByLibrary.simpleMessage("Done"),
         "dontKnowLabel": MessageLookupByLibrary.simpleMessage("Don\'t know"),
+        "editPetLabel": MessageLookupByLibrary.simpleMessage("Edit pet"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
+        "exploreLabel": MessageLookupByLibrary.simpleMessage("Explore"),
         "femaleLabel": MessageLookupByLibrary.simpleMessage("Female"),
         "firstNameLabel": MessageLookupByLibrary.simpleMessage("First name"),
         "forgotPassword":
@@ -55,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "genderLabel": MessageLookupByLibrary.simpleMessage("Gender"),
         "getStartLabel": MessageLookupByLibrary.simpleMessage("Get started"),
         "helloLabel": MessageLookupByLibrary.simpleMessage("Hello"),
+        "homeLabel": MessageLookupByLibrary.simpleMessage("Home"),
         "iAgreeLabel": MessageLookupByLibrary.simpleMessage("I Agree"),
         "indoorLabel": MessageLookupByLibrary.simpleMessage("Indoor"),
         "invalidEmailLabel":
@@ -71,6 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "microchipIdLabel":
             MessageLookupByLibrary.simpleMessage("Microchip ID "),
         "monthsLabel": MessageLookupByLibrary.simpleMessage("months"),
+        "myPetLabel": MessageLookupByLibrary.simpleMessage("My pet"),
         "networkErrorMessage":
             MessageLookupByLibrary.simpleMessage("Network error"),
         "nextLabel": MessageLookupByLibrary.simpleMessage("Next"),
@@ -100,7 +107,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mollis vulputate est, id lacinia ligula sodales vitae. Sed eget nibh libero. Vivamus porttitor non lorem eu iaculis. Maecenas ultricies vel dui et aliquet. Curabitur molestie ante arcu, in facilisis mauris rutrum eget. Nam neque odio, tincidunt sed dapibus at, faucibus quis ante. Nullam luctus scelerisque ex quis sollicitudin. Ut mattis tristique nibh, et porttitor ipsum eleifend eget. In ac est rutrum, molestie mi nec, convallis lectus. Etiam molestie felis vel leo lobortis, nec tempus nibh imperdiet. Integer et euismod purus, ut posuere nibh. Ut neque dui, iaculis id semper at, consequat vitae sem. Aliquam rutrum ac erat in congue.\n\nAliquam a maximus augue. Maecenas mattis efficitur sem, nec elementum quam scelerisque mollis. Quisque eu volutpat dui. Etiam facilisis sem at ex convallis, ac finibus ante rutrum. Curabitur ultricies tellus dictum nulla tempor, quis vestibulum nibh dignissim. Vestibulum semper semper mi, eleifend auctor urna mollis at. Aliquam at dolor arcu. Maecenas eleifend nulla eu nunc cursus scelerisque. Sed commodo rhoncus congue. Pellentesque tempus ultricies turpis, at placerat nibh venenatis eget. Sed viverra euismod magna quis volutpat. Praesent bibendum dui purus, sit amet gravida eros finibus eu. Cras lobortis luctus ipsum.\n\nPhasellus mollis blandit nunc eget laoreet. Proin facilisis quam vitae leo aliquet sagittis. Nam at mollis lorem. Sed ac ligula iaculis, hendrerit risus quis, pellentesque mauris. Mauris viverra accumsan eleifend. Phasellus ac faucibus nulla, ut fermentum tortor. Vivamus sed neque non felis tempor venenatis. Nulla facilisi. Duis sed commodo mauris. Suspendisse finibus, lacus et dictum tristique, nisi mauris venenatis nulla, sed varius libero massa vitae mauris. Cras nec tellus sit amet lorem porttitor eleifend ac eu leo. In lacinia, ex sed ullamcorper iaculis, risus diam dapibus dui, et semper justo quam eget erat.\n\nPhasellus feugiat, urna id aliquam malesuada, est lorem vehicula nisi, a semper felis felis et justo. Donec vitae mauris nisl. Suspendisse gravida varius lacus, a congue leo efficitur non. Proin vel quam mi. Nam finibus felis odio, quis pulvinar ex ornare eu. Aliquam pellentesque nec leo id tincidunt. Vivamus at blandit leo, porttitor cursus ligula. Curabitur vel augue neque. Nulla fringilla consequat lacus ut porta. Aliquam ut libero vitae nunc dignissim fringilla. Aliquam erat volutpat. Vivamus maximus sodales nisl, ac facilisis lorem convallis vitae. Duis erat dolor, maximus sit amet blandit nec, tincidunt a quam.\n\nSed lacinia vel odio sit amet tristique. Aliquam ut nisl augue. Aliquam vel nibh sapien. Vivamus interdum nibh risus, non pellentesque justo aliquam quis. Duis bibendum lorem in nulla iaculis lacinia. Quisque id ante id nisl consequat condimentum. Cras accumsan facilisis lectus, eget rutrum eros eleifend a. Sed nibh nisi, auctor iaculis leo a, rutrum consequat nisl."),
         "pleaseFillInTheOtp": MessageLookupByLibrary.simpleMessage(
             "please fill in the OTP below"),
+        "pressAgainToExitTheApp":
+            MessageLookupByLibrary.simpleMessage("Press again to exit the app"),
         "resendOtpLabel": MessageLookupByLibrary.simpleMessage("Resend OTP"),
+        "saveLabel": MessageLookupByLibrary.simpleMessage("Save"),
         "scrollToBottomLabel":
             MessageLookupByLibrary.simpleMessage("Scroll down to agree"),
         "selectDateOfBirthLabel":

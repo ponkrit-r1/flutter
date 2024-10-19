@@ -37,17 +37,12 @@ class SignInController extends GetxController {
   }
 
   signIn() async {
-    try {
-      _isLoading.value = true;
-      await authenticationAPI.signIn(
-        emailController.text,
-        passwordController.text,
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-    } finally {
-      _isLoading.value = false;
-    }
+    _isLoading.value = true;
+    await authenticationAPI.signIn(
+      emailController.text,
+      passwordController.text,
+    );
+    _isLoading.value = false;
   }
 
   @override

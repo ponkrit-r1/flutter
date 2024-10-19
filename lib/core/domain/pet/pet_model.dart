@@ -10,12 +10,10 @@ class PetModel {
   final String? microchipNumber;
   final int? breed;
   final String? gender;
-  final DateTime? dob;
+  final DateTime dob;
   final num? weight;
   final String careSystem;
   final String characteristics;
-  final int birthMonth;
-  final int birthYear;
   Uint8List? imageData;
 
   PetModel({
@@ -27,18 +25,15 @@ class PetModel {
     required this.microchipNumber,
     this.breed,
     this.gender,
-    this.dob,
+    required this.dob,
     required this.weight,
     required this.careSystem,
     required this.characteristics,
-    required this.birthMonth,
-    required this.birthYear,
   });
 
   getAgeInMonth() {
     var now = DateTime.now();
-    var birthDate = DateTime(birthYear, birthMonth, 1);
-    return (now.difference(birthDate).inDays ~/ 30);
+    return (now.difference(dob).inDays ~/ 30);
   }
 
   // Factory method to create an instance of PetModel from a JSON object
@@ -52,12 +47,10 @@ class PetModel {
       microchipNumber: json['microchip_number'],
       breed: json['breed'],
       gender: json['gender'],
-      //dob: DateTime.parse(json['dob']),
-      weight: json['weight'],
+      dob: DateTime.parse(json['dob']),
+      weight: num.tryParse(json['weight'] ?? ''),
       careSystem: json['care_system'],
       characteristics: json['characteristics'],
-      birthMonth: json['birth_month'],
-      birthYear: json['birth_year'],
     );
   }
 
@@ -72,12 +65,10 @@ class PetModel {
       'microchip_number': microchipNumber,
       'breed': breed,
       'gender': gender,
-      'dob': dob != null ? DateFormat('yyyy-MM-dd').format(dob!) : null,
+      'dob': DateFormat('yyyy-MM-dd').format(dob),
       'weight': weight,
       'care_system': careSystem,
       'characteristics': characteristics,
-      'birth_month': birthMonth,
-      'birth_year': birthYear,
     };
   }
 
@@ -85,15 +76,13 @@ class PetModel {
     return {
       'name': name,
       'animal_type': animalType,
-      //'microchip_number': microchipNumber,
+      'microchip_number': microchipNumber,
       //'breed': breed,
-      //'gender': gender,
-      //'dob': dob != null ? DateFormat('yyyy-MM-dd').format(dob!) : null,
-      // 'weight': weight,
+      'gender': gender,
+      'dob': DateFormat('yyyy-MM-dd').format(dob) ,
+      'weight':weight,
       'care_system': careSystem,
       'characteristics': characteristics,
-      'birth_month': birthMonth,
-      'birth_year': birthYear,
     };
   }
 }

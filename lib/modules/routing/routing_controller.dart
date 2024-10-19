@@ -16,7 +16,11 @@ class RoutingController extends GetxController {
     }
     var session = await appStorage.getUserSession();
     if (session == null) {
-      return Routes.onboarding;
+      if(appStorage.isFirstInstall()) {
+        return Routes.onboarding;
+      } else {
+        return Routes.signIn;
+      }
     } else {
       return Routes.root;
     }

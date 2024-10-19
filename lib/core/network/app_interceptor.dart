@@ -1,14 +1,16 @@
+import 'package:deemmi/core/network/app_error.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' hide Response;
 
+import '../../routes/app_routes.dart';
 import '../data/app_storage.dart';
 import '../domain/user_session.dart';
 
 class AppInterceptor extends Interceptor {
   final Rx<AppStorage> store;
   final Dio dio;
-  static const languageHeader = 'tto-Language';
 
   AppInterceptor({
     required this.store,
@@ -54,7 +56,11 @@ class AppInterceptor extends Interceptor {
         // Failed refresh token
         // For easy handler we pass back 401 which mean log out.
         await store.value.logout();
-        super.onError(err, handler);
+        //TODO handle at local level
+        Get.offAllNamed(Routes.signIn);
+
+        Fluttertoast.showToast(
+            msg: "Refresh Token Fail",);
       }
     } else {
       super.onError(err, handler);

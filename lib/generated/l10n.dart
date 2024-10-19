@@ -170,6 +170,36 @@ class S {
     );
   }
 
+  /// `Network error`
+  String get networkErrorMessage {
+    return Intl.message(
+      'Network error',
+      name: 'networkErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown error`
+  String get unknownErrorMessage {
+    return Intl.message(
+      'Unknown error',
+      name: 'unknownErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press again to exit the app`
+  String get pressAgainToExitTheApp {
+    return Intl.message(
+      'Press again to exit the app',
+      name: 'pressAgainToExitTheApp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Keep your pet healthy`
   String get onboarding1Title {
     return Intl.message(
@@ -270,10 +300,10 @@ class S {
     );
   }
 
-  /// `Create account with E-mail`
+  /// `Create account with Email`
   String get createAccountWithEmail {
     return Intl.message(
-      'Create account with E-mail',
+      'Create account with Email',
       name: 'createAccountWithEmail',
       desc: '',
       args: [],
@@ -730,21 +760,81 @@ class S {
     );
   }
 
-  /// `Network error`
-  String get networkErrorMessage {
+  /// `Delete`
+  String get deleteLabel {
     return Intl.message(
-      'Network error',
-      name: 'networkErrorMessage',
+      'Delete',
+      name: 'deleteLabel',
       desc: '',
       args: [],
     );
   }
 
-  /// `Unknown error`
-  String get unknownErrorMessage {
+  /// `Edit pet`
+  String get editPetLabel {
     return Intl.message(
-      'Unknown error',
-      name: 'unknownErrorMessage',
+      'Edit pet',
+      name: 'editPetLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get saveLabel {
+    return Intl.message(
+      'Save',
+      name: 'saveLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coming Soon`
+  String get comingSoonLabel {
+    return Intl.message(
+      'Coming Soon',
+      name: 'comingSoonLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get homeLabel {
+    return Intl.message(
+      'Home',
+      name: 'homeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My pet`
+  String get myPetLabel {
+    return Intl.message(
+      'My pet',
+      name: 'myPetLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore`
+  String get exploreLabel {
+    return Intl.message(
+      'Explore',
+      name: 'exploreLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community`
+  String get communityLabel {
+    return Intl.message(
+      'Community',
+      name: 'communityLabel',
       desc: '',
       args: [],
     );

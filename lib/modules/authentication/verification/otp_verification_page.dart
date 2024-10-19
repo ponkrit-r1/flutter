@@ -200,6 +200,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         TextButton(
           onPressed: _controller.canRequestOtp
               ? () {
+                  _controller.clearOtp();
                   _controller.requestOtp();
                 }
               : null,
@@ -214,10 +215,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   _submit() async {
     try {
       var response = await _controller.verifyOtp();
-      if (response != null) {
-        await _controller.login();
-        Get.toNamed(Routes.createAccountSuccess);
-      }
+      await _controller.login();
+      Get.toNamed(Routes.createAccountSuccess);
     } catch (e) {
       debugPrint(e.toString());
     }

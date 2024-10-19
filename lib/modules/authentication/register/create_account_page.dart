@@ -4,6 +4,7 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/register/create_account_controller.dart';
 import 'package:deemmi/modules/authentication/terms/term_and_condition_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../core/global_widgets/pettagu_text_field.dart';
@@ -78,9 +79,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       child: _controller.isLoading
                           ? const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    AppColor.secondary500),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColor.secondary500),
+                                ),
                               ),
                             )
                           : PrimaryButton(
@@ -347,6 +350,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       keyboardType: TextInputType.visiblePassword,
       controller: _controller.firstNameController,
       fillColor: Colors.white,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[ก-๙a-zA-Z\-\.,\s]+')),
+      ],
     );
   }
 

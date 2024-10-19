@@ -1,8 +1,6 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import 'error_response.dart';
-
 enum AppErrorType {
   errorResponse,
   networkError,
@@ -18,7 +16,7 @@ class AppError implements Exception {
   });
 
   /// Response info, it may be `null` if the error type is not `errorResponse`.
-  ErrorResponse? response;
+  dynamic response;
   AppErrorType type;
 
   @override
@@ -27,7 +25,15 @@ class AppError implements Exception {
       case AppErrorType.server:
         return 'เกิดความผิดพลาดของเซิฟเวอร์';
       case AppErrorType.errorResponse:
-        return response?.description ?? '';
+        try {
+          return response?.description ?? '';
+        } catch (_) {
+          var error = "";
+          (response as Map).forEach((key, value) {
+            error += "${value.toString()}\n";
+          });
+          return error;
+        }
       case AppErrorType.cancel:
         return 'Cancelled';
       case AppErrorType.networkError:

@@ -70,4 +70,32 @@ class PetAPI {
     );
     return PetModel.fromJson(response.data);
   }
+
+  Future<void> deletePet(int petId) async {
+    await apiClient.deleteHTTP('/mypet/$petId/');
+  }
+
+  Future<PetModel> updatePet(
+    int petId,
+    PetModel petModel, {
+    XFile? file,
+  }) async {
+    var requestModel = petModel.toRequestJson();
+    if (file != null) {
+      var imageData = await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      );
+      requestModel['image'] = imageData;
+    }
+    final body = FormData.fromMap(requestModel);
+
+    var response = await apiClient.putHTTP(
+      '/mypet/$petId/',
+      body,
+    );
+    var petResponse = PetModel.fromJson(response!.data);
+
+    return petResponse;
+  }
 }

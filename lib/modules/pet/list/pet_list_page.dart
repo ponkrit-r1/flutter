@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/domain/pet/pet_model.dart';
+import '../../../core/global_widgets/global_confirm_dialog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
@@ -38,7 +39,7 @@ class _PetListPageState extends State<PetListPage> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.toNamed(Routes.addPet);
+                navigateToAddPet();
               },
               icon: const Icon(
                 Icons.add,
@@ -59,21 +60,24 @@ class _PetListPageState extends State<PetListPage> {
       );
     }
     if (_controller.petList.isNotEmpty) {
-      return ListView.separated(
-        padding: const EdgeInsets.fromLTRB(
-          16.0,
-          0,
-          16.0,
-          64.0,
+      return RefreshIndicator(
+        onRefresh: () => _controller.getMyPet(),
+        child: ListView.separated(
+          padding: const EdgeInsets.fromLTRB(
+            16.0,
+            0,
+            16.0,
+            64.0,
+          ),
+          scrollDirection: Axis.vertical,
+          itemBuilder: (BuildContext context, int index) {
+            return _petItem(_controller.petList.elementAtOrNull(index)!, index);
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 12.0);
+          },
+          itemCount: _controller.petList.length,
         ),
-        scrollDirection: Axis.vertical,
-        itemBuilder: (BuildContext context, int index) {
-          return _petItem(_controller.petList.elementAtOrNull(index)!, index);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(height: 12.0);
-        },
-        itemCount: _controller.petList.length,
       );
     } else {
       return Center(
@@ -171,15 +175,11 @@ class _PetListPageState extends State<PetListPage> {
                       right: 0.0,
                       bottom: 0.0,
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: AppColor.secondaryBgColor,
-                        ),
-                        child: const Icon(
-                          Icons.male_rounded,
-                          color: AppColor.primary500,
-                        ),
-                      ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: AppColor.secondaryBgColor,
+                          ),
+                          child: getGenderWidget(petModel.gender ?? '')),
                     )
                   ]),
                 ),
@@ -197,12 +197,12 @@ class _PetListPageState extends State<PetListPage> {
                           .copyWith(color: AppColor.primary500),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      petModel.name,
-                      style: textTheme(context)
-                          .bodyMedium!
-                          .copyWith(color: AppColor.secondaryContentGray),
-                    ),
+                    // Text(
+                    //   petModel.breed,
+                    //   style: textTheme(context)
+                    //       .bodyMedium!
+                    //       .copyWith(color: AppColor.secondaryContentGray),
+                    // ),
                     Text(
                       "${petModel.weight?.toString() ?? '-'} kg",
                       style: textTheme(context)
@@ -267,24 +267,50 @@ class _PetListPageState extends State<PetListPage> {
                 ),
               ),
             ),
-            ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                  color: AppColor.secondaryBgColor,
-                  borderRadius: BorderRadius.circular(20),
+            InkWell(
+              onTap: () => Get.dialog(
+                ConfirmDialog(
+                  topWidget: Container(
+                      decoration: const BoxDecoration(
+                        color: AppColor.secondaryBgColor,
+                        shape: BoxShape.circle,
+                      ),
+                      padding: const EdgeInsets.all(24.0),
+                      child: const Icon(
+                        Icons.delete,
+                        color: AppColor.redError,
+                        size: 32,
+                      )),
+                  confirmText: stringRes(context)!.deleteLabel,
+                  onConfirm: () {
+                    _controller.deletePet(petModel);
+                    Get.back();
+                  },
+                  title:
+                      "${stringRes(context)!.deleteLabel} \"${petModel.name}\" ?",
+                  description:
+                      "Once you delete, this pet will be removed and data cannot be recovered.",
                 ),
-                child:
-                    const Icon(Icons.delete_rounded, color: AppColor.redError),
               ),
-              title: Text(
-                "Remove",
-                style: textTheme(context)
-                    .bodyMedium
-                    ?.copyWith(color: AppColor.redError),
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: AppColor.redError,
+              child: ListTile(
+                leading: Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.secondaryBgColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Icon(Icons.delete_rounded,
+                      color: AppColor.redError),
+                ),
+                title: Text(
+                  "Remove",
+                  style: textTheme(context)
+                      .bodyMedium
+                      ?.copyWith(color: AppColor.redError),
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppColor.redError,
+                ),
               ),
             )
           ],
@@ -304,6 +330,23 @@ class _PetListPageState extends State<PetListPage> {
     var result = await Get.toNamed(Routes.addPet);
     if (result != null) {
       _controller.getMyPet();
+    }
+  }
+
+  getGenderWidget(String gender) {
+    switch (gender) {
+      case 'Male':
+        return const Icon(
+          Icons.male_rounded,
+          color: AppColor.primary500,
+        );
+      case 'Female':
+        return const Icon(
+          Icons.female_rounded,
+          color: AppColor.secondary500,
+        );
+      default:
+        return const SizedBox.shrink();
     }
   }
 }

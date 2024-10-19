@@ -1,8 +1,6 @@
-import 'package:deemmi/core/data/api/pet_api.dart';
-import 'package:deemmi/core/data/repository/pet_repository.dart';
+
 import 'package:deemmi/core/network/api_client.dart';
 import 'package:deemmi/core/network/url.dart';
-import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:deemmi/routes/app_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,7 +9,6 @@ import 'package:get/get.dart';
 
 import 'core/data/app_storage.dart';
 import 'core/theme/app_theme.dart';
-import 'modules/routing/routing_controller.dart';
 import 'routes/app_routes.dart';
 
 void main() async {

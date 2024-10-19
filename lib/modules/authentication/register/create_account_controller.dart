@@ -69,6 +69,7 @@ class CreateAccountController extends GetxController {
 
   setTermAccept(bool termAccepted) {
     _isTermAccepted.value = termAccepted;
+    checkInformation();
   }
 
   Future<User?> createAccount() async {
@@ -92,7 +93,7 @@ class CreateAccountController extends GetxController {
       );
       return null;
     } finally {
-      _isLoading.value = true;
+      _isLoading.value = false;
     }
   }
 
@@ -101,6 +102,7 @@ class CreateAccountController extends GetxController {
     _isPasswordFormatCorrect.value = passwordController.text.isStrongPassword();
     _isConfirmPasswordMatched.value =
         confirmPasswordController.text == passwordController.text;
+
     return emailController.text.validateEmail() &&
         passwordController.text.isStrongPassword() &&
         (confirmPasswordController.text == passwordController.text);
@@ -110,7 +112,8 @@ class CreateAccountController extends GetxController {
     _isInformationCompleted.value = emailController.text.validateEmail() &&
         passwordController.text.isNotEmpty &&
         userNameController.text.isNotEmpty &&
-        confirmPasswordController.text.isNotEmpty;
+        confirmPasswordController.text.isNotEmpty &&
+        isTermAccepted;
   }
 
   @override

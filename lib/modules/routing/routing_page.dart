@@ -47,7 +47,7 @@ class _RoutingPageState extends State<RoutingPage> {
   navigateToInitialDestination() {
     Future.delayed(const Duration(seconds: 2), () async {
       var initRoute = await _controller.getInitialRoute();
-      Get.toNamed(initRoute);
+      Get.offNamed(initRoute);
     });
   }
 }

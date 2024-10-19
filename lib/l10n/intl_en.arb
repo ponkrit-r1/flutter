@@ -12,6 +12,9 @@
   "confirmLabel": "Confirm",
   "browseLabel": "browse",
   "selectLabel": "Select",
+  "networkErrorMessage": "Network error",
+  "unknownErrorMessage": "Unknown error",
+  "pressAgainToExitTheApp": "Press again to exit the app",
 
   "@_ONBOARDING": {},
   "onboarding1Title": "Keep your pet healthy",
@@ -20,12 +23,13 @@
   "onboarding2Subtitle": "Easily locate your furry friend if they wander off.",
   "onboarding3Title": "Connect & Save",
   "onboarding3Subtitle": "Find pet-friendly places, get discounts, and join a community of pet lovers.",
+
   "@_SIGN_IN": {},
   "helloLabel": "Hello",
   "welcomeLabel": "Welcome!",
   "signInDescription": "Helping you to keep your bestie stay healthy!",
   "loginLabel": "Log in",
-  "createAccountWithEmail": "Create account with E-mail",
+  "createAccountWithEmail": "Create account with Email",
   "createAccountWith": "Create account with",
   "acceptLabel": "Accept",
   "termAndCondition": "Terms and Conditions",
@@ -73,7 +77,14 @@
   "selectMonthLabel": "Select month",
   "selectYearLabel": "Select year",
   "doneLabel": "Done",
+  "deleteLabel": "Delete",
+  "editPetLabel": "Edit pet",
+  "saveLabel": "Save",
+  "comingSoonLabel": "Coming Soon",
 
-  "networkErrorMessage": "Network error",
-  "unknownErrorMessage": "Unknown error"
+  "@_ROOT": {},
+  "homeLabel": "Home",
+  "myPetLabel": "My pet",
+  "exploreLabel": "Explore",
+  "communityLabel": "Community"
 }

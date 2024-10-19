@@ -1,9 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/domain/auth/animal_breed.dart';
 import 'package:deemmi/core/domain/pet/pet_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -47,7 +47,12 @@ class AddPetController extends GetxController {
 
   DateTime? preSelectedDate;
 
-  AddPetController(this.petRepository);
+  final PetModel? editingPet;
+
+  AddPetController(
+    this.petRepository, {
+    this.editingPet,
+  });
 
   var microChipController = TextEditingController();
   var weightForm = TextEditingController();
@@ -58,10 +63,6 @@ class AddPetController extends GetxController {
   final _isInformationCompleted = false.obs;
 
   bool get isInformationCompleted => _isInformationCompleted.value;
-
-  final _isTermAccepted = false.obs;
-
-  bool get isTermAccepted => _isTermAccepted.value;
 
   Function(String)? displayError;
 
@@ -77,20 +78,9 @@ class AddPetController extends GetxController {
 
   String? get selectedCareSystem => _selectedCareSystem.value;
 
-  final _selectedYear = ''.obs;
-
-  String get selectedYear => _selectedYear.value;
-
-  int? _selectedYearIdx;
-
-  final _selectedMonth = ''.obs;
-
-  String get selectedMonth => _selectedMonth.value;
-
-  int? _selectedMonthIdx;
-
-  String? get displayPetAge => selectedDate != null
-      ? ((DateTime.now().difference(selectedDate!).inDays) ~/ (30)).toString()
+  String? get displayPetAge => _selectedDate.value != null
+      ? ((DateTime.now().difference(_selectedDate.value!).inDays) ~/ (30))
+          .toString()
       : null;
 
   final RxnString _selectedGender = RxnString();
@@ -105,6 +95,8 @@ class AddPetController extends GetxController {
 
   List<AnimalBreed> get animalBreed => _animalBreed;
 
+  var isReselectImageOnEditing = false;
+
   @override
   void onReady() {
     super.onReady();
@@ -118,7 +110,35 @@ class AddPetController extends GetxController {
     weightForm.addListener(() {
       checkInformation();
     });
-    getAnimalType();
+    initData();
+  }
+
+  initData() async {
+    await getAnimalType();
+    if (editingPet != null) {
+      assignEditingPetData(editingPet!);
+    }
+  }
+
+  assignEditingPetData(PetModel petModel) async {
+    petNameController.text = petModel.name;
+    _selectedCareSystem.value = petModel.careSystem;
+    microChipController.text = petModel.microchipNumber ?? '';
+    weightForm.text = petModel.weight?.toString() ?? '';
+    _selectedGender.value = petModel.gender;
+    _selectedPetType.value =
+        animalTypes.firstWhere((element) => element.id == petModel.animalType);
+    onPetTypeSelect();
+
+    onDobSelected(petModel.dob);
+
+    if (petModel.image != null) {
+      var data = (await NetworkAssetBundle(Uri.parse(petModel.image!))
+              .load(petModel.image!))
+          .buffer
+          .asUint8List();
+      _displaySelectedImage.value = data;
+    }
   }
 
   setSelectedImage(XFile file) async {
@@ -145,25 +165,9 @@ class AddPetController extends GetxController {
     checkInformation();
   }
 
-  onDatePreSelected(DateTime dateTime) {
-    preSelectedDate = dateTime;
-  }
-
   onDobSelected(DateTime dateTime) {
     _selectedDate.value = dateTime;
     checkInformation();
-  }
-
-  setSelectedMonth(String? month) {
-    if (month != null) {
-      _selectedMonth.value = month;
-      _selectedMonthIdx = 0;
-    }
-    checkInformation();
-  }
-
-  setTermAccept(bool termAccepted) {
-    _isTermAccepted.value = termAccepted;
   }
 
   setPetType(
@@ -188,7 +192,7 @@ class AddPetController extends GetxController {
     _selectedGender.value = gender;
   }
 
-  onAddPet() async {
+  onNextActionClick() async {
     try {
       _isLoading.value = true;
       var petModel = PetModel(
@@ -196,19 +200,28 @@ class AddPetController extends GetxController {
         animalType: selectedPetType!.id,
         breed: selectedBreed?.id,
         microchipNumber: microChipController.text,
-        dob: selectedDate,
+        dob: selectedDate!,
         weight: double.tryParse(weightForm.text) ?? 0.0,
         careSystem: selectedCareSystem ?? '',
         characteristics: characteristicController.text,
-        birthMonth: selectedDate!.month,
-        birthYear: selectedDate!.year,
+        gender: _selectedGender.value,
       );
       petModel.imageData = displaySelectedImage;
-
-      var response = await petRepository.addPet(petModel, _selectedImage);
+      PetModel response;
+      if (editingPet != null) {
+        response = await petRepository.updatePet(
+          editingPet!.id!,
+          petModel,
+          _selectedImage,
+        );
+      } else {
+        response = await petRepository.addPet(petModel, _selectedImage);
+      }
       Get.back(result: response);
     } catch (e) {
-      debugPrint(e.toString());
+      Fluttertoast.showToast(
+        msg: e.toString(),
+      );
     } finally {
       _isLoading.value = false;
     }

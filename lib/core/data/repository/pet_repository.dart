@@ -13,6 +13,10 @@ class PetRepository {
     return await petAPI.addPet(model, file);
   }
 
+  Future<PetModel> updatePet(int petId, PetModel model, XFile? file) async {
+    return await petAPI.updatePet(petId, model, file: file);
+  }
+
   Future<List<AnimalType>> getAnimalType() async {
     return await petAPI.getAnimalType();
   }
@@ -27,5 +31,9 @@ class PetRepository {
 
   Future<PetModel> uploadPetImage(int petId, XFile xFile) async {
     return await petAPI.uploadPetImage(petId, xFile);
+  }
+
+  Future<void> deletePet(int petId) async {
+    await petAPI.deletePet(petId);
   }
 }

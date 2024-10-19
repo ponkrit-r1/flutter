@@ -60,7 +60,6 @@ class AppStorage {
     await setUserSession(null);
     await setUser(null);
     await setCartToken(null);
-    // await setMustConnectAccountWithSCGId(null);
   }
 
   /// Must call this to initialize late properties.

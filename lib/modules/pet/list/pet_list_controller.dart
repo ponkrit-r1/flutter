@@ -31,7 +31,15 @@ class PetListController extends GetxController {
     }
   }
 
-  onAddPet(PetModel pet) {
-    _petList.value = [pet];
+  deletePet(PetModel pet) async {
+    try {
+      isLoading.value = true;
+      await petRepository.deletePet(pet.id!);
+      await getMyPet();
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

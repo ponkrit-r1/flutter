@@ -1,13 +1,13 @@
 import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../../routes/app_routes.dart';
 import 'on_boarding_controller.dart';
-import 'package:deemmi/core/utils/widget_extension.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final pageController = PageController();
   final _controller = Get.find<OnBoardingController>();
+  DateTime? currentBackPressTime;
 
   @override
   void initState() {
@@ -29,63 +30,66 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.secondaryBgColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
-          child: Obx(
-            () => Column(
-              children: [
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: Get.height * 0.61,
-                  child: PageView.builder(
-                    controller: pageController,
-                    onPageChanged: (page) {
-                      _controller.setCurrentPage(page);
-                    },
-                    itemCount: 3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return getOnBoardingWidget(index);
-                    },
+      body: WillPopScope(
+        onWillPop: onWillPopToastConfirmExit,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            child: Obx(
+              () => Column(
+                children: [
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: Get.height * 0.61,
+                    child: PageView.builder(
+                      controller: pageController,
+                      onPageChanged: (page) {
+                        _controller.setCurrentPage(page);
+                      },
+                      itemCount: 3,
+                      itemBuilder: (BuildContext context, int index) {
+                        return getOnBoardingWidget(index);
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8.0),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                    color: Colors.white,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                      color: Colors.white,
+                    ),
+                    child: SmoothPageIndicator(
+                      controller: pageController, // PageController
+                      count: 3,
+                      effect: WormEffect(
+                        activeDotColor: AppColor.primary500,
+                        dotColor: AppColor.primary500.withOpacity(0.3),
+                        dotHeight: 8,
+                        dotWidth: 8,
+                      ), // your preferred effect
+                      onDotClicked: (index) {
+                        pageController.animateToPage(
+                          index,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeIn,
+                        );
+                      },
+                    ),
                   ),
-                  child: SmoothPageIndicator(
-                    controller: pageController, // PageController
-                    count: 3,
-                    effect: WormEffect(
-                      activeDotColor: AppColor.primary500,
-                      dotColor: AppColor.primary500.withOpacity(0.3),
-                      dotHeight: 8,
-                      dotWidth: 8,
-                    ), // your preferred effect
-                    onDotClicked: (index) {
-                      pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeIn,
-                      );
-                    },
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: SizedBox(
+                        width: double.infinity,
+                        child: _primaryButton(_controller.currentPage)),
                   ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: SizedBox(
-                      width: double.infinity,
-                      child: _primaryButton(_controller.currentPage)),
-                ),
-                SizedBox(
-                  height: 40,
-                  child: _skipButton(_controller.currentPage),
-                )
-              ],
+                  SizedBox(
+                    height: 40,
+                    child: _skipButton(_controller.currentPage),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -124,7 +128,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         curve: Curves.easeInBack,
         opacity: index <= 1 ? 1 : 0,
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            pageController.jumpToPage(2);
+          },
           child: Text(
             stringRes(context)!.skipLabel,
             style: textTheme(context)
@@ -196,6 +202,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
+  Future<bool> onWillPopToastConfirmExit() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(
+        msg: stringRes(context)!.pressAgainToExitTheApp,
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   _nextPage() {
     pageController.nextPage(
       duration: const Duration(milliseconds: 300),
@@ -204,6 +223,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   _navigateToSignIn() async {
+    await _controller.setOnBoardingFinish();
     Get.toNamed(Routes.signIn);
   }
 }

@@ -11,6 +11,7 @@ import 'package:deemmi/modules/pet/add_pet/add_pet_binding.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_page.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_binding.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_page.dart';
+import 'package:deemmi/modules/routing/restriction/no_connection_page.dart';
 import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:get/get.dart';
@@ -67,5 +68,6 @@ abstract class AppPages {
       page: () => PetProfilePage(),
       binding: PetProfileBinding(),
     ),
+    GetPage(name: Routes.noConnection, page: ()=> NoConnectionPage())
   ];
 }

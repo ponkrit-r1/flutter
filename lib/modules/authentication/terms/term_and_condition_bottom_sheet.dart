@@ -84,17 +84,17 @@ class _TermAndConditionBottomSheetState
                     .paddingAll(0),
               ),
               const SizedBox(height: 16),
-              TextButton(
-                  onPressed: () {
-                    scrollController
-                        .jumpTo(scrollController.position.maxScrollExtent);
-                  },
-                  child: Text(
-                    stringRes(context)!.scrollToBottomLabel,
-                    style: textTheme(context)
-                        .bodyLarge
-                        ?.copyWith(color: AppColor.brandYellow),
-                  )),
+              // TextButton(
+              //     onPressed: () {
+              //       scrollController
+              //           .jumpTo(scrollController.position.maxScrollExtent);
+              //     },
+              //     child: Text(
+              //       stringRes(context)!.scrollToBottomLabel,
+              //       style: textTheme(context)
+              //           .bodyLarge
+              //           ?.copyWith(color: AppColor.brandYellow),
+              //     )),
               PrimaryButton(
                 title: stringRes(context)!.iAgreeLabel,
                 onPressed: isScrollToBottom

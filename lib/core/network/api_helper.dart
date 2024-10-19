@@ -21,12 +21,9 @@ Future<Response<T>> mapException<T>(HttpLibraryMethod<T> method) async {
             final errorResponse = err.response;
             if (errorResponse != null) {
               try {
-                final errorResponseObject =
-                    ErrorResponse.fromJson(errorResponse.data);
-
                 throw AppError(
                     type: AppErrorType.errorResponse,
-                    response: errorResponseObject);
+                    response: errorResponse.data);
               } catch (e) {
                 if (e is AppError) {
                   rethrow;

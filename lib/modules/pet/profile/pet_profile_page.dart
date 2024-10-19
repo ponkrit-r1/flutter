@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../routes/app_routes.dart';
 
 class PetProfilePage extends StatelessWidget {
   PetProfilePage({super.key});
@@ -31,7 +32,7 @@ class PetProfilePage extends StatelessWidget {
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(16), // Image radius
                   child: Image.network(
-                    controller.petModel.image!,
+                    controller.petModel.image ?? '',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -78,13 +79,10 @@ class PetProfilePage extends StatelessWidget {
                                 BorderRadius.only(topLeft: Radius.circular(8)),
                             color: AppColor.secondaryBgColor,
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Icon(
-                              Icons.male_rounded,
-                              color: AppColor.primary500,
-                            ),
-                          ),
+                          child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: getGenderWidget(
+                                  controller.petModel.gender ?? '')),
                         ),
                       ),
                     ],
@@ -99,27 +97,54 @@ class PetProfilePage extends StatelessWidget {
     );
   }
 
+  getGenderWidget(String gender) {
+    switch (gender) {
+      case 'Male':
+        return const Icon(
+          Icons.male_rounded,
+          color: AppColor.primary500,
+        );
+      case 'Female':
+        return const Icon(
+          Icons.female_rounded,
+          color: AppColor.secondary500,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
   petInformationSystem(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                controller.petName,
-                style: textTheme(context).headlineLarge?.copyWith(
-                      fontSize: 30,
-                      color: AppColor.textColor,
-                    ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                Icons.edit_rounded,
-                color: AppColor.primary500,
-              ),
-            ],
+          InkWell(
+            onTap: () {
+              Get.toNamed(
+                Routes.addPet,
+                arguments: {
+                  RouteParams.petModel: controller.petModel,
+                },
+              );
+            },
+            child: Row(
+              children: [
+                Text(
+                  controller.petName,
+                  style: textTheme(context).headlineLarge?.copyWith(
+                        fontSize: 30,
+                        color: AppColor.textColor,
+                      ),
+                ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.edit_rounded,
+                  color: AppColor.primary500,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 4),
           // Text(
