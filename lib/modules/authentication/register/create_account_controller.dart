@@ -25,6 +25,18 @@ class CreateAccountController extends GetxController {
 
   bool? get isConfirmPasswordMatched => _isConfirmPasswordMatched.value;
 
+  final RxnString _userNameTextError = RxnString();
+
+  String? get userNameTextError => _userNameTextError.value;
+
+  final RxnString _firstNameTextError = RxnString();
+
+  String? get firstNameTextError => _firstNameTextError.value;
+
+  final RxnString _lastNameTextError = RxnString();
+
+  String? get lastNameTextError => _lastNameTextError.value;
+
   TermData? termData;
 
   var passwordController = TextEditingController();
@@ -91,6 +103,7 @@ class CreateAccountController extends GetxController {
       debugPrint(
         e.toString(),
       );
+      //TODO check and display error field
       return null;
     } finally {
       _isLoading.value = false;

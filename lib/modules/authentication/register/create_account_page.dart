@@ -340,6 +340,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       hintText: "",
       keyboardType: TextInputType.visiblePassword,
       controller: _controller.userNameController,
+      errorText: _controller.userNameTextError,
       fillColor: Colors.white,
     );
   }
@@ -350,6 +351,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       keyboardType: TextInputType.visiblePassword,
       controller: _controller.firstNameController,
       fillColor: Colors.white,
+      errorText: _controller.firstNameTextError,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[ก-๙a-zA-Z\-\.,\s]+')),
       ],
@@ -361,7 +363,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       hintText: "",
       keyboardType: TextInputType.visiblePassword,
       controller: _controller.lastNameController,
+      errorText: _controller.lastNameTextError,
       fillColor: Colors.white,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[ก-๙a-zA-Z\-\.,\s]+')),
+      ],
     );
   }
 
