@@ -129,7 +129,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         opacity: index <= 1 ? 1 : 0,
         child: TextButton(
           onPressed: () {
-            pageController.jumpToPage(2);
+            _navigateToSignIn();
           },
           child: Text(
             stringRes(context)!.skipLabel,
