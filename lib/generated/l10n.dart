@@ -440,10 +440,10 @@ class S {
     );
   }
 
-  /// `At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nSpecial characters optionally`
+  /// `At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nAt least 1 special character`
   String get invalidPasswordLabel {
     return Intl.message(
-      'At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nSpecial characters optionally',
+      'At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nAt least 1 special character',
       name: 'invalidPasswordLabel',
       desc: '',
       args: [],

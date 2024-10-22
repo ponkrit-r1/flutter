@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/data/api/authentication_api.dart';
+import '../../../core/network/app_error.dart';
 
 class OtpVerificationController extends GetxController {
   final RxString _userEmail = ''.obs;
@@ -27,6 +28,10 @@ class OtpVerificationController extends GetxController {
   final RxBool _isOtpComplete = false.obs;
 
   bool get isOtpCompleted => _isOtpComplete.value;
+
+  final RxnString _otpErrorText = RxnString();
+
+  String? get otpErrorText => _otpErrorText.value;
 
   final RxBool _canRequestOtp = true.obs;
 
@@ -70,6 +75,7 @@ class OtpVerificationController extends GetxController {
   }
 
   Future<dynamic> verifyOtp() async {
+    _otpErrorText.value = null;
     var response = await authenticationAPI.verifyOtp(
       _userEmail.value,
       otpController.text,
@@ -78,12 +84,19 @@ class OtpVerificationController extends GetxController {
     return response;
   }
 
+  handleOtpError(dynamic error) {
+    var appError = (error as AppError).response;
+    _otpErrorText.value = appError['detail'];
+    otpController.text = '';
+  }
+
   Future<dynamic> login() async {
     await authenticationAPI.signIn(userEmail, _password);
   }
 
   Future<void> requestOtp() async {
     try {
+      _otpErrorText.value = null;
       await authenticationAPI.requestOtp(_userId, _userEmail.value);
       scheduleTimeout();
     } catch (error) {

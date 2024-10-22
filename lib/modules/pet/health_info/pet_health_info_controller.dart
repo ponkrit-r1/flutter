@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/domain/answer_choice.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/domain/pet/pet_model.dart';
@@ -45,6 +44,30 @@ class PetHealthInfoController extends GetxController {
 
   AnswerChoice? get drugAllergyAnswer => _drugAllergyAnswer.value;
 
+  bool get shouldDisplayAddChronicDiseaseSection =>
+      chronicDiseaseAnswer?.option == AnswerOption.yes;
+
+  bool get shouldDisplayAddFoodAllergySection =>
+      foodAllergyAnswer?.option == AnswerOption.yes;
+
+  bool get getShouldDisplayVaccineAllergySection =>
+      vaccineAllergyAnswer?.option == AnswerOption.yes;
+
+  bool get getDrugAllergySection =>
+      drugAllergyAnswer?.option == AnswerOption.yes;
+
+  final RxList<TextEditingController> _chronicDiseaseList = RxList();
+
+  List<TextEditingController> get chronicDiseaseList => _chronicDiseaseList;
+
+  final RxList<TextEditingController> _foodAllergyList = RxList();
+
+  List<TextEditingController> get foodAllergyList => _foodAllergyList;
+
+  final RxList<TextEditingController> _drugAllergyList = RxList();
+
+  List<TextEditingController> get drugAllergyList => _drugAllergyList;
+
   final PetModel? editingPet;
 
   PetHealthInfoController(
@@ -58,10 +81,28 @@ class PetHealthInfoController extends GetxController {
 
   setChronicDiseaseAnswer(AnswerChoice answer) {
     _chronicDiseaseAnswer.value = answer;
+    if (answer.option == AnswerOption.yes && _chronicDiseaseList.isEmpty) {
+      _chronicDiseaseList.add(TextEditingController());
+    }
+  }
+
+  onAddChronicDisease() {
+    if (_chronicDiseaseList.length <= 10) {
+      _chronicDiseaseList.add(TextEditingController());
+    }
   }
 
   setFoodAllergyAnswer(AnswerChoice answer) {
     _foodAllergyAnswer.value = answer;
+    if (answer.option == AnswerOption.yes && foodAllergyList.isEmpty) {
+      _foodAllergyList.add(TextEditingController());
+    }
+  }
+
+  onAddFoodAllergy() {
+    if (foodAllergyList.length <= 10) {
+      _foodAllergyList.add(TextEditingController());
+    }
   }
 
   setVaccineAllergy(AnswerChoice answer) {
@@ -70,5 +111,8 @@ class PetHealthInfoController extends GetxController {
 
   setDrugAllergy(AnswerChoice answer) {
     _drugAllergyAnswer.value = answer;
+    if (answer.option == AnswerOption.yes && drugAllergyList.isEmpty) {
+      _drugAllergyList.add(TextEditingController());
+    }
   }
 }

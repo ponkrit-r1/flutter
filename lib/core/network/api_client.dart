@@ -8,7 +8,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../data/app_storage.dart';
 import 'api_helper.dart';
 import 'app_interceptor.dart';
-import 'json_api_encoder_interceptor.dart';
 
 class ApiClient {
   late Rx<AppStorage> store;
@@ -36,8 +35,6 @@ class ApiClient {
     );
     _dioClient.interceptors
         .add(AppInterceptor(store: store, dio: interceptorClient));
-
-    _dioClient.interceptors.add(JsonApiEncoderInterceptor());
 
     if (!kReleaseMode) {
       _dioClient.interceptors.add(PrettyDioLogger(

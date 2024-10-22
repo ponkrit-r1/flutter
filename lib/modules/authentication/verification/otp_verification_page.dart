@@ -3,6 +3,7 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -80,7 +81,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
             const SizedBox(
               height: 24.0,
             ),
-            pinCodeWidget(context),
+            Obx(() => pinCodeWidget(context)),
             const SizedBox(
               height: 24.0,
             ),
@@ -166,6 +167,16 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       ),
     );
 
+    final errorPinTheme = defaultPinTheme.copyWith(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: AppColor.redError,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+
     return Pinput(
       length: 6,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,10 +185,13 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: focusPinTheme,
       disabledPinTheme: disabledPinTheme,
+      errorPinTheme: errorPinTheme,
+      forceErrorState: _controller.otpErrorText != null,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
       onCompleted: (pin) => {},
       controller: _controller.otpController,
+      errorText: _controller.otpErrorText,
     );
   }
 
@@ -218,6 +232,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       await _controller.login();
       Get.toNamed(Routes.createAccountSuccess);
     } catch (e) {
+      _controller.handleOtpError(e);
       debugPrint(e.toString());
     }
   }

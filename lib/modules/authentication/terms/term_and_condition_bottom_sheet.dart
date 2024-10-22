@@ -1,7 +1,7 @@
 import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
+import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -23,22 +23,14 @@ class TermAndConditionBottomSheet extends StatefulWidget {
 
 class _TermAndConditionBottomSheetState
     extends State<TermAndConditionBottomSheet> {
-  var isScrollToBottom = true;
-
-  ScrollController scrollController = ScrollController();
+  PDFDocument? termDocument;
+  PageController pageController = PageController();
+  bool hasScrollToBottom = false;
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        bool isTop = scrollController.position.pixels == 0;
-        if (!isTop) {
-          isScrollToBottom = true;
-          setState(() {});
-        }
-      }
-    });
+    getPdfDocument();
   }
 
   @override
@@ -70,34 +62,37 @@ class _TermAndConditionBottomSheetState
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: const PDF()
-                    .cachedFromUrl(
-                      widget.termPdfUrl,
-                      placeholder: (progress) =>
-                          Center(child: Text('$progress %')),
-                      errorWidget: (error) =>
-                          Center(child: Text(error.toString())),
-
-                    )
-                    .marginAll(0)
-                    .paddingAll(0),
-              ),
+              if (termDocument != null)
+                Expanded(
+                  child: PDFViewer(
+                    controller: pageController,
+                    document: termDocument!,
+                    scrollDirection: Axis.vertical,
+                    showPicker: false,
+                    showNavigation: false,
+                    onPageChanged: (page) {
+                      if (termDocument != null) {
+                        hasScrollToBottom = page == (termDocument!.count - 1);
+                        setState(() {});
+                      }
+                    },
+                  ),
+                ),
               const SizedBox(height: 16),
-              // TextButton(
-              //     onPressed: () {
-              //       scrollController
-              //           .jumpTo(scrollController.position.maxScrollExtent);
-              //     },
-              //     child: Text(
-              //       stringRes(context)!.scrollToBottomLabel,
-              //       style: textTheme(context)
-              //           .bodyLarge
-              //           ?.copyWith(color: AppColor.brandYellow),
-              //     )),
+              if (termDocument != null)
+                TextButton(
+                    onPressed: () {
+                      pageController.jumpToPage(termDocument!.count - 1);
+                    },
+                    child: Text(
+                      stringRes(context)!.scrollToBottomLabel,
+                      style: textTheme(context)
+                          .bodyLarge
+                          ?.copyWith(color: AppColor.brandYellow),
+                    )),
               PrimaryButton(
                 title: stringRes(context)!.iAgreeLabel,
-                onPressed: isScrollToBottom
+                onPressed: hasScrollToBottom
                     ? () {
                         widget.onTermAccepted(true);
                         Get.back();
@@ -110,5 +105,10 @@ class _TermAndConditionBottomSheetState
         ),
       ),
     );
+  }
+
+  getPdfDocument() async {
+    termDocument = await PDFDocument.fromURL(widget.termPdfUrl);
+    setState(() {});
   }
 }

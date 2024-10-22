@@ -2,6 +2,7 @@ import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/domain/auth/create_account_request.dart';
 import 'package:deemmi/core/domain/auth/term_data.dart';
 import 'package:deemmi/core/domain/auth/user_model.dart';
+import 'package:deemmi/core/network/app_error.dart';
 import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -36,6 +37,10 @@ class CreateAccountController extends GetxController {
   final RxnString _lastNameTextError = RxnString();
 
   String? get lastNameTextError => _lastNameTextError.value;
+
+  final RxnString _emailTextError = RxnString();
+
+  String? get emailTextError => _emailTextError.value;
 
   TermData? termData;
 
@@ -84,11 +89,32 @@ class CreateAccountController extends GetxController {
     checkInformation();
   }
 
+  setCreateAccountApiError(dynamic response) {
+    _emailTextError.value = response['email'] != null ?
+        List.from(response['email']).firstOrNull?.toString() : null;
+    _firstNameTextError.value = response['first_name'] != null
+        ? List.from(response['first_name']).firstOrNull?.toString()
+        : null;
+    _lastNameTextError.value = response['last_name'] != null
+        ? List.from(response['last_name']).firstOrNull?.toString()
+        : null;
+    _userNameTextError.value = response['username'] != null
+        ? List.from(response['username']).firstOrNull?.toString()
+        : null;
+  }
+
+  clearFieldError() {
+    _emailTextError.value = null;
+    _firstNameTextError.value = null;
+    _lastNameTextError.value = null;
+    _userNameTextError.value = null;
+  }
+
   Future<User?> createAccount() async {
     if (termData == null) return null;
     try {
       _isLoading.value = true;
-      return await authenticationAPI.register(
+      var accountResponse = await authenticationAPI.register(
         CreateAccountModel(
           username: userNameController.text,
           password: passwordController.text,
@@ -99,9 +125,13 @@ class CreateAccountController extends GetxController {
           confirmedConditionId: termData!.id,
         ),
       );
+      clearFieldError();
+      return accountResponse;
     } catch (e) {
+      var appError = (e as AppError);
+      setCreateAccountApiError(appError.response);
       debugPrint(
-        e.toString(),
+        appError.response,
       );
       //TODO check and display error field
       return null;

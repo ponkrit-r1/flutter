@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 import 'app_error.dart';
-import 'error_response.dart';
 
 /// A callback that returns a Dio response, presumably from a Dio method
 /// it has called which performs an HTTP request, such as `dio.get()`,

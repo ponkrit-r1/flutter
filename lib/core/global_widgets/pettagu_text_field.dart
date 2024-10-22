@@ -156,7 +156,7 @@ class _PettaguTextField extends State<PettaguTextField> {
               keyboardType: widget.keyboardType ?? TextInputType.text,
               maxLength: widget.maxLength,
               decoration: InputDecoration(
-                errorMaxLines: 4,
+                errorMaxLines: 5,
                 fillColor: widget.fillColor,
                 filled: true,
                 contentPadding:

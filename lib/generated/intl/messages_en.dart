@@ -76,7 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidEmailLabel":
             MessageLookupByLibrary.simpleMessage("Invalid email"),
         "invalidPasswordLabel": MessageLookupByLibrary.simpleMessage(
-            "At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nSpecial characters optionally"),
+            "At least 8 characters long\n1 lowercase character (a-z)\n1 uppercase character (A-Z)\n1 number\nAt least 1 special character"),
         "kgLabel": MessageLookupByLibrary.simpleMessage("kg"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("Last name"),
         "loginLabel": MessageLookupByLibrary.simpleMessage("Log in"),

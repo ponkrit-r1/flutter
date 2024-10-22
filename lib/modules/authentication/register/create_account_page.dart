@@ -305,7 +305,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       fillColor: Colors.white,
       errorText: (_controller.isEmailFormatCorrect == false)
           ? stringRes(context)!.invalidEmailLabel
-          : null,
+          : _controller.emailTextError,
     );
   }
 

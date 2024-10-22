@@ -1,4 +1,3 @@
-import 'package:deemmi/core/network/app_error.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -57,6 +56,7 @@ class AppInterceptor extends Interceptor {
         // For easy handler we pass back 401 which mean log out.
         await store.value.logout();
         //TODO handle at local level
+        //This should not be on prod
         Get.offAllNamed(Routes.signIn);
 
         Fluttertoast.showToast(
