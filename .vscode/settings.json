@@ -1,0 +1,7 @@
+{
+  "java.compile.nullAnalysis.mode": "disabled",
+  "path-intellisense.mappings": {
+    "assets": "${workspaceRoot}/assets",
+    "fonts": "${workspaceRoot}/fonts",
+  }
+}
