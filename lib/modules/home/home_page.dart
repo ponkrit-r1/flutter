@@ -3,6 +3,7 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final mockDogImage =
     'https://s3-alpha-sig.figma.com/img/952e/705e/5cd22f9ed130680a0c8240212a73e224?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KjD-ZRhmbFEQM0OkfrMm-2J80qhjMtwkt8okWryswahfFuz5Wcnz~7erbMcC~Qti7mWXvQFuTC6vAan-aDzo83A1AnT7g0got3J0ERTUKhVxBp88PG3hHMcyVdkYsqjyqozKkCdgZR-Oq5RWsWP-SJ2OdSKqRkIPMcjDVQYoD~Ynqs3vIsFBlNQHU8NSt2Y-WCrETNcLQ8~nTxwcitXu4BEvqmbcC6ipA-hZclhe6BN-~yITVA1XxjKDQXCYzi9joiG3BuWQlFkfq-kVQfDKmMNlTdtxNRaOjSv5Y9eF0x4SbKc~rjmvmKjHnqSupjusFwlNl7I91LYB6N4wscGHVg__';
@@ -79,7 +80,16 @@ class _HomePageState extends State<HomePage> {
                           right: 0,
                           child: Center(
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                final Uri url =
+                                    Uri.parse('https://shop.line.me/@deemmi');
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url,
+                                      mode: LaunchMode.platformDefault);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 20,
