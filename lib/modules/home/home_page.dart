@@ -48,11 +48,11 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   children: [
                     const SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
                     _buildPetList(),
                     const SizedBox(
-                      height: 20,
+                      height: 35,
                     ),
                     Center(
                       child: Text(
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 20),
+          padding: const EdgeInsets.only(left: 30),
           child: Text(
             'Article',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
           height: imageHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             itemCount: articles.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {},
