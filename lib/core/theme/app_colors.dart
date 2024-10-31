@@ -9,6 +9,8 @@ abstract class AppColor {
   static const secondaryBgColor = Color(0xffF8FAFC);
   static const brandYellow = Color(0xffE7B569);
 
+   static const Color homeBackground = Color.fromARGB(248, 250, 252, 255);
+
   static const base100 = Color(0xffF2F2F2);
   static const base200 = Color(0xffF8F8F8);
   static const base300 = Color(0xffF8FCFD);

@@ -37,7 +37,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+
+    return Container(
+    color: AppColor.homeBackground,
+    child: SafeArea(
       child: Stack(
         children: [
           Column(
@@ -153,10 +156,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    )
+ 
+ 
     );
-  }
-
-  Widget _buildArticleList() {
+ 
+  } // end widget
+Widget _buildArticleList() {
     final List<Article> articles = [
       Article(title: 'Article 1', imageUrl: mockArticleImage),
       Article(title: 'Article 2', imageUrl: mockArticleImage2),
@@ -166,7 +172,6 @@ class _HomePageState extends State<HomePage> {
     final imageWidth = screenSize * 0.8;
     final imageHeight = imageWidth / 1.8;
 
-     final listHeight = screenSize * 0.6; 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -182,32 +187,34 @@ class _HomePageState extends State<HomePage> {
         const SizedBox(
           height: 10,
         ),
-       SizedBox(
-          height:
-              imageHeight * 1.2 , // แก้ความสูง scrollbar
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SizedBox(
-              height: imageHeight, // Keeps horizontal list height fixed
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                itemCount: articles.length,
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    width: imageWidth,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(articles[index].imageUrl),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
+        Padding(
+          padding: const EdgeInsets.only(left: 30), // Align with "Article"
+          child: SizedBox(
+            height: imageHeight * 1.2, // Adjust height for scrollbar as needed
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SizedBox(
+                height: imageHeight, // Keeps horizontal list height fixed
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  // Remove horizontal padding here
+                  itemCount: articles.length,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      width: imageWidth,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(articles[index].imageUrl),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                        color: Colors.white, // Set the border color to white
-                        width: 3, // Set the border width as needed
+                          color: Colors.white,
+                          width: 3,
+                        ),
                       ),
                     ),
                   ),
@@ -215,11 +222,74 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-        )
-
+        ),
       ],
     );
   }
+
+  // Widget _buildArticleList() {
+  //   final List<Article> articles = [
+  //     Article(title: 'Article 1', imageUrl: mockArticleImage),
+  //     Article(title: 'Article 2', imageUrl: mockArticleImage2),
+  //   ];
+
+  //   final screenSize = MediaQuery.of(context).size.width;
+  //   final imageWidth = screenSize * 0.8;
+  //   final imageHeight = imageWidth / 1.8;
+
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 30),
+  //         child: Text(
+  //           'Article',
+  //           style: Theme.of(context).textTheme.titleLarge?.copyWith(
+  //                 color: AppColor.primary500,
+  //               ),
+  //         ),
+  //       ),
+  //       const SizedBox(
+  //         height: 10,
+  //       ),
+  //      SizedBox(
+  //         height:
+  //             imageHeight * 1.2 , // แก้ความสูง scrollbar
+  //         child: SingleChildScrollView(
+  //           scrollDirection: Axis.vertical,
+  //           child: SizedBox(
+  //             height: imageHeight, // Keeps horizontal list height fixed
+  //             child: ListView.builder(
+  //               scrollDirection: Axis.horizontal,
+  //               padding: const EdgeInsets.symmetric(horizontal: 30),
+  //               itemCount: articles.length,
+  //               itemBuilder: (context, index) => GestureDetector(
+  //                 onTap: () {},
+  //                 child: Container(
+  //                   margin: const EdgeInsets.only(right: 10),
+  //                   width: imageWidth,
+  //                   height: double.infinity,
+  //                   decoration: BoxDecoration(
+  //                     image: DecorationImage(
+  //                       image: NetworkImage(articles[index].imageUrl),
+  //                       fit: BoxFit.cover,
+  //                     ),
+  //                     borderRadius: BorderRadius.circular(10),
+  //                       border: Border.all(
+  //                       color: Colors.white, // Set the border color to white
+  //                       width: 3, // Set the border width as needed
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       )
+
+  //     ],
+  //   );
+  // }
 
   Widget _buildPetList() {
     final List<Pet?> pets = [
