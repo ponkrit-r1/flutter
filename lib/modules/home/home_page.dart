@@ -115,6 +115,8 @@ class _HomePageState extends State<HomePage> {
                                           .bodyLarge
                                           ?.copyWith(
                                             color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+
                                           ),
                                     ),
                                     const SizedBox(
@@ -230,10 +232,10 @@ class _HomePageState extends State<HomePage> {
                   DottedBorder(
                     borderType: BorderType.Circle,
                     color: AppColor.formTextColor,
-                    strokeWidth: 2,
+                    strokeWidth: 1,
                     child: Container(
-                      width: 40,
-                      height: 40,
+                      width: 36,
+                      height: 36,
                       padding: const EdgeInsets.all(2),
                       child: const Center(
                           child: Icon(
@@ -246,7 +248,8 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'Add',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
+                          color: const Color.fromARGB(255, 153, 168, 175)
                         ),
                   )
                 ],
@@ -288,7 +291,8 @@ class _HomePageState extends State<HomePage> {
           Text(
             pet.name,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
+                  color: AppColor.dark500
                 ),
           )
         ],
@@ -348,6 +352,7 @@ class _HomePageState extends State<HomePage> {
                   style: textTheme(context).headlineLarge?.copyWith(
                         color: AppColor.textColor,
                         fontWeight: FontWeight.w600,
+                         fontSize: 26,
                       ),
                 ),
                 TextSpan(
@@ -355,6 +360,7 @@ class _HomePageState extends State<HomePage> {
                   style: textTheme(context).headlineLarge?.copyWith(
                         color: AppColor.primary500,
                         fontWeight: FontWeight.w600,
+                         fontSize: 26,
                       ),
                 )
               ],
