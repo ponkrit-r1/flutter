@@ -4,6 +4,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
+import '../../../routes/app_routes.dart';
 
 final mockDogImage =
     'https://s3-alpha-sig.figma.com/img/952e/705e/5cd22f9ed130680a0c8240212a73e224?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KjD-ZRhmbFEQM0OkfrMm-2J80qhjMtwkt8okWryswahfFuz5Wcnz~7erbMcC~Qti7mWXvQFuTC6vAan-aDzo83A1AnT7g0got3J0ERTUKhVxBp88PG3hHMcyVdkYsqjyqozKkCdgZR-Oq5RWsWP-SJ2OdSKqRkIPMcjDVQYoD~Ynqs3vIsFBlNQHU8NSt2Y-WCrETNcLQ8~nTxwcitXu4BEvqmbcC6ipA-hZclhe6BN-~yITVA1XxjKDQXCYzi9joiG3BuWQlFkfq-kVQfDKmMNlTdtxNRaOjSv5Y9eF0x4SbKc~rjmvmKjHnqSupjusFwlNl7I91LYB6N4wscGHVg__';
@@ -306,37 +308,48 @@ Widget _buildArticleList() {
         itemCount: pets.length,
         itemBuilder: (context, index) {
           if (pets[index] == null) {
-            return Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  DottedBorder(
-                    borderType: BorderType.Circle,
-                    color: AppColor.formTextColor,
-                    strokeWidth: 1,
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      padding: const EdgeInsets.all(2),
-                      child: const Center(
+   return GestureDetector(
+              onTap: () {
+              try {
+                  Get.toNamed(Routes.addPet);
+                } catch (e) {
+                  print("Navigation error: $e");
+                }
+              },
+              child: Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DottedBorder(
+                      borderType: BorderType.Circle,
+                      color: AppColor.formTextColor,
+                      strokeWidth: 1,
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        padding: const EdgeInsets.all(2),
+                        child: const Center(
                           child: Icon(
-                        Icons.add,
-                        color: AppColor.formTextColor,
-                      )),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Add',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: const Color.fromARGB(255, 153, 168, 175)
+                            Icons.add,
+                            color: AppColor.formTextColor,
+                          ),
                         ),
-                  )
-                ],
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Add',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: const Color.fromARGB(255, 153, 168, 175),
+                          ),
+                    ),
+                  ],
+                ),
               ),
             );
+
           }
           return _buildPetButton(pets[index]!);
         },
@@ -410,14 +423,26 @@ Widget _buildArticleList() {
                 children: [
                   HeaderButton(
                     iconPath: 'assets/icons/settings.svg',
-                    onTap: () {},
+                      onTap: () {
+                      try {
+                        Get.toNamed(Routes.account_setting);
+                      } catch (e) {
+                        print("Navigation error: $e");
+                      }
+                    },
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   HeaderButton(
                     iconPath: 'assets/icons/bell.svg',
-                    onTap: () {},
+                     onTap: () {
+                      try {
+                        Get.toNamed(Routes.notification);
+                      } catch (e) {
+                        print("Navigation error: $e");
+                      }
+                    },
                   ),
                 ],
               ),

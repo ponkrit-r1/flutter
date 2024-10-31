@@ -17,6 +17,14 @@ import 'package:deemmi/modules/routing/restriction/no_connection_page.dart';
 import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:get/get.dart';
+import 'package:deemmi/modules/notification/notification.dart';
+import 'package:deemmi/modules/settings/account_setting/account_setting_page.dart';
+import 'package:deemmi/modules/settings/account_setting/update_email_page.dart';
+import 'package:deemmi/modules/settings/account_setting/update_name_page.dart';
+import 'package:deemmi/modules/settings/account_setting/update_password_page.dart';
+import 'package:deemmi/modules/settings/account_setting/update_username_page.dart';
+
+import 'package:deemmi/modules/settings/account_setting/update_user_otp.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
 import '../modules/root/root_page.dart';
@@ -78,6 +86,35 @@ abstract class AppPages {
       name: Routes.healthInfo,
       page: () => const PetHealthInfoPage(),
       binding: PetHealthInfoBinding(),
+    ),
+    GetPage(
+      name: Routes.notification,
+      page: () => const NotificationPage(),
+    ),
+    GetPage(
+      name: Routes.account_setting,
+      page: () => const AccountSettingPage(),
+    ),
+    GetPage(
+       name: Routes.update_email,
+       page: () =>  UpdateEmailPage(),
+    ),
+    GetPage(
+       name: Routes.update_username,
+       page: () => const UpdateUsernamePage(),
+    ),
+    GetPage(
+      name: Routes.update_password,
+      page: () => const ChangePasswordPage(),
+    ),
+    GetPage(
+      name: Routes.update_name,
+      page: () => const UpdateNamePage(),
+    ),
+    GetPage(
+      name: Routes.update_user_otp,
+      page: () => const OTPVerificationPage(),
     )
+
   ];
 }
