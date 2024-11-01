@@ -1,6 +1,9 @@
 import 'package:deemmi/core/data/api/authentication_api.dart';
+import 'package:deemmi/core/data/app_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../../routes/app_routes.dart';
+
 
 class SignInController extends GetxController {
   final _isLoading = false.obs;
@@ -44,6 +47,24 @@ class SignInController extends GetxController {
     );
     _isLoading.value = false;
   }
+
+void signOut() async {
+    try {
+
+      await Get.find<AppStorage>().logout();
+ 
+       emailController.clear();
+      passwordController.clear();
+      _isLoading.value = false;
+      _isInformationCompleted.value = false;
+
+       Get.offAllNamed(Routes.signIn);
+
+    } catch (error) {
+      print("Error during sign-out: $error");
+    }
+  }
+
 
   @override
   void onClose() {

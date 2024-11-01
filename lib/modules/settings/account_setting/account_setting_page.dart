@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
-import 'package:deemmi/core/utils/widget_extension.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
+import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 
 class AccountSettingPage extends StatelessWidget {
   const AccountSettingPage({Key? key}) : super(key: key);
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,9 +106,11 @@ class AccountSettingPage extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
-                onPressed: () {
-                  // Add logout functionality here
-                },
+                onPressed: signOut,
+                // onPressed: () {
+                //     // signOut();
+                //     //Get.offAllNamed(Routes.signIn);
+                // },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.red,
@@ -171,4 +169,15 @@ class AccountSettingPage extends StatelessWidget {
       ),
     );
   }
+
+ void signOut() {
+   try {
+       Get.find<SignInController>().signOut();
+    } catch (e) {
+      print(e);
+    }
+    //Get.offAllNamed(Routes.signIn);
+  }
+
+
 }

@@ -1,4 +1,5 @@
 
+import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/network/api_client.dart';
 import 'package:deemmi/core/network/url.dart';
 import 'package:deemmi/routes/app_page.dart';
@@ -10,6 +11,9 @@ import 'package:get/get.dart';
 import 'core/data/app_storage.dart';
 import 'core/theme/app_theme.dart';
 import 'routes/app_routes.dart';
+
+import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +27,13 @@ void main() async {
   );
   Get.put(appStorage, permanent: true);
   Get.put(apiClient, permanent: true);
+
+
+  // Initialize AuthenticationAPI for SignInController
+  final authAPI = AuthenticationAPI(apiClient, appStorage);
+  Get.put(SignInController(authAPI),
+      permanent: true); 
+
   runApp(const MyApp(initialRoute: Routes.routing));
 }
 
