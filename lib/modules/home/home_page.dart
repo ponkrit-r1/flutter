@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               _buildHeader(),
               Expanded(
-                child: ListView(
+                child: Stack(
+                  children: [
+                    ListView(
                   children: [
                     const SizedBox(
                       height: 30,
@@ -144,6 +146,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     _buildArticleList(),
                   ],
+                    )
+            ]
                 ),
               ),
             ],
