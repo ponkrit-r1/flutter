@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 abstract class AppColor {
   static const primary500 = Color(0xff2563EB);
+  static const primaryLight = Color(0xffDAEBF3);
 
   static const secondary500 = Color(0xff00D797);
 
   static const secondaryBgColor = Color(0xffF8FAFC);
   static const brandYellow = Color(0xffE7B569);
+
+   static const Color homeBackground = Color.fromARGB(248, 250, 252, 255);
 
   static const base100 = Color(0xffF2F2F2);
   static const base200 = Color(0xffF8F8F8);
@@ -21,6 +24,7 @@ abstract class AppColor {
   static const redError = Color(0xffEF4444);
   static const notificationRed = Color(0xffEA4C46);
   static const yellowWarning = Color(0xffF4BF59);
+  static const green = Color(0xff00D797);
   static const greenNormal = Color(0xff89C596);
   static const orangeWarningProgress = Color(0xffED820E);
 
@@ -29,7 +33,6 @@ abstract class AppColor {
   static const formTextColor = Color(0xff9CA3AF);
   static const disableColor = Color(0xffF3F4F6);
   static const borderColor = Color(0xffE5E7EB);
-
 
   static const MaterialColor primaryBlack = MaterialColor(
     _blackPrimaryValue,

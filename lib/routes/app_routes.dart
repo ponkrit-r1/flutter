@@ -11,6 +11,13 @@ abstract class Routes {
   static const onboarding = '/on_boarding';
   static const createAccountSuccess = '/create_account_success';
   static const petProfile = '/pet_profile';
+  static const notification = '/notification';
+  static const account_setting = '/account_setting';
+  static const update_email = '/update_email';
+  static const update_username = '/update_username';
+  static const update_password = '/update_password';
+  static const update_name = '/update_name';
+  static const update_user_otp = '/update_user_otp';
 
   //Restriction
   static const noConnection = '/noConnection';

@@ -1,5 +1,6 @@
 import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
+import 'package:deemmi/modules/home/home_page.dart';
 import 'package:deemmi/modules/pet/list/pet_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -65,21 +66,7 @@ class _RootPageState extends State<RootPage> {
 
   _buildScreens() {
     return [
-      SafeArea(
-          child: Center(
-              child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset('assets/images/empty_pet_info.webp'),
-          const SizedBox(height: 16),
-          Text(
-            stringRes(context)!.comingSoonLabel,
-            style: textTheme(context)
-                .bodyLarge
-                ?.copyWith(color: AppColor.secondaryContentGray),
-          ),
-        ],
-      ))),
+      const HomePage(),
       const PetListPage(),
       SafeArea(
         child: Center(
