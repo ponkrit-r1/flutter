@@ -1,6 +1,12 @@
 import 'package:deemmi/modules/authentication/complete/create_account_success_page.dart';
 import 'package:deemmi/modules/authentication/register/create_account_binding.dart';
 import 'package:deemmi/modules/authentication/register/create_account_page.dart';
+import 'package:deemmi/modules/authentication/reset/confirm_password/confirm_password_binding.dart';
+import 'package:deemmi/modules/authentication/reset/confirm_password/confirm_password_page.dart';
+import 'package:deemmi/modules/authentication/reset/email_to_reset/input_email_reset_password_binding.dart';
+import 'package:deemmi/modules/authentication/reset/email_to_reset/input_email_reset_password_page.dart';
+import 'package:deemmi/modules/authentication/reset/reset_code/reset_password_verification_binding.dart';
+import 'package:deemmi/modules/authentication/reset/reset_code/reset_password_verification_page.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_binding.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_page.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_binding.dart';
@@ -114,7 +120,21 @@ abstract class AppPages {
     GetPage(
       name: Routes.update_user_otp,
       page: () => const OTPVerificationPage(),
+    ),
+    GetPage(
+      name: Routes.resetPasswordEmail,
+      page: () => const InputEmailResetPasswordPage(),
+      binding: InputEmailResetPasswordBinding(),
+    ),
+    GetPage(
+      name: Routes.resetPasswordConfirm,
+      page: () => const ConfirmPasswordPage(),
+      binding: ConfirmPasswordBinding(),
+    ),
+    GetPage(
+      name: Routes.resetPasswordVerification,
+      page: () => const ResetPasswordVerificationPage(),
+      binding: ResetPasswordVerificationBinding(),
     )
-
   ];
 }

@@ -153,6 +153,21 @@ class AuthenticationAPI {
     return response.data;
   }
 
+  Future<dynamic> verifyResetEmail(
+    String email,
+    String code,
+  ) async {
+    Map<String, dynamic> params = {
+      'email': email,
+      'otp': code,
+    };
+
+    // await apiClient.postHTTP(
+    //   "/verify/",
+    //   params,
+    // );
+  }
+
   Future<dynamic> verifyOtp(
     String email,
     String code,

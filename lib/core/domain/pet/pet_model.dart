@@ -12,8 +12,8 @@ class PetModel {
   final String? gender;
   final DateTime dob;
   final num? weight;
-  final String careSystem;
-  final String characteristics;
+  final String? careSystem;
+  final String? characteristics;
   Uint8List? imageData;
 
   PetModel({

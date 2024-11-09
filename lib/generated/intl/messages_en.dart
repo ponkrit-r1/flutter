@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "catLabel": MessageLookupByLibrary.simpleMessage("Cat"),
         "chronicDiseaseLabel":
             MessageLookupByLibrary.simpleMessage("Chronic disease"),
+        "closeLabel": MessageLookupByLibrary.simpleMessage("Close"),
         "comingSoonLabel": MessageLookupByLibrary.simpleMessage("Coming Soon"),
         "communityLabel": MessageLookupByLibrary.simpleMessage("Community"),
         "confirmLabel": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -48,6 +49,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create account with"),
         "createAccountWithEmail":
             MessageLookupByLibrary.simpleMessage("Create account with Email"),
+        "createNewPasswordLabel":
+            MessageLookupByLibrary.simpleMessage("Create new password"),
         "dateOfBirthLabel":
             MessageLookupByLibrary.simpleMessage("Date of birth"),
         "deleteLabel": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -80,6 +83,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "kgLabel": MessageLookupByLibrary.simpleMessage("kg"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("Last name"),
         "loginLabel": MessageLookupByLibrary.simpleMessage("Log in"),
+        "loginWithNewPassword": MessageLookupByLibrary.simpleMessage(
+            "You can now login with a new password"),
         "maleLabel": MessageLookupByLibrary.simpleMessage("Male"),
         "maximumSizeLabel":
             MessageLookupByLibrary.simpleMessage("Maximum size: 5MB"),
@@ -90,6 +95,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "myPetLabel": MessageLookupByLibrary.simpleMessage("My pet"),
         "networkErrorMessage":
             MessageLookupByLibrary.simpleMessage("Network error"),
+        "newPasswordLabel":
+            MessageLookupByLibrary.simpleMessage("New password"),
         "nextLabel": MessageLookupByLibrary.simpleMessage("Next"),
         "noLabel": MessageLookupByLibrary.simpleMessage("No"),
         "onboarding1Subtitle": MessageLookupByLibrary.simpleMessage(
@@ -112,6 +119,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordNotMatch":
             MessageLookupByLibrary.simpleMessage("Password not match"),
+        "passwordUpdatedLabel": MessageLookupByLibrary.simpleMessage(
+            "Your password has been updated"),
         "petNameLabel": MessageLookupByLibrary.simpleMessage("Pet name"),
         "petTypeLabel": MessageLookupByLibrary.simpleMessage("Pet type"),
         "placeHolderTermAndCondition": MessageLookupByLibrary.simpleMessage(
@@ -121,6 +130,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pressAgainToExitTheApp":
             MessageLookupByLibrary.simpleMessage("Press again to exit the app"),
         "resendOtpLabel": MessageLookupByLibrary.simpleMessage("Resend OTP"),
+        "resetPasswordDescription": MessageLookupByLibrary.simpleMessage(
+            "We will send reset code to your e-mail"),
+        "resetPasswordLabel":
+            MessageLookupByLibrary.simpleMessage("Reset password"),
         "saveLabel": MessageLookupByLibrary.simpleMessage("Save"),
         "scrollToBottomLabel":
             MessageLookupByLibrary.simpleMessage("Scroll down to agree"),
@@ -137,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Special characteristics "),
         "sterilizationLabel":
             MessageLookupByLibrary.simpleMessage("Sterilization"),
+        "submitLabel": MessageLookupByLibrary.simpleMessage("Submit"),
         "termAndCondition":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "unknownErrorMessage":

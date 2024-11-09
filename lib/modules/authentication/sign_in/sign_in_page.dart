@@ -147,11 +147,16 @@ class _SignInPageState extends State<SignInPage> {
                 color: AppColor.textColor, fontWeight: FontWeight.w600),
           ),
           const Spacer(),
-          Text(
-            stringRes(context)!.forgotPassword,
-            style: textTheme(context).bodyMedium?.copyWith(
-                  color: AppColor.primary500,
-                ),
+          InkWell(
+            onTap: () {
+              navigateToForgotPassword();
+            },
+            child: Text(
+              stringRes(context)!.forgotPassword,
+              style: textTheme(context).bodyMedium?.copyWith(
+                    color: AppColor.primary500,
+                  ),
+            ),
           )
         ],
       ),
@@ -243,7 +248,9 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  showForgotPasswordDialog(BuildContext context) {}
+  navigateToForgotPassword() {
+    Get.toNamed(Routes.resetPasswordEmail);
+  }
 
   onDisplaySnackBar(String message) {
     var snackBar = SnackBar(content: Text(message));

@@ -524,6 +524,7 @@ class _AddPetPageState extends State<AddPetPage> {
           ),
           borderRadius: const BorderRadius.all(Radius.circular(100))),
       child: DropdownButtonFormField<T>(
+        value: selectedValue,
         decoration: const InputDecoration(
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,

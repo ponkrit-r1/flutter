@@ -41,16 +41,17 @@ class AddPetController extends GetxController {
 
   DateTime? get selectedDate => _selectedDate.value;
 
-  String? get displayDate => _selectedDate.value != null
-      ? DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY).format(_selectedDate.value!)
-      : null;
+  String? get displayDate =>
+      _selectedDate.value != null
+          ? DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY).format(
+          _selectedDate.value!)
+          : null;
 
   DateTime? preSelectedDate;
 
   final PetModel? editingPet;
 
-  AddPetController(
-    this.petRepository, {
+  AddPetController(this.petRepository, {
     this.editingPet,
   });
 
@@ -78,10 +79,14 @@ class AddPetController extends GetxController {
 
   String? get selectedCareSystem => _selectedCareSystem.value;
 
-  String? get displayPetAge => _selectedDate.value != null
-      ? ((DateTime.now().difference(_selectedDate.value!).inDays) ~/ (30))
+  String? get displayPetAge =>
+      _selectedDate.value != null
+          ? ((DateTime
+          .now()
+          .difference(_selectedDate.value!)
+          .inDays) ~/ (30))
           .toString()
-      : null;
+          : null;
 
   final RxnString _selectedGender = RxnString();
 
@@ -134,7 +139,7 @@ class AddPetController extends GetxController {
 
     if (petModel.image != null) {
       var data = (await NetworkAssetBundle(Uri.parse(petModel.image!))
-              .load(petModel.image!))
+          .load(petModel.image!))
           .buffer
           .asUint8List();
       _displaySelectedImage.value = data;
@@ -153,7 +158,9 @@ class AddPetController extends GetxController {
   }
 
   getAnimalType() async {
-    _animalTypes.value = await petRepository.getAnimalType();
+    _animalTypes.assignAll(await petRepository.getAnimalType());
+    //TODO make this dynamic force length to be two from requirement
+    _animalTypes.assignAll(_animalTypes.sublist(0, 2));
   }
 
   onPetTypeSelect() async {
@@ -161,6 +168,7 @@ class AddPetController extends GetxController {
       _animalBreed.value = await petRepository.getAnimalBreed(
         _selectedPetType.value!.id,
       );
+      _selectedBreed.value = null;
     }
     checkInformation();
   }
@@ -170,25 +178,19 @@ class AddPetController extends GetxController {
     checkInformation();
   }
 
-  setPetType(
-    AnimalType type,
-    int idx,
-  ) {
+  setPetType(AnimalType type,
+      int idx,) {
     _selectedPetType.value = type;
     onPetTypeSelect();
   }
 
-  setCareSystem(
-    String type,
-    int idx,
-  ) {
+  setCareSystem(String type,
+      int idx,) {
     _selectedCareSystem.value = type;
   }
 
-  setGender(
-    String gender,
-    int idx,
-  ) {
+  setGender(String gender,
+      int idx,) {
     _selectedGender.value = gender;
   }
 

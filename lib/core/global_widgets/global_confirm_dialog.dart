@@ -11,15 +11,19 @@ class ConfirmDialog extends StatelessWidget {
   final String description;
   final String confirmText;
   final Widget? topWidget;
+  final bool hideCancel;
+  final Color confirmColor;
 
-  const ConfirmDialog({
-    Key? key,
-    required this.onConfirm,
-    required this.title,
-    required this.description,
-    required this.confirmText,
-    this.topWidget,
-  }) : super(key: key);
+  const ConfirmDialog(
+      {Key? key,
+      required this.onConfirm,
+      required this.title,
+      required this.description,
+      required this.confirmText,
+      this.topWidget,
+      this.hideCancel = false,
+      this.confirmColor = AppColor.redError})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +41,12 @@ class ConfirmDialog extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            if (topWidget != null) ...[topWidget!,const SizedBox(height: 24)],
+            if (topWidget != null) ...[topWidget!, const SizedBox(height: 24)],
             Center(
               child: Text(
                 title,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(color: AppColor.textColor, fontWeight: FontWeight.w700),
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    color: AppColor.textColor, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -70,14 +72,15 @@ class ConfirmDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: SecondaryButton(
-                      child: Text(AppLocalizations.of(context)!.cancelLabel),
-                      onPressed: () {
-                        Get.back();
-                      },
+                  if (!hideCancel)
+                    Expanded(
+                      child: SecondaryButton(
+                        child: Text(AppLocalizations.of(context)!.cancelLabel),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
                     ),
-                  ),
                   const SizedBox(
                     width: 8,
                   ),
@@ -88,7 +91,7 @@ class ConfirmDialog extends StatelessWidget {
                         onConfirm();
                         Get.back();
                       },
-                      color: AppColor.redError,
+                      color: confirmColor,
                     ),
                   ),
                 ],

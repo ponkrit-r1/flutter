@@ -200,6 +200,46 @@ class S {
     );
   }
 
+  /// `Submit`
+  String get submitLabel {
+    return Intl.message(
+      'Submit',
+      name: 'submitLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your password has been updated`
+  String get passwordUpdatedLabel {
+    return Intl.message(
+      'Your password has been updated',
+      name: 'passwordUpdatedLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can now login with a new password`
+  String get loginWithNewPassword {
+    return Intl.message(
+      'You can now login with a new password',
+      name: 'loginWithNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get closeLabel {
+    return Intl.message(
+      'Close',
+      name: 'closeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Keep your pet healthy`
   String get onboarding1Title {
     return Intl.message(
@@ -485,6 +525,26 @@ class S {
     return Intl.message(
       'I Agree',
       name: 'iAgreeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create new password`
+  String get createNewPasswordLabel {
+    return Intl.message(
+      'Create new password',
+      name: 'createNewPasswordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New password`
+  String get newPasswordLabel {
+    return Intl.message(
+      'New password',
+      name: 'newPasswordLabel',
       desc: '',
       args: [],
     );
@@ -925,6 +985,26 @@ class S {
     return Intl.message(
       'Community',
       name: 'communityLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset password`
+  String get resetPasswordLabel {
+    return Intl.message(
+      'Reset password',
+      name: 'resetPasswordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We will send reset code to your e-mail`
+  String get resetPasswordDescription {
+    return Intl.message(
+      'We will send reset code to your e-mail',
+      name: 'resetPasswordDescription',
       desc: '',
       args: [],
     );
