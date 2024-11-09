@@ -11,6 +11,9 @@ abstract class Routes {
   static const onboarding = '/on_boarding';
   static const createAccountSuccess = '/create_account_success';
   static const petProfile = '/pet_profile';
+  static const resetPasswordEmail = '/reset_password_email';
+  static const resetPasswordVerification = '/reset_password_verify';
+  static const resetPasswordConfirm = '/reset_password_confirm';
   static const notification = '/notification';
   static const account_setting = '/account_setting';
   static const update_email = '/update_email';

@@ -275,9 +275,19 @@ class _PettaguTextField extends State<PettaguTextField> {
 
   Widget? _suffixIcon() {
     if (widget.errorText != null) {
-      return const Icon(
-        Icons.error,
-        color: AppColor.redError,
+      return InkWell(
+        onTap: () {
+          if(widget.obscureText) {
+            _isPasswordVisible = true;
+            setState(() {
+
+            });
+          }
+        },
+        child: const Icon(
+          Icons.error,
+          color: AppColor.redError,
+        ),
       );
     }
     if (widget.obscureText) {

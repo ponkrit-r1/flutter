@@ -18,7 +18,7 @@ class PetRepository {
   }
 
   Future<List<AnimalType>> getAnimalType() async {
-    return await petAPI.getAnimalType();
+    return  petAPI.getAnimalType();
   }
 
   Future<List<AnimalBreed>> getAnimalBreed(int animalType) async {

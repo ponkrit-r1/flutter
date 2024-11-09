@@ -38,7 +38,7 @@ class PetAPI {
 
   Future<List<AnimalBreed>> getAnimalBreed(int animalType) async {
     var response = await apiClient
-        .getHTTP('/mypet/settings/animal-type', queryParameters: {
+        .getHTTP('/mypet/settings/animal-type-breed/', queryParameters: {
       'animal_type': animalType,
     });
     return List<AnimalBreed>.from(
@@ -47,7 +47,7 @@ class PetAPI {
   }
 
   Future<List<AnimalType>> getAnimalType() async {
-    var response = await apiClient.getHTTP('/mypet/settings/animal-type-breed');
+    var response = await apiClient.getHTTP('/mypet/settings/animal-type/');
     return List<AnimalType>.from(
       response.data.map((e) => AnimalType.fromJson(e)),
     );
