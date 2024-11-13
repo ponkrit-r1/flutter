@@ -20,6 +20,14 @@ class AnswerChoice {
         return 'Don\'t know';
     }
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is AnswerChoice && toString() == other.toString();
+      @override
+      int get hashCode => Object.hash(option.index, toString()
+
+  );
 }
 
 enum AnswerOption {

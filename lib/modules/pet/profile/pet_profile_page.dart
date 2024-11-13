@@ -222,7 +222,13 @@ class PetProfilePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          petInfoSection('Health information', context),
+          petInfoSection(
+            'Health information',
+            context,
+            () {
+              navigateToAddHealthInfo();
+            },
+          ),
           const SizedBox(height: 16),
           SizedBox(
             height: 3,
@@ -232,7 +238,13 @@ class PetProfilePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          petInfoSection('Clinic information', context),
+          petInfoSection(
+            'Clinic information',
+            context,
+            () {
+              _navigateToAddClinic();
+            },
+          ),
           const SizedBox(height: 16),
           SizedBox(
             height: 3,
@@ -349,7 +361,11 @@ class PetProfilePage extends StatelessWidget {
     );
   }
 
-  petInfoSection(String title, BuildContext context) {
+  petInfoSection(
+    String title,
+    BuildContext context,
+    VoidCallback onEditPress,
+  ) {
     return Row(
       children: [
         Text(
@@ -357,9 +373,12 @@ class PetProfilePage extends StatelessWidget {
           style: textTheme(context).headlineMedium,
         ),
         const SizedBox(width: 8),
-        const Icon(
-          Icons.edit_rounded,
-          color: AppColor.primary500,
+        InkWell(
+          onTap: onEditPress,
+          child: const Icon(
+            Icons.edit_rounded,
+            color: AppColor.primary500,
+          ),
         ),
         const Spacer(),
         const Icon(
@@ -396,5 +415,17 @@ class PetProfilePage extends StatelessWidget {
         const SizedBox(height: 8),
       ],
     );
+  }
+
+  navigateToAddHealthInfo() {
+    Get.toNamed(Routes.healthInfo, arguments: {
+      RouteParams.petModel: controller.petModel,
+    });
+  }
+
+  _navigateToAddClinic() {
+    Get.toNamed(Routes.addPetClinic, arguments: {
+      RouteParams.petModel: controller.petModel,
+    });
   }
 }

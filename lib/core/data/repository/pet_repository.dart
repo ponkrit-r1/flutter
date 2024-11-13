@@ -1,6 +1,9 @@
 import 'package:deemmi/core/data/api/pet_api.dart';
 import 'package:deemmi/core/domain/auth/animal_breed.dart';
 import 'package:deemmi/core/domain/auth/animal_type.dart';
+import 'package:deemmi/core/domain/pet/clinic.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_brand.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
 import 'package:deemmi/core/domain/pet/pet_model.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -18,7 +21,7 @@ class PetRepository {
   }
 
   Future<List<AnimalType>> getAnimalType() async {
-    return  petAPI.getAnimalType();
+    return petAPI.getAnimalType();
   }
 
   Future<List<AnimalBreed>> getAnimalBreed(int animalType) async {
@@ -35,5 +38,17 @@ class PetRepository {
 
   Future<void> deletePet(int petId) async {
     await petAPI.deletePet(petId);
+  }
+
+  Future<List<VaccineType>> getVaccineType(int animalType) async {
+    return await petAPI.getVaccineType(animalType);
+  }
+
+  Future<List<VaccineBrand>> getVaccineBrand() async {
+    return await petAPI.getVaccineBrand();
+  }
+
+  Future<List<Clinic>> getClinic() async {
+    return await petAPI.getClinic();
   }
 }

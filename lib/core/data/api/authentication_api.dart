@@ -35,18 +35,6 @@ class AuthenticationAPI {
     return user;
   }
 
-  // Future<List<Consent>> consents() async {
-  //   final params = {"latest_version": true};
-  //
-  //   var response = await apiClient.getHTTP(
-  //     '/api/v1/services/consents',
-  //   );
-  //
-  //   final List<Consent> consents = Consent.listFromJsonAPI(response.data);
-  //
-  //   return consents;
-  // }
-
   Future<TermData> getLatestConditionFile() async {
     var response = await apiClient.getHTTP('/user-condition/condition_file');
     return TermData.fromJson(response.data);
@@ -55,29 +43,6 @@ class AuthenticationAPI {
   Future<User> register(CreateAccountModel model) async {
     var response = await apiClient.postHTTP('/signup/', model.toJson());
     return User.fromJson(response.data);
-  }
-
-  Future<void> resetPassword(
-      {required String phoneNumber,
-      required String requestId,
-      required String newPassword}) async {
-    final params = {
-      "data": {
-        "type": "reset_password",
-        "attributes": {
-          "phone_number": phoneNumber,
-          "request_id": requestId,
-          "password": newPassword
-        }
-      }
-    };
-
-    await apiClient.putHTTP(
-      '/api/v1/services/accounts/reset_password',
-      params,
-    );
-
-    return;
   }
 
   Future<void> updateAccount({
@@ -135,7 +100,7 @@ class AuthenticationAPI {
       params,
     );
     var userSession = UserSession.fromJson(response.data);
-    appStorage.setUserSession(userSession);
+    await appStorage.setUserSession(userSession);
     return userSession;
   }
 
@@ -179,6 +144,43 @@ class AuthenticationAPI {
 
     await apiClient.postHTTP(
       "/verify/",
+      params,
+    );
+  }
+
+  Future<dynamic> resetPasswordOTP(String email,) async {
+    Map<String, dynamic> params = {
+      'email': email,
+    };
+
+    await apiClient.postHTTP(
+      "/user-reset-otp/",
+      params,
+    );
+  }
+
+  Future<dynamic> verifyResetOtp(String email,
+      String otp,) async {
+    Map<String, dynamic> params = {
+      "email": email,
+      "otp": otp,
+    };
+
+    await apiClient.postHTTP(
+      "/verify/",
+      params,
+    );
+  }
+
+  Future<dynamic> setPassword(String password,
+      String confirmPassword) async {
+    Map<String, dynamic> params = {
+      "new_password": password,
+      "new_password2": confirmPassword
+    };
+
+    await apiClient.postHTTP(
+      "/set-password/",
       params,
     );
   }

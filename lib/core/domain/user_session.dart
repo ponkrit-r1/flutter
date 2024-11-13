@@ -3,7 +3,7 @@ import 'dart:convert';
 class UserSession {
   final String accessToken;
   final DateTime? expiresAt;
-  final String refreshToken;
+  final String? refreshToken;
   final String? lifeTime;
 
   UserSession({
@@ -25,9 +25,11 @@ class UserSession {
   factory UserSession.fromMap(Map<String, dynamic> map) {
     return UserSession(
       accessToken: map['access'] ?? '',
-      expiresAt: DateTime.parse(map['access_token_expiry']),
+      expiresAt: map['access_token_expiry'] != null
+          ? DateTime.parse(map['access_token_expiry'])
+          : null,
       refreshToken: map['refresh'] ?? '',
-      lifeTime: map['access_token_lifetime'],
+      lifeTime: map['access_token_lifetime'] ?? '',
     );
   }
 

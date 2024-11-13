@@ -1,8 +1,10 @@
 import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/domain/answer_choice.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../core/domain/pet/health/vaccine/vaccine_brand.dart';
 import '../../../core/domain/pet/pet_model.dart';
 
 class PetHealthInfoController extends GetxController {
@@ -42,6 +44,18 @@ class PetHealthInfoController extends GetxController {
 
   final Rxn<AnswerChoice> _drugAllergyAnswer = Rxn();
 
+  final RxList<VaccineType> _vaccineTypeOptions = RxList.empty();
+
+  List<VaccineType> get vaccineTypeOptions => _vaccineTypeOptions;
+
+  final RxList<VaccineBrand> _vaccineBrandOptions = RxList.empty();
+
+  List<VaccineAllergyObject?> get vaccineAllergyList => _vaccineAllergyList;
+
+  final RxList<VaccineAllergyObject?> _vaccineAllergyList = RxList.empty();
+
+  List<VaccineBrand> get vaccineBrandOptions => _vaccineBrandOptions;
+
   AnswerChoice? get drugAllergyAnswer => _drugAllergyAnswer.value;
 
   bool get shouldDisplayAddChronicDiseaseSection =>
@@ -68,12 +82,18 @@ class PetHealthInfoController extends GetxController {
 
   List<TextEditingController> get drugAllergyList => _drugAllergyList;
 
-  final PetModel? editingPet;
+  final PetModel editingPet;
 
   PetHealthInfoController(
     this.petRepository,
     this.editingPet,
   );
+
+  @override
+  onReady() {
+    super.onReady();
+    getVaccineData();
+  }
 
   setSterilizationAnswer(AnswerChoice answer) {
     _sterilizationAnswer.value = answer;
@@ -83,6 +103,12 @@ class PetHealthInfoController extends GetxController {
     _chronicDiseaseAnswer.value = answer;
     if (answer.option == AnswerOption.yes && _chronicDiseaseList.isEmpty) {
       _chronicDiseaseList.add(TextEditingController());
+    }
+  }
+
+  onAddVaccineAllergy() {
+    if (_vaccineAllergyList.length <= 10) {
+      _vaccineAllergyList.add(null);
     }
   }
 
@@ -107,6 +133,43 @@ class PetHealthInfoController extends GetxController {
 
   setVaccineAllergy(AnswerChoice answer) {
     _vaccineAllergyAnswer.value = answer;
+    if (answer.option == AnswerOption.yes && drugAllergyList.isEmpty) {
+      _vaccineAllergyList.add(null);
+    }
+  }
+
+  onSetVaccineAllergyBrand(
+    int idx,
+    VaccineBrand brand,
+  ) {
+    var currentItem = _vaccineAllergyList.elementAt(idx);
+    if (currentItem != null) {
+      _vaccineAllergyList[idx] = currentItem.copyWith(
+        brand: brand,
+      );
+    } else {
+      _vaccineAllergyList[idx] = VaccineAllergyObject(
+        brand: brand,
+        type: null,
+      );
+    }
+  }
+
+  onSetVaccineAllergyType(
+    int idx,
+    VaccineType type,
+  ) {
+    var currentItem = _vaccineAllergyList.elementAt(idx);
+    if (currentItem != null) {
+      _vaccineAllergyList[idx] = currentItem.copyWith(
+        type: type,
+      );
+    } else {
+      _vaccineAllergyList[idx] = VaccineAllergyObject(
+        type: type,
+        brand: null,
+      );
+    }
   }
 
   setDrugAllergy(AnswerChoice answer) {
@@ -114,5 +177,74 @@ class PetHealthInfoController extends GetxController {
     if (answer.option == AnswerOption.yes && drugAllergyList.isEmpty) {
       _drugAllergyList.add(TextEditingController());
     }
+  }
+
+  onAddDrugAllergy() {
+    if (drugAllergyList.length <= 10) {
+      drugAllergyList.add(TextEditingController());
+    }
+  }
+
+  getVaccineData() async {
+    _vaccineTypeOptions.value =
+        await petRepository.getVaccineType(editingPet.animalType);
+    _vaccineBrandOptions.value = await petRepository.getVaccineBrand();
+  }
+
+  onDeleteFoodAllergy(int idx) {
+    foodAllergyList.removeAt(idx);
+  }
+
+  onDeleteChronicDisease(int idx) {
+    chronicDiseaseList.removeAt(idx);
+  }
+
+  onDeleteDrugAllergy(int idx) {
+    drugAllergyList.removeAt(idx);
+  }
+
+  onDeleteVaccineAllergy(int idx) {
+    _vaccineAllergyList.removeAt(idx);
+  }
+
+  disposeTextEditor() {
+    if (chronicDiseaseList.isNotEmpty) {
+      for (var element in chronicDiseaseList) {
+        element.dispose();
+      }
+    }
+    if (foodAllergyList.isNotEmpty) {
+      for (var element in foodAllergyList) {
+        element.dispose();
+      }
+    }
+    if (drugAllergyList.isNotEmpty) {
+      for (var element in drugAllergyList) {
+        element.dispose();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    disposeTextEditor();
+    super.dispose();
+  }
+}
+
+class VaccineAllergyObject {
+  final VaccineType? type;
+  final VaccineBrand? brand;
+
+  VaccineAllergyObject({required this.type, required this.brand});
+
+  VaccineAllergyObject copyWith({
+    VaccineType? type,
+    VaccineBrand? brand,
+  }) {
+    return VaccineAllergyObject(
+      type: type ?? this.type,
+      brand: brand ?? this.brand,
+    );
   }
 }

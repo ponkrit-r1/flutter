@@ -19,10 +19,8 @@ class AppInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
+    debugPrint("request");
     final userSession = await store.value.getUserSession();
-    //final language = store.value.getUserLanguage() ?? SupportedLocale.th;
-
-    //options.headers[languageHeader] = language.value;
 
     if (userSession != null) {
       options.headers['Authorization'] = 'Bearer ${userSession.accessToken}';
@@ -58,9 +56,9 @@ class AppInterceptor extends Interceptor {
         //TODO handle at local level
         //This should not be on prod
         Get.offAllNamed(Routes.signIn);
-
         Fluttertoast.showToast(
-            msg: "Refresh Token Fail",);
+          msg: "Refresh Token Fail",
+        );
       }
     } else {
       super.onError(err, handler);
@@ -72,6 +70,7 @@ class AppInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     try {
+      debugPrint("retry");
       final newResponse = await _retry(err.requestOptions);
       handler.resolve(newResponse);
     } catch (error) {

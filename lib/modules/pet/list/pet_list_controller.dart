@@ -14,6 +14,8 @@ class PetListController extends GetxController {
 
   final PetRepository petRepository;
 
+  var hasRetry = false;
+
   @override
   void onReady() {
     super.onReady();
@@ -26,6 +28,11 @@ class PetListController extends GetxController {
       _petList.value = await petRepository.getMyPet();
     } catch (e) {
       debugPrint(e.toString());
+      //Temporary fix for 401 error
+      if (!hasRetry) {
+        getMyPet();
+        hasRetry = true;
+      }
     } finally {
       isLoading.value = false;
     }

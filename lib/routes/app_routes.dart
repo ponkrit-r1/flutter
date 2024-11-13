@@ -15,6 +15,7 @@ abstract class Routes {
   static const resetPasswordVerification = '/reset_password_verify';
   static const resetPasswordConfirm = '/reset_password_confirm';
   static const notification = '/notification';
+  static const addPetClinic = '/add_clinic';
   static const account_setting = '/account_setting';
   static const update_email = '/update_email';
   static const update_username = '/update_username';
