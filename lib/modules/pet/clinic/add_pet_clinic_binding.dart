@@ -1,3 +1,4 @@
+import 'package:deemmi/modules/pet/clinic/add_pet_clinic_controller.dart';
 import 'package:deemmi/modules/pet/health_info/pet_health_info_controller.dart';
 import 'package:get/get.dart';
 
@@ -6,12 +7,12 @@ import '../../../core/data/repository/pet_repository.dart';
 import '../../../core/domain/pet/pet_model.dart';
 import '../../../routes/app_routes.dart';
 
-class PetHealthInfoBinding extends Bindings {
+class AddPetClinicBinding extends Bindings {
   @override
   void dependencies() {
     PetModel editingPet = Get.arguments[RouteParams.petModel];
     Get.lazyPut(
-      () => PetHealthInfoController(
+          () => AddPetClinicController(
         PetRepository(
           PetAPI(
             Get.find(),

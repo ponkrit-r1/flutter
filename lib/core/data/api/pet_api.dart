@@ -1,8 +1,11 @@
+import 'package:deemmi/core/domain/pet/clinic.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../domain/auth/animal_breed.dart';
 import '../../domain/auth/animal_type.dart';
+import '../../domain/pet/health/vaccine/vaccine_brand.dart';
 import '../../domain/pet/pet_model.dart';
 import '../../network/api_client.dart';
 import '../app_storage.dart';
@@ -97,5 +100,26 @@ class PetAPI {
     var petResponse = PetModel.fromJson(response!.data);
 
     return petResponse;
+  }
+
+  Future<List<VaccineType>> getVaccineType(int animalType) async {
+    var response = await apiClient.getHTTP('/mypet/settings/vaccine-type/');
+    return List<VaccineType>.from(
+      response.data.map((e) => VaccineType.fromJson(e)),
+    );
+  }
+
+  Future<List<VaccineBrand>> getVaccineBrand() async {
+    var response = await apiClient.getHTTP('/mypet/settings/vaccine-brand/');
+    return List<VaccineBrand>.from(
+      response.data.map((e) => VaccineBrand.fromJson(e)),
+    );
+  }
+
+  Future<List<Clinic>> getClinic() async {
+    var response = await apiClient.getHTTP('/mypet/settings/clinic/');
+    return List<Clinic>.from(
+      response.data.map((e) => Clinic.fromJson(e)),
+    );
   }
 }

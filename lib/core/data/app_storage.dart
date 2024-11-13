@@ -89,7 +89,7 @@ class AppStorage {
 
   Future<void> setUserSession(UserSession? userSession) async {
     if (userSession != null) {
-      _storage.write(
+      await _storage.write(
         key: _userSessionKey,
         value: userSession.serialize,
       );
@@ -106,7 +106,7 @@ class AppStorage {
       } else {
         return null;
       }
-    } catch(_) {
+    } catch (_) {
       _storage.delete(key: _userSessionKey);
       return null;
     }

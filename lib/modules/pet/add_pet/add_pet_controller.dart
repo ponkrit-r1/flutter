@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/domain/auth/animal_type.dart';
+import '../../../routes/app_routes.dart';
 
 class AddPetController extends GetxController {
   final _isLoading = false.obs;
@@ -220,6 +221,7 @@ class AddPetController extends GetxController {
         response = await petRepository.addPet(petModel, _selectedImage);
       }
       Get.back(result: response);
+      navigateToAddHealthInfo(response);
     } catch (e) {
       Fluttertoast.showToast(
         msg: e.toString(),
@@ -227,6 +229,12 @@ class AddPetController extends GetxController {
     } finally {
       _isLoading.value = false;
     }
+  }
+
+  navigateToAddHealthInfo(PetModel pet) {
+    Get.toNamed(Routes.healthInfo, arguments: {
+      RouteParams.petModel: pet,
+    });
   }
 
   checkInformation() {

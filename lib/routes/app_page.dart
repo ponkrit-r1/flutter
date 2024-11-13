@@ -11,10 +11,13 @@ import 'package:deemmi/modules/authentication/sign_in/sign_in_binding.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_page.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_binding.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_page.dart';
+import 'package:deemmi/modules/notification/notification.dart';
 import 'package:deemmi/modules/on_boarding/on_boarding_binding.dart';
 import 'package:deemmi/modules/on_boarding/on_boarding_page.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_binding.dart';
 import 'package:deemmi/modules/pet/add_pet/add_pet_page.dart';
+import 'package:deemmi/modules/pet/clinic/add_pet_clinic_binding.dart';
+import 'package:deemmi/modules/pet/clinic/add_pet_clinic_page.dart';
 import 'package:deemmi/modules/pet/health_info/pet_health_info_binding.dart';
 import 'package:deemmi/modules/pet/health_info/pet_health_info_page.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_binding.dart';
@@ -22,15 +25,13 @@ import 'package:deemmi/modules/pet/profile/pet_profile_page.dart';
 import 'package:deemmi/modules/routing/restriction/no_connection_page.dart';
 import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
-import 'package:get/get.dart';
-import 'package:deemmi/modules/notification/notification.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_page.dart';
 import 'package:deemmi/modules/settings/account_setting/update_email_page.dart';
 import 'package:deemmi/modules/settings/account_setting/update_name_page.dart';
 import 'package:deemmi/modules/settings/account_setting/update_password_page.dart';
-import 'package:deemmi/modules/settings/account_setting/update_username_page.dart';
-
 import 'package:deemmi/modules/settings/account_setting/update_user_otp.dart';
+import 'package:deemmi/modules/settings/account_setting/update_username_page.dart';
+import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
 import '../modules/root/root_page.dart';
@@ -102,12 +103,12 @@ abstract class AppPages {
       page: () => const AccountSettingPage(),
     ),
     GetPage(
-       name: Routes.update_email,
-       page: () =>  UpdateEmailPage(),
+      name: Routes.update_email,
+      page: () => UpdateEmailPage(),
     ),
     GetPage(
-       name: Routes.update_username,
-       page: () => const UpdateUsernamePage(),
+      name: Routes.update_username,
+      page: () => const UpdateUsernamePage(),
     ),
     GetPage(
       name: Routes.update_password,
@@ -135,6 +136,11 @@ abstract class AppPages {
       name: Routes.resetPasswordVerification,
       page: () => const ResetPasswordVerificationPage(),
       binding: ResetPasswordVerificationBinding(),
+    ),
+    GetPage(
+      name: Routes.addPetClinic,
+      page: () => const AddPetClinicPage(),
+      binding: AddPetClinicBinding(),
     )
   ];
 }

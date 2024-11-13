@@ -77,7 +77,7 @@ class PetModel {
       'name': name,
       'animal_type': animalType,
       'microchip_number': microchipNumber,
-      //'breed': breed,
+      'breed': breed,
       'gender': gender,
       'dob': DateFormat('yyyy-MM-dd').format(dob) ,
       'weight':weight,
