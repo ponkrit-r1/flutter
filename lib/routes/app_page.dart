@@ -25,12 +25,13 @@ import 'package:deemmi/modules/pet/profile/pet_profile_page.dart';
 import 'package:deemmi/modules/routing/restriction/no_connection_page.dart';
 import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
+import 'package:deemmi/modules/settings/account_setting/account_setting_binding.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_page.dart';
-import 'package:deemmi/modules/settings/account_setting/update_email_page.dart';
-import 'package:deemmi/modules/settings/account_setting/update_name_page.dart';
-import 'package:deemmi/modules/settings/account_setting/update_password_page.dart';
-import 'package:deemmi/modules/settings/account_setting/update_user_otp.dart';
-import 'package:deemmi/modules/settings/account_setting/update_username_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_email_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_name_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_password_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_user_otp.dart';
+import 'package:deemmi/modules/settings/update_account/update_username_page.dart';
 import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
@@ -101,6 +102,9 @@ abstract class AppPages {
     GetPage(
       name: Routes.account_setting,
       page: () => const AccountSettingPage(),
+      bindings: [
+        AccountSettingBinding(),
+      ],
     ),
     GetPage(
       name: Routes.update_email,

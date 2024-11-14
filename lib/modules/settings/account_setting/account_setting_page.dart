@@ -1,3 +1,4 @@
+import 'package:deemmi/modules/settings/account_setting/account_setting_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:get/get.dart';
@@ -6,19 +7,19 @@ import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 
 class AccountSettingPage extends StatelessWidget {
   const AccountSettingPage({Key? key}) : super(key: key);
- 
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<AccountSettingController>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          //onPressed: () => Navigator.pop(context),
-           onPressed: () {
-            Get.offAllNamed(Routes
-                .root); 
+          onPressed: () {
+            Get.offAllNamed(Routes.root);
           },
         ),
         title: const Text(
@@ -27,7 +28,7 @@ class AccountSettingPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: AppColor.homeBackground,// Set your desired background color here
+        color: AppColor.homeBackground,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
@@ -46,60 +47,62 @@ class AccountSettingPage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  _buildAccountSettingItem(
-                    'E-mail',
-                    'info@pettagu.com',
-                    onTap: () {
-                      try {
-                        Get.toNamed(Routes.update_email);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                 // const Divider(),
-                 const SizedBox(height: 20),
-                  _buildAccountSettingItem(
-                    'Username',
-                    'Admin',
-                    onTap: () {
-                      try {
-                        Get.toNamed(Routes.update_username);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                 // const Divider(),
-                 const SizedBox(height: 20),
-                  _buildAccountSettingItem(
-                    'Password',
-                    'Change password',
-                    onTap: () {
-                      try {
-                        Get.toNamed(Routes.update_password);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                 // const Divider(),
-                  const SizedBox(height: 20),
-                  _buildAccountSettingItem(
-                    'Name',
-                    'Pet Tagu',
-                    onTap: () {
-                      try {
-                        Get.toNamed(Routes.update_name);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                ],
-              ),
+              child: Obx(() {
+                final profile = controller.profile;
+                return Column(
+                  children: [
+                    _buildAccountSettingItem(
+                      'E-mail',
+                      profile?.email ?? '',
+                      onTap: () {
+                        try {
+                          Get.toNamed(Routes.update_email);
+                        } catch (e) {
+                          print("Navigation error: $e");
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    _buildAccountSettingItem(
+                      'Username',
+                      profile?.username ?? '',
+                      onTap: () {
+                        try {
+                          Get.toNamed(Routes.update_username);
+                        } catch (e) {
+                          print("Navigation error: $e");
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    _buildAccountSettingItem(
+                      'Password',
+                      'Change password',
+                      onTap: () {
+                        try {
+                          Get.toNamed(Routes.update_password);
+                        } catch (e) {
+                          print("Navigation error: $e");
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    _buildAccountSettingItem(
+                      'Name',
+                      profile != null
+                          ? '${profile.firstName} ${profile.lastName}'.trim()
+                          : '',
+                      onTap: () {
+                        try {
+                          Get.toNamed(Routes.update_name);
+                        } catch (e) {
+                          print("Navigation error: $e");
+                        }
+                      },
+                    ),
+                  ],
+                );
+              }),
             ),
             const SizedBox(height: 40),
             Container(
@@ -107,10 +110,6 @@ class AccountSettingPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
                 onPressed: signOut,
-                // onPressed: () {
-                //     // signOut();
-                //     //Get.offAllNamed(Routes.signIn);
-                // },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.red,
@@ -118,8 +117,10 @@ class AccountSettingPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 12,
+                  ),
                 ),
                 child: const Text(
                   'Log out',
@@ -170,14 +171,12 @@ class AccountSettingPage extends StatelessWidget {
     );
   }
 
- void signOut() {
-   try {
-       Get.find<SignInController>().signOut();
+  void signOut() {
+    try {
+      Get.find<SignInController>().signOut();
     } catch (e) {
       print(e);
     }
     //Get.offAllNamed(Routes.signIn);
   }
-
-
 }
