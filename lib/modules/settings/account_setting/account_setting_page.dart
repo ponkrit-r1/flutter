@@ -54,26 +54,46 @@ class AccountSettingPage extends StatelessWidget {
                     _buildAccountSettingItem(
                       'E-mail',
                       profile?.email ?? '',
-                      onTap: () {
+                      onTap: () async {
                         try {
-                          Get.toNamed(Routes.update_email);
+                             final result = await Get.toNamed(
+                              Routes.update_email,
+                              arguments: {
+                                'email': profile?.email ?? '',
+                              });
+                          // If the result is true, refresh the profile
+                          if (result == true) {
+                            controller.getMyProfile();
+                          }
+                         // Get.toNamed(Routes.update_email);
                         } catch (e) {
                           print("Navigation error: $e");
                         }
                       },
                     ),
                     const SizedBox(height: 20),
-                    _buildAccountSettingItem(
+                 _buildAccountSettingItem(
                       'Username',
                       profile?.username ?? '',
-                      onTap: () {
+                      onTap: () async {
                         try {
-                          Get.toNamed(Routes.update_username);
+                          // Wait for the result from UpdateUsernamePage
+                          final result = await Get.toNamed(
+                              Routes.update_username,
+                              arguments: {
+                                'username': profile?.username ?? '',
+                              });
+
+                          // If the result is true, refresh the profile
+                          if (result == true) {
+                            controller.getMyProfile();
+                          }
                         } catch (e) {
                           print("Navigation error: $e");
                         }
                       },
                     ),
+
                     const SizedBox(height: 20),
                     _buildAccountSettingItem(
                       'Password',
@@ -92,9 +112,22 @@ class AccountSettingPage extends StatelessWidget {
                       profile != null
                           ? '${profile.firstName} ${profile.lastName}'.trim()
                           : '',
-                      onTap: () {
+                      onTap: () async {
                         try {
-                          Get.toNamed(Routes.update_name);
+
+                             final result = await Get.toNamed(
+                              Routes.update_name,
+                              arguments: {
+                                'first_name': profile?.firstName ?? '',
+                                'last_name': profile?.lastName ?? '',
+                              });
+
+                          // If the result is true, refresh the profile
+                          if (result == true) {
+                            controller.getMyProfile();
+                          }
+
+                         // Get.toNamed(Routes.update_name);
                         } catch (e) {
                           print("Navigation error: $e");
                         }

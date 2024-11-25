@@ -49,6 +49,34 @@ class PetProfilePage extends StatelessWidget {
             const Icon(Icons.keyboard_arrow_down_rounded),
           ],
         ),
+
+
+actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.qr_code_rounded,
+              color: AppColor.primary500,
+            ),
+            onPressed: () {
+              // Navigate to the QR Code page
+              try {
+                //  Get.toNamed(Routes.add_pet_tag,
+                //  arguments: {
+                //   'petModel' : controller.petModel,
+                //  });
+
+                Get.toNamed(Routes.existing_pet_tag, arguments: {
+                  'petModel': controller.petModel,
+                });
+                //Get.toNamed(Routes.existing_pet_tag);
+              } catch (e) {
+                print("Navigation error: $e");
+              }
+            },
+          ),
+        ],
+
+
       ),
       body: SafeArea(
         child: Container(
