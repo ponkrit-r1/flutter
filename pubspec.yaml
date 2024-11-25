@@ -106,5 +106,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - fonts/
+    - assets/articles/
 flutter_intl:
   enabled: true
