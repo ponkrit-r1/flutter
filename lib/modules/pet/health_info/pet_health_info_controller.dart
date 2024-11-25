@@ -10,6 +10,7 @@ import '../../../core/domain/pet/pet_model.dart';
 class PetHealthInfoController extends GetxController {
   final PetRepository petRepository;
 
+  final RxBool isHealthInfoExpanded = false.obs; // Add this variable
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
@@ -105,6 +106,11 @@ class PetHealthInfoController extends GetxController {
       _chronicDiseaseList.add(TextEditingController());
     }
   }
+
+  // Add a toggle method for expansion
+void toggleHealthInfoExpanded() {
+  isHealthInfoExpanded.value = !isHealthInfoExpanded.value;
+}
 
   onAddVaccineAllergy() {
     if (_vaccineAllergyList.length <= 10) {

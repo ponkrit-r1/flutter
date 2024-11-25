@@ -4,6 +4,7 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
@@ -13,6 +14,8 @@ class PetProfilePage extends StatelessWidget {
 
   final controller = Get.find<PetProfileController>();
 
+final RxBool isHealthInfoExpanded = false.obs;
+final RxBool isClinicInfoExpanded = false.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +113,7 @@ actions: [
                           child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: getGenderWidget(
+                         
                                   controller.petModel.gender ?? '')),
                         ),
                       ),
@@ -142,226 +146,602 @@ actions: [
     }
   }
 
-  petInformationSystem(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: () {
-              Get.toNamed(
-                Routes.addPet,
-                arguments: {
-                  RouteParams.petModel: controller.petModel,
-                },
-              );
-            },
-            child: Row(
-              children: [
-                Text(
-                  controller.petName,
-                  style: textTheme(context).headlineLarge?.copyWith(
-                        fontSize: 30,
-                        color: AppColor.textColor,
-                      ),
-                ),
-                const SizedBox(width: 8),
-                const Icon(
-                  Icons.edit_rounded,
-                  color: AppColor.primary500,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 4),
-          // Text(
-          //   controller.petModel.breed ?? '',
-          //   style: textTheme(context)
-          //       .bodyMedium!
-          //       .copyWith(color: AppColor.secondaryContentGray),
-          // ),
-          const SizedBox(height: 4),
-          Text(
-            '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
-            style: textTheme(context)
-                .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${stringRes(context)!.specialCharacteristicsLabel} ${controller.petModel.characteristics}',
-            style: textTheme(context)
-                .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 72,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: petInfoItem(
-                    const Icon(
-                      Icons.cake_rounded,
-                      color: AppColor.secondaryContentGray,
+
+petInformationSystem(BuildContext context) {
+  // สถานะ Expand/Collapse สำหรับแต่ละส่วน
+  final RxBool isHealthInfoExpanded = false.obs;
+  final RxBool isClinicInfoExpanded = false.obs;
+
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () {
+            Get.toNamed(
+              Routes.addPet,
+              arguments: {
+                RouteParams.petModel: controller.petModel,
+              },
+            );
+          },
+          child: Row(
+            children: [
+              Text(
+                controller.petName,
+                style: textTheme(context).headlineLarge?.copyWith(
+                      fontSize: 30,
+                      color: AppColor.textColor,
                     ),
-                    "${stringRes(context)!.ageLabel} ${controller.petModel.getAgeInMonth().toString()} ${stringRes(context)!.monthsLabel}",
-                    context,
-                  ),
-                ),
-                SizedBox(
-                  width: 3,
-                  child: CustomPaint(painter: VerticalDashedLinePainter()),
-                ),
-                Expanded(
-                  child: petInfoItem(
-                    const Icon(
-                      Icons.monitor_weight_rounded,
-                      color: AppColor.secondaryContentGray,
-                    ),
-                    '${stringRes(context)!.ageLabel} ${controller.petModel.weight ?? '-'} Kg',
-                    context,
-                  ),
-                ),
-                SizedBox(
-                  width: 3,
-                  child: CustomPaint(painter: VerticalDashedLinePainter()),
-                ),
-                Expanded(
-                  child: petInfoItem(
-                    const Icon(
-                      Icons.house_rounded,
-                      color: AppColor.secondaryContentGray,
-                    ),
-                    'Animal Care Indoor',
-                    context,
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(
+                Icons.edit_rounded,
+                color: AppColor.primary500,
+              ),
+            ],
           ),
-          SizedBox(
-            height: 3,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: HorizontalDashedLinePainter(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          petInfoSection(
-            'Health information',
-            context,
-            () {
-              navigateToAddHealthInfo();
-            },
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 3,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: HorizontalDashedLinePainter(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          petInfoSection(
-            'Clinic information',
-            context,
-            () {
-              _navigateToAddClinic();
-            },
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 3,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: HorizontalDashedLinePainter(),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
+          style: textTheme(context)
+              .bodyMedium!
+              .copyWith(color: AppColor.secondaryContentGray),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '${stringRes(context)!.specialCharacteristicsLabel} ${controller.petModel.characteristics}',
+          style: textTheme(context)
+              .bodyMedium!
+              .copyWith(color: AppColor.secondaryContentGray),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 72,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                child: petInfoItem(
+                  const Icon(
+                    Icons.cake_rounded,
+                    color: AppColor.secondaryContentGray,
                   ),
-                  elevation: 3,
-                  color: AppColor.secondaryBgColor,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/vaccine.webp'),
-                    'Vaccine',
-                    context,
-                  ),
+                  "${stringRes(context)!.ageLabel} ${controller.petModel.getAgeInMonth().toString()} ${stringRes(context)!.monthsLabel}",
+                  context,
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(
+                width: 3,
+                child: CustomPaint(painter: VerticalDashedLinePainter()),
+              ),
               Expanded(
-                child: Card(
-                  color: AppColor.secondaryBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                child: petInfoItem(
+                  const Icon(
+                    Icons.monitor_weight_rounded,
+                    color: AppColor.secondaryContentGray,
                   ),
-                  elevation: 3,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/medication.webp'),
-                    'Flea & Tick',
-                    context,
-                  ),
+                  '${stringRes(context)!.ageLabel} ${controller.petModel.weight ?? '-'} Kg',
+                  context,
                 ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Card(
-                  color: AppColor.secondaryBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 3,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/file-text-check.webp'),
-                    'Insurance',
-                    context,
-                  ),
-                ),
+              SizedBox(
+                width: 3,
+                child: CustomPaint(painter: VerticalDashedLinePainter()),
               ),
-              const SizedBox(width: 8),
               Expanded(
-                child: Card(
-                  color: AppColor.secondaryBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                child: petInfoItem(
+                  const Icon(
+                    Icons.house_rounded,
+                    color: AppColor.secondaryContentGray,
                   ),
-                  elevation: 3,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/sliders-horizontal-alt.webp'),
-                    'Others',
-                    context,
-                  ),
+                  'Animal Care Indoor',
+                  context,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: 124,
-            child: upcomingTitle(context),
+        ),
+        SizedBox(
+          height: 3,
+          width: double.infinity,
+          child: CustomPaint(
+            painter: HorizontalDashedLinePainter(),
           ),
-          const SizedBox(height: 40),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Image.asset('assets/images/empty_pet_info.webp'),
+        ),
+        const SizedBox(height: 16),
+
+        // ส่วน Health Information พร้อม Expand/Collapse
+        Obx(() => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Health Information',
+                      style: textTheme(context).headlineMedium,
+                    ),
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
+                        navigateToAddHealthInfo();
+                      },
+                      child: const Icon(
+                        Icons.edit_rounded,
+                        color: AppColor.primary500,
+                      ),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () {
+                        isHealthInfoExpanded.value =
+                            !isHealthInfoExpanded.value;
+                      },
+                      child: Icon(
+                        isHealthInfoExpanded.value
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        color: AppColor.primary500,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                if (isHealthInfoExpanded.value)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                     Text(
+  'Breed: ${controller.petModel.breed ?? 'N/A'}',
+  style: textTheme(context)
+      .bodyMedium
+      ?.copyWith(color: AppColor.textColor),
+),
+                      const SizedBox(height: 4),
+                    Text(
+  'Date of Birth: ${controller.petModel.dob != null ? DateFormat('dd/MM/yyyy').format(controller.petModel.dob) : 'N/A'}',
+  style: textTheme(context)
+      .bodyMedium
+      ?.copyWith(color: AppColor.secondaryContentGray),
+),
+                      const SizedBox(height: 4),
+                      Text(
+                       
+                        'Gender: ${controller.petModel.gender ?? 'None'}',
+                        style: textTheme(context)
+                            .bodyMedium
+                            ?.copyWith(color: AppColor.secondaryContentGray),
+                      ),
+                          const SizedBox(height: 4),
+                      Text(
+                       
+                        'Characteristic: ${controller.petModel.characteristics?? 'None'}',
+                        style: textTheme(context)
+                            .bodyMedium
+                            ?.copyWith(color: AppColor.secondaryContentGray),
+                      ),
+                    ],
+                  ),
+              ],
+            )),
+
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 3,
+          width: double.infinity,
+          child: CustomPaint(
+            painter: HorizontalDashedLinePainter(),
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // ส่วน Clinic Information พร้อม Expand/Collapse
+        Obx(() => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Clinic Information',
+                      style: textTheme(context).headlineMedium,
+                    ),
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
+                        _navigateToAddClinic();
+                      },
+                      child: const Icon(
+                        Icons.edit_rounded,
+                        color: AppColor.primary500,
+                      ),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () {
+                        isClinicInfoExpanded.value =
+                            !isClinicInfoExpanded.value;
+                      },
+                      child: Icon(
+                        isClinicInfoExpanded.value
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        color: AppColor.primary500,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                if (isClinicInfoExpanded.value)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(() {
+              if (controller.clinicDetails.isEmpty) {
+                return Text(
+                  'Clinic: None',
+                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                );
+              } else {
+               
+
+
+  return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: controller.clinicDetails.map((clinic) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Name: ${clinic.name ?? 'N/A'}',
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 16),
+                          ),
+                          Text(
+                            'Telephone: ${clinic.telephone ?? 'N/A'}',
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 16),
+                          ),
+                     
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                );
+
+
+
+              }
+            }),
+
+
+
+                    ],
+                  ),
+              ],
+            )),
+
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 3,
+          width: double.infinity,
+          child: CustomPaint(
+            painter: HorizontalDashedLinePainter(),
+          ),
+        ),
+        const SizedBox(height: 8),
+
+        // ส่วนประกอบอื่น ๆ คงเดิม
+        Row(
+          children: [
+            Expanded(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 3,
+                color: AppColor.secondaryBgColor,
+                child: petInfoItem(
+                  Image.asset('assets/icons/vaccine.webp'),
+                  'Vaccine',
+                  context,
+                ),
+              ),
             ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Card(
+                color: AppColor.secondaryBgColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 3,
+                child: petInfoItem(
+                  Image.asset('assets/icons/medication.webp'),
+                  'Flea & Tick',
+                  context,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Card(
+                color: AppColor.secondaryBgColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 3,
+                child: petInfoItem(
+                  Image.asset('assets/icons/file-text-check.webp'),
+                  'Insurance',
+                  context,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Card(
+                color: AppColor.secondaryBgColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 3,
+                child: petInfoItem(
+                  Image.asset('assets/icons/sliders-horizontal-alt.webp'),
+                  'Others',
+                  context,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: 124,
+          child: upcomingTitle(context),
+        ),
+        const SizedBox(height: 40),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Image.asset('assets/images/empty_pet_info.webp'),
           ),
-          const SizedBox(height: 40),
-        ],
-      ),
-    );
-  }
+        ),
+        const SizedBox(height: 40),
+      ],
+    ),
+  );
+}
+
+//ของเดิม ที่เบญทำ
+  // petInformationSystem(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(16.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         InkWell(
+  //           onTap: () {
+  //             Get.toNamed(
+  //               Routes.addPet,
+  //               arguments: {
+  //                 RouteParams.petModel: controller.petModel,
+  //               },
+  //             );
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Text(
+  //                 controller.petName,
+  //                 style: textTheme(context).headlineLarge?.copyWith(
+  //                       fontSize: 30,
+  //                       color: AppColor.textColor,
+  //                     ),
+  //               ),
+  //               const SizedBox(width: 8),
+  //               const Icon(
+  //                 Icons.edit_rounded,
+  //                 color: AppColor.primary500,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+
+
+  //         const SizedBox(height: 4),
+  //         // Text(
+  //         //   controller.petModel.breed ?? '',
+  //         //   style: textTheme(context)
+  //         //       .bodyMedium!
+  //         //       .copyWith(color: AppColor.secondaryContentGray),
+  //         // ),
+  //         const SizedBox(height: 4),
+  //         Text(
+  //           '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
+  //           style: textTheme(context)
+  //               .bodyMedium!
+  //               .copyWith(color: AppColor.secondaryContentGray),
+  //         ),
+  //         const SizedBox(height: 4),
+  //         Text(
+  //           '${stringRes(context)!.specialCharacteristicsLabel} ${controller.petModel.characteristics}',
+  //           style: textTheme(context)
+  //               .bodyMedium!
+  //               .copyWith(color: AppColor.secondaryContentGray),
+  //         ),
+  //         const SizedBox(height: 16),
+  //         SizedBox(
+  //           height: 72,
+  //           child: Row(
+  //             crossAxisAlignment: CrossAxisAlignment.stretch,
+  //             children: [
+  //               Expanded(
+  //                 child: petInfoItem(
+  //                   const Icon(
+  //                     Icons.cake_rounded,
+  //                     color: AppColor.secondaryContentGray,
+  //                   ),
+  //                   "${stringRes(context)!.ageLabel} ${controller.petModel.getAgeInMonth().toString()} ${stringRes(context)!.monthsLabel}",
+  //                   context,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: 3,
+  //                 child: CustomPaint(painter: VerticalDashedLinePainter()),
+  //               ),
+  //               Expanded(
+  //                 child: petInfoItem(
+  //                   const Icon(
+  //                     Icons.monitor_weight_rounded,
+  //                     color: AppColor.secondaryContentGray,
+  //                   ),
+  //                   '${stringRes(context)!.ageLabel} ${controller.petModel.weight ?? '-'} Kg',
+  //                   context,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: 3,
+  //                 child: CustomPaint(painter: VerticalDashedLinePainter()),
+  //               ),
+  //               Expanded(
+  //                 child: petInfoItem(
+  //                   const Icon(
+  //                     Icons.house_rounded,
+  //                     color: AppColor.secondaryContentGray,
+  //                   ),
+  //                   'Animal Care Indoor',
+  //                   context,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 3,
+  //           width: double.infinity,
+  //           child: CustomPaint(
+  //             painter: HorizontalDashedLinePainter(),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 16),
+  //         petInfoSection(
+  //           'Health information',
+  //           context,
+  //           () {
+  //             navigateToAddHealthInfo();
+  //           },
+  //         ),
+  //         const SizedBox(height: 16),
+  //         SizedBox(
+  //           height: 3,
+  //           width: double.infinity,
+  //           child: CustomPaint(
+  //             painter: HorizontalDashedLinePainter(),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 16),
+  //         petInfoSection(
+  //           'Clinic information',
+  //           context,
+  //           () {
+  //             _navigateToAddClinic();
+  //           },
+  //         ),
+  //         const SizedBox(height: 16),
+  //         SizedBox(
+  //           height: 3,
+  //           width: double.infinity,
+  //           child: CustomPaint(
+  //             painter: HorizontalDashedLinePainter(),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 8),
+  //         Row(
+  //           children: [
+  //             Expanded(
+  //               child: Card(
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(12.0),
+  //                 ),
+  //                 elevation: 3,
+  //                 color: AppColor.secondaryBgColor,
+  //                 child: petInfoItem(
+  //                   Image.asset('assets/icons/vaccine.webp'),
+  //                   'Vaccine',
+  //                   context,
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 8),
+  //             Expanded(
+  //               child: Card(
+  //                 color: AppColor.secondaryBgColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(12.0),
+  //                 ),
+  //                 elevation: 3,
+  //                 child: petInfoItem(
+  //                   Image.asset('assets/icons/medication.webp'),
+  //                   'Flea & Tick',
+  //                   context,
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 8),
+  //             Expanded(
+  //               child: Card(
+  //                 color: AppColor.secondaryBgColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(12.0),
+  //                 ),
+  //                 elevation: 3,
+  //                 child: petInfoItem(
+  //                   Image.asset('assets/icons/file-text-check.webp'),
+  //                   'Insurance',
+  //                   context,
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 8),
+  //             Expanded(
+  //               child: Card(
+  //                 color: AppColor.secondaryBgColor,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(12.0),
+  //                 ),
+  //                 elevation: 3,
+  //                 child: petInfoItem(
+  //                   Image.asset('assets/icons/sliders-horizontal-alt.webp'),
+  //                   'Others',
+  //                   context,
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 16),
+  //         SizedBox(
+  //           width: 124,
+  //           child: upcomingTitle(context),
+  //         ),
+  //         const SizedBox(height: 40),
+  //         Center(
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(24.0),
+  //             child: Image.asset('assets/images/empty_pet_info.webp'),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 40),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  
 
   upcomingTitle(BuildContext context) {
     return Column(
@@ -389,33 +769,78 @@ actions: [
     );
   }
 
-  petInfoSection(
-    String title,
-    BuildContext context,
-    VoidCallback onEditPress,
-  ) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: textTheme(context).headlineMedium,
-        ),
-        const SizedBox(width: 8),
-        InkWell(
-          onTap: onEditPress,
-          child: const Icon(
-            Icons.edit_rounded,
-            color: AppColor.primary500,
+
+
+Widget petInfoSection(
+  String title,
+  BuildContext context,
+  VoidCallback onEditPress,
+  RxBool isExpanded,
+  Widget expandedContent, 
+) {
+  return Obx(() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                title,
+                style: textTheme(context).headlineMedium,
+              ),
+              const SizedBox(width: 8),
+              InkWell(
+                onTap: onEditPress,
+                child: const Icon(
+                  Icons.edit_rounded,
+                  color: AppColor.primary500,
+                ),
+              ),
+              const Spacer(),
+              InkWell(
+                onTap: () => isExpanded.value = !isExpanded.value, // เปลี่ยนสถานะ
+                child: Icon(
+                  isExpanded.value
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  color: AppColor.primary500,
+                ),
+              ),
+            ],
           ),
-        ),
-        const Spacer(),
-        const Icon(
-          Icons.keyboard_arrow_down_rounded,
-          color: AppColor.primary500,
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 8),
+          if (isExpanded.value) expandedContent, // แสดงเนื้อหาเมื่อ expand
+        ],
+      ));
+}
+
+//ของเดิมที่เบญทำ
+  // petInfoSection(
+  //   String title,
+  //   BuildContext context,
+  //   VoidCallback onEditPress,
+  // ) {
+  //   return Row(
+  //     children: [
+  //       Text(
+  //         title,
+  //         style: textTheme(context).headlineMedium,
+  //       ),
+  //       const SizedBox(width: 8),
+  //       InkWell(
+  //         onTap: onEditPress,
+  //         child: const Icon(
+  //           Icons.edit_rounded,
+  //           color: AppColor.primary500,
+  //         ),
+  //       ),
+  //       const Spacer(),
+  //       const Icon(
+  //         Icons.keyboard_arrow_down_rounded,
+  //         color: AppColor.primary500,
+  //       ),
+  //     ],
+  //   );
+  // }
 
   petInfoItem(
     Widget widget,
@@ -450,6 +875,8 @@ actions: [
       RouteParams.petModel: controller.petModel,
     });
   }
+
+
 
   _navigateToAddClinic() {
     Get.toNamed(Routes.addPetClinic, arguments: {
