@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
+import '../../../../routes/app_routes.dart';
 
 class UpdateEmailPage extends StatelessWidget {
   UpdateEmailPage({Key? key}) : super(key: key); 
 
   // Controller to capture email input
-  final TextEditingController emailController = TextEditingController();
+  //final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
+    final String initialEmail = Get.arguments['email'] ?? '';
+    final TextEditingController emailController =
+        TextEditingController(text: initialEmail);
+
+    //      usernameController.addListener(() {
+    //   controller.validateUsername(usernameController.text);
+    // });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

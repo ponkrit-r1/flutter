@@ -27,11 +27,26 @@ import 'package:deemmi/modules/routing/routing_binding.dart';
 import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_binding.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_page.dart';
-import 'package:deemmi/modules/settings/update_account/update_email_page.dart';
-import 'package:deemmi/modules/settings/update_account/update_name_page.dart';
-import 'package:deemmi/modules/settings/update_account/update_password_page.dart';
-import 'package:deemmi/modules/settings/update_account/update_user_otp.dart';
-import 'package:deemmi/modules/settings/update_account/update_username_page.dart';
+
+
+import 'package:deemmi/modules/settings/update_account/update_email/update_email_page.dart';
+
+
+import 'package:deemmi/modules/settings/update_account/update_email/update_user_otp.dart';
+
+
+import 'package:deemmi/modules/settings/update_account/update_username/update_username_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_username/update_username_binding.dart';
+
+import 'package:deemmi/modules/settings/update_account/update_name/update_name_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_name/update_name_binding.dart';
+
+import 'package:deemmi/modules/settings/update_account/update_password/update_password_page.dart';
+import 'package:deemmi/modules/settings/update_account/update_password/update_password_binding.dart';
+
+import 'package:deemmi/modules/pet/pet_tag/add_tag_page.dart';
+import 'package:deemmi/modules/pet/pet_tag/existing_tag_page.dart';
+import 'package:deemmi/modules/pet/pet_tag/add_tag_detail_qr_page.dart';
 import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
@@ -113,14 +128,17 @@ abstract class AppPages {
     GetPage(
       name: Routes.update_username,
       page: () => const UpdateUsernamePage(),
+      binding: UpdateUsernameBinding(),
     ),
     GetPage(
       name: Routes.update_password,
       page: () => const ChangePasswordPage(),
+      binding: UpdatePasswordBinding(),
     ),
     GetPage(
       name: Routes.update_name,
       page: () => const UpdateNamePage(),
+      binding: UpdateNameBinding(),
     ),
     GetPage(
       name: Routes.update_user_otp,
@@ -145,6 +163,18 @@ abstract class AppPages {
       name: Routes.addPetClinic,
       page: () => const AddPetClinicPage(),
       binding: AddPetClinicBinding(),
+    ),
+    GetPage(
+      name: Routes.add_pet_tag,
+      page: () => const AddTagPage(),
+    ),
+    GetPage(
+      name: Routes.existing_pet_tag,
+      page: () => const ExistingTagPage(),
+    ),
+    GetPage(
+      name: Routes.add_pet_detail_after_qr_tag,
+      page: () => const AddTagDetailQrPage(),
     )
   ];
 }

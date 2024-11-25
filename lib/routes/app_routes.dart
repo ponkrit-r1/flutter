@@ -22,6 +22,9 @@ abstract class Routes {
   static const update_password = '/update_password';
   static const update_name = '/update_name';
   static const update_user_otp = '/update_user_otp';
+  static const add_pet_tag = '/add_pet_tag';
+  static const existing_pet_tag = '/existing_pet_tag';
+  static const add_pet_detail_after_qr_tag = '/add_pet_detail_after_qr_tag';
 
   //Restriction
   static const noConnection = '/noConnection';

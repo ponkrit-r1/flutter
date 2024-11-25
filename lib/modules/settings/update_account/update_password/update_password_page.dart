@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
+import 'package:get/get.dart';
+import 'package:deemmi/modules/settings/update_account/update_password/update_password_controller.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
@@ -12,6 +14,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _isCurrentPasswordVisible = false;
   bool _isNewPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+
+  final controller = Get.find<UpdatePasswordController>();
+
+  final TextEditingController currentPasswordController =
+      TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,44 +49,67 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           children: [
             const SizedBox(height: 20),
             _buildPasswordField('Current password', _isCurrentPasswordVisible,
-                () {
+                currentPasswordController, () {
               setState(() {
                 _isCurrentPasswordVisible = !_isCurrentPasswordVisible;
               });
             }),
             const SizedBox(height: 20),
-            _buildPasswordField('New password', _isNewPasswordVisible, () {
+            _buildPasswordField(
+                'New password', _isNewPasswordVisible, newPasswordController,
+                () {
               setState(() {
                 _isNewPasswordVisible = !_isNewPasswordVisible;
               });
             }),
             const SizedBox(height: 20),
             _buildPasswordField('Confirm password', _isConfirmPasswordVisible,
-                () {
+                confirmPasswordController, () {
               setState(() {
                 _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
               });
             }),
             const SizedBox(height: 30),
+            Obx(() {
+              if (controller.error.isNotEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    controller.error,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            }),
             Center(
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add save functionality here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                child: Obx(() {
+                  if (controller.isUpdating) {
+                    return CircularProgressIndicator();
+                  }
+                  return ElevatedButton(
+                    onPressed: () {
+                      controller.changePassword(
+                        currentPassword: currentPasswordController.text,
+                        newPassword: newPasswordController.text,
+                        confirmPassword: confirmPasswordController.text,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
+                    child: const Text(
+                      'Save',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  );
+                }),
               ),
             ),
           ],
@@ -85,8 +118,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     );
   }
 
-  Widget _buildPasswordField(
-      String hintText, bool isPasswordVisible, VoidCallback toggleVisibility) {
+  Widget _buildPasswordField(String hintText, bool isPasswordVisible,
+      TextEditingController controller, VoidCallback toggleVisibility) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,11 +128,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
-              color: Colors.black87,
+            color: Colors.black87,
           ),
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: controller,
           obscureText: !isPasswordVisible,
           decoration: InputDecoration(
             hintText: hintText,
