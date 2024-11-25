@@ -223,7 +223,7 @@ petInformationSystem(BuildContext context) {
                     Icons.monitor_weight_rounded,
                     color: AppColor.secondaryContentGray,
                   ),
-                  '${stringRes(context)!.ageLabel} ${controller.petModel.weight ?? '-'} Kg',
+                  '${stringRes(context)!.weightLabel} ${controller.petModel.weight ?? '-'} Kg',
                   context,
                 ),
               ),
