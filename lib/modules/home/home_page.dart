@@ -25,8 +25,9 @@ class Pet {
 class Article {
   final String title;
   final String imageUrl;
+  final String url;
 
-  Article({required this.title, required this.imageUrl});
+  Article({required this.title, required this.imageUrl, required this.url});
 }
 
 class HomePage extends StatefulWidget {
@@ -168,134 +169,105 @@ class _HomePageState extends State<HomePage> {
     );
  
   } // end widget
+
+
 Widget _buildArticleList() {
-    final List<Article> articles = [
-      Article(title: 'Article 1', imageUrl: mockArticleImage),
-      Article(title: 'Article 2', imageUrl: mockArticleImage2),
-    ];
+  final List<Article> articles = [
+    Article(
+      title: 'เทรนด์ฮิต! พาหมาเที่ยว ต้องมีไอเทมอะไรบ้าง?',
+      imageUrl: 'assets/articles/ar1.png',
+      url: 'https://pet.deemmi.com/dogs-items-travelling/',
+    ),
+    Article(
+      title: 'ห้ามหมากินช็อกโกแลต! ภัยร้ายใกล้ตัวที่เจ้าของต้องระวัง',
+      imageUrl: 'assets/articles/ar2.png',
+      url: 'https://pet.deemmi.com/dogs-chocholate-toxic/',
+    ),
+    Article(
+      title: 'ถอดรหัสภาษากายหมาแมว ต่างกันไงทาสต้องรู้!',
+      imageUrl: 'assets/articles/ar3.png',
+      url: 'https://pet.deemmi.com/dogs-cats-body-languages/',
+    ),
+    Article(
+      title: 'ฮีโร่ 4 ขา สุนัขตำรวจพันธุ์แกร่ง กว่าจะเป็น K9 ไม่ง่าย',
+      imageUrl: 'assets/articles/ar4.png',
+      url: 'https://pet.deemmi.com/dogs-k9-heros/',
+    ),
+    Article(
+      title: '5 สายพันธุ์หมาสุดแสบ ที่จะทำให้คุณหลงรัก!',
+      imageUrl: 'assets/articles/ar5.png',
+      url: 'https://pet.deemmi.com/dogs-five-breeds-naughty/',
+    ),
+    Article(
+      title: 'แมวไทยมงคล เลี้ยงแล้ว โชค เฮง รวย',
+      imageUrl: 'assets/articles/ar6.png',
+      url: 'https://pet.deemmi.com/cats-lucky-breed/',
+    ),
+  ];
 
-    final screenSize = MediaQuery.of(context).size.width;
-    final imageWidth = screenSize * 0.8;
-    final imageHeight = imageWidth / 1.8;
+  final screenSize = MediaQuery.of(context).size.width;
+  final imageWidth = screenSize * 0.8; // Resize width
+  final imageHeight = imageWidth / 2.0; // Adjust height ratio
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 30),
-          child: Text(
-            'Article',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AppColor.primary500,
-                ),
-          ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 30),
+        child: Text(
+          'Articles',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColor.primary500,
+              ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 30), // Align with "Article"
-          child: SizedBox(
-            height: imageHeight * 1.2, // Adjust height for scrollbar as needed
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: SizedBox(
-                height: imageHeight, // Keeps horizontal list height fixed
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  // Remove horizontal padding here
-                  itemCount: articles.length,
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      width: imageWidth,
-                      height: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(articles[index].imageUrl),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 3,
-                        ),
-                      ),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 30),
+        child: SizedBox(
+          height: imageHeight * 1.2,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: articles.length,
+            itemBuilder: (context, index) {
+              final article = articles[index];
+              return GestureDetector(
+                onTap: () async {
+                  final Uri url = Uri.parse(article.url);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url, mode: LaunchMode.platformDefault);
+                  } else {
+                    throw 'Could not launch ${article.url}';
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  width: imageWidth,
+                  height: imageHeight,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(article.imageUrl),
+                      fit: BoxFit.fill, // Scale the image proportionally
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 3,
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
-      ],
-    );
-  }
+      ),
+      const SizedBox(height: 50), // Add bottom space
+    ],
+  );
+}
 
-  // Widget _buildArticleList() {
-  //   final List<Article> articles = [
-  //     Article(title: 'Article 1', imageUrl: mockArticleImage),
-  //     Article(title: 'Article 2', imageUrl: mockArticleImage2),
-  //   ];
-
-  //   final screenSize = MediaQuery.of(context).size.width;
-  //   final imageWidth = screenSize * 0.8;
-  //   final imageHeight = imageWidth / 1.8;
-
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.only(left: 30),
-  //         child: Text(
-  //           'Article',
-  //           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-  //                 color: AppColor.primary500,
-  //               ),
-  //         ),
-  //       ),
-  //       const SizedBox(
-  //         height: 10,
-  //       ),
-  //      SizedBox(
-  //         height:
-  //             imageHeight * 1.2 , // แก้ความสูง scrollbar
-  //         child: SingleChildScrollView(
-  //           scrollDirection: Axis.vertical,
-  //           child: SizedBox(
-  //             height: imageHeight, // Keeps horizontal list height fixed
-  //             child: ListView.builder(
-  //               scrollDirection: Axis.horizontal,
-  //               padding: const EdgeInsets.symmetric(horizontal: 30),
-  //               itemCount: articles.length,
-  //               itemBuilder: (context, index) => GestureDetector(
-  //                 onTap: () {},
-  //                 child: Container(
-  //                   margin: const EdgeInsets.only(right: 10),
-  //                   width: imageWidth,
-  //                   height: double.infinity,
-  //                   decoration: BoxDecoration(
-  //                     image: DecorationImage(
-  //                       image: NetworkImage(articles[index].imageUrl),
-  //                       fit: BoxFit.cover,
-  //                     ),
-  //                     borderRadius: BorderRadius.circular(10),
-  //                       border: Border.all(
-  //                       color: Colors.white, // Set the border color to white
-  //                       width: 3, // Set the border width as needed
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       )
-
-  //     ],
-  //   );
-  // }
 
   Widget _buildPetList() {
     final List<Pet?> pets = [
