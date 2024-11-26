@@ -1,10 +1,10 @@
-import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/reset/email_to_reset/input_email_reset_password_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/global_widgets/pettagu_text_field.dart';
+import '../../../../core/global_widgets/primary_style_button.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../routes/app_routes.dart';
 
@@ -71,19 +71,43 @@ class _InputEmailResetPasswordPageState
   }
 
   _submitResetPassword() {
-    return SizedBox(
-      height: 48,
-      width: double.maxFinite,
-      child: PrimaryButton(
-        color: AppColor.primary500,
-        onPressed: _controller.isInformationCompleted
-            ? () {
-                navigateToResetPassword();
-              }
-            : null,
-        title: stringRes(context)!.submitLabel,
-      ),
-    );
+    if (_controller.isLoading) {
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondary500),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(
+        height: 48,
+        width: double.infinity,
+        child: PrimaryStyleButton(
+          color: AppColor.primary500,
+          onPressed: _controller.isInformationCompleted
+              ? () {
+                  onResetPasswordClicked();
+                }
+              : null,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              stringRes(context)!.submitLabel,
+              style: textTheme(context)
+                  .bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  onResetPasswordClicked() async {
+    await _controller.requestResetPasswordOtp();
+    navigateToResetPassword();
   }
 
   navigateToResetPassword() {

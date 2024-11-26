@@ -13,13 +13,17 @@ class ResetPasswordVerificationController extends GetxController {
   static const otpLimit = 60;
 
   ResetPasswordVerificationController(
-      this.registeredEmail,
-      this._userId,
-      this.authenticationAPI,
-      this.storage,
-      );
+    this.registeredEmail,
+    this._userId,
+    this.authenticationAPI,
+    this.storage,
+  );
 
   String get userEmail => _userEmail.value;
+
+  final RxBool _isLoading = false.obs;
+
+  bool get isLoading => _isLoading.value;
 
   final RxBool _isOtpComplete = false.obs;
 
@@ -70,9 +74,13 @@ class ResetPasswordVerificationController extends GetxController {
     otpController.clear();
   }
 
+  showLoading(bool show) {
+    _isLoading.value = show;
+  }
+
   Future<dynamic> verifyOtp() async {
     _otpErrorText.value = null;
-    var response = await authenticationAPI.verifyResetEmail(
+    var response = await authenticationAPI.verifyResetOtp(
       _userEmail.value,
       otpController.text,
     );
@@ -86,11 +94,10 @@ class ResetPasswordVerificationController extends GetxController {
     otpController.text = '';
   }
 
-
   Future<void> requestOtp() async {
     try {
       _otpErrorText.value = null;
-      await authenticationAPI.requestOtp(_userId, _userEmail.value);
+      await authenticationAPI.resetPasswordOTP(_userEmail.value);
       scheduleTimeout();
     } catch (error) {
       debugPrint(error.toString());

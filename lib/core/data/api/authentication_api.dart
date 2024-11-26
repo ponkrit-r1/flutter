@@ -148,7 +148,9 @@ class AuthenticationAPI {
     );
   }
 
-  Future<dynamic> resetPasswordOTP(String email,) async {
+  Future<dynamic> resetPasswordOTP(
+    String email,
+  ) async {
     Map<String, dynamic> params = {
       'email': email,
     };
@@ -159,21 +161,26 @@ class AuthenticationAPI {
     );
   }
 
-  Future<dynamic> verifyResetOtp(String email,
-      String otp,) async {
+  Future<dynamic> verifyResetOtp(
+    String email,
+    String otp,
+  ) async {
     Map<String, dynamic> params = {
       "email": email,
       "otp": otp,
     };
 
-    await apiClient.postHTTP(
+    var response = await apiClient.postHTTP(
       "/verify/",
       params,
     );
+
+    var session = UserSession.fromJson(response.data);
+    await appStorage.setUserSession(session);
+    return session;
   }
 
-  Future<dynamic> setPassword(String password,
-      String confirmPassword) async {
+  Future<dynamic> setPassword(String password, String confirmPassword) async {
     Map<String, dynamic> params = {
       "new_password": password,
       "new_password2": confirmPassword

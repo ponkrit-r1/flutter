@@ -12,6 +12,10 @@ class InputEmailResetPasswordController extends GetxController {
 
   bool get isInformationCompleted => _isInformationCompleted.value;
 
+  final _isLoading = false.obs;
+
+  bool get isLoading => _isLoading.value;
+
   @override
   void onReady() {
     super.onReady();
@@ -22,5 +26,11 @@ class InputEmailResetPasswordController extends GetxController {
 
   checkInformation() {
     _isInformationCompleted.value = emailController.text.isEmail;
+  }
+
+  requestResetPasswordOtp() {
+    _isLoading.value = true;
+    _authenticationAPI.resetPasswordOTP(emailController.text);
+    _isLoading.value = false;
   }
 }

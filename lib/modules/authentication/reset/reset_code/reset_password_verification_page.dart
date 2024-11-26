@@ -88,14 +88,7 @@ class _ResetPasswordVerificationPageState
               height: 24.0,
             ),
             Obx(
-              () => SizedBox(
-                width: double.infinity,
-                child: PrimaryButton(
-                  title: stringRes(context)!.confirmLabel,
-                  onPressed: _controller.isOtpCompleted ? _submit : null,
-                  color: AppColor.primary500,
-                ),
-              ),
+              () => submitButton(),
             ),
             const SizedBox(
               height: 16,
@@ -114,26 +107,27 @@ class _ResetPasswordVerificationPageState
     );
   }
 
-  // Widget _errorText(BuildContext context) {
-  //   if (controller.otpError.value != null) {
-  //     return Row(
-  //       children: [
-  //         Assets.icErrorField.svg(),
-  //         const SizedBox(
-  //           width: 4,
-  //         ),
-  //         Text(
-  //           controller.otpError.value!,
-  //           style: Theme.of(context).textTheme.caption1.copyWith(
-  //                 color: AppColors.negativeColor,
-  //               ),
-  //         )
-  //       ],
-  //     );
-  //   } else {
-  //     return Container();
-  //   }
-  // }
+  submitButton() {
+    if (_controller.isLoading) {
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondary500),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(
+        width: double.infinity,
+        child: PrimaryButton(
+          title: stringRes(context)!.confirmLabel,
+          onPressed: _controller.isOtpCompleted ? _submit : null,
+          color: AppColor.primary500,
+        ),
+      );
+    }
+  }
 
   Widget pinCodeWidget(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -230,10 +224,14 @@ class _ResetPasswordVerificationPageState
 
   _submit() async {
     try {
+      _controller.showLoading(true);
+      await _controller.verifyOtp();
       _navigateToConfirmResetPassword();
     } catch (e) {
       _controller.handleOtpError(e);
       debugPrint(e.toString());
+    } finally {
+      _controller.showLoading(false);
     }
   }
 
