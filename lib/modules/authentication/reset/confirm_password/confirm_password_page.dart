@@ -61,7 +61,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                   _submitResetPassword(),
+                  Obx(() => _submitResetPassword()),
                 ],
               ),
             ),
@@ -72,21 +72,35 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
   }
 
   _submitResetPassword() {
-    return SizedBox(
-      height: 48,
-      width: double.infinity,
-      child: PrimaryButton(
-        title: stringRes(context)!.saveLabel,
-        onPressed:
-            () {
-                if (_controller.checkPasswordInfo()) {
-                  _showDialog();
-                }
-              }
-          ,
-        color: AppColor.primary500,
-      ),
-    );
+    if (_controller.isLoading) {
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondary500),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(
+        height: 48,
+        width: double.infinity,
+        child: PrimaryButton(
+          title: stringRes(context)!.saveLabel,
+          onPressed: () {
+            if (_controller.checkPasswordInfo()) {
+              onResetPassword();
+            }
+          },
+          color: AppColor.primary500,
+        ),
+      );
+    }
+  }
+
+  onResetPassword() async {
+    await _controller.setNewPassword();
+    _showDialog();
   }
 
   _showDialog() {
@@ -105,7 +119,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
             )),
         confirmText: stringRes(context)!.closeLabel,
         onConfirm: () {
-          Get.offAllNamed(Routes.signIn);
+          Get.offAllNamed(Routes.root);
         },
         title: stringRes(context)!.passwordUpdatedLabel,
         description: stringRes(context)!.resetPasswordDescription,
@@ -126,7 +140,7 @@ class _ConfirmPasswordPageState extends State<ConfirmPasswordPage> {
           ? stringRes(context)!.invalidPasswordLabel
           : null,
       onPressed: () {
-        if(_controller.isPasswordFormatCorrect == false) {
+        if (_controller.isPasswordFormatCorrect == false) {
           _controller.resetPasswordError();
         }
       },
