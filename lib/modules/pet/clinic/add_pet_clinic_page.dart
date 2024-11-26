@@ -35,82 +35,86 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
       body: SafeArea(
         child: Container(
           color: AppColor.secondaryBgColor,
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Clinic name (optional)',
-                  style: textTheme(context).bodyMedium?.copyWith(
-                      color: AppColor.textColor, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Obx(
-                  () => _dropDownFormField<Clinic>(
-                    (value) {
-                      if (value != null) {
-                        _controller.onSelectedClinic(value);
-                      }
-                    },
-                    _controller.clinics,
-                    _controller.selectedClinic,
-                    stringRes(context)!.selectLabel,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Clinic name (optional)',
+                    style: textTheme(context).bodyMedium?.copyWith(
+                        color: AppColor.textColor, fontWeight: FontWeight.w600),
                   ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Obx(() => _otherClinicInformation()),
-                const SizedBox(
-                  height: 24,
-                ),
-                Obx(
-                  () => SizedBox(
-                    height: 48,
-                    width: double.infinity,
-                    child: _controller.isLoading
-                        ? const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    AppColor.secondary500),
-                              ),
-                            ),
-                          )
-                        : PrimaryButton(
-                            title: stringRes(context)!.nextLabel,
-                            onPressed: () {
-                              Get.back();
-                            },
-                            color: AppColor.primary500,
-                          ),
+                  const SizedBox(
+                    height: 12,
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: Text(
-                      stringRes(context)!.skipLabel,
-                      style: textTheme(context).bodyLarge?.copyWith(
-                            color: AppColor.primary500,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  Obx(
+                    () => _dropDownFormField<Clinic>(
+                      (value) {
+                        if (value != null) {
+                          _controller.onSelectedClinic(value);
+                        }
+                      },
+                      _controller.clinics,
+                      _controller.selectedClinic,
+                      stringRes(context)!.selectLabel,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-              ],
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Obx(() => _otherClinicInformation()),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Obx(
+                    () => SizedBox(
+                      height: 48,
+                      width: double.infinity,
+                      child: _controller.isLoading
+                          ? const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColor.secondary500),
+                                ),
+                              ),
+                            )
+                          : PrimaryButton(
+                              title: stringRes(context)!.nextLabel,
+                              onPressed: () {
+                                if (_controller.checkInformation()) {
+                                  Get.back();
+                                }
+                              },
+                              color: AppColor.primary500,
+                            ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        stringRes(context)!.skipLabel,
+                        style: textTheme(context).bodyLarge?.copyWith(
+                              color: AppColor.primary500,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -129,14 +133,14 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
                 color: AppColor.textColor, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 12),
-          _otherClinicNameForm(context),
+          Obx(() => _otherClinicNameForm(context)),
           Text(
             'Clinic phone number',
             style: textTheme(context).bodyMedium?.copyWith(
                 color: AppColor.textColor, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 12),
-          _otherClinicPhoneForm(context),
+          Obx(() => _otherClinicPhoneForm(context)),
           const SizedBox(
             height: 24,
           ),
@@ -153,6 +157,7 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
       keyboardType: TextInputType.text,
       controller: _controller.otherClinicName,
       fillColor: Colors.white,
+      errorText: _controller.otherClinicNameErrorText,
       maxLength: 20,
     );
   }
@@ -162,8 +167,8 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
       hintText: '',
       keyboardType: TextInputType.phone,
       controller: _controller.otherClinicPhoneNumber,
+      errorText: _controller.otherClinicPhoneErrorText,
       fillColor: Colors.white,
-      maxLength: 20,
     );
   }
 

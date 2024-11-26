@@ -96,7 +96,7 @@
   "noLabel": "No",
   "chronicDiseaseLabel": "Chronic disease",
   "foodAllergyLabel": "Food allergy",
-  "vaccineAllergyLabel": "Vaccine Allergy",
+  "vaccineAllergyLabel": "Vaccine allergy",
   "drugAllergyLabel": "Drug allergy",
 
   "@_ROOT": {},

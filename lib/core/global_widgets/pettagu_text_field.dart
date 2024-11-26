@@ -201,7 +201,7 @@ class _PettaguTextField extends State<PettaguTextField> {
                 ),
                 hintText: widget.hintText,
                 hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColor.textColor,
+                      color: AppColor.secondaryContentGray,
                     ),
               ),
             ),
