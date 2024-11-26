@@ -2,8 +2,8 @@ import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/data/app_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
 
+import '../../../routes/app_routes.dart';
 
 class SignInController extends GetxController {
   final _isLoading = false.obs;
@@ -40,31 +40,38 @@ class SignInController extends GetxController {
   }
 
   signIn() async {
-    _isLoading.value = true;
-    await authenticationAPI.signIn(
-      emailController.text,
-      passwordController.text,
-    );
-    _isLoading.value = false;
+    try {
+      _isLoading.value = true;
+      await authenticationAPI.signIn(
+        emailController.text,
+        passwordController.text,
+      );
+      navigateToHome();
+    } catch (error) {
+      displayError?.call(error.toString());
+    } finally {
+      _isLoading.value = false;
+    }
   }
 
-void signOut() async {
-    try {
+  navigateToHome() {
+    Get.offAllNamed(Routes.root);
+  }
 
+  void signOut() async {
+    try {
       await Get.find<AppStorage>().logout();
- 
-       emailController.clear();
+
+      emailController.clear();
       passwordController.clear();
       _isLoading.value = false;
       _isInformationCompleted.value = false;
 
-       Get.offAllNamed(Routes.signIn);
-
+      Get.offAllNamed(Routes.signIn);
     } catch (error) {
       print("Error during sign-out: $error");
     }
   }
-
 
   @override
   void onClose() {

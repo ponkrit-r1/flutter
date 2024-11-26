@@ -36,8 +36,8 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
           title: Text(
             stringRes(context)!.addPetHealthLabel,
             style: textTheme(context).headlineSmall!.copyWith(
-              color: AppColor.textColor,
-            ),
+                  color: AppColor.textColor,
+                ),
           ),
         ),
         body: SafeArea(
@@ -65,13 +65,12 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                       height: 12,
                     ),
                     Obx(
-                          () =>
-                          tabSelectorWidget(
-                            _controller.threeChoiceAnswer,
-                            _controller.sterilizationAnswer,
-                                (value, idx) =>
-                                _controller.setSterilizationAnswer(value),
-                          ),
+                      () => tabSelectorWidget(
+                        _controller.threeChoiceAnswer,
+                        _controller.sterilizationAnswer,
+                        (value, idx) =>
+                            _controller.setSterilizationAnswer(value),
+                      ),
                     ),
                     const SizedBox(
                       height: 24,
@@ -86,13 +85,12 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                       height: 12,
                     ),
                     Obx(
-                          () =>
-                          tabSelectorWidget(
-                            _controller.twoChoiceAnswer,
-                            _controller.chronicDiseaseAnswer,
-                                (value, idx) =>
-                                _controller.setChronicDiseaseAnswer(value),
-                          ),
+                      () => tabSelectorWidget(
+                        _controller.twoChoiceAnswer,
+                        _controller.chronicDiseaseAnswer,
+                        (value, idx) =>
+                            _controller.setChronicDiseaseAnswer(value),
+                      ),
                     ),
                     const SizedBox(
                       height: 8,
@@ -115,13 +113,11 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                       height: 12,
                     ),
                     Obx(
-                          () =>
-                          tabSelectorWidget(
-                            _controller.twoChoiceAnswer,
-                            _controller.foodAllergyAnswer,
-                                (value, idx) =>
-                                _controller.setFoodAllergyAnswer(value),
-                          ),
+                      () => tabSelectorWidget(
+                        _controller.twoChoiceAnswer,
+                        _controller.foodAllergyAnswer,
+                        (value, idx) => _controller.setFoodAllergyAnswer(value),
+                      ),
                     ),
                     const SizedBox(
                       height: 8,
@@ -144,19 +140,17 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                       height: 12,
                     ),
                     Obx(
-                          () =>
-                          tabSelectorWidget(
-                            _controller.threeChoiceAnswer,
-                            _controller.vaccineAllergyAnswer,
-                                (value, idx) =>
-                                _controller.setVaccineAllergy(value),
-                          ),
+                      () => tabSelectorWidget(
+                        _controller.threeChoiceAnswer,
+                        _controller.vaccineAllergyAnswer,
+                        (value, idx) => _controller.setVaccineAllergy(value),
+                      ),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     Obx(
-                          () => vaccineAllergyList(),
+                      () => vaccineAllergyList(),
                     ),
                     const SizedBox(
                       height: 16,
@@ -175,13 +169,11 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                       height: 12,
                     ),
                     Obx(
-                          () =>
-                          tabSelectorWidget(
-                            _controller.threeChoiceAnswer,
-                            _controller.drugAllergyAnswer,
-                                (value, idx) =>
-                                _controller.setDrugAllergy(value),
-                          ),
+                      () => tabSelectorWidget(
+                        _controller.threeChoiceAnswer,
+                        _controller.drugAllergyAnswer,
+                        (value, idx) => _controller.setDrugAllergy(value),
+                      ),
                     ),
                     const SizedBox(
                       height: 12,
@@ -191,28 +183,27 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                       height: 24,
                     ),
                     Obx(
-                          () =>
-                          SizedBox(
-                            height: 48,
-                            width: double.infinity,
-                            child: _controller.isLoading
-                                ? const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppColor.secondary500),
+                      () => SizedBox(
+                        height: 48,
+                        width: double.infinity,
+                        child: _controller.isLoading
+                            ? const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColor.secondary500),
+                                  ),
                                 ),
+                              )
+                            : PrimaryButton(
+                                title: stringRes(context)!.nextLabel,
+                                onPressed: () {
+                                  _navigateToAddClinic();
+                                },
+                                color: AppColor.primary500,
                               ),
-                            )
-                                : PrimaryButton(
-                              title: stringRes(context)!.nextLabel,
-                              onPressed: () {
-                                _navigateToAddClinic();
-                              },
-                              color: AppColor.primary500,
-                            ),
-                          ),
+                      ),
                     ),
                     const SizedBox(
                       height: 16,
@@ -220,14 +211,14 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                     Center(
                       child: TextButton(
                         onPressed: () {
-                          _navigateToAddClinic();
+                          Get.back();
                         },
                         child: Text(
                           stringRes(context)!.skipLabel,
                           style: textTheme(context).bodyLarge?.copyWith(
-                            color: AppColor.primary500,
-                            fontWeight: FontWeight.bold,
-                          ),
+                                color: AppColor.primary500,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
                     ),
@@ -251,12 +242,14 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
     _globalKey.currentState?.showSnackBar(snackBar);
   }
 
-  tabSelectorWidget<T>(List<T> values,
-      T? selectedValue,
-      Function(
-          T,
-          int,
-          ) onValueSelected,) {
+  tabSelectorWidget<T>(
+    List<T> values,
+    T? selectedValue,
+    Function(
+      T,
+      int,
+    ) onValueSelected,
+  ) {
     switch (values.length) {
       case 1:
         return InkWell(
@@ -479,10 +472,10 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                         Text(
                           values[2].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
-                            color: AppColor.secondaryContentGray,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                                color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                         ),
                       ],
                     ),
@@ -516,6 +509,7 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
             _controller.onDeleteFoodAllergy,
             _controller.foodAllergyList.length > 1 &&
                 _controller.foodAllergyList.length - 1 == index,
+            hint: 'มะเขือเทศ',
           );
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -554,6 +548,7 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
             _controller.onDeleteChronicDisease,
             _controller.chronicDiseaseList.length > 1 &&
                 _controller.chronicDiseaseList.length - 1 == index,
+            hint: 'โรคอ้วน',
           );
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -652,17 +647,19 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
     ]);
   }
 
-  vaccineItem(int idx,
-      String label,
-      Function(int) onDelete,
-      bool showDelete,) {
+  vaccineItem(
+    int idx,
+    String label,
+    Function(int) onDelete,
+    bool showDelete,
+  ) {
     return Column(
       children: [
         Row(
           children: [
             Expanded(
               child: Text(
-                "#${idx + 1} $label",
+                "$label #${idx + 1}",
                 style: textTheme(context).bodyMedium?.copyWith(
                     color: AppColor.textColor, fontWeight: FontWeight.w600),
               ),
@@ -683,28 +680,24 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
           height: 12,
         ),
         _dropDownFormField<VaccineType>(
-              (value) {
+          (value) {
             if (value != null) {
               _controller.onSetVaccineAllergyType(idx, value);
             }
           },
           _controller.vaccineTypeOptions,
-          _controller.vaccineAllergyList
-              .elementAt(idx)
-              ?.type,
+          _controller.vaccineAllergyList.elementAt(idx)?.type,
           "Type",
         ),
         const SizedBox(height: 12),
         _dropDownFormField<VaccineBrand>(
-              (value) {
+          (value) {
             if (value != null) {
               _controller.onSetVaccineAllergyBrand(idx, value);
             }
           },
           _controller.vaccineBrandOptions,
-          _controller.vaccineAllergyList
-              .elementAt(idx)
-              ?.brand,
+          _controller.vaccineAllergyList.elementAt(idx)?.brand,
           "Brand",
         ),
         const SizedBox(height: 8),
@@ -712,11 +705,9 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
     );
   }
 
-  textFieldItem(int idx,
-      String label,
-      TextEditingController editTextController,
-      Function(int) onDelete,
-      bool showDelete,) {
+  textFieldItem(int idx, String label, TextEditingController editTextController,
+      Function(int) onDelete, bool showDelete,
+      {String? hint}) {
     return Column(
       children: [
         Row(
@@ -744,7 +735,7 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
           height: 8,
         ),
         PettaguTextField(
-            hintText: "",
+            hintText: hint ?? "",
             keyboardType: TextInputType.text,
             controller: editTextController,
             fillColor: Colors.white,
@@ -761,10 +752,12 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
     });
   }
 
-  _dropDownFormField<T>(Function(T?) onItemSelected,
-      List<T> items,
-      T? selectedValue,
-      String hintValue,) {
+  _dropDownFormField<T>(
+    Function(T?) onItemSelected,
+    List<T> items,
+    T? selectedValue,
+    String hintValue,
+  ) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -798,10 +791,10 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
           child: Text(
             hintValue,
             style: textTheme(context).bodyMedium!.copyWith(
-              color: AppColor.secondaryContentGray,
-              fontWeight: FontWeight.w500,
-              fontSize: 15,
-            ),
+                  color: AppColor.secondaryContentGray,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
           ),
         ),
         onChanged: (value) {

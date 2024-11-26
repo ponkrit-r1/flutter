@@ -25,6 +25,15 @@ class AddPetClinicController extends GetxController {
   AddPetClinicController(this.petRepository, this.editingPet);
 
   var otherClinicName = TextEditingController();
+
+  final RxnString _otherClinicNameErrorText = RxnString();
+
+  String? get otherClinicNameErrorText => _otherClinicNameErrorText.value;
+
+  final RxnString _otherClinicPhoneErrorText = RxnString();
+
+  String? get otherClinicPhoneErrorText => _otherClinicPhoneErrorText.value;
+
   var otherClinicPhoneNumber = TextEditingController();
 
   @override
@@ -42,6 +51,21 @@ class AddPetClinicController extends GetxController {
 
   onSelectedClinic(Clinic clinic) {
     _selectedClinic.value = clinic;
+  }
+
+  checkInformation() {
+    if (_selectedClinic.value?.id == -1) {
+      if (otherClinicName.text.isEmpty) {
+        _otherClinicNameErrorText.value = 'Please input clinic name';
+      }
+      if (otherClinicPhoneNumber.text.isEmpty) {
+        _otherClinicPhoneErrorText.value = 'Please input clinic\' phone number';
+      }
+      return otherClinicName.text.isNotEmpty &&
+          otherClinicPhoneNumber.text.isNotEmpty;
+    } else {
+      return true;
+    }
   }
 
   @override

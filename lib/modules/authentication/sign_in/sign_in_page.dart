@@ -258,16 +258,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   beginSignIn() async {
-    try {
-      await _controller.signIn();
-      navigateToHome();
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
-
-  navigateToHome() {
-    Get.offAllNamed(Routes.root);
+    await _controller.signIn();
   }
 
   navigateToCreateAccount() {
