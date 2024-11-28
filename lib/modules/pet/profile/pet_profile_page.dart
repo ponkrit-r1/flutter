@@ -1,3 +1,6 @@
+import 'package:deemmi/core/domain/pet/health/pet_health_info.dart';
+import 'package:deemmi/core/domain/pet/pet_clinic.dart';
+import 'package:deemmi/core/domain/pet/pet_model.dart';
 import 'package:deemmi/core/global_widgets/horizontal_dashline_painter.dart';
 import 'package:deemmi/core/global_widgets/vertical_dashline_painter.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
@@ -49,9 +52,7 @@ class PetProfilePage extends StatelessWidget {
             const Icon(Icons.keyboard_arrow_down_rounded),
           ],
         ),
-
-
-actions: [
+        actions: [
           IconButton(
             icon: const Icon(
               Icons.qr_code_rounded,
@@ -75,8 +76,6 @@ actions: [
             },
           ),
         ],
-
-
       ),
       body: SafeArea(
         child: Container(
@@ -88,13 +87,13 @@ actions: [
                 const SizedBox(
                   height: 24,
                 ),
-                SizedBox(
+                Obx(() =>SizedBox(
                   height: 296,
                   child: Stack(
                     children: [
                       Positioned.fill(
                         child: Image.network(
-                          controller.petModel.image ?? '',
+                          controller.displayPetModel.image ?? '',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -110,13 +109,19 @@ actions: [
                           child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: getGenderWidget(
-                                  controller.petModel.gender ?? '')),
+                                controller.displayPetModel.gender ?? '',
+                              )),
                         ),
                       ),
                     ],
                   ),
+                ),),
+                Obx(
+                  () => petInformationSystem(
+                    controller.petModel,
+                    context,
+                  ),
                 ),
-                petInformationSystem(context),
               ],
             ),
           ),
@@ -142,7 +147,10 @@ actions: [
     }
   }
 
-  petInformationSystem(BuildContext context) {
+  petInformationSystem(
+    PetModel petModel,
+    BuildContext context,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -150,17 +158,12 @@ actions: [
         children: [
           InkWell(
             onTap: () {
-              Get.toNamed(
-                Routes.addPet,
-                arguments: {
-                  RouteParams.petModel: controller.petModel,
-                },
-              );
+              navigateToEditPetProfile();
             },
             child: Row(
               children: [
                 Text(
-                  controller.petName,
+                  petModel.name,
                   style: textTheme(context).headlineLarge?.copyWith(
                         fontSize: 30,
                         color: AppColor.textColor,
@@ -175,29 +178,29 @@ actions: [
             ),
           ),
           const SizedBox(height: 4),
-          // Text(
-          //   controller.petModel.breed ?? '',
-          //   style: textTheme(context)
-          //       .bodyMedium!
-          //       .copyWith(color: AppColor.secondaryContentGray),
-          // ),
-          const SizedBox(height: 4),
           Text(
-            '${stringRes(context)!.microchipIdLabel} ${controller.petModel.microchipNumber}',
+            petModel.displayBreed ?? '',
             style: textTheme(context)
                 .bodyMedium!
                 .copyWith(color: AppColor.secondaryContentGray),
           ),
           const SizedBox(height: 4),
           Text(
-            '${stringRes(context)!.specialCharacteristicsLabel} ${controller.petModel.characteristics}',
+            '${stringRes(context)!.microchipIdLabel}: ${petModel.microchipNumber ?? ''}',
+            style: textTheme(context)
+                .bodyMedium!
+                .copyWith(color: AppColor.secondaryContentGray),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${stringRes(context)!.specialCharacteristicsLabel}: ${petModel.characteristics ?? ''}',
             style: textTheme(context)
                 .bodyMedium!
                 .copyWith(color: AppColor.secondaryContentGray),
           ),
           const SizedBox(height: 16),
           SizedBox(
-            height: 72,
+            height: 96,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -207,7 +210,7 @@ actions: [
                       Icons.cake_rounded,
                       color: AppColor.secondaryContentGray,
                     ),
-                    "${stringRes(context)!.ageLabel} ${controller.petModel.getAgeInMonth().toString()} ${stringRes(context)!.monthsLabel}",
+                    "${stringRes(context)!.ageLabel}\n${petModel.getAgeInMonth().toString()} ${stringRes(context)!.monthsLabel}",
                     context,
                   ),
                 ),
@@ -221,7 +224,7 @@ actions: [
                       Icons.monitor_weight_rounded,
                       color: AppColor.secondaryContentGray,
                     ),
-                    '${stringRes(context)!.ageLabel} ${controller.petModel.weight ?? '-'} Kg',
+                    '${stringRes(context)!.weightLabel}\n${petModel.weight ?? '-'} Kg',
                     context,
                   ),
                 ),
@@ -256,8 +259,15 @@ actions: [
             () {
               navigateToAddHealthInfo();
             },
+            controller.expandHealthInfoSection,
+            controller.onToggleHealthInfoSection,
           ),
-          const SizedBox(height: 16),
+          if (controller.healthInfo != null &&
+              controller.expandHealthInfoSection)
+            medicalInfoWidget(
+              context,
+              controller.healthInfo!,
+            ),
           SizedBox(
             height: 3,
             width: double.infinity,
@@ -272,8 +282,26 @@ actions: [
             () {
               _navigateToAddClinic();
             },
+            controller.expandClinicSection,
+            controller.onToggleClinicSection,
           ),
-          const SizedBox(height: 16),
+          if (controller.petClinics.isNotEmpty &&
+              controller.expandClinicSection)
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 156,
+                  child: petHospitalCard(
+                      context, controller.petClinics.elementAtOrNull(index)!),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 12.0);
+              },
+              itemCount: controller.petClinics.length,
+            ),
           SizedBox(
             height: 3,
             width: double.infinity,
@@ -281,7 +309,7 @@ actions: [
               painter: HorizontalDashedLinePainter(),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -393,12 +421,16 @@ actions: [
     String title,
     BuildContext context,
     VoidCallback onEditPress,
+    bool isExpanded,
+    VoidCallback onExpand,
   ) {
     return Row(
       children: [
         Text(
           title,
-          style: textTheme(context).headlineMedium,
+          style: textTheme(context).headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
         ),
         const SizedBox(width: 8),
         InkWell(
@@ -409,9 +441,19 @@ actions: [
           ),
         ),
         const Spacer(),
-        const Icon(
-          Icons.keyboard_arrow_down_rounded,
-          color: AppColor.primary500,
+        IconButton(
+          onPressed: () {
+            onExpand();
+          },
+          icon: isExpanded
+              ? const Icon(
+                  Icons.keyboard_arrow_up_rounded,
+                  color: AppColor.primary500,
+                )
+              : const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: AppColor.primary500,
+                ),
         ),
       ],
     );
@@ -431,7 +473,7 @@ actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             label,
             style: textTheme(context)
@@ -445,15 +487,305 @@ actions: [
     );
   }
 
-  navigateToAddHealthInfo() {
-    Get.toNamed(Routes.healthInfo, arguments: {
-      RouteParams.petModel: controller.petModel,
-    });
+  navigateToAddHealthInfo() async {
+    var result = await Get.toNamed(
+      Routes.healthInfo,
+      arguments: {
+        RouteParams.petModel: controller.petModel,
+        RouteParams.healthInfoModel: controller.healthInfo,
+      },
+    );
+    if (result != null) {
+      controller.getHealthInfoData();
+    }
   }
 
-  _navigateToAddClinic() {
-    Get.toNamed(Routes.addPetClinic, arguments: {
+  _navigateToAddClinic() async {
+    var result = await Get.toNamed(Routes.addPetClinic, arguments: {
       RouteParams.petModel: controller.petModel,
     });
+    if (result != null) {
+      controller.getClinicInformation();
+    }
+  }
+
+  Widget medicalInfoWidget(
+    BuildContext context,
+    PetHealthInfo info,
+  ) {
+    return Card(
+      color: AppColor.secondaryBgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSection(
+              context,
+              icon: Icons.pets,
+              title: "Sterilization",
+              details: [
+                info.sterilization == null
+                    ? '-'
+                    : info.sterilization!
+                        ? 'Yes'
+                        : 'No',
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                height: 3,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: HorizontalDashedLinePainter(),
+                ),
+              ),
+            ),
+            _buildSection(
+              context,
+              icon: Icons.coronavirus,
+              title: "Chronic disease",
+              details: info.chronicDisease.isEmpty
+                  ? ['-']
+                  : info.chronicDisease.map((e) => e.name).toList(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                height: 3,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: HorizontalDashedLinePainter(),
+                ),
+              ),
+            ),
+            _buildSection(
+              context,
+              icon: Icons.restaurant,
+              title: "Food allergy",
+              details: info.foodAllergy.isEmpty
+                  ? ['-']
+                  : info.foodAllergy.map((e) => e.name).toList(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                height: 3,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: HorizontalDashedLinePainter(),
+                ),
+              ),
+            ),
+            _buildSection(
+              context,
+              icon: Icons.vaccines,
+              title: "Vaccine Allergy",
+              details: info.vaccineAllergy.isEmpty
+                  ? ['-']
+                  : info.vaccineAllergy
+                      .map((e) =>
+                          "${e.vaccineType ?? ''}: ${e.vaccineBrand ?? ''}")
+                      .toList(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                height: 3,
+                width: double.infinity,
+                child: CustomPaint(
+                  painter: HorizontalDashedLinePainter(),
+                ),
+              ),
+            ),
+            _buildSection(
+              context,
+              icon: Icons.medical_services,
+              title: "Drug allergy",
+              details: info.drugAllergy.isEmpty
+                  ? ['-']
+                  : info.drugAllergy
+                      .map(
+                        (e) => e.name,
+                      )
+                      .toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSection(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required List<String> details,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          size: 24,
+          color: AppColor.secondaryContentGray,
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: textTheme(context).bodyMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.secondaryContentGray,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              ...details.map(
+                (detail) => Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    '• $detail',
+                    style: textTheme(context).bodyMedium!.copyWith(
+                          color: AppColor.secondaryContentGray,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget petHospitalCard(
+    BuildContext context,
+    PetClinic clinic,
+  ) {
+    return SizedBox(
+      height: 120,
+      child: Card(
+        margin: EdgeInsets.zero,
+        color: AppColor.secondaryBgColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Hospital Name
+              Text(
+                clinic.otherClinicName?.isNotEmpty == true
+                    ? clinic.otherClinicName!
+                    : clinic.petClinic?.name ?? '',
+                style: textTheme(context).bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.textColor,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              // Address
+              Text(
+                '',
+                style: textTheme(context).bodyLarge!.copyWith(
+                      color: AppColor.secondaryContentGray,
+                    ),
+              ),
+              const SizedBox(height: 16),
+              // Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Get Direction Button
+                  TextButton.icon(
+                    onPressed: () {
+                      // Add Get Direction action here
+                    },
+                    icon: Icon(
+                      Icons.directions,
+                      color: Theme.of(context).primaryColor,
+                      size: 20,
+                    ),
+                    label: Text(
+                      "Get Direction",
+                      style: textTheme(context).bodyLarge?.copyWith(
+                            color: AppColor.primary500,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
+                      side: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                  ),
+                  if (clinic.otherClinicTelephone?.isNotEmpty == true)
+                    TextButton.icon(
+                      onPressed: () {
+                        // Add call action here
+                      },
+                      icon: Icon(
+                        Icons.phone,
+                        color: Theme.of(context).primaryColor,
+                        size: 20,
+                      ),
+                      label: Text(
+                        clinic.otherClinicTelephone?.isNotEmpty == true
+                            ? clinic.otherClinicTelephone!
+                            : clinic.petClinic?.telephone ?? '',
+                        style: textTheme(context).bodyLarge?.copyWith(
+                              color: AppColor.primary500,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 12.0,
+                        ),
+                        side: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  navigateToEditPetProfile() async {
+    var editedPet = await Get.toNamed(
+      Routes.addPet,
+      arguments: {
+        RouteParams.petModel: controller.petModel,
+      },
+    );
+    if (editedPet != null) {
+      controller.setDisplaySetModel(editedPet);
+    }
   }
 }

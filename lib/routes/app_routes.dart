@@ -38,6 +38,7 @@ abstract class RouteParams {
   static const userName = 'username';
   static const password = 'password';
   static const petModel = 'pet_model';
+  static const healthInfoModel = 'pet_health_info';
 }
 
 abstract class RouteAction {

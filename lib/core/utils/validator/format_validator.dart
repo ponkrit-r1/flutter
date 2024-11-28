@@ -10,4 +10,9 @@ extension StringFormatValidation on String {
   bool validateEmail() {
     return EmailValidator.validate(this);
   }
+
+  bool isThaiPhoneNumber() {
+    RegExp thaiPhoneRegex =  RegExp(r'^(\+66|0)?[689]\d{8}$');
+    return thaiPhoneRegex.hasMatch(this);
+  }
 }

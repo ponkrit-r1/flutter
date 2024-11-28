@@ -42,17 +42,16 @@ class AddPetController extends GetxController {
 
   DateTime? get selectedDate => _selectedDate.value;
 
-  String? get displayDate =>
-      _selectedDate.value != null
-          ? DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY).format(
-          _selectedDate.value!)
-          : null;
+  String? get displayDate => _selectedDate.value != null
+      ? DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY).format(_selectedDate.value!)
+      : null;
 
   DateTime? preSelectedDate;
 
   final PetModel? editingPet;
 
-  AddPetController(this.petRepository, {
+  AddPetController(
+    this.petRepository, {
     this.editingPet,
   });
 
@@ -80,14 +79,10 @@ class AddPetController extends GetxController {
 
   String? get selectedCareSystem => _selectedCareSystem.value;
 
-  String? get displayPetAge =>
-      _selectedDate.value != null
-          ? ((DateTime
-          .now()
-          .difference(_selectedDate.value!)
-          .inDays) ~/ (30))
+  String? get displayPetAge => _selectedDate.value != null
+      ? ((DateTime.now().difference(_selectedDate.value!).inDays) ~/ (30))
           .toString()
-          : null;
+      : null;
 
   final RxnString _selectedGender = RxnString();
 
@@ -134,13 +129,15 @@ class AddPetController extends GetxController {
     _selectedGender.value = petModel.gender;
     _selectedPetType.value =
         animalTypes.firstWhere((element) => element.id == petModel.animalType);
-    onPetTypeSelect();
+    await onPetTypeSelect();
+    _selectedBreed.value =
+        animalBreed.firstWhereOrNull((element) => element.id == petModel.breed);
 
     onDobSelected(petModel.dob);
 
     if (petModel.image != null) {
       var data = (await NetworkAssetBundle(Uri.parse(petModel.image!))
-          .load(petModel.image!))
+              .load(petModel.image!))
           .buffer
           .asUint8List();
       _displaySelectedImage.value = data;
@@ -179,19 +176,25 @@ class AddPetController extends GetxController {
     checkInformation();
   }
 
-  setPetType(AnimalType type,
-      int idx,) {
+  setPetType(
+    AnimalType type,
+    int idx,
+  ) {
     _selectedPetType.value = type;
     onPetTypeSelect();
   }
 
-  setCareSystem(String type,
-      int idx,) {
+  setCareSystem(
+    String type,
+    int idx,
+  ) {
     _selectedCareSystem.value = type;
   }
 
-  setGender(String gender,
-      int idx,) {
+  setGender(
+    String gender,
+    int idx,
+  ) {
     _selectedGender.value = gender;
   }
 
@@ -221,7 +224,9 @@ class AddPetController extends GetxController {
         response = await petRepository.addPet(petModel, _selectedImage);
       }
       Get.back(result: response);
-      navigateToAddHealthInfo(response);
+      if (editingPet == null) {
+        navigateToAddHealthInfo(response);
+      }
     } catch (e) {
       Fluttertoast.showToast(
         msg: e.toString(),

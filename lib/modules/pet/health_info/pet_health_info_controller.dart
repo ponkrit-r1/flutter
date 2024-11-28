@@ -1,6 +1,11 @@
 import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/domain/answer_choice.dart';
+import 'package:deemmi/core/domain/pet/health/chronic_disease.dart';
+import 'package:deemmi/core/domain/pet/health/drug_allergy.dart';
+import 'package:deemmi/core/domain/pet/health/food_allergy.dart';
+import 'package:deemmi/core/domain/pet/health/pet_health_info.dart';
 import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine_allergy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +16,8 @@ class PetHealthInfoController extends GetxController {
   final PetRepository petRepository;
 
   final _isLoading = false.obs;
+
+  final PetHealthInfo? editingHealthInfo;
 
   bool get isLoading => _isLoading.value;
 
@@ -87,12 +94,82 @@ class PetHealthInfoController extends GetxController {
   PetHealthInfoController(
     this.petRepository,
     this.editingPet,
+    this.editingHealthInfo,
   );
 
   @override
-  onReady() {
+  onReady() async {
     super.onReady();
-    getVaccineData();
+    await getVaccineData();
+    if (editingHealthInfo != null) {
+      assignHealthInfo();
+    }
+  }
+
+  assignHealthInfo() {
+    if (editingHealthInfo != null) {
+      switch (editingHealthInfo!.sterilization) {
+        case true:
+          _sterilizationAnswer.value = threeChoiceAnswer[0];
+          break;
+        case false:
+          _sterilizationAnswer.value = threeChoiceAnswer[1];
+          break;
+        case null:
+          _sterilizationAnswer.value = threeChoiceAnswer[2];
+      }
+      switch (editingHealthInfo!.hasDrugAllergy) {
+        case true:
+          setDrugAllergy(threeChoiceAnswer[0]);
+          _drugAllergyList.value = editingHealthInfo!.drugAllergy.map((e) {
+            var controller = TextEditingController();
+            controller.text = e.name;
+            return controller;
+          }).toList();
+          break;
+        case false:
+          setDrugAllergy(threeChoiceAnswer[1]);
+          break;
+        case null:
+          setDrugAllergy(threeChoiceAnswer[2]);
+      }
+      switch (editingHealthInfo!.hasVaccineAllergy) {
+        case true:
+          setVaccineAllergy(threeChoiceAnswer[0]);
+          _vaccineAllergyList.value = editingHealthInfo!.vaccineAllergy
+              .map((e) => VaccineAllergyObject(
+                  type: e.vaccineType, brand: e.vaccineBrand))
+              .toList();
+          break;
+        case false:
+          setVaccineAllergy(threeChoiceAnswer[1]);
+          break;
+        case null:
+          setVaccineAllergy(threeChoiceAnswer[2]);
+      }
+
+      _foodAllergyList.value = editingHealthInfo!.foodAllergy.map((e) {
+        var controller = TextEditingController();
+        controller.text = e.name;
+        return controller;
+      }).toList();
+      setFoodAllergyAnswer(
+        editingHealthInfo!.foodAllergy.isNotEmpty
+            ? twoChoiceAnswer[0]
+            : twoChoiceAnswer[1],
+      );
+
+      _chronicDiseaseList.value = editingHealthInfo!.chronicDisease.map((e) {
+        var controller = TextEditingController();
+        controller.text = e.name;
+        return controller;
+      }).toList();
+      setChronicDiseaseAnswer(
+        editingHealthInfo!.chronicDisease.isNotEmpty
+            ? twoChoiceAnswer[0]
+            : twoChoiceAnswer[1],
+      );
+    }
   }
 
   setSterilizationAnswer(AnswerChoice answer) {
@@ -108,7 +185,12 @@ class PetHealthInfoController extends GetxController {
 
   onAddVaccineAllergy() {
     if (_vaccineAllergyList.length <= 10) {
-      _vaccineAllergyList.add(null);
+      _vaccineAllergyList.add(
+        VaccineAllergyObject(
+          type: null,
+          brand: null,
+        ),
+      );
     }
   }
 
@@ -223,6 +305,59 @@ class PetHealthInfoController extends GetxController {
         element.dispose();
       }
     }
+  }
+
+  onUpdatePetHealthInfo() async {
+    if (vaccineAllergyAnswer?.option != AnswerOption.yes) {
+      vaccineAllergyList.clear();
+    }
+    if (drugAllergyAnswer?.option != AnswerOption.yes) {
+      drugAllergyList.clear();
+    }
+    if (chronicDiseaseAnswer?.option != AnswerOption.yes) {
+      chronicDiseaseList.clear();
+    }
+    if (foodAllergyAnswer?.option != AnswerOption.yes) {
+      foodAllergyList.clear();
+    }
+    await petRepository.updatePetHealthInfo(
+      editingPet.id!,
+      PetHealthInfo(
+        sterilization: (sterilizationAnswer?.option != null)
+            ? sterilizationAnswer?.option == AnswerOption.yes
+            : null,
+        hasVaccineAllergy: vaccineAllergyAnswer?.option == AnswerOption.yes,
+        hasDrugAllergy: drugAllergyAnswer?.option == AnswerOption.yes,
+        pet: editingPet.id!,
+        chronicDisease: chronicDiseaseList
+            .map((e) => ChronicDisease(
+                  name: e.text,
+                  pet: editingPet.id!,
+                ))
+            .toList(),
+        foodAllergy: foodAllergyList
+            .map((e) => FoodAllergy(
+                  name: e.text,
+                  pet: editingPet.id!,
+                ))
+            .toList(),
+        vaccineAllergy: vaccineAllergyList
+            .map((e) => VaccineAllergy(
+                  vaccineType: e!.type,
+                  vaccineBrand: e.brand,
+                  pet: editingPet.id!,
+                ))
+            .toList(),
+        drugAllergy: drugAllergyList
+            .map(
+              (e) => DrugAllergy(
+                name: e.text,
+                pet: editingPet.id!,
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 
   @override

@@ -5,7 +5,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../domain/auth/animal_breed.dart';
 import '../../domain/auth/animal_type.dart';
+import '../../domain/pet/health/pet_health_info.dart';
 import '../../domain/pet/health/vaccine/vaccine_brand.dart';
+import '../../domain/pet/pet_clinic.dart';
 import '../../domain/pet/pet_model.dart';
 import '../../network/api_client.dart';
 import '../app_storage.dart';
@@ -121,5 +123,40 @@ class PetAPI {
     return List<Clinic>.from(
       response.data.map((e) => Clinic.fromJson(e)),
     );
+  }
+
+  Future<dynamic> createPetClinic(PetClinic petClinic) async {
+    var response = await apiClient.postHTTP(
+      '/mypet/clinic/',
+      petClinic.toJson(),
+    );
+    return response.data;
+  }
+
+  Future<List<PetClinic>> getPetClinic(int petId) async {
+    var response = await apiClient.getHTTP(
+      '/mypet/clinic/?pet=$petId',
+    );
+    return List<PetClinic>.from(
+      response.data.map((e) => PetClinic.fromJson(e)),
+    );
+  }
+
+  Future<PetHealthInfo> getPetHealthInfo(PetModel petModel) async {
+    var response = await apiClient.getHTTP('/mypet/${petModel.id}/health/');
+    var vaccineType = await getVaccineType(petModel.animalType);
+    var vaccineBrand = await getVaccineBrand();
+    return PetHealthInfo.fromJson(response.data, vaccineBrand, vaccineType);
+  }
+
+  Future<dynamic> updatePetHealthInfo(
+    int petId,
+    PetHealthInfo healthInfo,
+  ) async {
+    var response = await apiClient.putHTTP(
+      '/mypet/$petId/health/',
+      healthInfo.toJson(),
+    );
+    return response?.data;
   }
 }

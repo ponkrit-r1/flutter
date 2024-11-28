@@ -1,4 +1,6 @@
+import 'package:deemmi/core/domain/auth/animal_breed.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class PetModel {
@@ -15,6 +17,8 @@ class PetModel {
   final String? careSystem;
   final String? characteristics;
   Uint8List? imageData;
+
+  String? displayBreed;
 
   PetModel({
     this.id,
@@ -79,10 +83,15 @@ class PetModel {
       'microchip_number': microchipNumber,
       'breed': breed,
       'gender': gender,
-      'dob': DateFormat('yyyy-MM-dd').format(dob) ,
-      'weight':weight,
+      'dob': DateFormat('yyyy-MM-dd').format(dob),
+      'weight': weight,
       'care_system': careSystem,
       'characteristics': characteristics,
     };
+  }
+
+  assignBreedInfo(List<AnimalBreed> breedList) {
+    displayBreed =
+        breedList.firstWhereOrNull((element) => element.id == breed)?.name ?? '';
   }
 }
