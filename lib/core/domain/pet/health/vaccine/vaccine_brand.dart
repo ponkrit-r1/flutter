@@ -25,4 +25,11 @@ class VaccineBrand {
   String toString() {
     return name;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is VaccineBrand && id == other.id && name == other.name;
+
+  @override
+  int get hashCode => Object.hash(name, id);
 }

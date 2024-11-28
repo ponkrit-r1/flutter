@@ -84,9 +84,10 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
                             )
                           : PrimaryButton(
                               title: stringRes(context)!.nextLabel,
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_controller.checkInformation()) {
-                                  Get.back();
+                                  await _controller.onCreatePetClinic();
+                                  Get.back(result: true);
                                 }
                               },
                               color: AppColor.primary500,

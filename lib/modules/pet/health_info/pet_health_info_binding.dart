@@ -1,3 +1,4 @@
+import 'package:deemmi/core/domain/pet/health/pet_health_info.dart';
 import 'package:deemmi/modules/pet/health_info/pet_health_info_controller.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,7 @@ class PetHealthInfoBinding extends Bindings {
   @override
   void dependencies() {
     PetModel editingPet = Get.arguments[RouteParams.petModel];
+    PetHealthInfo? healthInfo = Get.arguments[RouteParams.healthInfoModel];
     Get.lazyPut(
       () => PetHealthInfoController(
         PetRepository(
@@ -19,6 +21,7 @@ class PetHealthInfoBinding extends Bindings {
           ),
         ),
         editingPet,
+        healthInfo,
       ),
     );
   }

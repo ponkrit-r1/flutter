@@ -491,24 +491,6 @@ class _AddPetPageState extends State<AddPetPage> {
     );
   }
 
-  _firstnameForm(BuildContext context) {
-    return PettaguTextField(
-      hintText: "",
-      keyboardType: TextInputType.visiblePassword,
-      controller: _controller.firstNameController,
-      fillColor: Colors.white,
-    );
-  }
-
-  _lastnameForm(BuildContext context) {
-    return PettaguTextField(
-      hintText: "",
-      keyboardType: TextInputType.visiblePassword,
-      controller: _controller.lastNameController,
-      fillColor: Colors.white,
-    );
-  }
-
   _dropDownFormField<T>(
     Function(T?) onItemSelected,
     List<T> items,

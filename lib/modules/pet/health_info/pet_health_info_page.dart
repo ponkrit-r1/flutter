@@ -198,8 +198,13 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                               )
                             : PrimaryButton(
                                 title: stringRes(context)!.nextLabel,
-                                onPressed: () {
-                                  _navigateToAddClinic();
+                                onPressed: () async {
+                                  await _controller.onUpdatePetHealthInfo();
+                                  if (_controller.editingHealthInfo == null) {
+                                    _navigateToAddClinic();
+                                  } else {
+                                    Get.back(result: true);
+                                  }
                                 },
                                 color: AppColor.primary500,
                               ),

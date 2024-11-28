@@ -1,3 +1,5 @@
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_brand.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
 import 'package:deemmi/core/domain/pet/health/vaccine_allergy.dart';
 
 import 'chronic_disease.dart';
@@ -5,9 +7,9 @@ import 'drug_allergy.dart';
 import 'food_allergy.dart';
 
 class PetHealthInfo {
-  bool hasVaccineAllergy;
-  bool hasDrugAllergy;
-  String? sterilization;
+  bool? hasVaccineAllergy;
+  bool? hasDrugAllergy;
+  bool? sterilization;
   int pet;
   List<ChronicDisease> chronicDisease;
   List<FoodAllergy> foodAllergy;
@@ -25,7 +27,11 @@ class PetHealthInfo {
     required this.drugAllergy,
   });
 
-  factory PetHealthInfo.fromJson(Map<String, dynamic> json) {
+  factory PetHealthInfo.fromJson(
+    Map<String, dynamic> json,
+    List<VaccineBrand> vaccineBrand,
+    List<VaccineType> vaccineType,
+  ) {
     return PetHealthInfo(
       hasVaccineAllergy: json['has_vaccine_allergy'] ?? false,
       hasDrugAllergy: json['has_drug_allergy'] ?? false,
@@ -38,7 +44,11 @@ class PetHealthInfo {
           .map((e) => FoodAllergy.fromJson(e))
           .toList(),
       vaccineAllergy: (json['vaccine_allergy'] as List<dynamic>)
-          .map((e) => VaccineAllergy.fromJson(e))
+          .map((e) => VaccineAllergy.fromJson(
+                e,
+                vaccineBrand,
+                vaccineType,
+              ))
           .toList(),
       drugAllergy: (json['drug_allergy'] as List<dynamic>)
           .map((e) => DrugAllergy.fromJson(e))

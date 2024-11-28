@@ -1,39 +1,49 @@
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_brand.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
+import 'package:get/get.dart';
+
 class VaccineAllergy {
-  int id;
-  int pet;
+  int? id;
+  int? pet;
   String? otherVaccineType;
   String? otherVaccineBrand;
-  String? vaccineType;
-  String? vaccineBrand;
+  VaccineType? vaccineType;
+  VaccineBrand? vaccineBrand;
 
   VaccineAllergy({
-    required this.id,
-    required this.pet,
+    this.id,
+    this.pet,
     this.otherVaccineType,
     this.otherVaccineBrand,
     this.vaccineType,
     this.vaccineBrand,
   });
 
-  factory VaccineAllergy.fromJson(Map<String, dynamic> json) {
+  factory VaccineAllergy.fromJson(
+    Map<String, dynamic> json,
+    List<VaccineBrand> vaccineBrand,
+    List<VaccineType> vaccineType,
+  ) {
     return VaccineAllergy(
-      id: json['id'] ?? 0,
-      pet: json['pet'] ?? 0,
+      id: json['id'],
+      pet: json['pet'],
       otherVaccineType: json['other_vaccine_type'],
       otherVaccineBrand: json['other_vaccine_brand'],
-      vaccineType: json['vaccine_type'],
-      vaccineBrand: json['vaccine_brand'],
+      vaccineType: vaccineType.firstWhereOrNull(
+        (element) => element.id == json['vaccine_type'],
+      ),
+      vaccineBrand: vaccineBrand.firstWhereOrNull(
+        (element) => element.id == json['vaccine_brand'],
+      ),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'pet': pet,
-      'other_vaccine_type': otherVaccineType,
-      'other_vaccine_brand': otherVaccineBrand,
-      'vaccine_type': vaccineType,
-      'vaccine_brand': vaccineBrand,
+      'other_vaccine_type': otherVaccineType ?? '',
+      'other_vaccine_brand': otherVaccineBrand ?? '',
+      'vaccine_type': vaccineType?.id,
+      'vaccine_brand': vaccineBrand?.id,
     };
   }
 }
