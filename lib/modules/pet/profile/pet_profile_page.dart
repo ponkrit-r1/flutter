@@ -11,14 +11,25 @@ import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
+import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
+
+
 class PetProfilePage extends StatelessWidget {
   PetProfilePage({super.key});
 
   final controller = Get.find<PetProfileController>();
 
+  final PetListController _petController = Get.find<PetListController>();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+return PopScope(
+  canPop: true, // กำหนดว่าให้สามารถปิดหน้านี้ได้หรือไม่
+  onPopInvoked: (result) async {
+     _petController.getMyPet();
+  
+  },
+    child: Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -127,7 +138,8 @@ class PetProfilePage extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+     );
   }
 
   getGenderWidget(String gender) {
@@ -146,6 +158,27 @@ class PetProfilePage extends StatelessWidget {
         return const SizedBox.shrink();
     }
   }
+
+  Future<bool> _showExitConfirmationDialog(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('ยืนยันการออก'),
+      content: Text('คุณต้องการออกจากหน้านี้หรือไม่?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text('ยกเลิก'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text('ตกลง'),
+        ),
+      ],
+    ),
+  ) ?? false;
+}
+
 
   petInformationSystem(
     PetModel petModel,
