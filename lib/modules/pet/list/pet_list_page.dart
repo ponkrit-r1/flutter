@@ -19,6 +19,7 @@ class PetListPage extends StatefulWidget {
 class _PetListPageState extends State<PetListPage> {
   final _controller = Get.find<PetListController>();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

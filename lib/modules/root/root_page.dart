@@ -5,6 +5,9 @@ import 'package:deemmi/modules/pet/list/pet_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../../../core/domain/pet/pet_model.dart';
+import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
+import 'package:get/get.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -16,7 +19,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-
+ final PetListController _petController = Get.find<PetListController>();
   DateTime? currentBackPressTime;
 
   @override
@@ -148,5 +151,10 @@ class _RootPageState extends State<RootPage> {
   }
 
   //TODO move logic to controller
-  _onItemSelected(int index) async {}
+  // _onItemSelected(int index) async {}
+  _onItemSelected(int index) async {
+    //if (index == 1) {
+      _petController.getMyPet(); // เรียกอัปเดตข้อมูลสัตว์เลี้ยงใหม่
+    //}
+  }
 }
