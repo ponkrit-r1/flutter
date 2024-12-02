@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -6,14 +8,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
+import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
+
+import '../../../core/domain/pet/pet_model.dart';
+import '../../../core/global_widgets/global_confirm_dialog.dart';
+import '../../../core/theme/app_colors.dart';
+
+
 
 final mockDogImage =
     'https://s3-alpha-sig.figma.com/img/952e/705e/5cd22f9ed130680a0c8240212a73e224?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KjD-ZRhmbFEQM0OkfrMm-2J80qhjMtwkt8okWryswahfFuz5Wcnz~7erbMcC~Qti7mWXvQFuTC6vAan-aDzo83A1AnT7g0got3J0ERTUKhVxBp88PG3hHMcyVdkYsqjyqozKkCdgZR-Oq5RWsWP-SJ2OdSKqRkIPMcjDVQYoD~Ynqs3vIsFBlNQHU8NSt2Y-WCrETNcLQ8~nTxwcitXu4BEvqmbcC6ipA-hZclhe6BN-~yITVA1XxjKDQXCYzi9joiG3BuWQlFkfq-kVQfDKmMNlTdtxNRaOjSv5Y9eF0x4SbKc~rjmvmKjHnqSupjusFwlNl7I91LYB6N4wscGHVg__';
 
-final mockArticleImage =
-    'https://s3-alpha-sig.figma.com/img/b131/c6cf/657c638ef0257e504858116511e9caf0?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KLfhcfacGsNqXpRmWNEjGEfjqalo6bwNUxtfV7T2jJKCGDKYgmi~5TOyXcKbJaSTfExRamLVD0WcNXUBmh1RbsUo7oWxq6dgswAEA4R6bQ2~Mm-a8PBu26cJ4KKSrL42CUU-kCQUXNyOJS0a25WQ8tgt46mFSaCP-dIfXap1CJrbqGaMOo8~IrP0Zd2kXSZjeUDCnoechpc1ns7FH8Murd0wkOGMuAfYAMKV7tWBlEg7ONfvNe~1jdHyiAPkT2-FkW0qlmJ8AmPrH8UfytP-RrkGwqmXX5wIQHZGcqgeOLnZ7bQWswqN4f3sPLQFsHlN1YUVvMG7kxQP-tLMo2eCZQ__';
-final mockArticleImage2 =
-    'https://s3-alpha-sig.figma.com/img/2363/8330/054046e2edf1e7e998d63680c91fbfdb?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=De4itdjEojXJi53k32glLpSz8ULw4Us0B8K1j96RV2PPKaeAaGzooluBF2dGostonqumzs0UP2626mQRA-zvTglh-1oPWJ0PRf4UEtyq1~OfYA5yF1OuuLP5GTQVwAmgpoUuqjEyWpS7TIX7RWKXSYLp-MpRWOUZwL2nDe1ST8ioSXkgJYDV-4KhBd4pQNioPbNI-XxWHmtPPdEXQdcOanZp6fpJEvcS8MRzC7ThcWEESlSrB93ANnY~39HwQzPoLYi6uVybatI72kLmBNf2rrv6HLBIirHuL0mF2tx~gf9z5vrNdLJgSIBswvrG4xS-DD9Aflb7MTKo1tzX~o~H5Q__';
+
+
+
+
 
 class Pet {
   final String name;
@@ -35,9 +44,38 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
+
+  
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
+ final PetListController _controller = Get.find<PetListController>();
+ Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    print("vsdafdsfdsf");
+    WidgetsBinding.instance.addObserver(this); // Register as an observer
+
+    _controller.getMyPet();
+
+  // _timer = Timer(const Duration(seconds: 5), () {
+  //   if (mounted) {
+  //     _controller.getMyPet();
+  //   }
+  // });
+    // ตั้ง Timer เพื่อรีเฟรชข้อมูลทุกๆ 5 วินาที
+    // _timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    //   if (mounted) {
+    //     _controller.getMyPet();
+    //   }
+    // });
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -53,6 +91,12 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Stack(
                   children: [
+                      RefreshIndicator(
+                      onRefresh: () async {
+                        // Refresh data when pulled down
+                        await _controller.getMyPet();
+                      },
+                      child: 
                     ListView(
                   children: [
                     const SizedBox(
@@ -148,6 +192,7 @@ class _HomePageState extends State<HomePage> {
                     _buildArticleList(),
                   ],
                     )
+                      )
             ]
                 ),
               ),
@@ -268,108 +313,255 @@ Widget _buildArticleList() {
   );
 }
 
+void navigateToPetProfile(PetModel pet) async {
+  var result = await Get.toNamed(Routes.petProfile, arguments: {
+    RouteParams.petModel: pet,
+  });
+}
 
-  Widget _buildPetList() {
-    final List<Pet?> pets = [
-      Pet(name: 'Puff', imageUrl: mockDogImage),
-      Pet(name: 'Max', imageUrl: mockDogImage),
-      null,
-    ];
 
-    return SizedBox(
-      height: 70,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        itemCount: pets.length,
-        itemBuilder: (context, index) {
-          if (pets[index] == null) {
-   return GestureDetector(
-              onTap: () {
-              try {
-                  Get.toNamed(Routes.addPet);
-                } catch (e) {
-                  print("Navigation error: $e");
-                }
-              },
-              child: Container(
-                margin: const EdgeInsets.only(right: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    DottedBorder(
-                      borderType: BorderType.Circle,
-                      color: AppColor.formTextColor,
-                      strokeWidth: 1,
-                      child: Container(
-                        width: 36,
-                        height: 36,
-                        padding: const EdgeInsets.all(2),
-                        child: const Center(
-                          child: Icon(
-                            Icons.add,
-                            color: AppColor.formTextColor,
+// ใน _buildPetList()
+Widget _buildPetList() {
+  return Obx(() {
+    // แสดง loading indicator ถ้ายังโหลดข้อมูลอยู่
+    if (_controller.isLoading.isTrue) {
+      return const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondary500),
+        ),
+      );
+    }
+
+    // ตรวจสอบว่ามีรายการสัตว์เลี้ยงอย่างน้อยหนึ่งรายการ
+    if (_controller.petList.isEmpty) {
+      return const Center(
+        child: Text(
+          'No pets available',
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+
+    // ถ้ามีมากกว่า 2 รายการ ให้แสดงเฉพาะ 2 ตัวล่าสุด
+    final petListToDisplay = _controller.petList.length > 2
+        ? _controller.petList.sublist(0, 2) // เลือก 2 รายการแรก
+        : _controller.petList;
+
+    return RefreshIndicator(
+      onRefresh: () => _controller.getMyPet(),
+      child: SizedBox(
+        height: 70,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          itemCount: petListToDisplay.length + 1, // เพิ่มปุ่ม Add เข้าไป
+          itemBuilder: (context, index) {
+            // ถ้าเป็นปุ่มสุดท้าย ให้เป็นปุ่ม Add Pet
+            if (index == petListToDisplay.length) {
+              return GestureDetector(
+                onTap: () {
+                  try {
+                    Get.toNamed(Routes.addPet);
+                  } catch (e) {
+                    print("Navigation error: $e");
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DottedBorder(
+                        borderType: BorderType.Circle,
+                        color: AppColor.formTextColor,
+                        strokeWidth: 1,
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          padding: const EdgeInsets.all(2),
+                          child: const Center(
+                            child: Icon(
+                              Icons.add,
+                              color: AppColor.formTextColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Add',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: const Color.fromARGB(255, 153, 168, 175),
-                          ),
-                    ),
-                  ],
+                      const SizedBox(height: 2),
+                      Text(
+                        'Add',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: const Color.fromARGB(255, 153, 168, 175),
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            // แสดงข้อมูลสัตว์เลี้ยง
+            final pet = petListToDisplay[index];
+            return _buildPetButton(pet);
+          },
+        ),
+      ),
+    );
+  });
+}
+
+
+  Widget _buildPetButton(PetModel pet) {
+    return GestureDetector(
+      onTap: () {
+        navigateToPetProfile(pet);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: AppColor.primaryLight,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 1,
+                  color: Colors.green,
                 ),
               ),
-            );
-
-          }
-          return _buildPetButton(pets[index]!);
-        },
+              child: Center(
+                child: CircleAvatar(
+                  backgroundImage: pet.image != null
+                      ? NetworkImage(pet.image!)
+                      : const AssetImage('assets/images/empty_pet_info.webp')
+                          as ImageProvider,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              pet.name,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.dark500,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
+  // Widget _buildPetList() {
+  //     final _controller = Get.find<PetListController>();
+  //   final List<Pet?> pets = [
+  //     Pet(name: 'Puff', imageUrl: mockDogImage),
+  //     Pet(name: 'Max', imageUrl: mockDogImage),
+  //     null,
+  //   ];
 
-  Widget _buildPetButton(Pet pet) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: AppColor.primaryLight,
-              shape: BoxShape.circle,
-              border: Border.all(
-                width: 1,
-                color: Colors.green,
-              ),
-            ),
-            child: Center(
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(pet.imageUrl),
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            pet.name,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.dark500
-                ),
-          )
-        ],
-      ),
-    );
-  }
+  //   return SizedBox(
+  //     height: 70,
+  //     child: ListView.builder(
+  //       scrollDirection: Axis.horizontal,
+  //       padding: const EdgeInsets.symmetric(horizontal: 10),
+  //       itemCount: pets.length,
+  //       itemBuilder: (context, index) {
+  //         if (pets[index] == null) {
+  //  return GestureDetector(
+  //             onTap: () {
+  //             try {
+  //                 Get.toNamed(Routes.addPet);
+  //               } catch (e) {
+  //                 print("Navigation error: $e");
+  //               }
+  //             },
+  //             child: Container(
+  //               margin: const EdgeInsets.only(right: 10),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: [
+  //                   DottedBorder(
+  //                     borderType: BorderType.Circle,
+  //                     color: AppColor.formTextColor,
+  //                     strokeWidth: 1,
+  //                     child: Container(
+  //                       width: 36,
+  //                       height: 36,
+  //                       padding: const EdgeInsets.all(2),
+  //                       child: const Center(
+  //                         child: Icon(
+  //                           Icons.add,
+  //                           color: AppColor.formTextColor,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   const SizedBox(height: 2),
+  //                   Text(
+  //                     'Add',
+  //                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
+  //                           fontWeight: FontWeight.w700,
+  //                           color: const Color.fromARGB(255, 153, 168, 175),
+  //                         ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           );
+
+  //         }
+  //         return _buildPetButton(pets[index]!);
+  //       },
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildPetButton(Pet pet) {
+    
+  //   return Container(
+  //     margin: const EdgeInsets.only(right: 10),
+  //     child: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         Container(
+  //           width: 40,
+  //           height: 40,
+  //           padding: const EdgeInsets.all(2),
+  //           decoration: BoxDecoration(
+  //             color: AppColor.primaryLight,
+  //             shape: BoxShape.circle,
+  //             border: Border.all(
+  //               width: 1,
+  //               color: Colors.green,
+  //             ),
+  //           ),
+  //           child: Center(
+  //             child: CircleAvatar(
+  //               backgroundImage: NetworkImage(pet.imageUrl),
+  //               backgroundColor: Colors.white,
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 2),
+  //         Text(
+  //           pet.name,
+  //           style: Theme.of(context).textTheme.bodySmall?.copyWith(
+  //                 fontWeight: FontWeight.w700,
+  //                 color: AppColor.dark500
+  //               ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
+
 
   Widget _buildHeader() {
     return Container(
