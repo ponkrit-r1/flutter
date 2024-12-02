@@ -342,10 +342,11 @@ Widget _buildPetList() {
       );
     }
 
-    // ถ้ามีมากกว่า 2 รายการ ให้แสดงเฉพาะ 2 ตัวล่าสุด
+       // ถ้ามีมากกว่า 2 รายการ ให้แสดงเฉพาะ 2 ตัวล่าสุด
     final petListToDisplay = _controller.petList.length > 2
-        ? _controller.petList.sublist(0, 2) // เลือก 2 รายการแรก
+        ? _controller.petList.sublist(_controller.petList.length - 2) // เลือก 2 รายการสุดท้าย
         : _controller.petList;
+
 
     return RefreshIndicator(
       onRefresh: () => _controller.getMyPet(),
