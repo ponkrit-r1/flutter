@@ -320,7 +320,6 @@ void navigateToPetProfile(PetModel pet) async {
 }
 
 
-// ใน _buildPetList()
 Widget _buildPetList() {
   return Obx(() {
     // แสดง loading indicator ถ้ายังโหลดข้อมูลอยู่
@@ -342,16 +341,15 @@ Widget _buildPetList() {
       );
     }
 
-       // ถ้ามีมากกว่า 2 รายการ ให้แสดงเฉพาะ 2 ตัวล่าสุด
+    // ถ้ามีมากกว่า 2 รายการ ให้แสดงเฉพาะ 2 ตัวล่าสุด
     final petListToDisplay = _controller.petList.length > 2
         ? _controller.petList.sublist(_controller.petList.length - 2) // เลือก 2 รายการสุดท้าย
         : _controller.petList;
 
-
     return RefreshIndicator(
       onRefresh: () => _controller.getMyPet(),
       child: SizedBox(
-        height: 70,
+        height: 90,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -412,7 +410,6 @@ Widget _buildPetList() {
   });
 }
 
-
   Widget _buildPetButton(PetModel pet) {
     return GestureDetector(
       onTap: () {
@@ -447,7 +444,9 @@ Widget _buildPetList() {
             ),
             const SizedBox(height: 2),
             Text(
-              pet.name,
+              pet.name.length > 8 ? '${pet.name.substring(0, 8)}...' : pet.name,
+              maxLines: 1, 
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w700,
                     color: AppColor.dark500,
