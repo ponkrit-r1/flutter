@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/global_widgets/pettagu_text_field.dart';
 import '../../../core/global_widgets/primary_button.dart';
 import '../../../core/theme/app_colors.dart';
+import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 
 class AddPetPage extends StatefulWidget {
   const AddPetPage({super.key});
@@ -21,10 +22,25 @@ class _AddPetPageState extends State<AddPetPage> {
   final _globalKey = GlobalKey<ScaffoldMessengerState>();
 
   final _controller = Get.find<AddPetController>();
+ final PetListController _petController = Get.find<PetListController>();
+
+ @override
+  void dispose() {
+    _petController.getMyPet(); // เรียกใช้ getMyPet เพื่ออัปเดตรายการสัตว์เลี้ยงเมื่อปิดหน้า
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
+
+      return PopScope(
+      canPop: true, // กำหนดว่าให้สามารถปิดหน้านี้ได้หรือไม่
+  onPopInvoked: (result) async {
+     _petController.getMyPet();
+  
+  },
+    child: ScaffoldMessenger(
       key: _globalKey,
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -427,7 +443,8 @@ class _AddPetPageState extends State<AddPetPage> {
                     ),
                     Center(
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () {   
+                            _petController.getMyPet();   
                           Get.back();
                         },
                         child: Text(
@@ -449,7 +466,8 @@ class _AddPetPageState extends State<AddPetPage> {
           ),
         ),
       ),
-    );
+    )
+      );
   }
 
   _petNameForm(BuildContext context) {
