@@ -1,0 +1,14 @@
+{
+    "login": "Login",
+    "settings": "Settings",
+    "logout": "Log out",
+    "email": "E-mail",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "language": "Language",
+    "change_password": "Change password",
+    "th" : "Thai",
+    "en" : "English"
+  }
+  

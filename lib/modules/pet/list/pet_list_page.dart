@@ -9,6 +9,8 @@ import '../../../core/global_widgets/global_confirm_dialog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class PetListPage extends StatefulWidget {
   const PetListPage({super.key});
 
@@ -28,8 +30,8 @@ class _PetListPageState extends State<PetListPage> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Text(
-          'My pets',
-          style: textTheme(context)
+          AppLocalizations.of(context)!.mypet,
+          style:  textTheme(context)
               .headlineSmall!
               .copyWith(color: AppColor.textColor),
         ),
