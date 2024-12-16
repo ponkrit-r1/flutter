@@ -1,12 +1,15 @@
 {
-  "@_GENERAL": {},
+  "general": "General settings",
+  "@general": {
+    "description": "Contains general settings labels"
+  },
   "settings": "Settings",
   "language": "Language",
   "email": "E-mail",
   "username": "Username",
   "password": "Password",
   "name": "Name",
-  "change_password": "Change password",
+  "change_password": "Change-Password",
   "logout": "Log out",
   "th": "Thai",
   "en": "English",
@@ -30,7 +33,10 @@
   "loginWithNewPassword": "You can now login with a new password",
   "closeLabel": "Close",
 
-  "@_ONBOARDING": {},
+  "onboarding": "onboarding",
+  "@onboarding": {
+    "description": "Contains general settings labels"
+  },
   "onboarding1Title": "Keep your pet healthy",
   "onboarding1Subtitle": "Reminders and tracking for your pet's health.",
   "onboarding2Title": "Peace of Mind",
@@ -38,7 +44,10 @@
   "onboarding3Title": "Connect & Save",
   "onboarding3Subtitle": "Find pet-friendly places, get discounts, and join a community of pet lovers.",
 
-  "@_SIGN_IN": {},
+  "signin": "Sign_in",
+  "@signin": {
+     "description": "Contains general settings labels"
+  },
   "helloLabel": "Hello",
   "welcomeLabel": "Welcome!",
   "signInDescription": "Helping you to keep your bestie stay healthy!",
@@ -65,7 +74,10 @@
   "createNewPasswordLabel": "Create new password",
   "newPasswordLabel": "New password",
 
-  "@_ADD_PET": {},
+  "addpet": "add pet",
+  "@addpet": {
+     "description": "Contains general settings labels"
+  },
   "addPetInfoLabel": "Add pet info",
   "addYourPetPhoto": "Add your pet photo",
   "maximumSizeLabel": "Maximum size: 5MB",
@@ -98,7 +110,10 @@
   "saveLabel": "Save",
   "comingSoonLabel": "Coming Soon",
 
-  "@_ADD_PET_HEALTH": {},
+  "add_pet_health": "add pet health",
+  "@add_pet_health": {
+     "description": "Contains general settings labels"
+  },
   "addPetHealthLabel": "Add pet health",
   "editPetHealthLabel": "Edit pet health",
   "sterilizationLabel": "Sterilization",
@@ -109,7 +124,10 @@
   "vaccineAllergyLabel": "Vaccine allergy",
   "drugAllergyLabel": "Drug allergy",
 
-  "@_ROOT": {},
+  "root" : "root",
+  "@root": {
+     "description": "Contains general settings labels"
+  },
   "homeLabel": "Home",
   "myPetLabel": "My pet",
   "exploreLabel": "Explore",
