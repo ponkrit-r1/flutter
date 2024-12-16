@@ -78,62 +78,115 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     );
   }
 
-  Widget _buildLanguageSelection() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           Text(
-            AppLocalizations.of(context)!.language,
-            style:const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-             _buildLanguageButton('th', AppLocalizations.of(context)!.th),
-              const SizedBox(width: 10),
-            _buildLanguageButton('en', AppLocalizations.of(context)!.en),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+Widget _buildLanguageSelection() {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(25),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.language,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            _buildLanguageButton(
+              'th',
+              AppLocalizations.of(context)!.th,
+              "assets/icons/th.png", // พาธไปที่รูปไอคอนธงไทย
+            ),
+            const SizedBox(width: 10),
+            _buildLanguageButton(
+              'en',
+              AppLocalizations.of(context)!.en,
+              'assets/icons/en.png', // พาธไปที่รูปไอคอนธงอเมริกา
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 
-    Widget _buildLanguageButton(String language, String label) {
-    final isActive = _selectedLanguage == language;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => _saveLanguagePreference(language),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: isActive ? Colors.blue.shade100 : Colors.white,
-            border: Border.all(color: isActive ? Colors.blue : Colors.grey),
+Widget _buildLanguageButton(String language, String label, String iconPath) {
+  final isActive = _selectedLanguage == language;
+
+  return Expanded(
+    child: GestureDetector(
+      onTap: () => _saveLanguagePreference(language),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          color: isActive ? Colors.blue.shade100 : Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(language == 'th' ? 30 : 0),
+            bottomLeft: Radius.circular(language == 'th' ? 30 : 0),
+            topRight: Radius.circular(language == 'en' ? 30 : 0),
+            bottomRight: Radius.circular(language == 'en' ? 30 : 0),
           ),
-          child: Center(
-            child: Text(label,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: isActive ? Colors.blue : Colors.grey)),
+          border: Border.all(
+            color: isActive ? Colors.blue : Colors.grey.shade300,
+            width: 2,
           ),
         ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              iconPath,
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isActive ? Colors.blue : Colors.grey.shade700,
+              ),
+            ),
+          ],
+        ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
+  //   Widget _buildLanguageButton(String language, String label) {
+  //   final isActive = _selectedLanguage == language;
+  //   return Expanded(
+  //     child: GestureDetector(
+  //       onTap: () => _saveLanguagePreference(language),
+  //       child: Container(
+  //         padding: const EdgeInsets.symmetric(vertical: 12),
+  //         decoration: BoxDecoration(
+  //           color: isActive ? Colors.blue.shade100 : Colors.white,
+  //           border: Border.all(color: isActive ? Colors.blue : Colors.grey),
+  //         ),
+  //         child: Center(
+  //           child: Text(label,
+  //               style: TextStyle(
+  //                   fontWeight: FontWeight.bold,
+  //                   color: isActive ? Colors.blue : Colors.grey)),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildAccountSection(AccountSettingController controller) {
     return Container(
