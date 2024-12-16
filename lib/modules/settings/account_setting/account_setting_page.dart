@@ -5,6 +5,7 @@ import '../../../routes/app_routes.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_controller.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSettingPage extends StatefulWidget {
   const AccountSettingPage({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class AccountSettingPage extends StatefulWidget {
 }
 
 class _AccountSettingPageState extends State<AccountSettingPage> {
-  String _selectedLanguage = 'Thai';
+  String _selectedLanguage = 'th';
 
   @override
   void initState() {
@@ -25,13 +26,17 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
   Future<void> _loadLanguagePreference() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedLanguage = prefs.getString('language') ?? 'Thai';
+      _selectedLanguage = prefs.getString('language') ?? 'th';
     });
   }
 
   Future<void> _saveLanguagePreference(String language) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language', language);
+
+    // อัปเดต Locale ทันที
+    Get.updateLocale(Locale(language));
+
     setState(() {
       _selectedLanguage = language;
     });
@@ -51,9 +56,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             Get.offAllNamed(Routes.root);
           },
         ),
-        title: const Text(
-          'Settings',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title:  Text(
+          AppLocalizations.of(context)!.settings,
+          style:const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
@@ -91,16 +96,16 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Language',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+           Text(
+            AppLocalizations.of(context)!.language,
+            style:const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 10),
           Row(
             children: [
-              _buildLanguageButton('Thai'),
+             _buildLanguageButton('th', AppLocalizations.of(context)!.th),
               const SizedBox(width: 10),
-              _buildLanguageButton('English'),
+            _buildLanguageButton('en', AppLocalizations.of(context)!.en),
             ],
           ),
         ],
@@ -108,7 +113,7 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     );
   }
 
-  Widget _buildLanguageButton(String language) {
+    Widget _buildLanguageButton(String language, String label) {
     final isActive = _selectedLanguage == language;
     return Expanded(
       child: GestureDetector(
@@ -117,20 +122,13 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: isActive ? Colors.blue.shade100 : Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: isActive ? Colors.blue : Colors.grey.shade300,
-              width: 2,
-            ),
+            border: Border.all(color: isActive ? Colors.blue : Colors.grey),
           ),
           child: Center(
-            child: Text(
-              language,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isActive ? Colors.blue : Colors.grey.shade700,
-              ),
-            ),
+            child: Text(label,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isActive ? Colors.blue : Colors.grey)),
           ),
         ),
       ),
@@ -157,7 +155,7 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
         return Column(
           children: [
             _buildAccountSettingItem(
-              'E-mail',
+              AppLocalizations.of(context)!.email,
               profile?.email ?? '',
               onTap: () => _navigateToUpdate(Routes.update_email, {
                 'email': profile?.email ?? '',
@@ -165,7 +163,7 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             ),
             const SizedBox(height: 20),
             _buildAccountSettingItem(
-              'Username',
+              AppLocalizations.of(context)!.username,
               profile?.username ?? '',
               onTap: () => _navigateToUpdate(Routes.update_username, {
                 'username': profile?.username ?? '',
@@ -173,13 +171,13 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             ),
             const SizedBox(height: 20),
             _buildAccountSettingItem(
-              'Password',
-              'Change password',
+             AppLocalizations.of(context)!.password,
+              AppLocalizations.of(context)!.change_password,
               onTap: () => Get.toNamed(Routes.update_password),
             ),
             const SizedBox(height: 20),
             _buildAccountSettingItem(
-              'Name',
+              AppLocalizations.of(context)!.name,
               profile != null
                   ? '${profile.firstName} ${profile.lastName}'.trim()
                   : '',
@@ -264,7 +262,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
         ),
-        child: const Text('Log out', style: TextStyle(color: Colors.red)),
+        child:  Text(AppLocalizations.of(context)!.logout
+        ,
+         style: const TextStyle(color: Colors.red)),
       ),
     );
   }

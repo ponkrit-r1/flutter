@@ -13,7 +13,7 @@ import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import '../../../core/domain/pet/pet_model.dart';
 import '../../../core/global_widgets/global_confirm_dialog.dart';
 import '../../../core/theme/app_colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 final mockDogImage =
@@ -160,8 +160,8 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Text(
-                                      'Shop now!',
+                                    Text(                      
+                                      AppLocalizations.of(context)!.shopnow,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge
@@ -260,7 +260,7 @@ Widget _buildArticleList() {
       Padding(
         padding: const EdgeInsets.only(left: 30),
         child: Text(
-          'Articles',
+          AppLocalizations.of(context)!.article,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: AppColor.primary500,
               ),

@@ -11,12 +11,16 @@ import 'package:get/get.dart';
 import 'core/data/app_storage.dart';
 import 'core/theme/app_theme.dart';
 import 'routes/app_routes.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+    // โหลดภาษาเริ่มต้นจาก SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+  final String languageCode = prefs.getString('language') ?? 'en';
 
   final appStorage = AppStorage.shared;
   await appStorage.initialize();
@@ -34,13 +38,20 @@ void main() async {
   Get.put(SignInController(authAPI),
       permanent: true); 
 
-  runApp(const MyApp(initialRoute: Routes.routing));
+ runApp(MyApp(
+    initialRoute: Routes.routing,
+    initialLocale: Locale(languageCode),
+  ));
+  //runApp(const MyApp(initialRoute: Routes.routing));
 }
 
 class MyApp extends StatelessWidget {
   final String initialRoute;
+  final Locale initialLocale;
 
-  const MyApp({Key? key, required this.initialRoute}) : super(key: key);
+const MyApp({Key? key, required this.initialRoute, required this.initialLocale})
+      : super(key: key);
+  // const MyApp({Key? key, required this.initialRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +65,21 @@ class MyApp extends StatelessWidget {
           child: child ?? const SizedBox.shrink(),
         );
       },
+
+      locale: initialLocale,
+      fallbackLocale: const Locale('en'),
+     supportedLocales: const [
+        Locale('en'), // ภาษาอังกฤษ
+        Locale('th'), // ภาษาไทย
+      ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        Locale('en', ''),
-      ],
+      
+  
       getPages: AppPages.pages,
       initialRoute: initialRoute,
     );
