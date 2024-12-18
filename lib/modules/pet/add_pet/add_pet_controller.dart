@@ -96,6 +96,11 @@ class AddPetController extends GetxController {
 
   List<AnimalBreed> get animalBreed => _animalBreed;
 
+  final RxBool _shouldDisplayImageTooLargeError = false.obs;
+
+  bool get shouldDisplayImageTooLargeError =>
+      _shouldDisplayImageTooLargeError.value;
+
   var isReselectImageOnEditing = false;
 
   @override
@@ -145,6 +150,13 @@ class AddPetController extends GetxController {
   }
 
   setSelectedImage(XFile file) async {
+    var fileInMB = (await file.length()) / (1024 * 1024);
+    if (fileInMB > 5)  {
+      _shouldDisplayImageTooLargeError.value = true;
+      return;
+    } else {
+      _shouldDisplayImageTooLargeError.value = false;
+    }
     _selectedImage = file;
     _displaySelectedImage.value = await file.readAsBytes();
     checkInformation();

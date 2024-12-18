@@ -91,6 +91,8 @@ class PetHealthInfoController extends GetxController {
 
   final PetModel editingPet;
 
+  static const otherVaccineTypeName = 'Others';
+
   PetHealthInfoController(
     this.petRepository,
     this.editingPet,
@@ -137,8 +139,21 @@ class PetHealthInfoController extends GetxController {
         case true:
           setVaccineAllergy(threeChoiceAnswer[0]);
           _vaccineAllergyList.value = editingHealthInfo!.vaccineAllergy
-              .map((e) => VaccineAllergyObject(
-                  type: e.vaccineType, brand: e.vaccineBrand))
+              .map(
+                (e) => VaccineAllergyObject(
+                  type: e.otherVaccineType?.isNotEmpty == true
+                      ? vaccineTypeOptions.firstWhere(
+                          (element) => element.name == otherVaccineTypeName)
+                      : e.vaccineType,
+                  brand: e.vaccineBrand,
+                  otherVaccineBrand: e.otherVaccineType?.isNotEmpty == true
+                      ? TextEditingController(text: e.otherVaccineBrand)
+                      : null,
+                  otherVaccineType: e.otherVaccineType?.isNotEmpty == true
+                      ? TextEditingController(text: e.otherVaccineType)
+                      : null,
+                ),
+              )
               .toList();
           break;
         case false:
@@ -216,7 +231,12 @@ class PetHealthInfoController extends GetxController {
   setVaccineAllergy(AnswerChoice answer) {
     _vaccineAllergyAnswer.value = answer;
     if (answer.option == AnswerOption.yes && drugAllergyList.isEmpty) {
-      _vaccineAllergyList.add(null);
+      _vaccineAllergyList.add(
+        VaccineAllergyObject(
+          type: null,
+          brand: null,
+        ),
+      );
     }
   }
 
@@ -250,6 +270,20 @@ class PetHealthInfoController extends GetxController {
       _vaccineAllergyList[idx] = VaccineAllergyObject(
         type: type,
         brand: null,
+      );
+    }
+    //TODO use id as reference instead need to discuss with BE
+    if (type.name == otherVaccineTypeName) {
+      _vaccineAllergyList[idx] = _vaccineAllergyList[idx]?.copyWith(
+        otherVaccineType:
+            TextEditingController(text: currentItem?.otherVaccineType?.text),
+        otherVaccineBrand:
+            TextEditingController(text: currentItem?.otherVaccineBrand?.text),
+      );
+    } else {
+      _vaccineAllergyList[idx] = _vaccineAllergyList[idx]?.copyWith(
+        otherVaccineType: null,
+        otherVaccineBrand: null,
       );
     }
   }
@@ -305,6 +339,12 @@ class PetHealthInfoController extends GetxController {
         element.dispose();
       }
     }
+    if (vaccineAllergyList.isNotEmpty) {
+      for (var element in vaccineAllergyList) {
+        element?.otherVaccineBrand?.dispose();
+        element?.otherVaccineType?.dispose();
+      }
+    }
   }
 
   onUpdatePetHealthInfo() async {
@@ -330,25 +370,41 @@ class PetHealthInfoController extends GetxController {
         hasDrugAllergy: drugAllergyAnswer?.option == AnswerOption.yes,
         pet: editingPet.id!,
         chronicDisease: chronicDiseaseList
+            .where((element) => element.text.isNotEmpty)
             .map((e) => ChronicDisease(
                   name: e.text,
                   pet: editingPet.id!,
                 ))
             .toList(),
         foodAllergy: foodAllergyList
+            .where((element) => element.text.isNotEmpty)
             .map((e) => FoodAllergy(
                   name: e.text,
                   pet: editingPet.id!,
                 ))
             .toList(),
         vaccineAllergy: vaccineAllergyList
+            .where(
+              (element) => (element?.type?.name == otherVaccineTypeName)
+                  ? (element?.otherVaccineType?.text.isNotEmpty ?? false)
+                  : true,
+            )
             .map((e) => VaccineAllergy(
-                  vaccineType: e!.type,
-                  vaccineBrand: e.brand,
+                  vaccineType:
+                      (e?.type?.name == otherVaccineTypeName) ? null : e!.type,
+                  vaccineBrand:
+                      (e?.type?.name == otherVaccineTypeName) ? null : e?.brand,
+                  otherVaccineBrand: e?.type?.name == otherVaccineTypeName
+                      ? e?.otherVaccineBrand?.text
+                      : "",
+                  otherVaccineType: e?.type?.name == otherVaccineTypeName
+                      ? e?.otherVaccineType?.text
+                      : "",
                   pet: editingPet.id!,
                 ))
             .toList(),
         drugAllergy: drugAllergyList
+            .where((element) => element.text.isNotEmpty)
             .map(
               (e) => DrugAllergy(
                 name: e.text,
@@ -370,16 +426,27 @@ class PetHealthInfoController extends GetxController {
 class VaccineAllergyObject {
   final VaccineType? type;
   final VaccineBrand? brand;
+  final TextEditingController? otherVaccineType;
+  final TextEditingController? otherVaccineBrand;
 
-  VaccineAllergyObject({required this.type, required this.brand});
+  VaccineAllergyObject({
+    required this.type,
+    required this.brand,
+    this.otherVaccineType,
+    this.otherVaccineBrand,
+  });
 
   VaccineAllergyObject copyWith({
     VaccineType? type,
     VaccineBrand? brand,
+    TextEditingController? otherVaccineType,
+    TextEditingController? otherVaccineBrand,
   }) {
     return VaccineAllergyObject(
       type: type ?? this.type,
       brand: brand ?? this.brand,
+      otherVaccineBrand: otherVaccineBrand ?? this.otherVaccineBrand,
+      otherVaccineType: otherVaccineType ?? this.otherVaccineType,
     );
   }
 }
