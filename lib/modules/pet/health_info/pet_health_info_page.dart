@@ -324,9 +324,10 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                         Text(
                           values[0].toString(),
                           style: textTheme(context).bodyLarge!.copyWith(
-                              color: AppColor.secondaryContentGray,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                                color: AppColor.secondaryContentGray,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                         )
                       ],
                     ),
@@ -658,6 +659,7 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
     Function(int) onDelete,
     bool showDelete,
   ) {
+    var vaccineItem = _controller.vaccineAllergyList.elementAt(idx);
     return Column(
       children: [
         Row(
@@ -695,16 +697,37 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
           "Type",
         ),
         const SizedBox(height: 12),
-        _dropDownFormField<VaccineBrand>(
-          (value) {
-            if (value != null) {
-              _controller.onSetVaccineAllergyBrand(idx, value);
-            }
-          },
-          _controller.vaccineBrandOptions,
-          _controller.vaccineAllergyList.elementAt(idx)?.brand,
-          "Brand",
-        ),
+        if (vaccineItem?.type?.name !=
+            PetHealthInfoController.otherVaccineTypeName)
+          _dropDownFormField<VaccineBrand>(
+            (value) {
+              if (value != null) {
+                _controller.onSetVaccineAllergyBrand(idx, value);
+              }
+            },
+            _controller.vaccineBrandOptions,
+            _controller.vaccineAllergyList.elementAt(idx)?.brand,
+            "Brand",
+          ),
+        if (vaccineItem?.type?.name ==
+            PetHealthInfoController.otherVaccineTypeName) ...[
+          PettaguTextField(
+              hintText: "Add vaccine type",
+              keyboardType: TextInputType.text,
+              controller: vaccineItem?.otherVaccineType,
+              fillColor: Colors.white,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(40),
+              ]),
+          PettaguTextField(
+              hintText: "Add vaccine brand (optional)",
+              keyboardType: TextInputType.text,
+              controller: vaccineItem?.otherVaccineBrand,
+              fillColor: Colors.white,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(40),
+              ]),
+        ],
         const SizedBox(height: 8),
       ],
     );

@@ -77,71 +77,93 @@ class _AddPetPageState extends State<AddPetPage> {
                             _controller.setSelectedImage(result);
                           }
                         },
-                        child: SizedBox(
-                          height: 256,
-                          child: Card(
-                            margin: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: _controller.displaySelectedImage == null
-                                ? Column(
-                                    children: [
-                                      const SizedBox(height: 48),
-                                      const Icon(
-                                        Icons.photo_library_outlined,
-                                        color: AppColor.primary500,
-                                        size: 56,
-                                      ),
-                                      const SizedBox(height: 24),
-                                      Text.rich(
-                                        TextSpan(
-                                          text: stringRes(context)!
-                                              .addYourPetPhoto,
-                                          style: textTheme(context)
-                                              .bodyLarge
-                                              ?.copyWith(
-                                                color: AppColor.textColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                          children: <TextSpan>[
-                                            const TextSpan(text: ' '),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 256,
+                              width: double.infinity,
+                              child: Card(
+                                margin: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: _controller.displaySelectedImage == null
+                                    ? Column(
+                                        children: [
+                                          const SizedBox(height: 48),
+                                          const Icon(
+                                            Icons.photo_library_outlined,
+                                            color: AppColor.primary500,
+                                            size: 56,
+                                          ),
+                                          const SizedBox(height: 24),
+                                          Text.rich(
                                             TextSpan(
                                               text: stringRes(context)!
-                                                  .browseLabel,
+                                                  .addYourPetPhoto,
                                               style: textTheme(context)
                                                   .bodyLarge
                                                   ?.copyWith(
-                                                    color: AppColor.primary500,
+                                                    color: AppColor.textColor,
                                                     fontWeight: FontWeight.bold,
                                                   ),
+                                              children: <TextSpan>[
+                                                const TextSpan(text: ' '),
+                                                TextSpan(
+                                                  text: stringRes(context)!
+                                                      .browseLabel,
+                                                  style: textTheme(context)
+                                                      .bodyLarge
+                                                      ?.copyWith(
+                                                        color:
+                                                            AppColor.primary500,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            stringRes(context)!
+                                                .maximumSizeLabel,
+                                            style: textTheme(context)
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color: AppColor.formTextColor,
+                                                ),
+                                          ),
+                                          const SizedBox(height: 48),
+                                        ],
+                                      )
+                                    : ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.memory(
+                                          _controller.displaySelectedImage!,
+                                          fit: BoxFit.cover,
                                         ),
-                                        textAlign: TextAlign.start,
                                       ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        stringRes(context)!.maximumSizeLabel,
-                                        style: textTheme(context)
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: AppColor.formTextColor,
-                                            ),
-                                      ),
-                                      const SizedBox(height: 48),
-                                    ],
-                                  )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.memory(
-                                      _controller.displaySelectedImage!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                          ),
+                              ),
+                            ),
+                            if (_controller.shouldDisplayImageTooLargeError)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: Text(
+                                  "Image too large",
+                                  style: textTheme(context).bodySmall?.copyWith(
+                                      color: AppColor.redError,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 12,
                     ),
                     const SizedBox(
                       height: 24,
