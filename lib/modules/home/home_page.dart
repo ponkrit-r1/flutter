@@ -198,14 +198,14 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
               ),
             ],
           ),
-          Positioned(
-            right: 0,
-            top: 60,
-            child: Image.asset(
-              'assets/images/home_spy_cat.png',
-              width: 200,
-            ),
-          ),
+          // Positioned(
+          //   right: 0,
+          //   top: 60,
+          //   child: Image.asset(
+          //     'assets/images/home_spy_cat.png',
+          //     width: 200,
+          //   ),
+          // ),
         ],
       ),
     )
@@ -562,99 +562,230 @@ Widget _buildPetList() {
   // }
 
 
-
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 20,
-      ),
-      decoration: const BoxDecoration(
-        color: AppColor.primaryLight,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+Widget _buildHeader() {
+  return Stack(
+    children: [
+      // Content ที่มี Padding และพื้นหลัง
+      Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 20,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset(
-                'assets/images/app_logo.png',
-                height: 40,
-              ),
-              Row(
-                children: [
-                  HeaderButton(
-                    iconPath: 'assets/icons/settings.svg',
-                      onTap: () {
-                      try {
-                        Get.toNamed(Routes.account_setting);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  HeaderButton(
-                    iconPath: 'assets/icons/bell.svg',
-                     onTap: () {
-                      try {
-                        Get.toNamed(Routes.notification);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ],
+        decoration: const BoxDecoration(
+          color: AppColor.primaryLight,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(0),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          RichText(
-            text: TextSpan(
-              children: <InlineSpan>[
-                TextSpan(
-                  text: 'Hi !, ',
-                  style: textTheme(context).headlineLarge?.copyWith(
-                        color: AppColor.textColor,
-                        fontWeight: FontWeight.w600,
-                         fontSize: 26,
-                      ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'assets/images/app_logo.png',
+                  height: 40,
                 ),
-                TextSpan(
-                  text: ' Roong.',
-                  style: textTheme(context).headlineLarge?.copyWith(
-                        color: AppColor.primary500,
-                        fontWeight: FontWeight.w600,
-                         fontSize: 26,
-                      ),
-                )
+                Row(
+                  children: [
+  Container(
+    width: 30, // กำหนดขนาดความกว้างของ icon
+    height: 30, // กำหนดขนาดความสูงของ icon
+    decoration: BoxDecoration(
+      color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
+      shape: BoxShape.circle, // ทำให้เป็นวงกลม
+    ),
+    child: HeaderButton(
+      iconPath: 'assets/icons/settings.svg',
+      onTap: () {
+        try {
+          Get.toNamed(Routes.account_setting);
+        } catch (e) {
+          print("Navigation error: $e");
+        }
+      },
+       backgroundColor: Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
+  iconColor: Colors.white, // ไอคอนเป็นสีขาว
+    ),
+  ),
+  const SizedBox(width: 10),
+  Container(
+    width: 30,
+    height: 30,
+    decoration: BoxDecoration(
+      color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
+      shape: BoxShape.circle,
+    ),
+    child: HeaderButton(
+      iconPath: 'assets/icons/bell.svg',
+      onTap: () {
+        try {
+          Get.toNamed(Routes.notification);
+        } catch (e) {
+          print("Navigation error: $e");
+        }
+      },
+       backgroundColor: Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
+  iconColor: Colors.white, // ไอคอนเป็นสีขาว
+    ),
+  ),
+],
+
+                ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            RichText(
+              text: TextSpan(
+                children: <InlineSpan>[
+                  TextSpan(
+                    text: 'Hi !, ',
+                    style: textTheme(context).headlineLarge?.copyWith(
+                          color: AppColor.textColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 26,
+                        ),
+                  ),
+                  TextSpan(
+                    text: 'Roong.',
+                    style: textTheme(context).headlineLarge?.copyWith(
+                          color: AppColor.primary500,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 26,
+                        ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    );
-  }
+      // รูป home_dog_bg.png วางไว้ layer บนสุด
+     Positioned(
+        bottom: 0, // ชิดด้านล่างของพื้นที่
+        right: 0, // ชิดขวา
+        child: Image.asset(
+          'assets/images/home_dog_bg.png',
+          width: 350, // ปรับขนาดตามต้องการ
+          fit: BoxFit.contain, // ปรับให้รูปไม่ผิดสัดส่วน
+        ),
+      ),
+    ],
+  );
+}
+
+
+
+
+
+
+
+
+
+
+  // Widget _buildHeader() {
+  //   return Container(
+  //     width: double.infinity,
+  //     padding: const EdgeInsets.symmetric(
+  //       vertical: 20,
+  //       horizontal: 20,
+  //     ),
+  //     decoration: const BoxDecoration(
+  //       color: AppColor.primaryLight,
+  //       borderRadius: BorderRadius.only(
+  //         bottomLeft: Radius.circular(30),
+  //         bottomRight: Radius.circular(30),
+  //       ),
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Image.asset(
+  //               'assets/images/app_logo.png',
+  //               height: 40,
+  //             ),
+  //             Row(
+  //               children: [
+  //                 HeaderButton(
+  //                   iconPath: 'assets/icons/settings.svg',
+  //                     onTap: () {
+  //                     try {
+  //                       Get.toNamed(Routes.account_setting);
+  //                     } catch (e) {
+  //                       print("Navigation error: $e");
+  //                     }
+  //                   },
+  //                 ),
+  //                 const SizedBox(
+  //                   width: 10,
+  //                 ),
+  //                 HeaderButton(
+  //                   iconPath: 'assets/icons/bell.svg',
+  //                    onTap: () {
+  //                     try {
+  //                       Get.toNamed(Routes.notification);
+  //                     } catch (e) {
+  //                       print("Navigation error: $e");
+  //                     }
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 20,
+  //         ),
+  //         RichText(
+  //           text: TextSpan(
+  //             children: <InlineSpan>[
+  //               TextSpan(
+  //                 text: 'Hi !, ',
+  //                 style: textTheme(context).headlineLarge?.copyWith(
+  //                       color: AppColor.textColor,
+  //                       fontWeight: FontWeight.w600,
+  //                        fontSize: 26,
+  //                     ),
+  //               ),
+  //               TextSpan(
+  //                 text: ' Roong.',
+  //                 style: textTheme(context).headlineLarge?.copyWith(
+  //                       color: AppColor.primary500,
+  //                       fontWeight: FontWeight.w600,
+  //                        fontSize: 26,
+  //                     ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+
+
+
+
 }
 
 class HeaderButton extends StatelessWidget {
   final String iconPath;
   final VoidCallback onTap;
+  final Color backgroundColor; // สีพื้นหลัง
+  final Color iconColor; // สีของไอคอน
 
   const HeaderButton({
     super.key,
     required this.iconPath,
     required this.onTap,
+    this.backgroundColor = Colors.white, // ค่าเริ่มต้นสีพื้นหลัง
+    this.iconColor = Colors.black, // ค่าเริ่มต้นสีไอคอน
   });
 
   @override
@@ -664,14 +795,16 @@ class HeaderButton extends StatelessWidget {
       child: Container(
         width: 26,
         height: 26,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
+        decoration: BoxDecoration(
+          color: backgroundColor, // สีพื้นหลัง
+          shape: BoxShape.circle, // ทำให้เป็นวงกลม
         ),
         child: Center(
           child: SvgPicture.asset(
             iconPath,
             width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn), // เปลี่ยนสีไอคอน
           ),
         ),
       ),
