@@ -42,6 +42,13 @@ class AddPetClinicController extends GetxController {
   onReady() {
     getPetClinic();
     super.onReady();
+    otherClinicName.addListener(() {
+      if (otherClinicNameErrorText?.isNotEmpty == true) {
+        if(otherClinicName.text.isNotEmpty) {
+          _otherClinicNameErrorText.value = null;
+        }
+      }
+    });
   }
 
   getPetClinic() async {

@@ -4,15 +4,13 @@ import 'package:deemmi/core/domain/pet/pet_model.dart';
 import 'package:deemmi/core/global_widgets/horizontal_dashline_painter.dart';
 import 'package:deemmi/core/global_widgets/vertical_dashline_painter.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
+import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
-
-import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
-
 
 class PetProfilePage extends StatelessWidget {
   PetProfilePage({super.key});
@@ -23,123 +21,124 @@ class PetProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-return PopScope(
-  canPop: true, // กำหนดว่าให้สามารถปิดหน้านี้ได้หรือไม่
-  onPopInvoked: (result) async {
-     _petController.getMyPet();
-  
-  },
-    child: Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return PopScope(
+      canPop: true, // กำหนดว่าให้สามารถปิดหน้านี้ได้หรือไม่
+      onPopInvoked: (result) async {
+        _petController.getMyPet();
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0.0,
-        centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(4), // Border width
-              decoration: const BoxDecoration(
-                  color: AppColor.secondary500, shape: BoxShape.circle),
-              child: ClipOval(
-                child: SizedBox.fromSize(
-                  size: const Size.fromRadius(16), // Image radius
-                  child: Image.network(
-                    controller.petModel.image ?? '',
-                    fit: BoxFit.cover,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          centerTitle: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(4), // Border width
+                decoration: const BoxDecoration(
+                    color: AppColor.secondary500, shape: BoxShape.circle),
+                child: ClipOval(
+                  child: SizedBox.fromSize(
+                    size: const Size.fromRadius(16), // Image radius
+                    child: Image.network(
+                      controller.petModel.image ?? '',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
+              const SizedBox(width: 8),
+              Text(
+                controller.petName,
+                style: textTheme(context)
+                    .headlineSmall
+                    ?.copyWith(color: AppColor.textColor),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.keyboard_arrow_down_rounded),
+            ],
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.qr_code_rounded,
+                color: AppColor.primary500,
+              ),
+              onPressed: () {
+                // Navigate to the QR Code page
+                try {
+                  //  Get.toNamed(Routes.add_pet_tag,
+                  //  arguments: {
+                  //   'petModel' : controller.petModel,
+                  //  });
+
+                  Get.toNamed(Routes.existing_pet_tag, arguments: {
+                    'petModel': controller.petModel,
+                  });
+                  //Get.toNamed(Routes.existing_pet_tag);
+                } catch (e) {
+                  debugPrint("Navigation error: $e");
+                }
+              },
             ),
-            const SizedBox(width: 8),
-            Text(
-              controller.petName,
-              style: textTheme(context)
-                  .headlineSmall
-                  ?.copyWith(color: AppColor.textColor),
-            ),
-            const SizedBox(width: 8),
-            const Icon(Icons.keyboard_arrow_down_rounded),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.qr_code_rounded,
-              color: AppColor.primary500,
-            ),
-            onPressed: () {
-              // Navigate to the QR Code page
-              try {
-                //  Get.toNamed(Routes.add_pet_tag,
-                //  arguments: {
-                //   'petModel' : controller.petModel,
-                //  });
-
-                Get.toNamed(Routes.existing_pet_tag, arguments: {
-                  'petModel': controller.petModel,
-                });
-                //Get.toNamed(Routes.existing_pet_tag);
-              } catch (e) {
-                print("Navigation error: $e");
-              }
-            },
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          color: AppColor.secondaryBgColor,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(
-                  height: 24,
-                ),
-                Obx(() =>SizedBox(
-                  height: 296,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Image.network(
-                          controller.displayPetModel.image ?? '',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        right: 0.0,
-                        bottom: 0.0,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.only(topLeft: Radius.circular(8)),
-                            color: AppColor.secondaryBgColor,
+        body: SafeArea(
+          child: Container(
+            color: AppColor.secondaryBgColor,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Obx(
+                    () => SizedBox(
+                      height: 296,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: Image.network(
+                              controller.displayPetModel.image ?? '',
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: getGenderWidget(
-                                controller.displayPetModel.gender ?? '',
-                              )),
-                        ),
+                          Positioned(
+                            right: 0.0,
+                            bottom: 0.0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8)),
+                                color: AppColor.secondaryBgColor,
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: getGenderWidget(
+                                    controller.displayPetModel.gender ?? '',
+                                  )),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),),
-                Obx(
-                  () => petInformationSystem(
-                    controller.petModel,
-                    context,
+                  Obx(
+                    () => petInformationSystem(
+                      controller.displayPetModel,
+                      context,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-     );
+    );
   }
 
   getGenderWidget(String gender) {
@@ -160,25 +159,25 @@ return PopScope(
   }
 
   Future<bool> _showExitConfirmationDialog(BuildContext context) async {
-  return await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('ยืนยันการออก'),
-      content: Text('คุณต้องการออกจากหน้านี้หรือไม่?'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text('ยกเลิก'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          child: Text('ตกลง'),
-        ),
-      ],
-    ),
-  ) ?? false;
-}
-
+    return await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('ยืนยันการออก'),
+            content: Text('คุณต้องการออกจากหน้านี้หรือไม่?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('ยกเลิก'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('ตกลง'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
 
   petInformationSystem(
     PetModel petModel,
@@ -622,8 +621,9 @@ return PopScope(
               details: info.vaccineAllergy.isEmpty
                   ? ['-']
                   : info.vaccineAllergy
-                      .map((e) =>
-                          "${e.vaccineType ?? ''}: ${e.vaccineBrand ?? ''}")
+                      .map((e) => e.vaccineType != null
+                          ? "${e.vaccineType ?? ''}: ${e.vaccineBrand ?? ''}"
+                          : "${e.otherVaccineType ?? ''}: ${e.otherVaccineBrand ?? ''}")
                       .toList(),
             ),
             Padding(
@@ -814,7 +814,7 @@ return PopScope(
     var editedPet = await Get.toNamed(
       Routes.addPet,
       arguments: {
-        RouteParams.petModel: controller.petModel,
+        RouteParams.petModel: controller.displayPetModel,
       },
     );
     if (editedPet != null) {

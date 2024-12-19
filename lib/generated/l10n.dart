@@ -50,6 +50,476 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `General settings`
+  String get general {
+    return Intl.message(
+      'General settings',
+      name: 'general',
+      desc: 'Contains general settings labels',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `E-mail`
+  String get email {
+    return Intl.message(
+      'E-mail',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get username {
+    return Intl.message(
+      'Username',
+      name: 'username',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message(
+      'Name',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change-Password`
+  String get change_password {
+    return Intl.message(
+      'Change-Password',
+      name: 'change_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out`
+  String get logout {
+    return Intl.message(
+      'Log out',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thai`
+  String get th {
+    return Intl.message(
+      'Thai',
+      name: 'th',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get en {
+    return Intl.message(
+      'English',
+      name: 'en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My pets`
+  String get mypet {
+    return Intl.message(
+      'My pets',
+      name: 'mypet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `การแจ้งเตือน`
+  String get notification {
+    return Intl.message(
+      'การแจ้งเตือน',
+      name: 'notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Articles`
+  String get article {
+    return Intl.message(
+      'Articles',
+      name: 'article',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop nows`
+  String get shopnow {
+    return Intl.message(
+      'Shop nows',
+      name: 'shopnow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Age`
+  String get age {
+    return Intl.message(
+      'Age',
+      name: 'age',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weight`
+  String get weight {
+    return Intl.message(
+      'Weight',
+      name: 'weight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Animal Care`
+  String get animalcare {
+    return Intl.message(
+      'Animal Care',
+      name: 'animalcare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Microchip ID`
+  String get microchip {
+    return Intl.message(
+      'Microchip ID',
+      name: 'microchip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ลักษณะพิเศษ`
+  String get specialcharacteristic {
+    return Intl.message(
+      'ลักษณะพิเศษ',
+      name: 'specialcharacteristic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ข้อมูล สุขภาพ`
+  String get healthinfo {
+    return Intl.message(
+      'ข้อมูล สุขภาพ',
+      name: 'healthinfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ข้อมูล คลีนิค`
+  String get clinicinfo {
+    return Intl.message(
+      'ข้อมูล คลีนิค',
+      name: 'clinicinfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sterilization`
+  String get sterilization {
+    return Intl.message(
+      'Sterilization',
+      name: 'sterilization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chronic Disease`
+  String get chronicdisease {
+    return Intl.message(
+      'Chronic Disease',
+      name: 'chronicdisease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Food Allergy`
+  String get foodallergy {
+    return Intl.message(
+      'Food Allergy',
+      name: 'foodallergy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vaccine Allergy`
+  String get vaccineallergy {
+    return Intl.message(
+      'Vaccine Allergy',
+      name: 'vaccineallergy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drug Allergy`
+  String get drugallergy {
+    return Intl.message(
+      'Drug Allergy',
+      name: 'drugallergy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `เพิ่มสัตว์เลี้ยง`
+  String get addpetinfo {
+    return Intl.message(
+      'เพิ่มสัตว์เลี้ยง',
+      name: 'addpetinfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your pet photo`
+  String get addyourpetphoto {
+    return Intl.message(
+      'Add your pet photo',
+      name: 'addyourpetphoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum File Size`
+  String get maximumsize {
+    return Intl.message(
+      'Maximum File Size',
+      name: 'maximumsize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pet Type`
+  String get pettype {
+    return Intl.message(
+      'Pet Type',
+      name: 'pettype',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pet Name`
+  String get petname {
+    return Intl.message(
+      'Pet Name',
+      name: 'petname',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Microchip ID`
+  String get microchipid {
+    return Intl.message(
+      'Microchip ID',
+      name: 'microchipid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(Optional)`
+  String get optional {
+    return Intl.message(
+      '(Optional)',
+      name: 'optional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breed`
+  String get breed {
+    return Intl.message(
+      'Breed',
+      name: 'breed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get gender {
+    return Intl.message(
+      'Gender',
+      name: 'gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't know`
+  String get donotknow {
+    return Intl.message(
+      'Don\'t know',
+      name: 'donotknow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date of Birth`
+  String get dob {
+    return Intl.message(
+      'Date of Birth',
+      name: 'dob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Animal Care System`
+  String get animalcaresystem {
+    return Intl.message(
+      'Animal Care System',
+      name: 'animalcaresystem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maybe Later`
+  String get maybelater {
+    return Intl.message(
+      'Maybe Later',
+      name: 'maybelater',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message(
+      'Skip',
+      name: 'skip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get select {
+    return Intl.message(
+      'Select',
+      name: 'select',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Next`
   String get nextLabel {
     return Intl.message(
@@ -240,6 +710,16 @@ class S {
     );
   }
 
+  /// `onboarding`
+  String get onboarding {
+    return Intl.message(
+      'onboarding',
+      name: 'onboarding',
+      desc: 'Contains general settings labels',
+      args: [],
+    );
+  }
+
   /// `Keep your pet healthy`
   String get onboarding1Title {
     return Intl.message(
@@ -296,6 +776,16 @@ class S {
       'Find pet-friendly places, get discounts, and join a community of pet lovers.',
       name: 'onboarding3Subtitle',
       desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign_in`
+  String get signin {
+    return Intl.message(
+      'Sign_in',
+      name: 'signin',
+      desc: 'Contains general settings labels',
       args: [],
     );
   }
@@ -546,6 +1036,16 @@ class S {
       'New password',
       name: 'newPasswordLabel',
       desc: '',
+      args: [],
+    );
+  }
+
+  /// `add pet`
+  String get addpet {
+    return Intl.message(
+      'add pet',
+      name: 'addpet',
+      desc: 'Contains general settings labels',
       args: [],
     );
   }
@@ -860,6 +1360,16 @@ class S {
     );
   }
 
+  /// `add pet health`
+  String get add_pet_health {
+    return Intl.message(
+      'add pet health',
+      name: 'add_pet_health',
+      desc: 'Contains general settings labels',
+      args: [],
+    );
+  }
+
   /// `Add pet health`
   String get addPetHealthLabel {
     return Intl.message(
@@ -930,10 +1440,10 @@ class S {
     );
   }
 
-  /// `Vaccine Allergy`
+  /// `Vaccine allergy`
   String get vaccineAllergyLabel {
     return Intl.message(
-      'Vaccine Allergy',
+      'Vaccine allergy',
       name: 'vaccineAllergyLabel',
       desc: '',
       args: [],
@@ -946,6 +1456,16 @@ class S {
       'Drug allergy',
       name: 'drugAllergyLabel',
       desc: '',
+      args: [],
+    );
+  }
+
+  /// `root`
+  String get root {
+    return Intl.message(
+      'root',
+      name: 'root',
+      desc: 'Contains general settings labels',
       args: [],
     );
   }
@@ -1017,6 +1537,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'th'),
     ];
   }
 
