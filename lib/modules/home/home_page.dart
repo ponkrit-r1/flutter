@@ -703,7 +703,10 @@ Widget _buildHeader() {
           horizontal: 20,
         ),
         decoration: const BoxDecoration(
-          color: AppColor.primaryLight,
+         image: DecorationImage(
+          image: AssetImage('assets/images/bg_0.png'),
+          fit: BoxFit.fill, // Adjust how the image is displayed
+        ),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(0),
@@ -724,7 +727,7 @@ Widget _buildHeader() {
   Container(
     width: 30, // กำหนดขนาดความกว้างของ icon
     height: 30, // กำหนดขนาดความสูงของ icon
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
       shape: BoxShape.circle, // ทำให้เป็นวงกลม
     ),
@@ -737,7 +740,7 @@ Widget _buildHeader() {
           print("Navigation error: $e");
         }
       },
-       backgroundColor: Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
+       backgroundColor: const Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
   iconColor: Colors.white, // ไอคอนเป็นสีขาว
     ),
   ),
