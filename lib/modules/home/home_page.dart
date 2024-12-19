@@ -227,7 +227,7 @@ Widget _buildUpcoming() {
       children: [
         Row(
           children: [
-            Icon(
+            const Icon(
               Icons.calendar_today, // ไอคอนหน้า Upcoming
               color: AppColor.primary500,
               size: 20,
