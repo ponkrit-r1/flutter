@@ -103,92 +103,95 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
                       height: 30,
                     ),
                     _buildPetList(),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Center(
-                      child: Text(
-                        'Let’s get a tag for your pet!',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: AppColor.primary500,
-                            ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: Image.asset(
-                            'assets/images/pet_tags_2.png',
-                            width: double.infinity,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: () async {
-                                final Uri url =
-                                    Uri.parse('https://shop.line.me/@deemmi');
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url,
-                                      mode: LaunchMode.platformDefault);
-                                } else {
-                                  throw 'Could not launch $url';
-                                }
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 15,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColor.green,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/shopping_bag.svg',
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(                      
-                                      AppLocalizations.of(context)!.shopnow,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
+                    // const SizedBox(
+                    //   height: 35,
+                    // ),
+                    // Center(
+                    //   child: Text(
+                    //     'Let’s get a tag for your pet!',
+                    //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    //           color: AppColor.primary500,
+                    //         ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // Stack(
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(bottom: 30),
+                    //       child: Image.asset(
+                    //         'assets/images/pet_tags_2.png',
+                    //         width: double.infinity,
+                    //       ),
+                    //     ),
+                    //     Positioned(
+                    //       bottom: 0,
+                    //       left: 0,
+                    //       right: 0,
+                    //       child: Center(
+                    //         child: GestureDetector(
+                    //           onTap: () async {
+                    //             final Uri url =
+                    //                 Uri.parse('https://shop.line.me/@deemmi');
+                    //             if (await canLaunchUrl(url)) {
+                    //               await launchUrl(url,
+                    //                   mode: LaunchMode.platformDefault);
+                    //             } else {
+                    //               throw 'Could not launch $url';
+                    //             }
+                    //           },
+                    //           child: Container(
+                    //             padding: const EdgeInsets.symmetric(
+                    //               horizontal: 20,
+                    //               vertical: 15,
+                    //             ),
+                    //             decoration: BoxDecoration(
+                    //               color: AppColor.green,
+                    //               borderRadius: BorderRadius.circular(30),
+                    //             ),
+                    //             child: Row(
+                    //               mainAxisSize: MainAxisSize.min,
+                    //               children: [
+                    //                 SvgPicture.asset(
+                    //                   'assets/icons/shopping_bag.svg',
+                    //                 ),
+                    //                 const SizedBox(
+                    //                   width: 10,
+                    //                 ),
+                    //                 Text(                      
+                    //                   AppLocalizations.of(context)!.shopnow,
+                    //                   style: Theme.of(context)
+                    //                       .textTheme
+                    //                       .bodyLarge
+                    //                       ?.copyWith(
+                    //                         color: Colors.white,
+                    //                         fontWeight: FontWeight.w600,
 
-                                          ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      Icons.chevron_right,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    //                       ),
+                    //                 ),
+                    //                 const SizedBox(
+                    //                   width: 10,
+                    //                 ),
+                    //                 Icon(
+                    //                   Icons.chevron_right,
+                    //                   color: Colors.white,
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    
+                    
                     const SizedBox(
                       height: 10,
                     ),
+                     _buildUpcoming(),
                     _buildArticleList(),
                   ],
                     )
@@ -214,6 +217,133 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
     );
  
   } // end widget
+
+
+Widget _buildUpcoming() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.calendar_today, // ไอคอนหน้า Upcoming
+              color: AppColor.primary500,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              AppLocalizations.of(context)!.upcoming,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: AppColor.primary500,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        _buildUpcomingItem(
+          title: "Vaccine abc",
+          subtitle: "23 July 2024 (30 Days)\nat MJ animal health center",
+          status: "Appointed",
+        ),
+        const SizedBox(height: 10),
+        _buildUpcomingItem(
+          title: "กำจัดเห็บหมัด",
+          subtitle: "23 July 2024 (30 Days)\nat MJ animal health center",
+          status: "Appointed",
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildUpcomingItem({
+  required String title,
+  required String subtitle,
+  required String status,
+}) {
+  return Container(
+    padding: const EdgeInsets.all(15),
+    margin: const EdgeInsets.only(bottom: 10),
+    decoration: BoxDecoration(
+      color: Colors.white, // พื้นหลังสีขาว
+      borderRadius: BorderRadius.circular(12), // มุมโค้ง
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2), // เงา
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: Offset(0, 3), // ตำแหน่งเงา
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.dark500,
+                        ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColor.secondaryContentGray,
+                          height: 1.5,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+       Chip(
+  label: Text(
+    status,
+    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: const Color(0xFF55C7AE), // สีเขียวอ่อนตามดีไซน์
+          fontWeight: FontWeight.w600, // เพิ่มน้ำหนัก font
+        ),
+  ),
+  backgroundColor: Colors.white, // พื้นหลังสีขาว
+  shape:const StadiumBorder(
+    side: BorderSide(
+      color:  Color(0xFF55C7AE), // Border สีเขียวอ่อน
+      width: 1.0, // ความกว้างของเส้น border
+    ),
+  ),
+),
+
+          ],
+        ),
+        const SizedBox(height: 10),
+        GestureDetector(
+          onTap: () {
+            // Add your navigation or action here
+          },
+          child: Text(
+            AppLocalizations.of(context)!.change,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColor.primary500,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
 
 Widget _buildArticleList() {

@@ -49,7 +49,8 @@
   "no": "ไม่มี",
   "skip": "ข้าม",
   "select": "กรุณาเลือก",
-
+  "upcoming": "สิ่งที่กำลังจะเกิดขึ้นเร็วๆนี้",
+  "change": "แก้ไข",
 
   "nextLabel": "Next",
   "getStartLabel": "Get started",
