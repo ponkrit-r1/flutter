@@ -103,92 +103,95 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
                       height: 30,
                     ),
                     _buildPetList(),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Center(
-                      child: Text(
-                        'Let’s get a tag for your pet!',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: AppColor.primary500,
-                            ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: Image.asset(
-                            'assets/images/pet_tags_2.png',
-                            width: double.infinity,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: () async {
-                                final Uri url =
-                                    Uri.parse('https://shop.line.me/@deemmi');
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url,
-                                      mode: LaunchMode.platformDefault);
-                                } else {
-                                  throw 'Could not launch $url';
-                                }
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 15,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColor.green,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/shopping_bag.svg',
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(                      
-                                      AppLocalizations.of(context)!.shopnow,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
+                    // const SizedBox(
+                    //   height: 35,
+                    // ),
+                    // Center(
+                    //   child: Text(
+                    //     'Let’s get a tag for your pet!',
+                    //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    //           color: AppColor.primary500,
+                    //         ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // Stack(
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(bottom: 30),
+                    //       child: Image.asset(
+                    //         'assets/images/pet_tags_2.png',
+                    //         width: double.infinity,
+                    //       ),
+                    //     ),
+                    //     Positioned(
+                    //       bottom: 0,
+                    //       left: 0,
+                    //       right: 0,
+                    //       child: Center(
+                    //         child: GestureDetector(
+                    //           onTap: () async {
+                    //             final Uri url =
+                    //                 Uri.parse('https://shop.line.me/@deemmi');
+                    //             if (await canLaunchUrl(url)) {
+                    //               await launchUrl(url,
+                    //                   mode: LaunchMode.platformDefault);
+                    //             } else {
+                    //               throw 'Could not launch $url';
+                    //             }
+                    //           },
+                    //           child: Container(
+                    //             padding: const EdgeInsets.symmetric(
+                    //               horizontal: 20,
+                    //               vertical: 15,
+                    //             ),
+                    //             decoration: BoxDecoration(
+                    //               color: AppColor.green,
+                    //               borderRadius: BorderRadius.circular(30),
+                    //             ),
+                    //             child: Row(
+                    //               mainAxisSize: MainAxisSize.min,
+                    //               children: [
+                    //                 SvgPicture.asset(
+                    //                   'assets/icons/shopping_bag.svg',
+                    //                 ),
+                    //                 const SizedBox(
+                    //                   width: 10,
+                    //                 ),
+                    //                 Text(                      
+                    //                   AppLocalizations.of(context)!.shopnow,
+                    //                   style: Theme.of(context)
+                    //                       .textTheme
+                    //                       .bodyLarge
+                    //                       ?.copyWith(
+                    //                         color: Colors.white,
+                    //                         fontWeight: FontWeight.w600,
 
-                                          ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      Icons.chevron_right,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    //                       ),
+                    //                 ),
+                    //                 const SizedBox(
+                    //                   width: 10,
+                    //                 ),
+                    //                 Icon(
+                    //                   Icons.chevron_right,
+                    //                   color: Colors.white,
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    
+                    
                     const SizedBox(
                       height: 10,
                     ),
+                     _buildUpcoming(),
                     _buildArticleList(),
                   ],
                     )
@@ -198,14 +201,14 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
               ),
             ],
           ),
-          Positioned(
-            right: 0,
-            top: 60,
-            child: Image.asset(
-              'assets/images/home_spy_cat.png',
-              width: 200,
-            ),
-          ),
+          // Positioned(
+          //   right: 0,
+          //   top: 60,
+          //   child: Image.asset(
+          //     'assets/images/home_spy_cat.png',
+          //     width: 200,
+          //   ),
+          // ),
         ],
       ),
     )
@@ -216,7 +219,135 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
   } // end widget
 
 
+Widget _buildUpcoming() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Icon(
+              Icons.calendar_today, // ไอคอนหน้า Upcoming
+              color: AppColor.primary500,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              AppLocalizations.of(context)!.upcoming,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: AppColor.primary500,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        _buildUpcomingItem(
+          title: "Vaccine abc",
+          subtitle: "23 July 2024 (30 Days)\nat MJ animal health center",
+          status: "Appointed",
+        ),
+        const SizedBox(height: 10),
+        _buildUpcomingItem(
+          title: "กำจัดเห็บหมัด",
+          subtitle: "23 July 2024 (30 Days)\nat MJ animal health center",
+          status: "Appointed",
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildUpcomingItem({
+  required String title,
+  required String subtitle,
+  required String status,
+}) {
+  return Container(
+    padding: const EdgeInsets.all(15),
+    margin: const EdgeInsets.only(bottom: 10),
+    decoration: BoxDecoration(
+      color: Colors.white, // พื้นหลังสีขาว
+      borderRadius: BorderRadius.circular(12), // มุมโค้ง
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2), // เงา
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: Offset(0, 3), // ตำแหน่งเงา
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.dark500,
+                        ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColor.secondaryContentGray,
+                          height: 1.5,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+       Chip(
+  label: Text(
+    status,
+    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: const Color(0xFF55C7AE), // สีเขียวอ่อนตามดีไซน์
+          fontWeight: FontWeight.w600, // เพิ่มน้ำหนัก font
+        ),
+  ),
+  backgroundColor: Colors.white, // พื้นหลังสีขาว
+  shape:const StadiumBorder(
+    side: BorderSide(
+      color:  Color(0xFF55C7AE), // Border สีเขียวอ่อน
+      width: 1.0, // ความกว้างของเส้น border
+    ),
+  ),
+),
+
+          ],
+        ),
+        const SizedBox(height: 10),
+        GestureDetector(
+          onTap: () {
+            // Add your navigation or action here
+          },
+          child: Text(
+            AppLocalizations.of(context)!.change,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColor.primary500,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
 Widget _buildArticleList() {
+
   final List<Article> articles = [
     Article(
       title: 'เทรนด์ฮิต! พาหมาเที่ยว ต้องมีไอเทมอะไรบ้าง?',
@@ -258,7 +389,7 @@ Widget _buildArticleList() {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.only(left: 30),
+        padding: const EdgeInsets.only(left: 20),
         child: Text(
           AppLocalizations.of(context)!.article,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -270,7 +401,7 @@ Widget _buildArticleList() {
         height: 10,
       ),
       Padding(
-        padding: const EdgeInsets.only(left: 30),
+        padding: const EdgeInsets.only(left: 20),
         child: SizedBox(
           height: imageHeight * 1.2,
           child: ListView.builder(
@@ -288,7 +419,7 @@ Widget _buildArticleList() {
                   }
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(right: 20),
                   width: imageWidth,
                   height: imageHeight,
                   decoration: BoxDecoration(
@@ -562,99 +693,233 @@ Widget _buildPetList() {
   // }
 
 
-
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 20,
-      ),
-      decoration: const BoxDecoration(
-        color: AppColor.primaryLight,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+Widget _buildHeader() {
+  return Stack(
+    children: [
+      // Content ที่มี Padding และพื้นหลัง
+      Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 20,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset(
-                'assets/images/app_logo.png',
-                height: 40,
-              ),
-              Row(
-                children: [
-                  HeaderButton(
-                    iconPath: 'assets/icons/settings.svg',
-                      onTap: () {
-                      try {
-                        Get.toNamed(Routes.account_setting);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  HeaderButton(
-                    iconPath: 'assets/icons/bell.svg',
-                     onTap: () {
-                      try {
-                        Get.toNamed(Routes.notification);
-                      } catch (e) {
-                        print("Navigation error: $e");
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ],
+        decoration: const BoxDecoration(
+         image: DecorationImage(
+          image: AssetImage('assets/images/bg_0.png'),
+          fit: BoxFit.fill, // Adjust how the image is displayed
+        ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(0),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          RichText(
-            text: TextSpan(
-              children: <InlineSpan>[
-                TextSpan(
-                  text: 'Hi !, ',
-                  style: textTheme(context).headlineLarge?.copyWith(
-                        color: AppColor.textColor,
-                        fontWeight: FontWeight.w600,
-                         fontSize: 26,
-                      ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'assets/images/app_logo.png',
+                  height: 40,
                 ),
-                TextSpan(
-                  text: ' Roong.',
-                  style: textTheme(context).headlineLarge?.copyWith(
-                        color: AppColor.primary500,
-                        fontWeight: FontWeight.w600,
-                         fontSize: 26,
-                      ),
-                )
+                Row(
+                  children: [
+  Container(
+    width: 30, // กำหนดขนาดความกว้างของ icon
+    height: 30, // กำหนดขนาดความสูงของ icon
+    decoration: const BoxDecoration(
+      color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
+      shape: BoxShape.circle, // ทำให้เป็นวงกลม
+    ),
+    child: HeaderButton(
+      iconPath: 'assets/icons/settings.svg',
+      onTap: () {
+        try {
+          Get.toNamed(Routes.account_setting);
+        } catch (e) {
+          print("Navigation error: $e");
+        }
+      },
+       backgroundColor: const Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
+  iconColor: Colors.white, // ไอคอนเป็นสีขาว
+    ),
+  ),
+  const SizedBox(width: 10),
+  Container(
+    width: 30,
+    height: 30,
+    decoration: BoxDecoration(
+      color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
+      shape: BoxShape.circle,
+    ),
+    child: HeaderButton(
+      iconPath: 'assets/icons/bell.svg',
+      onTap: () {
+        try {
+          Get.toNamed(Routes.notification);
+        } catch (e) {
+          print("Navigation error: $e");
+        }
+      },
+       backgroundColor: Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
+  iconColor: Colors.white, // ไอคอนเป็นสีขาว
+    ),
+  ),
+],
+
+                ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            RichText(
+              text: TextSpan(
+                children: <InlineSpan>[
+                  TextSpan(
+                    text: 'Hi !, ',
+                    style: textTheme(context).headlineLarge?.copyWith(
+                          color: AppColor.textColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 26,
+                        ),
+                  ),
+                  TextSpan(
+                    text: 'Roong.',
+                    style: textTheme(context).headlineLarge?.copyWith(
+                          color: AppColor.primary500,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 26,
+                        ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    );
-  }
+      // รูป home_dog_bg.png วางไว้ layer บนสุด
+     Positioned(
+        bottom: 0, // ชิดด้านล่างของพื้นที่
+        right: 0, // ชิดขวา
+        child: Image.asset(
+          'assets/images/home_dog_bg.png',
+          width: 350, // ปรับขนาดตามต้องการ
+          fit: BoxFit.contain, // ปรับให้รูปไม่ผิดสัดส่วน
+        ),
+      ),
+    ],
+  );
+}
+
+
+
+
+
+
+
+
+
+
+  // Widget _buildHeader() {
+  //   return Container(
+  //     width: double.infinity,
+  //     padding: const EdgeInsets.symmetric(
+  //       vertical: 20,
+  //       horizontal: 20,
+  //     ),
+  //     decoration: const BoxDecoration(
+  //       color: AppColor.primaryLight,
+  //       borderRadius: BorderRadius.only(
+  //         bottomLeft: Radius.circular(30),
+  //         bottomRight: Radius.circular(30),
+  //       ),
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Image.asset(
+  //               'assets/images/app_logo.png',
+  //               height: 40,
+  //             ),
+  //             Row(
+  //               children: [
+  //                 HeaderButton(
+  //                   iconPath: 'assets/icons/settings.svg',
+  //                     onTap: () {
+  //                     try {
+  //                       Get.toNamed(Routes.account_setting);
+  //                     } catch (e) {
+  //                       print("Navigation error: $e");
+  //                     }
+  //                   },
+  //                 ),
+  //                 const SizedBox(
+  //                   width: 10,
+  //                 ),
+  //                 HeaderButton(
+  //                   iconPath: 'assets/icons/bell.svg',
+  //                    onTap: () {
+  //                     try {
+  //                       Get.toNamed(Routes.notification);
+  //                     } catch (e) {
+  //                       print("Navigation error: $e");
+  //                     }
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 20,
+  //         ),
+  //         RichText(
+  //           text: TextSpan(
+  //             children: <InlineSpan>[
+  //               TextSpan(
+  //                 text: 'Hi !, ',
+  //                 style: textTheme(context).headlineLarge?.copyWith(
+  //                       color: AppColor.textColor,
+  //                       fontWeight: FontWeight.w600,
+  //                        fontSize: 26,
+  //                     ),
+  //               ),
+  //               TextSpan(
+  //                 text: ' Roong.',
+  //                 style: textTheme(context).headlineLarge?.copyWith(
+  //                       color: AppColor.primary500,
+  //                       fontWeight: FontWeight.w600,
+  //                        fontSize: 26,
+  //                     ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+
+
+
+
 }
 
 class HeaderButton extends StatelessWidget {
   final String iconPath;
   final VoidCallback onTap;
+  final Color backgroundColor; // สีพื้นหลัง
+  final Color iconColor; // สีของไอคอน
 
   const HeaderButton({
     super.key,
     required this.iconPath,
     required this.onTap,
+    this.backgroundColor = Colors.white, // ค่าเริ่มต้นสีพื้นหลัง
+    this.iconColor = Colors.black, // ค่าเริ่มต้นสีไอคอน
   });
 
   @override
@@ -664,14 +929,16 @@ class HeaderButton extends StatelessWidget {
       child: Container(
         width: 26,
         height: 26,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
+        decoration: BoxDecoration(
+          color: backgroundColor, // สีพื้นหลัง
+          shape: BoxShape.circle, // ทำให้เป็นวงกลม
         ),
         child: Center(
           child: SvgPicture.asset(
             iconPath,
             width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn), // เปลี่ยนสีไอคอน
           ),
         ),
       ),
