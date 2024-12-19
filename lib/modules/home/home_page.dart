@@ -347,6 +347,7 @@ Widget _buildUpcomingItem({
 
 
 Widget _buildArticleList() {
+
   final List<Article> articles = [
     Article(
       title: 'เทรนด์ฮิต! พาหมาเที่ยว ต้องมีไอเทมอะไรบ้าง?',
@@ -388,7 +389,7 @@ Widget _buildArticleList() {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.only(left: 30),
+        padding: const EdgeInsets.only(left: 20),
         child: Text(
           AppLocalizations.of(context)!.article,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -400,7 +401,7 @@ Widget _buildArticleList() {
         height: 10,
       ),
       Padding(
-        padding: const EdgeInsets.only(left: 30),
+        padding: const EdgeInsets.only(left: 20),
         child: SizedBox(
           height: imageHeight * 1.2,
           child: ListView.builder(
@@ -418,7 +419,7 @@ Widget _buildArticleList() {
                   }
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(right: 20),
                   width: imageWidth,
                   height: imageHeight,
                   decoration: BoxDecoration(

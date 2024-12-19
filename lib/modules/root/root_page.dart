@@ -56,19 +56,19 @@ class _RootPageState extends State<RootPage> {
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
-         padding: const NavBarPadding.only(top: 35 , bottom: 20), // เพิ่มระยะด้านบน
+         padding: const NavBarPadding.only(top: 30 , bottom: 20), // เพิ่มระยะด้านบน
        // padding: const NavBarPadding.symmetric(horizontal: 8, vertical:27),
         navBarStyle: NavBarStyle.style6,
       ),
            Positioned(
-            bottom: 60,
+            bottom: 60, //60
             left: 0,
             right: 0,
             child: ClipPath(
               clipper: CustomNavBarClipper(), // Color.fromARGB(255, 253, 253, 253)
               child: Container(
-                height: 70, // ความสูงของพื้นหลังโค้ง
-                color:  Color.fromARGB(255, 253, 253, 253), // สีของ Navigation Bar
+                height: 50, // ความสูงของพื้นหลังโค้ง 70
+                color:  const Color.fromARGB(255, 253, 253, 253), // สีของ Navigation Bar
               ),
             ),
           ),
@@ -134,28 +134,28 @@ class _RootPageState extends State<RootPage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home_rounded, size: 24),
+        icon: const Icon(Icons.home_rounded, size: 30),
         title: "Home",
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500), // ขนาดและสไตล์ข้อความ
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.pets_rounded, size: 24),
+        icon: const Icon(Icons.pets_rounded, size: 30),
         title: "My Pets",
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.map_rounded, size: 24),
+        icon: const Icon(Icons.map_rounded, size: 30),
         title: "Explore",
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.group_rounded, size: 24),
+        icon: const Icon(Icons.group_rounded, size: 30),
         title: "Community",
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
