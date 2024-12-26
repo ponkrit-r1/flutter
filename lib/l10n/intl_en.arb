@@ -3,6 +3,8 @@
    "@general": {
      "description": "Contains general settings labels"
    },
+   "upcoming": "Upcomming",
+   "change":"Change",
    "settings": "Settings",
    "language": "Language",
    "email": "E-mail",

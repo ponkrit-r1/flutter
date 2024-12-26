@@ -135,28 +135,28 @@ class _RootPageState extends State<RootPage> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home_rounded, size: 30),
-        title: "Home",
+        title: stringRes(context)!.homeLabel,
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500), // ขนาดและสไตล์ข้อความ
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.pets_rounded, size: 30),
-        title: "My Pets",
+        title: stringRes(context)!.myPetLabel,
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.map_rounded, size: 30),
-        title: "Explore",
+        title: stringRes(context)!.exploreLabel,
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.group_rounded, size: 30),
-        title: "Community",
+        title: stringRes(context)!.communityLabel,
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white.withAlpha(150),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),

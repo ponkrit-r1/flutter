@@ -3,6 +3,8 @@
    "@general": {
      "description": "Contains general settings labels"
    },
+   "upcoming": "พบกันเร็วๆนี้",
+   "change":"เปลี่ยน",
    "settings": "ตั้งค่า",
    "language": "ภาษา",
    "email": "อีเมล",
