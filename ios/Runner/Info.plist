@@ -53,5 +53,7 @@
         <string>Access to your camera</string>
         <key>NSMicrophoneUsageDescription</key>
         <string>Access to your microphone</string>
+		<key>FirebaseAppDelegateProxyEnabled</key>
+        <false/>
 	</dict>
 </plist>
