@@ -3,12 +3,17 @@ import 'package:deemmi/core/global_widgets/primary_style_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 import 'package:deemmi/routes/app_routes.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../core/global_widgets/primary_button.dart';
 import '../../../core/theme/app_colors.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:deemmi/core/services/notification_service.dart';
+
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -28,7 +33,42 @@ class _SignInPageState extends State<SignInPage> {
   void initState() {
     super.initState();
     _controller.displayError = onDisplaySnackBar;
+
+
+
+      // Initialize Notification Service and get device token
+  Firebase.initializeApp(); 
+  initializeNotifications();
   }
+
+  Future<void> initializeNotifications() async {
+  // Initialize the notification service
+
+  print("-------------------------------Initializing Notification Service...");
+  NotificationService.initialize();
+
+  // Get the device token
+  String? deviceToken = await FirebaseMessaging.instance.getToken();
+  if (deviceToken != null) {
+    print("================================Device Token: $deviceToken");
+    // You can send the device token to your backend server here
+    NotificationService.sendTokenToServer(deviceToken);
+  } else {
+    print("====================================Failed to get device token");
+  }
+
+  FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+  print("====----New Device Token: $newToken");
+  NotificationService.sendTokenToServer(newToken);
+});
+
+  // Handle notification clicks if the app was launched from a terminated state
+  FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+    if (message?.data['route'] == '/signIn') {
+      Get.toNamed('/signIn');
+    }
+  });
+}
 
   @override
   Widget build(BuildContext context) {

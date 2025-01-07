@@ -14,6 +14,9 @@ import 'routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:deemmi/core/services/notification_service.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +40,10 @@ void main() async {
   final authAPI = AuthenticationAPI(apiClient, appStorage);
   Get.put(SignInController(authAPI),
       permanent: true); 
+
+  await Firebase.initializeApp(); // Initialize Firebase
+  NotificationService.initialize(); // Initialize the notification service
+
 
  runApp(MyApp(
     initialRoute: Routes.routing,
