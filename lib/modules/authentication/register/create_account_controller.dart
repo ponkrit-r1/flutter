@@ -111,8 +111,13 @@ class CreateAccountController extends GetxController {
   }
 
   Future<User?> createAccount() async {
-    if (termData == null) return null;
+        print("---register api----");
+    if (termData == null) {
+         print("---start call termData----");
+      return null;
+    }
     try {
+  print("=======******call register api=====");
       _isLoading.value = true;
       var accountResponse = await authenticationAPI.register(
         CreateAccountModel(
@@ -126,13 +131,20 @@ class CreateAccountController extends GetxController {
         ),
       );
       clearFieldError();
+       print("---API response received---");
+    print("Account response: $accountResponse");
       return accountResponse;
     } catch (e) {
+        print("=====register api error 2 ======"+e.toString());
       var appError = (e as AppError);
       setCreateAccountApiError(appError.response);
       debugPrint(
         appError.response,
       );
+
+      print("=====register api error ======"+appError.response);
+    
+
       //TODO check and display error field
       return null;
     } finally {
