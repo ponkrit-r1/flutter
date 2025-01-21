@@ -80,9 +80,23 @@ class CreateAccountController extends GetxController {
     });
   }
 
+  // getTermData() async {
+  //   print("------call get TermData-------");
+  //   termData = await authenticationAPI.getLatestConditionFile();
+  // }
   getTermData() async {
-    termData = await authenticationAPI.getLatestConditionFile();
+  print("------call get TermData-------");
+  try {
+    var response = await authenticationAPI.getLatestConditionFile();
+    termData = response;
+    print("------TermData fetched successfully: ${termData?.id}-------");
+    } catch (e) {
+    print("------Error fetching TermData: ${e.toString()}-------");
+  } finally {
+    update(); 
   }
+}
+
 
   setTermAccept(bool termAccepted) {
     _isTermAccepted.value = termAccepted;
@@ -114,7 +128,7 @@ class CreateAccountController extends GetxController {
         print("---register api----");
     if (termData == null) {
          print("---start call termData----");
-      return null;
+         return null;
     }
     try {
   print("=======******call register api=====");
@@ -127,7 +141,8 @@ class CreateAccountController extends GetxController {
           email: emailController.text,
           firstName: firstNameController.text,
           lastName: lastNameController.text,
-          confirmedConditionId: termData!.id,
+          confirmedConditionId: termData?.id ?? 0,  // ใส่ค่า default หาก termData เป็น null
+
         ),
       );
       clearFieldError();
@@ -136,16 +151,15 @@ class CreateAccountController extends GetxController {
       return accountResponse;
     } catch (e) {
         print("=====register api error 2 ======"+e.toString());
-      var appError = (e as AppError);
-      setCreateAccountApiError(appError.response);
-      debugPrint(
-        appError.response,
-      );
-
-      print("=====register api error ======"+appError.response);
     
 
-      //TODO check and display error field
+      if (e is AppError) {
+    setCreateAccountApiError(e.response);
+    debugPrint(e.response);
+    print("=====register api error ======" + e.response);
+  } else {
+    print("Unexpected error type: ${e.runtimeType}");
+  }
       return null;
     } finally {
       _isLoading.value = false;
