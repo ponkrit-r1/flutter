@@ -10,6 +10,8 @@ import '../../../core/global_widgets/pettagu_text_field.dart';
 import '../../../core/global_widgets/primary_button.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+
 
 class AddPetPage extends StatefulWidget {
   const AddPetPage({super.key});
@@ -232,18 +234,30 @@ class _AddPetPageState extends State<AddPetPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    Obx(
-                      () => _dropDownFormField<AnimalBreed>(
-                        (value) {
-                          if (value != null) {
-                            _controller.setSelectedBreed(value);
-                          }
-                        },
-                        _controller.animalBreed,
-                        _controller.selectedBreed,
-                        stringRes(context)!.selectLabel,
-                      ),
-                    ),
+                    // Obx(
+                    //   () => _dropDownFormField<AnimalBreed>(
+                    //     (value) {
+                    //       if (value != null) {
+                    //         _controller.setSelectedBreed(value);
+                    //       }
+                    //     },
+                    //     _controller.animalBreed,
+                    //    _controller.selectedBreed,
+                    //     stringRes(context)!.selectLabel,
+                    //   ),
+                    // ),
+Obx(
+  () => _dropDownFormField<AnimalBreed>(
+    (value) {
+      if (value != null) {
+        _controller.setSelectedBreed(value);
+      }
+    },
+    _controller.animalBreed,  // รายการข้อมูลทั้งหมดในรูปแบบ List<AnimalBreed>
+    _controller.selectedBreed, // ดึงค่าออกจาก Rx
+    stringRes(context)!.selectLabel,
+  ),
+),
                     const SizedBox(
                       height: 24,
                     ),
@@ -531,57 +545,113 @@ class _AddPetPageState extends State<AddPetPage> {
     );
   }
 
-  _dropDownFormField<T>(
-    Function(T?) onItemSelected,
-    List<T> items,
-    T? selectedValue,
-    String hintValue,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: AppColor.borderColor,
+  // _dropDownFormField<T>(
+  //   Function(T?) onItemSelected,
+  //   List<T> items,
+  //   T? selectedValue,
+  //   String hintValue,
+  // ) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //         color: Colors.white,
+  //         border: Border.all(
+  //           width: 1,
+  //           color: AppColor.borderColor,
+  //         ),
+  //         borderRadius: const BorderRadius.all(Radius.circular(100))),
+  //     child: DropdownButtonFormField<T>(
+  //       value: selectedValue,
+  //       decoration: const InputDecoration(
+  //           enabledBorder: InputBorder.none,
+  //           focusedBorder: InputBorder.none,
+  //           contentPadding: EdgeInsets.all(16.0)),
+  //       items: items.map((T value) {
+  //         return DropdownMenuItem<T>(
+  //           value: value,
+  //           child: Align(
+  //               alignment: Alignment.centerLeft,
+  //               child: Text(value.toString(),
+  //                   style: textTheme(context).bodyMedium)),
+  //         );
+  //       }).toList(),
+  //       isExpanded: true,
+  //       icon: const Icon(
+  //         Icons.keyboard_arrow_down_rounded,
+  //         color: AppColor.secondaryContentGray,
+  //       ),
+  //       hint: Align(
+  //         alignment: Alignment.centerLeft,
+  //         child: Text(
+  //           hintValue,
+  //           style: textTheme(context).bodyMedium!.copyWith(
+  //                 color: AppColor.secondaryContentGray,
+  //                 fontWeight: FontWeight.w500,
+  //                 fontSize: 15,
+  //               ),
+  //         ),
+  //       ),
+  //       onChanged: (value) {
+  //         onItemSelected(value);
+  //       },
+  //     ),
+  //   );
+  // }
+
+Widget _dropDownFormField<T>(
+  Function(T?) onItemSelected,
+  List<T> items,
+  T? selectedValue,
+  String hintValue,
+) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(
+        width: 1,
+        color: AppColor.borderColor,
+      ),
+      borderRadius: const BorderRadius.all(Radius.circular(100)),
+    ),
+    child: DropdownSearch<T>(
+      items: items,
+      selectedItem: selectedValue,
+      popupProps: PopupProps.menu(
+        showSearchBox: true,
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+            hintText: 'ค้นหา...',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding: EdgeInsets.all(12),
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(100))),
-      child: DropdownButtonFormField<T>(
-        value: selectedValue,
-        decoration: const InputDecoration(
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: EdgeInsets.all(16.0)),
-        items: items.map((T value) {
-          return DropdownMenuItem<T>(
-            value: value,
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(value.toString(),
-                    style: textTheme(context).bodyMedium)),
-          );
-        }).toList(),
-        isExpanded: true,
+        ),
+      ),
+      dropdownDecoratorProps: const DropDownDecoratorProps(
+        dropdownSearchDecoration:  InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(16.0),
+        ),
+      ),
+      itemAsString: (T item) => item.toString(),
+      onChanged: (T? value) {
+        onItemSelected(value);
+      },
+      dropdownButtonProps: DropdownButtonProps(
         icon: const Icon(
           Icons.keyboard_arrow_down_rounded,
           color: AppColor.secondaryContentGray,
         ),
-        hint: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            hintValue,
-            style: textTheme(context).bodyMedium!.copyWith(
-                  color: AppColor.secondaryContentGray,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                ),
-          ),
-        ),
-        onChanged: (value) {
-          onItemSelected(value);
-        },
       ),
-    );
-  }
+    ),
+  );
+}
+
+ 
+
+
+
+
 
   showForgotPasswordDialog(BuildContext context) {}
 

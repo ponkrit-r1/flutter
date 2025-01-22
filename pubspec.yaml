@@ -67,6 +67,8 @@ dependencies:
   url_launcher: ^6.0.18
   video_player: ^2.8.6
   webview_flutter: ^4.7.0
+  dropdown_search: 5.0.6  # ลองเวอร์ชันเก่าที่เสถียรกว่า
+
 
 dependency_overrides:
   watcher: ^1.1.0
