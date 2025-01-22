@@ -619,7 +619,7 @@ Widget _dropDownFormField<T>(
         showSearchBox: true,
         searchFieldProps: TextFieldProps(
           decoration: InputDecoration(
-            hintText: 'ค้นหา...',
+            hintText: 'Search...',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
             ),
