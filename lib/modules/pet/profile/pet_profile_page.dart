@@ -19,6 +19,22 @@ class PetProfilePage extends StatelessWidget {
 
   final PetListController _petController = Get.find<PetListController>();
 
+  final List<Map<String, String>> mockUpcomingVaccines = [
+  {
+    "name": "Vaccine abc",
+    "date": "23 July 2024",
+    "daysRemaining": "30 Days",
+    "location": "MJ animal health center",
+  },
+  {
+    "name": "กำจัดเห็บหมัด",
+    "date": "23 July 2024",
+    "daysRemaining": "30 Days",
+    "location": "MJ animal health center",
+  },
+];
+
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -344,20 +360,28 @@ class PetProfilePage extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 3,
-                  color: AppColor.secondaryBgColor,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/vaccine.webp'),
-                    'Vaccine',
-                    context,
-                  ),
-                ),
-              ),
+       Expanded(
+  child: InkWell(
+    onTap: () {
+      Get.toNamed(Routes.vaccine_program, arguments: {
+        RouteParams.petModel: controller.petModel,
+      });
+    },
+    child: Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      elevation: 3,
+      color: AppColor.secondaryBgColor,
+      child: petInfoItem(
+        Image.asset('assets/icons/vaccine.webp'),
+        'Vaccine',
+        context,
+      ),
+    ),
+  ),
+),
+
               const SizedBox(width: 8),
               Expanded(
                 child: Card(
@@ -410,13 +434,16 @@ class PetProfilePage extends StatelessWidget {
             width: 124,
             child: upcomingTitle(context),
           ),
-          const SizedBox(height: 40),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Image.asset('assets/images/empty_pet_info.webp'),
-            ),
-          ),
+          const SizedBox(height: 16),
+_buildUpcomingVaccineList(), // ✅ แสดง Mock Data
+const SizedBox(height: 40),
+          // const SizedBox(height: 40),
+          // Center(
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(24.0),
+          //     child: Image.asset('assets/images/empty_pet_info.webp'),
+          //   ),
+          // ),
           const SizedBox(height: 40),
         ],
       ),
@@ -448,6 +475,130 @@ class PetProfilePage extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildUpcomingVaccineList() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: mockUpcomingVaccines.map((vaccine) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12.0),
+        child: _buildUpcomingVaccineCard(
+          vaccine["name"]!,
+          vaccine["date"]!,
+          vaccine["daysRemaining"]!,
+          vaccine["location"]!,
+        ),
+      );
+    }).toList(),
+  );
+}
+
+Widget _buildUpcomingVaccineCard(
+    String name, String date, String daysRemaining, String location) {
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12.0), // ✅ ทำให้มุมโค้ง
+    ),
+    elevation: 3,
+    color: Colors.white,
+    child: Stack(
+      children: [
+        // ✅ ขอบสีเขียวซ้ายโค้งตาม Card
+        Positioned(
+          left: 0,
+          top: 0,
+          bottom: 0,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12),  // ✅ มุมโค้งบนซ้าย
+              bottomLeft: Radius.circular(12), // ✅ มุมโค้งล่างซ้าย
+            ),
+            child: Container(
+              width: 6, // ✅ เพิ่มความกว้างให้ชัดขึ้น
+               color: Color(0xFF63F2BE), // ✅ สีขอบซ้าย
+            ),
+          ),
+        ),
+
+        // ✅ เนื้อหาหลักของ Card
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  // ✅ Status "Appointed"
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: const Color(0xFF2DD4BF), width: 2),
+                    ),
+                    child: const Text(
+                      "Appointed",
+                      style: TextStyle(
+                        color: Color(0xFF2DD4BF),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.only(left: 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "$date ($daysRemaining)",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Text(
+                      "at $location",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    GestureDetector(
+                      onTap: () {
+                        // TODO: Implement change appointment action
+                      },
+                      child: const Text(
+                        "Change",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
   petInfoSection(
     String title,

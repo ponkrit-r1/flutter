@@ -30,6 +30,9 @@ abstract class Routes {
   static const noConnection = '/noConnection';
   static const forceUpdate = '/forceUpdate';
   static const maintenance = '/maintenance';
+
+  //Vaccine 
+  static const vaccine_program = '/vaccine_program';
 }
 
 abstract class RouteParams {

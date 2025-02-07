@@ -53,6 +53,8 @@ import '../modules/pet/list/pet_list_binding.dart';
 import '../modules/root/root_page.dart';
 import 'app_routes.dart';
 
+import 'package:deemmi/modules/vaccine/vaccine_program_page.dart';
+
 abstract class AppPages {
   static final pages = [
     GetPage(
@@ -175,6 +177,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.add_pet_detail_after_qr_tag,
       page: () => const AddTagDetailQrPage(),
-    )
+    ),
+    GetPage(
+      name: Routes.vaccine_program,
+      page: () =>  VaccineProgramPage(),
+    ),
   ];
 }
