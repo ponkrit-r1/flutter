@@ -33,6 +33,8 @@ abstract class Routes {
 
   //Vaccine 
   static const vaccine_program = '/vaccine_program';
+  static const make_appointment = '/make_appointment';
+  static const vaccinated_date = '/vaccinated_date';
 }
 
 abstract class RouteParams {

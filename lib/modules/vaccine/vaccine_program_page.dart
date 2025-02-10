@@ -103,11 +103,12 @@ List<Dose> annuallyVaccineList = [
                   'Distemper + Parvo',
                   'Distemper, Hepatitis (Adenovirus), Parvovirus, Parainfluenza, Leptospirosis',
                   [
-                    _buildDoseItem('1st dose', 'Sep, 2024'),
+                    _buildDoseItem('1st dose',petModel, 'Sep, 2024'),
                   ],
                 ),
                 const SizedBox(height: 16),
                 _buildTabVaccineCard(
+                  petModel,
                   'DHPPi',
                   'Distemper, Hepatitis (Adenovirus), Parvovirus, Parainfluenza, Leptospirosis',
                    doseList1,
@@ -116,6 +117,7 @@ List<Dose> annuallyVaccineList = [
                 ),
                 const SizedBox(height: 16),
                 _buildTabVaccineCard(
+                  petModel,
   'Rabies',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 doseList2,
@@ -199,7 +201,7 @@ doseList2,
     );
   }
 
-Widget _buildTabVaccineCard(String title, String description,
+Widget _buildTabVaccineCard(PetModel petModel,String title, String description,
  List<Dose> doseList, List<Dose> annualDoseList, String iconPath) {
   final bool isExpanded = _expandedState[title] ?? false;
 
@@ -270,10 +272,10 @@ Widget _buildTabVaccineCard(String title, String description,
                   child: TabBarView(
                     children: [
             /// ✅ Tab 1: 1st year vaccine
-            _buildDoseListView(doseList, "No vaccine program available"),
+            _buildDoseListView(doseList, "No vaccine program available",petModel),
 
             /// ✅ Tab 2: Annually vaccine
-            _buildDoseListView(annualDoseList, "No Annually program available"),
+            _buildDoseListView(annualDoseList, "No Annually program available",petModel),
                     ],
                   ),
                 ),
@@ -289,7 +291,7 @@ Widget _buildTabVaccineCard(String title, String description,
 
 
 
-Widget _buildDoseListView(List<Dose> doses, String emptyMessage) {
+Widget _buildDoseListView(List<Dose> doses, String emptyMessage, PetModel petModel) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
     child: Container(
@@ -314,6 +316,7 @@ Widget _buildDoseListView(List<Dose> doses, String emptyMessage) {
                 itemBuilder: (context, index) {
                   return _buildDoseItem(
                     doses[index].title,
+                    petModel,
                     doses[index].suggestedDate, // ✅ ใช้ suggestedDate จาก Object
                   );
                 },
@@ -338,7 +341,7 @@ Widget _buildDoseListView(List<Dose> doses, String emptyMessage) {
 }
 
 
-Widget _buildDoseItem(String doseTitle, [String? suggestedDate, bool isAppointed = false]) {
+Widget _buildDoseItem(String doseTitle,PetModel petModel, [String? suggestedDate, bool isAppointed = false]) {
   bool shouldShowSuggestedDate = doseTitle.toLowerCase().contains("1st dose") || isAppointed;
 
   return Container(
@@ -373,7 +376,13 @@ Widget _buildDoseItem(String doseTitle, [String? suggestedDate, bool isAppointed
           child: Row(
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                      print("==========================Navigating to make appointment with petModel: ${petModel.toJson()}"); // ตรวจสอบค่า
+                    Get.toNamed(Routes.make_appointment, arguments: {
+                     RouteParams.petModel: petModel,
+                  });
+
+                },
                 child: const Text(
                   "Make appointment",
                   style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 12),
@@ -381,7 +390,12 @@ Widget _buildDoseItem(String doseTitle, [String? suggestedDate, bool isAppointed
               ),
               const Text("|", style: TextStyle(color: Colors.black38)),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+  print("==========================Navigating to vaccinated_page with petModel: ${petModel.toJson()}"); // ตรวจสอบค่า
+                      Get.toNamed(Routes.vaccinated_date, arguments: {
+                     RouteParams.petModel: petModel,
+                  });
+                },
                 child: const Text(
                   "Vaccination date",
                   style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 12),

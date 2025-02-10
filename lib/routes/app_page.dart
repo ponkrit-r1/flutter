@@ -47,6 +47,7 @@ import 'package:deemmi/modules/settings/update_account/update_password/update_pa
 import 'package:deemmi/modules/pet/pet_tag/add_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/existing_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/add_tag_detail_qr_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
@@ -54,6 +55,8 @@ import '../modules/root/root_page.dart';
 import 'app_routes.dart';
 
 import 'package:deemmi/modules/vaccine/vaccine_program_page.dart';
+import 'package:deemmi/modules/vaccine/make_appointment_page.dart';
+import 'package:deemmi/modules/vaccine/vaccinated_date_page.dart';
 
 abstract class AppPages {
   static final pages = [
@@ -181,6 +184,14 @@ abstract class AppPages {
     GetPage(
       name: Routes.vaccine_program,
       page: () =>  VaccineProgramPage(),
+    ),
+    GetPage(
+      name: Routes.make_appointment,
+      page: () => MakeAppointmentPage(),
+    ),
+    GetPage(
+      name: Routes.vaccinated_date,
+      page: () => VaccinatedDatePage(),
     ),
   ];
 }
