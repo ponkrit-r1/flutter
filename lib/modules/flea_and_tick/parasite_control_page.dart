@@ -17,10 +17,41 @@ class ParasiteCategory {
     required this.parasites,
   });
 }
-
-class ParasiteControlPage extends StatelessWidget {
+class ParasiteControlPage extends StatefulWidget {
+   @override
+  _ParasiteControlPageState createState() => _ParasiteControlPageState();
+}
+class _ParasiteControlPageState extends State<ParasiteControlPage> {
   final controller = Get.find<PetProfileController>();
   final PetListController _petController = Get.find<PetListController>();
+
+  // Mock Data สำหรับ History
+  final Map<int, List<Map<String, String>>> historyData = {
+    2024: [
+      {
+        'title': 'Bravecto',
+        'intakeDate': '1 May 2024',
+        'image': 'assets/images/bravecto.png',
+      },
+      {
+        'title': 'NexGard Spectra',
+        'intakeDate': '1 Apr 2024',
+        'image': 'assets/images/nextgard.png',
+      },
+    ],
+    2023: [
+      {
+        'title': 'Bravecto',
+        'intakeDate': '15 Dec 2023',
+        'image': 'assets/images/bravecto.png',
+      },
+    ],
+  };
+
+  // เก็บสถานะ Expand/Collapse ของแต่ละปี
+  final Map<int, bool> expandedYears = {};
+
+
 
   // Mock Data สำหรับ Active Protection
   final List<Map<String, String>> activeProtections = [
@@ -63,6 +94,16 @@ class ParasiteControlPage extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // กำหนดค่าเริ่มต้นให้ทุกปีเป็น collapsed
+    historyData.keys.forEach((year) {
+      expandedYears[year] = false;
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -93,8 +134,93 @@ class ParasiteControlPage extends StatelessWidget {
               _buildAddProtectionButton(),
               const SizedBox(height: 16),
               _buildActiveProtectionList(), // แสดง Active Protection
+               const SizedBox(height: 16),
+              if (historyData.isNotEmpty) _buildHistorySection(), // แสดง History ถ้ามีข้อมูล
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+Widget _buildHistorySection() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          'History',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ),
+      Column(
+        children: historyData.keys.map((year) => _buildYearHistory(year)).toList(),
+      ),
+    ],
+  );
+}
+Widget _buildYearHistory(int year) {
+  return Column(
+    children: [
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            expandedYears[year] = !(expandedYears[year] ?? false);
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8), // เพิ่มระยะห่างขวาของตัวเลข
+                child: Text(
+                  '$year',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const Expanded(
+                child: Divider(
+                  color: Color.fromARGB(255, 188, 185, 185), // เปลี่ยนเป็นสีเทาอ่อน
+                  thickness: 1,
+                ),
+              ),
+              Icon(
+                expandedYears[year] ?? false
+                    ? Icons.expand_less
+                    : Icons.expand_more,
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ),
+      ),
+      if (expandedYears[year] ?? false)
+        Column(
+          children: historyData[year]!.map((item) => _buildHistoryCard(item)).toList(),
+        ),
+    ],
+  );
+}
+
+
+
+
+   Widget _buildHistoryCard(Map<String, String> item) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: ListTile(
+        leading: Image.asset(item['image'] ?? '', width: 50, height: 50, fit: BoxFit.contain),
+        title: Text(
+          item['title'] ?? '',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          'Intake date: ${item['intakeDate']}',
+          style: const TextStyle(fontSize: 12, color: Colors.black54),
         ),
       ),
     );
@@ -284,50 +410,111 @@ Widget _buildParasiteCategoryCard(ParasiteCategory category) {
   }
 
 void _showActionSheet(BuildContext context, Map<String, String> item) {
-  showCupertinoModalPopup(
+  showModalBottomSheet(
     context: context,
+    backgroundColor: Colors.white, // ✅ ตั้งค่าให้พื้นหลังเป็นสีขาว
+    barrierColor: Colors.black54,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)), // ✅ มุมโค้งด้านบน
+    ),
     builder: (BuildContext context) {
-      return CupertinoActionSheet(
-        title: const Text('Options'),
-        actions: [
-          CupertinoActionSheetAction(
-            onPressed: () {
+      return Wrap(
+        children: [
+          ListTile(
+            leading: const Icon(CupertinoIcons.eye, color: Colors.blue),
+            title: const Text('Edit protection', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500)),
+            trailing: const Icon(CupertinoIcons.chevron_forward, color: Colors.blue), // ✅ เพิ่มลูกศร
+            onTap: () {
               Navigator.pop(context);
               Get.toNamed(Routes.edit_pet_protection, arguments: item);
             },
-            child: const Row(
-              children: [
-                Icon(CupertinoIcons.eye, color: Colors.blue),
-                SizedBox(width: 8),
-                Text('Edit protection', style: TextStyle(color: Colors.blue)),
-              ],
-            ),
           ),
-          CupertinoActionSheetAction(
-            isDestructiveAction: true, // ทำให้เป็นปุ่มสีแดง
-            onPressed: () {
+          ListTile(
+            leading: const Icon(CupertinoIcons.delete, color: Colors.red),
+            title: const Text('Delete', style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500)),
+            trailing: const Icon(CupertinoIcons.chevron_forward, color: Colors.red), // ✅ เพิ่มลูกศร
+            onTap: () {
               Navigator.pop(context);
-              Get.snackbar('Deleted', '${item['title']} has been removed.');
+
+               _showDeleteConfirmationDialog(context, item); // ✅ เรียก Popup Delete
+             // Get.snackbar('Deleted', '${item['title']} has been removed.');
             },
-            child: const Row(
-              children: [
-                Icon(CupertinoIcons.delete, color: Colors.red),
-                SizedBox(width: 8),
-                Text('Delete', style: TextStyle(color: Colors.red)),
-              ],
-            ),
+          ),
+          const Divider(), // ✅ เส้นคั่นระหว่างตัวเลือกกับปุ่ม Cancel
+          ListTile(
+            title: const Center(child: Text('Cancel', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
+            onTap: () => Navigator.pop(context),
           ),
         ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel'),
+      );
+    },
+  );
+}
+
+// ✅ Popup Delete Confirmation
+void _showDeleteConfirmationDialog(BuildContext context, Map<String, String> item) {
+  showDialog(
+    context: context,
+    barrierColor: Colors.black54,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), // ✅ ทำให้ขอบโค้ง
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(CupertinoIcons.delete_solid, color: Colors.red, size: 50), // ✅ ไอคอนถังขยะสีแดง
+              const SizedBox(height: 12),
+              Text(
+                'Delete ${item['title']} protection?',
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                "This action can't be undone.",
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.grey[200], // ✅ ปุ่ม Cancel สีเทา
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: const Text('Cancel', style: TextStyle(color: Colors.black)),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Get.snackbar('Deleted', '${item['title']} has been removed.');
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red, // ✅ ปุ่ม Delete สีแดง
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: const Text('Delete', style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     },
   );
 }
+
 
 }
 

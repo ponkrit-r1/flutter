@@ -60,6 +60,7 @@ import 'package:deemmi/modules/vaccine/vaccinated_date_page.dart';
 
 import 'package:deemmi/modules/flea_and_tick/parasite_control_page.dart';
 import 'package:deemmi/modules/flea_and_tick/add_pet_protection_page.dart';
+import 'package:deemmi/modules/flea_and_tick/edit_pet_protection_page.dart';
 
 abstract class AppPages {
   static final pages = [
@@ -203,6 +204,10 @@ abstract class AppPages {
     GetPage(
       name: Routes.add_pet_protection,
       page: () => AddPetProtectionPage(),
+    ),
+       GetPage(
+      name: Routes.edit_pet_protection,
+      page: () => EditPetProtectionPage(),
     ),
   ];
 }
