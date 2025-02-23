@@ -35,6 +35,12 @@ abstract class Routes {
   static const vaccine_program = '/vaccine_program';
   static const make_appointment = '/make_appointment';
   static const vaccinated_date = '/vaccinated_date';
+
+  //flea & tick
+  static const parasite_control = '/parasite_control';
+  static const add_pet_protection = '/add_pet_protection';
+  static const edit_pet_protection = '/edit_pet_protection';
+
 }
 
 abstract class RouteParams {

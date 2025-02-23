@@ -383,7 +383,15 @@ class PetProfilePage extends StatelessWidget {
 ),
 
               const SizedBox(width: 8),
+
+               
               Expanded(
+                  child: InkWell(
+    onTap: () {
+      Get.toNamed(Routes.parasite_control, arguments: {
+        RouteParams.petModel: controller.petModel,
+      });
+    },
                 child: Card(
                   color: AppColor.secondaryBgColor,
                   shape: RoundedRectangleBorder(
@@ -395,8 +403,14 @@ class PetProfilePage extends StatelessWidget {
                     'Flea & Tick',
                     context,
                   ),
-                ),
+                ),//endcard
+                  ),
               ),
+
+
+
+
+
               const SizedBox(width: 8),
               Expanded(
                 child: Card(

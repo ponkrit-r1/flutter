@@ -58,6 +58,9 @@ import 'package:deemmi/modules/vaccine/vaccine_program_page.dart';
 import 'package:deemmi/modules/vaccine/make_appointment_page.dart';
 import 'package:deemmi/modules/vaccine/vaccinated_date_page.dart';
 
+import 'package:deemmi/modules/flea_and_tick/parasite_control_page.dart';
+import 'package:deemmi/modules/flea_and_tick/add_pet_protection_page.dart';
+
 abstract class AppPages {
   static final pages = [
     GetPage(
@@ -192,6 +195,14 @@ abstract class AppPages {
     GetPage(
       name: Routes.vaccinated_date,
       page: () => VaccinatedDatePage(),
+    ),
+    GetPage(
+      name: Routes.parasite_control,
+      page: () => ParasiteControlPage(),
+    ),
+    GetPage(
+      name: Routes.add_pet_protection,
+      page: () => AddPetProtectionPage(),
     ),
   ];
 }
