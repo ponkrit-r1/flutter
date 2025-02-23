@@ -299,51 +299,114 @@ Widget _buildYearHistory(int year) {
     );
   }
 
-
-  Widget _buildParasiteCategoryList() {
-    return Column(
-      children: categories.map((category) => _buildParasiteCategoryCard(category)).toList(),
-    );
-  }
-
-Widget _buildParasiteCategoryCard(ParasiteCategory category) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 6.0), // เพิ่ม padding ซ้าย-ขวา
-    child: Container(
-      width: double.infinity, // ทำให้ Card กว้างเต็มจอ
-      height: 150,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        image: DecorationImage(
-          opacity: 1.0,
-          image: AssetImage(category.backgroundImage),
-          fit: BoxFit.cover, // ใช้ cover เพื่อให้เต็มพื้นที่
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+Widget _buildParasiteCategoryList() {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Expanded(
+        flex: 1, // ✅ กำหนดพื้นที่ด้านซ้าย
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              category.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: category.parasites.map((p) => Text('- $p', style: const TextStyle(color: Colors.black))).toList(),
-            ),
+            _buildParasiteCategoryCard(categories[0], height: 110), // Tick, Flea
+            const SizedBox(height: 8),
+            _buildParasiteCategoryCard(categories[2], height: 100), // Heartworm
           ],
         ),
+      ),
+      const SizedBox(width: 8), // ✅ ระยะห่างระหว่าง Columns
+      Expanded(
+        flex: 1, // ✅ กำหนดพื้นที่ด้านขวา
+        child: _buildParasiteCategoryCard(categories[1], height: 218), // Gastrointestinal
+      ),
+    ],
+  );
+}
+
+//   Widget _buildParasiteCategoryList() {
+//     return Column(
+//       children: categories.map((category) => _buildParasiteCategoryCard(category)).toList(),
+//     );
+//   }
+Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 150}) {
+  return Container(
+    width: double.infinity,
+    height: height, // ✅ ปรับความสูงตามที่กำหนด
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12.0),
+      image: DecorationImage(
+        opacity: 1.0,
+        image: AssetImage(category.backgroundImage),
+        fit: BoxFit.cover,
+      ),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            category.title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: category.parasites.map((p) => Row(
+              children: [
+                Icon(Icons.check, color: Colors.green, size: 16), // ✅ ไอคอน ✔
+                const SizedBox(width: 4),
+                Text(p, style: const TextStyle(color: Colors.black)),
+              ],
+            )).toList(),
+          ),
+        ],
       ),
     ),
   );
 }
+
+// Widget _buildParasiteCategoryCard(ParasiteCategory category) {
+//   return Padding(
+//     padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 6.0), // เพิ่ม padding ซ้าย-ขวา
+//     child: Container(
+//       width: double.infinity, // ทำให้ Card กว้างเต็มจอ
+//       height: 150,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(12.0),
+//         image: DecorationImage(
+//           opacity: 1.0,
+//           image: AssetImage(category.backgroundImage),
+//           fit: BoxFit.cover, // ใช้ cover เพื่อให้เต็มพื้นที่
+//         ),
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               category.title,
+//               style: const TextStyle(
+//                 fontSize: 18,
+//                 fontWeight: FontWeight.bold,
+//                 color: Colors.black,
+//               ),
+//             ),
+//             const SizedBox(height: 4),
+//             Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: category.parasites.map((p) => Text('- $p', style: const TextStyle(color: Colors.black))).toList(),
+//             ),
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
   Widget _buildAddProtectionButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(

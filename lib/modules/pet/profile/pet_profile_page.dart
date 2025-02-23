@@ -360,89 +360,208 @@ class PetProfilePage extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-       Expanded(
+
+Expanded(
   child: InkWell(
     onTap: () {
       Get.toNamed(Routes.vaccine_program, arguments: {
         RouteParams.petModel: controller.petModel,
       });
     },
-    child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      elevation: 3,
-      color: AppColor.secondaryBgColor,
-      child: petInfoItem(
-        Image.asset('assets/icons/vaccine.webp'),
-        'Vaccine',
-        context,
+    child: SizedBox( // ✅ ใช้ SizedBox กำหนดขนาดเท่ากัน
+      width: double.infinity,
+      height: 100, // ✅ ตั้งค่าความสูงเท่ากัน
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        elevation: 3,
+        color: AppColor.secondaryBgColor,
+        child: petInfoItem(
+          Image.asset('assets/icons/vaccine.webp'),
+          'Vaccine',
+          context,
+          fontSize: 11,
+        ),
       ),
     ),
   ),
 ),
 
-              const SizedBox(width: 8),
+const SizedBox(width: 4),
 
-               
-              Expanded(
-                  child: InkWell(
+Expanded(
+  child: InkWell(
     onTap: () {
       Get.toNamed(Routes.parasite_control, arguments: {
         RouteParams.petModel: controller.petModel,
       });
     },
-                child: Card(
-                  color: AppColor.secondaryBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 3,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/medication.webp'),
-                    'Flea & Tick',
-                    context,
-                  ),
-                ),//endcard
-                  ),
-              ),
+    child: SizedBox( // ✅ ใช้ SizedBox ควบคุมขนาด
+      width: double.infinity,
+      height: 100, // ✅ ตั้งค่าความสูงให้เท่ากัน
+      child: Card(
+        color: AppColor.secondaryBgColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        elevation: 3,
+        child: petInfoItem(
+          Image.asset('assets/icons/medication.webp'),
+          'Flea & Tick',
+          context,
+           fontSize: 11
+        ),
+      ),
+    ),
+  ),
+),
+
+const SizedBox(width: 4),
+
+Expanded(
+  child: SizedBox( // ✅ กำหนดขนาดปุ่มให้คงที่
+    width: double.infinity,
+    height: 100, // ✅ ความสูงเท่ากันทุกปุ่ม
+    child: Card(
+      color: AppColor.secondaryBgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      elevation: 3,
+      child: petInfoItem(
+        Image.asset('assets/icons/file-text-check.webp'),
+        'Insurance',
+        context,
+         fontSize: 11,
+      ),
+    ),
+  ),
+),
+
+const SizedBox(width: 4),
+
+Expanded(
+  child: SizedBox( // ✅ กำหนดขนาดปุ่มให้คงที่
+    width: double.infinity,
+    height: 100, // ✅ ความสูงเท่ากันทุกปุ่ม
+    child: Card(
+      color: AppColor.secondaryBgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      elevation: 3,
+      child: petInfoItem(
+        Image.asset('assets/icons/sliders-horizontal-alt.webp'),
+        'Others',
+        context,
+         fontSize: 11,
+      ),
+    ),
+  ),
+),
+
+
+//        Expanded(
+//   child: InkWell(
+//     onTap: () {
+//       Get.toNamed(Routes.vaccine_program, arguments: {
+//         RouteParams.petModel: controller.petModel,
+//       });
+//     },
+//     child: Card(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12.0),
+//       ),
+//       elevation: 3,
+//       color: AppColor.secondaryBgColor,
+//       child: petInfoItem(
+//         Image.asset('assets/icons/vaccine.webp'),
+//         'Vaccine',
+//         context,
+//       ),
+//     ),
+//   ),
+// ),
+
+//               const SizedBox(width: 8),
+
+               
+//               Expanded(
+//                   child: InkWell(
+//     onTap: () {
+//       Get.toNamed(Routes.parasite_control, arguments: {
+//         RouteParams.petModel: controller.petModel,
+//       });
+//     },
+//                 child: Card(
+//                   color: AppColor.secondaryBgColor,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(12.0),
+//                   ),
+//                   elevation: 3,
+//                   child: petInfoItem(
+//                     Image.asset('assets/icons/medication.webp'),
+//                     'Flea & Tick',
+//                     context,
+//                   ),
+//                 ),//endcard
+//                   ),
+//               ),
 
 
 
 
 
-              const SizedBox(width: 8),
-              Expanded(
-                child: Card(
-                  color: AppColor.secondaryBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 3,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/file-text-check.webp'),
-                    'Insurance',
-                    context,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Card(
-                  color: AppColor.secondaryBgColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 3,
-                  child: petInfoItem(
-                    Image.asset('assets/icons/sliders-horizontal-alt.webp'),
-                    'Others',
-                    context,
-                  ),
-                ),
-              ),
+//               const SizedBox(width: 8),
+//               Expanded(
+//                 child: Card(
+//                   color: AppColor.secondaryBgColor,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(12.0),
+//                   ),
+//                   elevation: 3,
+//                   child: petInfoItem(
+//                     Image.asset('assets/icons/file-text-check.webp'),
+//                     'Insurance',
+//                     context,
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(width: 8),
+//               Expanded(
+//                 child: Card(
+//                   color: AppColor.secondaryBgColor,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(12.0),
+//                   ),
+//                   elevation: 3,
+//                   child: petInfoItem(
+//                     Image.asset('assets/icons/sliders-horizontal-alt.webp'),
+//                     'Others',
+//                     context,
+//                   ),
+//                 ),
+//               ),
+
+
+
+
+
+
+
             ],
           ),
+
+
+
+
+
+
+
+
+
+
           const SizedBox(height: 16),
           SizedBox(
             width: 124,
@@ -660,6 +779,7 @@ Widget _buildUpcomingVaccineCard(
     Widget widget,
     String label,
     BuildContext context,
+    {double fontSize = 16}
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -674,9 +794,14 @@ Widget _buildUpcomingVaccineCard(
             overflow: TextOverflow.ellipsis,
             label,
             style: textTheme(context)
+                
                 .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
+                   .copyWith(
+                fontSize: fontSize, // ✅ เพิ่มขนาดตัวอักษร
+                color: AppColor.secondaryContentGray,
+              ),
             textAlign: TextAlign.center,
+            
           ),
         ),
         const SizedBox(height: 8),
