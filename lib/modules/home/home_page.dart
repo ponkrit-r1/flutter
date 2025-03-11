@@ -14,6 +14,7 @@ import '../../../core/domain/pet/pet_model.dart';
 import '../../../core/global_widgets/global_confirm_dialog.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:io';
 
 
 final mockDogImage =
@@ -75,148 +76,214 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
 
 
 
+@override
+Widget build(BuildContext context) {
+  final double topPadding = MediaQuery.of(context).padding.top;
 
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-    color: AppColor.homeBackground,
-    child: SafeArea(
+  return Scaffold(
+    body: Container(
+      color: AppColor.homeBackground,
       child: Stack(
         children: [
+          // ✅ ใช้ ClipRRect เพื่อทำมุมโค้ง
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 150 + topPadding,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(30), // ✅ เพิ่มโค้งด้านล่างซ้าย
+              ),
+              child: Container(
+                padding: EdgeInsets.only(top: topPadding),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg_0.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: _buildHeader(),
+              ),
+            ),
+          ),
+
+          // ✅ Content หลังจาก bg (ListView)
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _buildHeader(),
+              SizedBox(height: 180 + topPadding),
               Expanded(
-                child: Stack(
-                  children: [
-                      RefreshIndicator(
-                      onRefresh: () async {
-                        // Refresh data when pulled down
-                        await _controller.getMyPet();
-                      },
-                      child: 
-                    ListView(
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    _buildPetList(),
-                    // const SizedBox(
-                    //   height: 35,
-                    // ),
-                    // Center(
-                    //   child: Text(
-                    //     'Let’s get a tag for your pet!',
-                    //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    //           color: AppColor.primary500,
-                    //         ),
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Stack(
-                    //   children: [
-                    //     Padding(
-                    //       padding: const EdgeInsets.only(bottom: 30),
-                    //       child: Image.asset(
-                    //         'assets/images/pet_tags_2.png',
-                    //         width: double.infinity,
-                    //       ),
-                    //     ),
-                    //     Positioned(
-                    //       bottom: 0,
-                    //       left: 0,
-                    //       right: 0,
-                    //       child: Center(
-                    //         child: GestureDetector(
-                    //           onTap: () async {
-                    //             final Uri url =
-                    //                 Uri.parse('https://shop.line.me/@deemmi');
-                    //             if (await canLaunchUrl(url)) {
-                    //               await launchUrl(url,
-                    //                   mode: LaunchMode.platformDefault);
-                    //             } else {
-                    //               throw 'Could not launch $url';
-                    //             }
-                    //           },
-                    //           child: Container(
-                    //             padding: const EdgeInsets.symmetric(
-                    //               horizontal: 20,
-                    //               vertical: 15,
-                    //             ),
-                    //             decoration: BoxDecoration(
-                    //               color: AppColor.green,
-                    //               borderRadius: BorderRadius.circular(30),
-                    //             ),
-                    //             child: Row(
-                    //               mainAxisSize: MainAxisSize.min,
-                    //               children: [
-                    //                 SvgPicture.asset(
-                    //                   'assets/icons/shopping_bag.svg',
-                    //                 ),
-                    //                 const SizedBox(
-                    //                   width: 10,
-                    //                 ),
-                    //                 Text(                      
-                    //                   AppLocalizations.of(context)!.shopnow,
-                    //                   style: Theme.of(context)
-                    //                       .textTheme
-                    //                       .bodyLarge
-                    //                       ?.copyWith(
-                    //                         color: Colors.white,
-                    //                         fontWeight: FontWeight.w600,
-
-                    //                       ),
-                    //                 ),
-                    //                 const SizedBox(
-                    //                   width: 10,
-                    //                 ),
-                    //                 Icon(
-                    //                   Icons.chevron_right,
-                    //                   color: Colors.white,
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    
-                    
-                    const SizedBox(
-                      height: 10,
-                    ),
-                     _buildUpcoming(),
-                    _buildArticleList(),
-                  ],
-                    )
-                      )
-            ]
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await _controller.getMyPet();
+                  },
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      const SizedBox(height: 10),
+                      _buildPetList(),
+                      const SizedBox(height: 10),
+                      _buildUpcoming(),
+                      _buildArticleList(),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-          // Positioned(
-          //   right: 0,
-          //   top: 60,
-          //   child: Image.asset(
-          //     'assets/images/home_spy_cat.png',
-          //     width: 200,
-          //   ),
-          // ),
         ],
       ),
-    )
+    ),
+  );
+}
+
+
+  // @override
+  // Widget build(BuildContext context) {
+
+  //   return Container(
+  //   color: AppColor.homeBackground,
+  //   child: SafeArea(
+  //      top: true,
+  // bottom: false,
+  // left: false,
+  // right: false,
+  //     child: Stack(
+  //       children: [
+  //         Column(
+  //           mainAxisAlignment: MainAxisAlignment.start,
+  //           children: [
+  //             _buildHeader(),
+  //             Expanded(
+  //               child: Stack(
+  //                 children: [
+  //                     RefreshIndicator(
+  //                     onRefresh: () async {
+  //                       // Refresh data when pulled down
+  //                       await _controller.getMyPet();
+  //                     },
+  //                     child: 
+  //                   ListView(
+  //                 children: [
+  //                   const SizedBox(
+  //                     height: 30,
+  //                   ),
+  //                   _buildPetList(),
+  //                   // const SizedBox(
+  //                   //   height: 35,
+  //                   // ),
+  //                   // Center(
+  //                   //   child: Text(
+  //                   //     'Let’s get a tag for your pet!',
+  //                   //     style: Theme.of(context).textTheme.titleLarge?.copyWith(
+  //                   //           color: AppColor.primary500,
+  //                   //         ),
+  //                   //   ),
+  //                   // ),
+  //                   // const SizedBox(
+  //                   //   height: 10,
+  //                   // ),
+  //                   // Stack(
+  //                   //   children: [
+  //                   //     Padding(
+  //                   //       padding: const EdgeInsets.only(bottom: 30),
+  //                   //       child: Image.asset(
+  //                   //         'assets/images/pet_tags_2.png',
+  //                   //         width: double.infinity,
+  //                   //       ),
+  //                   //     ),
+  //                   //     Positioned(
+  //                   //       bottom: 0,
+  //                   //       left: 0,
+  //                   //       right: 0,
+  //                   //       child: Center(
+  //                   //         child: GestureDetector(
+  //                   //           onTap: () async {
+  //                   //             final Uri url =
+  //                   //                 Uri.parse('https://shop.line.me/@deemmi');
+  //                   //             if (await canLaunchUrl(url)) {
+  //                   //               await launchUrl(url,
+  //                   //                   mode: LaunchMode.platformDefault);
+  //                   //             } else {
+  //                   //               throw 'Could not launch $url';
+  //                   //             }
+  //                   //           },
+  //                   //           child: Container(
+  //                   //             padding: const EdgeInsets.symmetric(
+  //                   //               horizontal: 20,
+  //                   //               vertical: 15,
+  //                   //             ),
+  //                   //             decoration: BoxDecoration(
+  //                   //               color: AppColor.green,
+  //                   //               borderRadius: BorderRadius.circular(30),
+  //                   //             ),
+  //                   //             child: Row(
+  //                   //               mainAxisSize: MainAxisSize.min,
+  //                   //               children: [
+  //                   //                 SvgPicture.asset(
+  //                   //                   'assets/icons/shopping_bag.svg',
+  //                   //                 ),
+  //                   //                 const SizedBox(
+  //                   //                   width: 10,
+  //                   //                 ),
+  //                   //                 Text(                      
+  //                   //                   AppLocalizations.of(context)!.shopnow,
+  //                   //                   style: Theme.of(context)
+  //                   //                       .textTheme
+  //                   //                       .bodyLarge
+  //                   //                       ?.copyWith(
+  //                   //                         color: Colors.white,
+  //                   //                         fontWeight: FontWeight.w600,
+
+  //                   //                       ),
+  //                   //                 ),
+  //                   //                 const SizedBox(
+  //                   //                   width: 10,
+  //                   //                 ),
+  //                   //                 Icon(
+  //                   //                   Icons.chevron_right,
+  //                   //                   color: Colors.white,
+  //                   //                 ),
+  //                   //               ],
+  //                   //             ),
+  //                   //           ),
+  //                   //         ),
+  //                   //       ),
+  //                   //     ),
+  //                   //   ],
+  //                   // ),
+                    
+                    
+  //                   const SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                    _buildUpcoming(),
+  //                   _buildArticleList(),
+  //                 ],
+  //                   )
+  //                     )
+  //           ]
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         // Positioned(
+  //         //   right: 0,
+  //         //   top: 60,
+  //         //   child: Image.asset(
+  //         //     'assets/images/home_spy_cat.png',
+  //         //     width: 200,
+  //         //   ),
+  //         // ),
+  //       ],
+  //     ),
+  //   )
  
  
-    );
+  //   );
  
-  } // end widget
+  // } // end widget
 
 
 Widget _buildUpcoming() {

@@ -478,19 +478,34 @@ Obx(
                       ),
                     ),
                     Center(
-                      child: TextButton(
-                        onPressed: () {   
-                            _petController.getMyPet();   
-                          Get.back();
-                        },
-                        child: Text(
-                          stringRes(context)!.maybeLaterLabel,
-                          style: textTheme(context).bodyLarge?.copyWith(
-                                color: AppColor.primary500,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ),
+                       child: _controller.editingPet == null // ✅ เช็คว่าถ้าเป็นโหมด `add` ให้แสดงปุ่ม
+      ? TextButton(
+          onPressed: () {
+            _petController.getMyPet();   
+            Get.back();
+          },
+          child: Text(
+            stringRes(context)!.maybeLaterLabel,
+            style: textTheme(context).bodyLarge?.copyWith(
+                  color: AppColor.primary500,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        )
+      : const SizedBox.shrink(), // ✅ ซ่อนปุ่มในกรณีที่เป็น `edit`
+                      // child: TextButton(
+                      //   onPressed: () {   
+                      //       _petController.getMyPet();   
+                      //     Get.back();
+                      //   },
+                      //   child: Text(
+                      //     stringRes(context)!.maybeLaterLabel,
+                      //     style: textTheme(context).bodyLarge?.copyWith(
+                      //           color: AppColor.primary500,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //   ),
+                      // ),
                     ),
                     const SizedBox(
                       height: 16,
