@@ -8,6 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../core/domain/pet/pet_model.dart';
 import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -32,7 +33,7 @@ class _RootPageState extends State<RootPage> {
         context,
         controller: _controller,
         screens: _buildScreens(),
-        navBarHeight: 100,
+        navBarHeight: 100, //100
         items: _navBarsItems(),
         onItemSelected: _onItemSelected,
         confineInSafeArea: true,
@@ -56,12 +57,15 @@ class _RootPageState extends State<RootPage> {
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
-         padding: const NavBarPadding.only(top: 30 , bottom: 20), // เพิ่มระยะด้านบน
+        // padding: const NavBarPadding.only(top: 30 , bottom: 20), // เพิ่มระยะด้านบน button icon menu 30,20
        // padding: const NavBarPadding.symmetric(horizontal: 8, vertical:27),
+         padding: Platform.isIOS 
+      ? const NavBarPadding.only(top: 40, bottom: 10) // สำหรับ iOS
+      : const NavBarPadding.only(top: 30, bottom: 20), // สำหรับ Android
         navBarStyle: NavBarStyle.style6,
       ),
            Positioned(
-            bottom: 60, //60
+            bottom: Platform.isIOS ? 90: 60, //60// ✅ แยกค่า bottom ระหว่าง iOS และ Android เพราะสอง platform แสดงไม่เท่ากัน
             left: 0,
             right: 0,
             child: ClipPath(
