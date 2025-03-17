@@ -35,4 +35,26 @@ final _textTheme = GoogleFonts.poppinsTextTheme(TextTheme(
   bodyMedium: bodySmallTextStyle,
   bodySmall: bodyXSmallTextStyle,
   labelLarge: bodyTextStyle.copyWith(color: Colors.white),
-));
+)).copyWith(
+  // ✅ เพิ่ม NotoSansThai ให้กับฟอนต์หลักของแอป
+  bodyLarge: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w400, // Regular
+    fontSize: 16,
+  ),
+  bodyMedium: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w300, // Light
+    fontSize: 14,
+  ),
+  headlineLarge: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w700, // Bold
+    fontSize: 32,
+  ),
+  titleLarge: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w600, // SemiBold
+    fontSize: 20,
+  ),
+);

@@ -812,26 +812,26 @@ Widget _buildHeader() {
     ),
   ),
   const SizedBox(width: 10),
-  Container(
-    width: 30,
-    height: 30,
-    decoration: BoxDecoration(
-      color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
-      shape: BoxShape.circle,
-    ),
-    child: HeaderButton(
-      iconPath: 'assets/icons/bell.svg',
-      onTap: () {
-        try {
-          Get.toNamed(Routes.notification);
-        } catch (e) {
-          print("Navigation error: $e");
-        }
-      },
-       backgroundColor: Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
-  iconColor: Colors.white, // ไอคอนเป็นสีขาว
-    ),
-  ),
+  // Container(
+  //   width: 30,
+  //   height: 30,
+  //   decoration: BoxDecoration(
+  //     color: Color(0xFF93B4FB), // สีพื้นหลังเป็น #93B4FB
+  //     shape: BoxShape.circle,
+  //   ),
+  //   child: HeaderButton(
+  //     iconPath: 'assets/icons/bell.svg',
+  //     onTap: () {
+  //       try {
+  //         Get.toNamed(Routes.notification);
+  //       } catch (e) {
+  //         print("Navigation error: $e");
+  //       }
+  //     },
+  //      backgroundColor: Color(0xFF93B4FB), // พื้นหลังเป็นสี #93B4FB
+  // iconColor: Colors.white, // ไอคอนเป็นสีขาว
+  //   ),
+  // ),
 ],
 
                 ),
