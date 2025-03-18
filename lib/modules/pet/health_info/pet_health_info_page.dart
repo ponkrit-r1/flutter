@@ -34,7 +34,9 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: Text(
-            stringRes(context)!.addPetHealthLabel,
+            _controller.editingHealthInfo != null 
+              ? stringRes(context)!.editPetHealthLabel // ✅ กรณี Edit
+              : stringRes(context)!.addPetHealthLabel,// ✅ กรณี Add
             style: textTheme(context).headlineSmall!.copyWith(
                   color: AppColor.textColor,
                 ),
@@ -197,7 +199,9 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                                 ),
                               )
                             : PrimaryButton(
-                                title: stringRes(context)!.nextLabel,
+                             title: _controller.editingHealthInfo != null 
+                ? stringRes(context)!.saveLabel // ✅ ถ้า Edit ให้เป็น Save
+                : stringRes(context)!.nextLabel, // ✅ ถ้า Add ให้เป็น Next
                                 onPressed: () async {
                                   await _controller.onUpdatePetHealthInfo();
                                   if (_controller.editingHealthInfo == null) {
@@ -213,6 +217,10 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                     const SizedBox(
                       height: 16,
                     ),
+
+
+
+if (_controller.editingHealthInfo == null) // ✅ ถ้าเป็น Add ให้แสดง Skip
                     Center(
                       child: TextButton(
                         onPressed: () {
@@ -227,6 +235,9 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
                         ),
                       ),
                     ),
+
+            
+
                     const SizedBox(
                       height: 16,
                     ),

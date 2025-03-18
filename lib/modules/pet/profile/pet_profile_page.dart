@@ -17,6 +17,8 @@ class PetProfilePage extends StatelessWidget {
 
   final controller = Get.find<PetProfileController>();
 
+  bool isDirectionVisible = false;
+
   final PetListController _petController = Get.find<PetListController>();
 
   final List<Map<String, String>> mockUpcomingVaccines = [
@@ -230,21 +232,21 @@ class PetProfilePage extends StatelessWidget {
             petModel.displayBreed ?? '',
             style: textTheme(context)
                 .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
+                .copyWith(color: AppColor.secondaryContentGray,fontSize: 14,),
           ),
           const SizedBox(height: 4),
           Text(
             '${stringRes(context)!.microchipIdLabel}: ${petModel.microchipNumber ?? ''}',
             style: textTheme(context)
                 .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
+                .copyWith(color: AppColor.secondaryContentGray,fontSize: 14,),
           ),
           const SizedBox(height: 4),
           Text(
             '${stringRes(context)!.specialCharacteristicsLabel}: ${petModel.characteristics ?? ''}',
             style: textTheme(context)
                 .bodyMedium!
-                .copyWith(color: AppColor.secondaryContentGray),
+                .copyWith(color: AppColor.secondaryContentGray,fontSize: 14,),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -286,7 +288,7 @@ class PetProfilePage extends StatelessWidget {
                       Icons.house_rounded,
                       color: AppColor.secondaryContentGray,
                     ),
-                    'Animal Care Indoor',
+                    stringRes(context)!.animalcareindoor ,
                     context,
                   ),
                 ),
@@ -779,7 +781,7 @@ Widget _buildUpcomingVaccineCard(
     Widget widget,
     String label,
     BuildContext context,
-    {double fontSize = 16}
+    {double fontSize = 14}
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -823,8 +825,24 @@ Widget _buildUpcomingVaccineCard(
   }
 
   _navigateToAddClinic() async {
+    //ด้านล่างของ เดิมที่ comment ใช้ได้ปกติ
+    // var result = await Get.toNamed(Routes.addPetClinic, arguments: {
+    //   RouteParams.petModel: controller.petModel,
+
+    // });
+    // if (result != null) {
+    //   controller.getClinicInformation();
+    // }
     var result = await Get.toNamed(Routes.addPetClinic, arguments: {
       RouteParams.petModel: controller.petModel,
+        'clinic': PetClinic( //เพิ่มใหม่ 18 mar จำลองการ Edit
+    id: 1,
+    otherClinicName: 'Pet Care Center',
+    otherClinicTelephone: '012-345-6789',
+    clinicId: 101,
+    petId: 5,
+  ),
+      
     });
     if (result != null) {
       controller.getClinicInformation();
@@ -1029,8 +1047,11 @@ Widget _buildUpcomingVaccineCard(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
+                 Visibility (
+                  visible: isDirectionVisible, //ซ่อนปุ่ม
                   // Get Direction Button
-                  TextButton.icon(
+                  child: TextButton.icon(
                     onPressed: () {
                       // Add Get Direction action here
                     },
@@ -1059,6 +1080,9 @@ Widget _buildUpcomingVaccineCard(
                       ),
                     ),
                   ),
+                 ),
+
+
                   if (clinic.otherClinicTelephone?.isNotEmpty == true)
                     TextButton.icon(
                       onPressed: () {

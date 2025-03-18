@@ -35,10 +35,11 @@ class _PetListPageState extends State<PetListPage> {
               .headlineSmall!
               .copyWith(color: AppColor.textColor),
         ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.menu_rounded),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {},
+        //   icon: const Icon(Icons.menu_rounded),
+        // ),
+               leading: null,
         actions: [
           IconButton(
               onPressed: () {

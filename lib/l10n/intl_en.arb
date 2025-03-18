@@ -148,8 +148,11 @@
    "@add_pet_health": {
       "description": "Contains general settings labels"
    },
-   "addPetHealthLabel": "Add pet health",
-   "editPetHealthLabel": "Edit pet health",
+   "addPetHealthLabel": "Add Pet Health",
+   "editPetHealthLabel": "Edit Pet Health",
+   "addPetClinicLabel": "Add Clinic Info",
+   "editPetClinicLabel": "Edit Clinic Info",
+   "animalcareindoor" : "Animal Care Indoor" ,
    "sterilizationLabel": "Sterilization",
    "yesLabel": "Yes",
    "noLabel": "No",

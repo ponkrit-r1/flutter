@@ -38,6 +38,21 @@ class AddPetClinicController extends GetxController {
 
   var otherClinicPhoneNumber = TextEditingController();
 
+  final Rxn<PetClinic> _editingClinic = Rxn(); //เพิ่มเพิ่อเชค Add/Edit
+
+PetClinic? get editingClinic => _editingClinic.value;//เพิ่มเพิ่อเชค Add/Edit
+
+  void setEditingClinic(PetClinic? clinic) {//เพิ่มเพิ่อเชค Add/Edit
+  _editingClinic.value = clinic;
+  if (clinic != null) {
+    otherClinicName.text = clinic.otherClinicName ?? '';
+    otherClinicPhoneNumber.text = clinic.otherClinicTelephone ?? '';
+    _selectedClinic.value = clinics.firstWhereOrNull(
+      (c) => c.id == clinic.clinicId,
+    );
+  }
+}
+
   @override
   onReady() {
     getPetClinic();
@@ -73,6 +88,8 @@ class AddPetClinicController extends GetxController {
       ),
     );
   }
+
+
 
   checkInformation() {
     if (_selectedClinic.value?.id == -1) {
