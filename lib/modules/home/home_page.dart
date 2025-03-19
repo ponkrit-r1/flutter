@@ -15,7 +15,7 @@ import '../../../core/global_widgets/global_confirm_dialog.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:io';
-
+import 'package:deemmi/modules/settings/account_setting/account_setting_controller.dart';
 
 final mockDogImage =
     'https://s3-alpha-sig.figma.com/img/952e/705e/5cd22f9ed130680a0c8240212a73e224?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KjD-ZRhmbFEQM0OkfrMm-2J80qhjMtwkt8okWryswahfFuz5Wcnz~7erbMcC~Qti7mWXvQFuTC6vAan-aDzo83A1AnT7g0got3J0ERTUKhVxBp88PG3hHMcyVdkYsqjyqozKkCdgZR-Oq5RWsWP-SJ2OdSKqRkIPMcjDVQYoD~Ynqs3vIsFBlNQHU8NSt2Y-WCrETNcLQ8~nTxwcitXu4BEvqmbcC6ipA-hZclhe6BN-~yITVA1XxjKDQXCYzi9joiG3BuWQlFkfq-kVQfDKmMNlTdtxNRaOjSv5Y9eF0x4SbKc~rjmvmKjHnqSupjusFwlNl7I91LYB6N4wscGHVg__';
@@ -51,8 +51,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
  final PetListController _controller = Get.find<PetListController>();
+  final accountcontroller = Get.find<AccountSettingController>();
  Timer? _timer;
-
+String username = '';
   @override
   void initState() {
     super.initState();
@@ -60,6 +61,13 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this); // Register as an observer
 
     _controller.getMyPet();
+    
+
+
+      // ✅ ดึงค่า username จาก controller โดยใช้ Obx
+  username = accountcontroller.profile?.username ?? '';
+  
+
 
   // _timer = Timer(const Duration(seconds: 5), () {
   //   if (mounted) {
@@ -849,14 +857,18 @@ Widget _buildHeader() {
                           fontSize: 26,
                         ),
                   ),
+
+
                   TextSpan(
-                    text: 'Roong.',
+                    text: username,
                     style: textTheme(context).headlineLarge?.copyWith(
                           color: AppColor.primary500,
                           fontWeight: FontWeight.w600,
                           fontSize: 26,
                         ),
                   )
+
+
                 ],
               ),
             ),
