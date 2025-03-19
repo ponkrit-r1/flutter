@@ -553,17 +553,28 @@ void _showPetSelectionPopup(BuildContext context) {
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: 156,
-                  child: petHospitalCard(
-                      context, controller.petClinics.elementAtOrNull(index)!),
-                );
-              },
+              // itemBuilder: (BuildContext context, int index) { // ใช้ได้ของเดิม mar
+              //   return SizedBox(
+              //     height: 156,
+              //     child: petHospitalCard(
+              //         context, controller.petClinics.elementAtOrNull(index)!),
+              //   );
+              // },
+               itemBuilder: (BuildContext context, int index) {
+      final latestClinic = controller.petClinics.lastOrNull; // ✅ ดึงอันสุดท้าย
+      if (latestClinic != null) {
+        return SizedBox(
+          height: 156,
+          child: petHospitalCard(context, latestClinic),
+        );
+      } else {
+        return const SizedBox(); // ✅ ถ้าไม่มีข้อมูล ไม่แสดงอะไรเลย
+      }
+    },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(height: 12.0);
               },
-              itemCount: controller.petClinics.length,
+              itemCount: 1,//controller.petClinics.length,// ✅ แสดงแค่ 1 อัน (อันล่าสุด)
             ),
           SizedBox(
             height: 3,
@@ -1258,7 +1269,7 @@ Widget _buildUpcomingVaccineCard(
               const SizedBox(height: 16),
               // Buttons
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center, //กรณีซ่อนปุ่ม get direction แล้วย้ายให้ปุ่มเบอร์โทรอยู่ตรงกลาง
                 children: [
 
                  Visibility (
