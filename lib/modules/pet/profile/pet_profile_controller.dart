@@ -78,7 +78,17 @@ class PetProfileController extends GetxController {
     _expandClinicSection.value = !expandClinicSection;
   }
 
-  setDisplaySetModel(PetModel petModel) {
+
+
+  setDisplaySetModel(PetModel petModel) { //ใช้ได้ ปกติ mar
     _displayPetModel.value = petModel;
+
+
+//====new for selected pet mar ====//
+    petModel = petModel;
+  getHealthInfoData();
+  getClinicInformation();
+
+  //end new 
   }
 }

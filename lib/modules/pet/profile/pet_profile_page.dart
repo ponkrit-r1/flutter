@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfilePage extends StatelessWidget {
   PetProfilePage({super.key});
@@ -37,6 +38,7 @@ class PetProfilePage extends StatelessWidget {
 ];
 
 
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -46,63 +48,208 @@ class PetProfilePage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+
+
+
+
+
+
+appBar: PreferredSize(
+  preferredSize: const Size.fromHeight(56),
+  child: AppBar(
+    backgroundColor: Colors.white,
+    elevation: 0.0,
+    centerTitle: true,
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // รูปโปรไฟล์ของสัตว์เลี้ยง
+        Container(
+          padding: const EdgeInsets.all(4),
+          decoration: const BoxDecoration(
+            color: AppColor.secondary500, 
+            shape: BoxShape.circle
+          ),
+          child: ClipOval(
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(16),
+              child: Image.network(
+                controller.petModel.image ?? '',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+
+        // ✅ แสดงชื่อสัตว์เลี้ยง และให้สามารถกดได้
+        InkWell(
+          onTap: () async {
+            _showPetSelectionPopup(context);
+          },
+          child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(4), // Border width
-                decoration: const BoxDecoration(
-                    color: AppColor.secondary500, shape: BoxShape.circle),
-                child: ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(16), // Image radius
-                    child: Image.network(
-                      controller.petModel.image ?? '',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+              Obx(() => Text(
+              controller.displayPetModel.name,
+                
+                style: textTheme(context).headlineSmall?.copyWith(
+                  color: AppColor.textColor,
                 ),
+                overflow: TextOverflow.ellipsis,
+              )),
+              const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: AppColor.textColor,
               ),
-              const SizedBox(width: 8),
-              Text(
-                controller.petName,
-                style: textTheme(context)
-                    .headlineSmall
-                    ?.copyWith(color: AppColor.textColor),
-              ),
-              const SizedBox(width: 8),
-              const Icon(Icons.keyboard_arrow_down_rounded),
             ],
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.qr_code_rounded,
-                color: AppColor.primary500,
-              ),
-              onPressed: () {
-                // Navigate to the QR Code page
-                try {
-                  //  Get.toNamed(Routes.add_pet_tag,
-                  //  arguments: {
-                  //   'petModel' : controller.petModel,
-                  //  });
-
-                  Get.toNamed(Routes.existing_pet_tag, arguments: {
-                    'petModel': controller.petModel,
-                  });
-                  //Get.toNamed(Routes.existing_pet_tag);
-                } catch (e) {
-                  debugPrint("Navigation error: $e");
-                }
-              },
-            ),
-          ],
         ),
+      ],
+    ),
+    actions: [
+      IconButton(
+        icon: const Icon(
+          Icons.qr_code_rounded,
+          color: AppColor.primary500,
+        ),
+        onPressed: () {
+          Get.toNamed(Routes.existing_pet_tag, arguments: {
+            'petModel': controller.petModel,
+          });
+        },
+      ),
+    ],
+  ),
+),
+
+
+
+
+  //       appBar: AppBar(
+  //         backgroundColor: Colors.white,
+  //         elevation: 0.0,
+  //         centerTitle: true,
+
+          
+  //         title: Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Container(
+  //               padding: const EdgeInsets.all(4), // Border width
+  //               decoration: const BoxDecoration(
+  //                   color: AppColor.secondary500, shape: BoxShape.circle),
+  //               child: ClipOval(
+  //                 child: SizedBox.fromSize(
+  //                   size: const Size.fromRadius(16), // Image radius
+  //                   child: Image.network(
+  //                     controller.petModel.image ?? '',
+  //                     fit: BoxFit.cover,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(width: 8),
+
+
+
+
+
+
+
+
+  //             // Text(
+  //             //   controller.petName,
+  //             //   style: textTheme(context)
+  //             //       .headlineSmall
+  //             //       ?.copyWith(color: AppColor.textColor),
+  //             // ),
+  //             // const SizedBox(width: 8),
+  //             // const Icon(Icons.keyboard_arrow_down_rounded),
+
+  // // ✅ เพิ่ม Dropdown ที่ Obx เพื่อตรวจสอบค่าแบบ Reactive mar
+  //  // ✅ ใช้ Flexible เพื่อให้ Dropdown ไม่ขยายเกินขนาด Row
+  //   Flexible(
+  //     child: Obx(() {
+  //       if (_petController.petList.isEmpty) {
+  //         return const SizedBox();
+  //       }
+  //       return DropdownButtonHideUnderline( // ✅ เอาเส้นใต้ dropdown ออก
+  //         child: DropdownButton<PetModel>(
+  //           value: _petController.selectedPet.value,
+  //           icon: const Icon(Icons.keyboard_arrow_down_rounded),
+  //           isExpanded: true, // ✅ ทำให้ dropdown ขยายได้เต็มที่ในพื้นที่จำกัด
+  //           items: _petController.petList.map<DropdownMenuItem<PetModel>>((pet) {
+  //             return DropdownMenuItem<PetModel>(
+  //               value: pet,
+  //               child: Text(
+  //                 pet.name,
+  //                 overflow: TextOverflow.ellipsis, // ✅ ป้องกัน text overflow
+  //                 style: textTheme(context)
+  //                     .headlineSmall
+  //                     ?.copyWith(color: AppColor.textColor),
+  //               ),
+  //             );
+  //           }).toList(),
+  //           onChanged: (PetModel? newValue) {
+  //             if (newValue != null) {
+  //               _petController.updateSelectedPet(newValue);
+  //               controller.setDisplaySetModel(newValue);
+  //             }
+  //           },
+  //         ),
+  //       );
+  //     }),
+  //   ),
+
+
+
+
+
+
+
+
+
+
+
+  //           ],
+  //         ),
+  //         actions: [
+  //           IconButton(
+  //             icon: const Icon(
+  //               Icons.qr_code_rounded,
+  //               color: AppColor.primary500,
+  //             ),
+  //             onPressed: () {
+  //               // Navigate to the QR Code page
+  //               try {
+  //                 //  Get.toNamed(Routes.add_pet_tag,
+  //                 //  arguments: {
+  //                 //   'petModel' : controller.petModel,
+  //                 //  });
+
+  //                 Get.toNamed(Routes.existing_pet_tag, arguments: {
+  //                   'petModel': controller.petModel,
+  //                 });
+  //                 //Get.toNamed(Routes.existing_pet_tag);
+  //               } catch (e) {
+  //                 debugPrint("Navigation error: $e");
+  //               }
+  //             },
+  //           ),
+  //         ],
+  //       ),
+
+
+
+
+
+
+
+
+
+
+
+
         body: SafeArea(
           child: Container(
             color: AppColor.secondaryBgColor,
@@ -159,6 +306,72 @@ class PetProfilePage extends StatelessWidget {
     );
   }
 
+
+void _showPetSelectionPopup(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    isScrollControlled: true, // ✅ เปิดให้ modal scroll ได้
+    builder: (context) {
+      return FractionallySizedBox(
+        heightFactor: 0.6, // ✅ จำกัดความสูงของ popup ไม่เกิน 60% ของหน้าจอ
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header ของ Popup
+              Text(
+               AppLocalizations.of(context)!.choose_pet,
+                style: textTheme(context).headlineSmall,
+              ),
+              const SizedBox(height: 16),
+
+              // ✅ ครอบด้วย Expanded หรือ Flexible เพื่อป้องกัน overflow
+              Expanded(
+                child: Obx(() {
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: _petController.petList.length,
+                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    itemBuilder: (context, index) {
+                      final pet = _petController.petList[index];
+                      return ListTile(
+                        onTap: () {
+                          _petController.updateSelectedPet(pet);
+                          controller.setDisplaySetModel(pet);
+                          Navigator.pop(context); // ปิด Popup
+                        },
+                        title: Text(
+                          pet.name,
+                          style: textTheme(context).bodyMedium,
+                        ),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(pet.image ?? ''),
+                        ),
+                        trailing: _petController.selectedPet.value == pet
+                            ? const Icon(
+                                Icons.check_circle,
+                                color: AppColor.primary500,
+                              )
+                            : null,
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+
   getGenderWidget(String gender) {
     switch (gender) {
       case 'Male':
@@ -213,7 +426,7 @@ class PetProfilePage extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  petModel.name,
+                  petModel.name ,
                   style: textTheme(context).headlineLarge?.copyWith(
                         fontSize: 30,
                         color: AppColor.textColor,
@@ -304,7 +517,7 @@ class PetProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           petInfoSection(
-            'Health information',
+            stringRes(context)!.healthinfo,
             context,
             () {
               navigateToAddHealthInfo();
@@ -327,10 +540,10 @@ class PetProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           petInfoSection(
-            'Clinic information',
+            stringRes(context)!.clinicinfo,
             context,
             () {
-              _navigateToAddClinic();
+              _navigateToAddClinic(context);
             },
             controller.expandClinicSection,
             controller.onToggleClinicSection,
@@ -824,7 +1037,7 @@ Widget _buildUpcomingVaccineCard(
     }
   }
 
-  _navigateToAddClinic() async {
+  _navigateToAddClinic(BuildContext context) async {
     //ด้านล่างของ เดิมที่ comment ใช้ได้ปกติ
     // var result = await Get.toNamed(Routes.addPetClinic, arguments: {
     //   RouteParams.petModel: controller.petModel,
@@ -837,10 +1050,10 @@ Widget _buildUpcomingVaccineCard(
       RouteParams.petModel: controller.petModel,
         'clinic': PetClinic( //เพิ่มใหม่ 18 mar จำลองการ Edit
     id: 1,
-    otherClinicName: 'Pet Care Center',
-    otherClinicTelephone: '012-345-6789',
+    otherClinicName: '',//AppLocalizations.of(context)!.placeholderclinicname,
+    otherClinicTelephone: '',// AppLocalizations.of(context)!.placeholderphone,
     clinicId: 101,
-    petId: 5,
+    petId: 1,
   ),
       
     });
