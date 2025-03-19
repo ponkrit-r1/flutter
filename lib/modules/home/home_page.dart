@@ -51,22 +51,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
  final PetListController _controller = Get.find<PetListController>();
-  final accountcontroller = Get.find<AccountSettingController>();
+
  Timer? _timer;
 String username = '';
   @override
   void initState() {
     super.initState();
-    print("vsdafdsfdsf");
+    print("Start");
     WidgetsBinding.instance.addObserver(this); // Register as an observer
 
     _controller.getMyPet();
     
 
-
-      // ✅ ดึงค่า username จาก controller โดยใช้ Obx
-  username = accountcontroller.profile?.username ?? '';
-  
+ // ✅ เรียก Get.find() เพื่อดึงข้อมูลจาก AccountSettingController
+  try {
+    final accountController = Get.find<AccountSettingController>();
+    username = accountController.profile?.username ?? '';
+  } catch (e) {
+    print('Error loading AccountSettingController: $e');
+  }
 
 
   // _timer = Timer(const Duration(seconds: 5), () {
@@ -86,6 +89,8 @@ String username = '';
 
 @override
 Widget build(BuildContext context) {
+
+
   final double topPadding = MediaQuery.of(context).padding.top;
 
   return Scaffold(
@@ -120,7 +125,7 @@ Widget build(BuildContext context) {
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 180 + topPadding),
+              SizedBox(height: 170 + topPadding),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
@@ -129,7 +134,7 @@ Widget build(BuildContext context) {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 2),
                       _buildPetList(),
                       const SizedBox(height: 10),
                       _buildUpcoming(),
@@ -558,7 +563,7 @@ Widget _buildPetList() {
         height: 90,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           itemCount: petListToDisplay.length + 1, // เพิ่มปุ่ม Add เข้าไป
           itemBuilder: (context, index) {
             // ถ้าเป็นปุ่มสุดท้าย ให้เป็นปุ่ม Add Pet
@@ -580,9 +585,9 @@ Widget _buildPetList() {
                         borderType: BorderType.Circle,
                         color: AppColor.formTextColor,
                         strokeWidth: 1,
-                        child: Container(
-                          width: 36,
-                          height: 36,
+                        child: Container( // ------> ปุ่ม add pet profile
+                          width: 44,
+                          height: 43,
                           padding: const EdgeInsets.all(2),
                           child: const Center(
                             child: Icon(
@@ -621,14 +626,14 @@ Widget _buildPetList() {
       onTap: () {
         navigateToPetProfile(pet);
       },
-      child: Container(
-        margin: const EdgeInsets.only(right: 10),
+      child: Container( //--------------> ขนาด วงกลม pet profile ก่อน ปุ่ม add
+        margin: const EdgeInsets.only(right: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 46,
+              height: 46,
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: AppColor.primaryLight,
@@ -857,6 +862,7 @@ Widget _buildHeader() {
                           fontSize: 26,
                         ),
                   ),
+
 
 
                   TextSpan(

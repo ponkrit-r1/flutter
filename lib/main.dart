@@ -1,5 +1,6 @@
 
 import 'package:deemmi/core/data/api/authentication_api.dart';
+import 'package:deemmi/core/data/api/user_api.dart';
 import 'package:deemmi/core/network/api_client.dart';
 import 'package:deemmi/core/network/url.dart';
 import 'package:deemmi/routes/app_page.dart';
@@ -16,6 +17,9 @@ import 'package:deemmi/modules/authentication/sign_in/sign_in_controller.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:deemmi/core/services/notification_service.dart';
+import 'package:deemmi/modules/settings/account_setting/account_setting_controller.dart';
+import 'package:deemmi/core/data/repository/user_repository.dart';
+import 'package:deemmi/core/domain/auth/user_model.dart';
 
 
 void main() async {
@@ -36,10 +40,24 @@ void main() async {
   Get.put(apiClient, permanent: true);
 
 
+
+
+
   // Initialize AuthenticationAPI for SignInController
   final authAPI = AuthenticationAPI(apiClient, appStorage);
   Get.put(SignInController(authAPI),
       permanent: true); 
+
+
+ //====================================new mar 19 
+  // ✅ เพิ่ม appStorage ใน Constructor ของ UserAPI ด้วย mar 19
+  final userAPI = UserAPI(apiClient, appStorage);
+  Get.put(userAPI, permanent: true);
+    final userRepository = UserRepository(userAPI);
+  Get.put(userRepository, permanent: true);
+  // ✅ Bind AccountSettingController เพื่อใช้ใน HomePage
+  Get.put(AccountSettingController(userRepository), permanent: true);
+//=============================end
 
   await Firebase.initializeApp(); // Initialize Firebase
   NotificationService.initialize(); // Initialize the notification service
@@ -62,6 +80,10 @@ const MyApp({Key? key, required this.initialRoute, required this.initialLocale})
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return GetMaterialApp(
       theme: appThemeData,
       debugShowCheckedModeBanner: false,
