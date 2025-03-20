@@ -12,11 +12,18 @@ import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../core/domain/pet/pet_model.dart';
 
 class PetProfilePage extends StatelessWidget {
   PetProfilePage({super.key});
 
-  final controller = Get.find<PetProfileController>();
+  
+
+  
+
+
+
+ final controller = Get.find<PetProfileController>();
 
   bool isDirectionVisible = false;
 
@@ -343,6 +350,9 @@ void _showPetSelectionPopup(BuildContext context) {
                           _petController.updateSelectedPet(pet);
                           controller.setDisplaySetModel(pet);
                           Navigator.pop(context); // ปิด Popup
+
+                           // ✅ ปิดหน้าเก่าแล้วเปิดใหม่ (เรียก onInit ใหม่)
+                          Get.off(() => PetProfilePage());
                         },
                         title: Text(
                           pet.name,

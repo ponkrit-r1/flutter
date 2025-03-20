@@ -30,6 +30,16 @@ class PetProfileController extends GetxController {
 
   bool get expandClinicSection => _expandClinicSection.value;
 
+@override
+void onInit() { //add 19 mar
+  super.onInit();
+
+  // ✅ ดึงข้อมูลสัตว์เลี้ยงล่าสุด
+  getHealthInfoData();
+  getClinicInformation();
+}
+
+
   @override
   onReady() {
     super.onReady();
@@ -88,7 +98,8 @@ class PetProfileController extends GetxController {
     petModel = petModel;
   getHealthInfoData();
   getClinicInformation();
-
+  // ✅ Refresh เฉพาะ Clinic Section
+  _petClinics.refresh();
   //end new 
   }
 }
