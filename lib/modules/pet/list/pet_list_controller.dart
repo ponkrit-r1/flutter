@@ -30,6 +30,7 @@ class PetListController extends GetxController {
       isLoading.value = true;
       _petList.value = await petRepository.getMyPet();
 
+
        // ✅ ถ้ายังไม่มีค่า ให้เลือกตัวแรกใน list อัตโนมัติ  mar
       if (selectedPet.value == null && _petList.isNotEmpty) {
         selectedPet.value = _petList.first;

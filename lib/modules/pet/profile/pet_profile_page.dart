@@ -314,44 +314,49 @@ appBar: PreferredSize(
   }
 
 
-void _showPetSelectionPopup(BuildContext context) {
+void _showPetSelectionPopup(BuildContext context) async { //ดึงค่าในลิ้สเอาตัวล่าสุดขึ้นมาก่อน
+  // ✅ ดึงข้อมูลล่าสุดก่อนแสดง popup
+  await _petController.getMyPet();
+
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
-    isScrollControlled: true, // ✅ เปิดให้ modal scroll ได้
+    isScrollControlled: true,
     builder: (context) {
       return FractionallySizedBox(
-        heightFactor: 0.6, // ✅ จำกัดความสูงของ popup ไม่เกิน 60% ของหน้าจอ
+        heightFactor: 0.6,
         child: Container(
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header ของ Popup
               Text(
-               AppLocalizations.of(context)!.choose_pet,
+                AppLocalizations.of(context)!.choose_pet,
                 style: textTheme(context).headlineSmall,
               ),
               const SizedBox(height: 16),
 
-              // ✅ ครอบด้วย Expanded หรือ Flexible เพื่อป้องกัน overflow
               Expanded(
                 child: Obx(() {
+                  // ✅ เรียงรายการตามเงื่อนไขล่าสุด (id มาก่อน หรือเวลาล่าสุด)
+                  var sortedPets = _petController.petList.toList()
+                    ..sort((a, b) => b.id!.compareTo(a.id!));
+
                   return ListView.separated(
                     shrinkWrap: true,
-                    itemCount: _petController.petList.length,
+                    itemCount: sortedPets.length,
                     separatorBuilder: (_, __) => const Divider(height: 1),
                     itemBuilder: (context, index) {
-                      final pet = _petController.petList[index];
+                      final pet = sortedPets[index];
                       return ListTile(
                         onTap: () {
                           _petController.updateSelectedPet(pet);
                           controller.setDisplaySetModel(pet);
-                          Navigator.pop(context); // ปิด Popup
 
-                           // ✅ ปิดหน้าเก่าแล้วเปิดใหม่ (เรียก onInit ใหม่)
+                          // ✅ ปิด popup แล้วเปิดหน้าใหม่
+                          Navigator.pop(context);
                           Get.off(() => PetProfilePage());
                         },
                         title: Text(
@@ -379,6 +384,76 @@ void _showPetSelectionPopup(BuildContext context) {
     },
   );
 }
+
+
+// void _showPetSelectionPopup(BuildContext context) { //ใช้ได้ปกติแต่จะเรียงค่าที่เพิ่มล่าสุดไว้อันสุดท้าย
+//   showModalBottomSheet(
+//     context: context,
+//     shape: const RoundedRectangleBorder(
+//       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+//     ),
+//     isScrollControlled: true, // ✅ เปิดให้ modal scroll ได้
+//     builder: (context) {
+//       return FractionallySizedBox(
+//         heightFactor: 0.6, // ✅ จำกัดความสูงของ popup ไม่เกิน 60% ของหน้าจอ
+//         child: Container(
+//           padding: const EdgeInsets.all(16),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               // Header ของ Popup
+//               Text(
+//                AppLocalizations.of(context)!.choose_pet,
+//                 style: textTheme(context).headlineSmall,
+//               ),
+//               const SizedBox(height: 16),
+
+//               // ✅ ครอบด้วย Expanded หรือ Flexible เพื่อป้องกัน overflow
+//               Expanded(
+//                 child: Obx(() {
+//                   return ListView.separated(
+//                     shrinkWrap: true,
+                      
+//                     itemCount: _petController.petList.length,
+//                     separatorBuilder: (_, __) => const Divider(height: 1),
+//                     itemBuilder: (context, index) {
+//                       final pet = _petController.petList[index];
+//                       return ListTile(
+//                         onTap: () {
+              
+//                           _petController.updateSelectedPet(pet);
+//                           //_petController.syncSelectedPet();
+//                           controller.setDisplaySetModel(pet);
+//                           Navigator.pop(context); // ปิด Popup
+
+//                            // ✅ ปิดหน้าเก่าแล้วเปิดใหม่ (เรียก onInit ใหม่)
+//                                       Get.off(() => PetProfilePage());
+//                         },
+//                         title: Text(
+//                           pet.name,
+//                           style: textTheme(context).bodyMedium,
+//                         ),
+//                         leading: CircleAvatar(
+//                           backgroundImage: NetworkImage(pet.image ?? ''),
+//                         ),
+//                         trailing: _petController.selectedPet.value == pet
+//                             ? const Icon(
+//                                 Icons.check_circle,
+//                                 color: AppColor.primary500,
+//                               )
+//                             : null,
+//                       );
+//                     },
+//                   );
+//                 }),
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
 
 
 
