@@ -158,6 +158,7 @@
    "choose_pet" : "Choose your pet",
    "placeholderphone" : "Enter phone number",
    "placeholderclinicname" : "Enter Clinic Name",
+   "cannotcall" : "Cannot launch phone dialer",
    "sterilizationLabel": "Sterilization",
    "yesLabel": "Yes",
    "noLabel": "No",

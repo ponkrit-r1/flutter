@@ -13,6 +13,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../core/domain/pet/pet_model.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class PetProfilePage extends StatelessWidget {
   PetProfilePage({super.key});
@@ -1394,8 +1396,23 @@ Widget _buildUpcomingVaccineCard(
 
                   if (clinic.otherClinicTelephone?.isNotEmpty == true)
                     TextButton.icon(
-                      onPressed: () {
+                      onPressed: () async {
                         // Add call action here
+                         final phoneNumber = clinic.otherClinicTelephone!;
+                          final Uri url = Uri(scheme: 'tel', path: phoneNumber);
+                            if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        // ❌ ถ้าเปิดไม่สำเร็จ ให้แสดง error message
+        Get.snackbar(
+          'Error',
+          stringRes(context)!.cannotcall,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+
                       },
                       icon: Icon(
                         Icons.phone,

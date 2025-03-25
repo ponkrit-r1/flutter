@@ -158,6 +158,7 @@
    "choose_pet" : "เลือกสัตว์เลี้ยง",
    "placeholderphone" : "กรุณาใส่เบอร์โทรศัพท์",
    "placeholderclinicname" : "กรุณาใส่ชื่อคลินิคสัตว์เลี้ยง",
+   "cannotcall" : "ไม่สามารถโทรออกได้",
    "sterilizationLabel": "ทำหมัน",
    "yesLabel": "ใช่",
    "noLabel": "ไม่ใช่",
