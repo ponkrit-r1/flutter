@@ -72,6 +72,8 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             _buildAccountSection(controller),
             const SizedBox(height: 40),
             _buildLogoutButton(),
+            const SizedBox(height: 20),
+            _buildDeleteAccountButton(controller),
           ],
         ),
       ),
@@ -98,7 +100,12 @@ Widget _buildLanguageSelection() {
       children: [
         Text(
           AppLocalizations.of(context)!.language,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                  style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w700, // ตัวหนา
+    fontSize: 16,
+    color: Colors.black,
+  ),
         ),
         const SizedBox(height: 10),
         Row(
@@ -245,6 +252,94 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
     );
   }
 
+
+  Widget _buildDeleteAccountButton(AccountSettingController controller) {
+       final profile = controller.profile;
+  return Container(
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.deleteAccount,
+                style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w700, // ตัวหนา
+    fontSize: 16,
+    color: Colors.red,
+  ),
+              ),
+        content: Text(AppLocalizations.of(context)!.deletAccountMessage
+        ,
+          style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w300, // ตัวหนา
+    fontSize: 14,
+    color: Colors.black,
+  ),),
+
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(AppLocalizations.of(context)!.deleteAccountCancel,
+                                  style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w300, // ตัวหนา
+    fontSize: 16,
+    color: Colors.black,
+  ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // เรียกฟังก์ชัน mock API
+                    // ตัวอย่าง: print("ยืนยันลบบัญชี");
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.red,
+                  ),
+                  child: Text(AppLocalizations.of(context)!.deleteAccountOk,
+                                                    style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w300, // ตัวหนา
+    fontSize: 14,
+    color: Colors.black,
+  ),
+                  ),
+                ),
+              ],
+            );
+          },
+          barrierDismissible: false,
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.white,
+        side: const BorderSide(color: Colors.red),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+      ),
+   child: Text(
+  AppLocalizations.of(context)!.deleteAccount,
+                                  style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w700, // ตัวหนา
+    fontSize: 16,
+    color: Colors.white,
+  ),
+),
+    ),
+  );
+}
+
+
   Future<void> _navigateToUpdate(String route, Map<String, String> arguments,
       AccountSettingController controller) async {
     try {
@@ -267,10 +362,12 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
             flex: 2,
             child: Text(
               title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
-              ),
+                                           style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w500, // ตัวหนา
+    fontSize: 14,
+    color: Colors.black,
+  ),
             ),
           ),
           Expanded(
@@ -279,10 +376,12 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
               alignment: Alignment.centerRight,
               child: Text(
                 value,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
+                                                 style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w300, // ตัวหนา
+    fontSize: 14,
+    color: Colors.black,
+  ),
               ),
             ),
           ),
@@ -317,7 +416,17 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
         ),
         child:  Text(AppLocalizations.of(context)!.logout
         ,
-         style: const TextStyle(color: Colors.red)),
+                                         style: const TextStyle(
+    fontFamily: 'NotoSansThai',
+    fontWeight: FontWeight.w700, // ตัวหนา
+    fontSize: 16,
+    color: Colors.red,
+  ),
+         
+         
+         
+         
+         ),
       ),
     );
   }

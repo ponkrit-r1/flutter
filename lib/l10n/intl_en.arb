@@ -159,6 +159,11 @@
    "placeholderphone" : "Enter phone number",
    "placeholderclinicname" : "Enter Clinic Name",
    "cannotcall" : "Cannot launch phone dialer",
+   "deleteAccount" : "Delete Account",
+   "deletAccountMessage" : "Are you sure you want to delete this account ? ",
+ 
+   "deleteAccountCancel" : "Cancel",
+   "deleteAccountOk" : "Ok",
    "sterilizationLabel": "Sterilization",
    "yesLabel": "Yes",
    "noLabel": "No",
