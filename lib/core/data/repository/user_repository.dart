@@ -21,6 +21,11 @@ class UserRepository {
   }
 
   // user_repository.dart
+  Future<bool> deleteUser() async {
+    return await userAPI.delete();
+  }
+
+  // user_repository.dart
   Future<Map<String, dynamic>> changePassword({
     required String currentPassword,
     required String newPassword,

@@ -40,6 +40,16 @@ class UserAPI {
     return User.fromJson(response.data);
   }
 
+  Future<bool> delete() async {
+    var response = await apiClient.deleteHTTP('/user-detail/');
+    
+    if (response?.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to delete user');
+    }
+  }
+
 //update username account setting  field
 Future<bool> updateUsername(String username) async {
     try {

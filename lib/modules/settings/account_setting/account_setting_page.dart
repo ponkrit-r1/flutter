@@ -1,3 +1,4 @@
+import 'package:deemmi/core/data/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,10 +17,12 @@ class AccountSettingPage extends StatefulWidget {
 
 class _AccountSettingPageState extends State<AccountSettingPage> {
   String _selectedLanguage = 'th';
+  late final UserRepository userRepository;
 
   @override
   void initState() {
     super.initState();
+    userRepository = Get.find<UserRepository>();
     _loadLanguagePreference();
   }
 
@@ -294,10 +297,23 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // เรียกฟังก์ชัน mock API
                     // ตัวอย่าง: print("ยืนยันลบบัญชี");
                     Navigator.of(context).pop();
+
+                    try {
+                      var response = await userRepository.deleteUser();
+
+                      if (response == true) {
+                        // Show success or redirect to login screen
+                        Get.find<SignInController>().signOut(); // Log out after deletion
+                      } else {
+                        Get.snackbar("Error", "Failed to delete account");
+                      }
+                    } catch (e) {
+                      Get.snackbar("Error", "Something went wrong: $e");
+                    }
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.red,
