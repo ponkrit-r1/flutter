@@ -3,7 +3,6 @@ import 'package:deemmi/core/utils/widget_extension.dart';
 import 'package:deemmi/modules/authentication/verification/otp_verification_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../core/theme/app_colors.dart';

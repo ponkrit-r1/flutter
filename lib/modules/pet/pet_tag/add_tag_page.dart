@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
 
 class AddTagPage extends StatelessWidget {
-  const AddTagPage({Key? key}) : super(key: key);
+  const AddTagPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AddTagPage extends StatelessWidget {
 class AddTagPageContent extends StatelessWidget {
   final dynamic petModel; // Declare petModel as class-level field
 
-  const AddTagPageContent({Key? key, required this.petModel}) : super(key: key);
+  const AddTagPageContent({super.key, required this.petModel});
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +227,7 @@ class AddTagPageContent extends StatelessWidget {
 }
 
 class QrCodeScannerPage extends StatelessWidget {
-  const QrCodeScannerPage({Key? key}) : super(key: key);
+  const QrCodeScannerPage({super.key});
 
   @override
   Widget build(BuildContext context) {

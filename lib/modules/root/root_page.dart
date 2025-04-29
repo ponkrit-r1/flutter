@@ -4,7 +4,7 @@ import 'package:deemmi/modules/home/home_page.dart';
 import 'package:deemmi/modules/pet/list/pet_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'dart:io';
 
 class RootPage extends StatefulWidget {
@@ -33,32 +33,32 @@ class _RootPageState extends State<RootPage> {
         navBarHeight: 100, //100
         items: _navBarsItems(),
         onItemSelected: _onItemSelected,
-        confineInSafeArea: true,
+        // confineInSafeArea: true,
         backgroundColor: AppColor.primary500, // เปลี่ยนพื้นหลังเป็นสีน้ำเงิน
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
         stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
+        // hideNavigationBarWhenKeyboardShows: true,
         decoration: const NavBarDecoration(
           borderRadius: BorderRadius.zero,
           colorBehindNavBar: Colors.transparent,
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
+        // popAllScreensOnTapOfSelectedTab: true,
+        // popActionScreens: PopActionScreensType.all,
+        // itemAnimationProperties: const ItemAnimationProperties(
+        //   duration: Duration(milliseconds: 200),
+        //   curve: Curves.ease,
+        // ),
+        // screenTransitionAnimation: const ScreenTransitionAnimation(
+        //   animateTabTransition: true,
+        //   curve: Curves.ease,
+        //   duration: Duration(milliseconds: 200),
+        // ),
         // padding: const NavBarPadding.only(top: 30 , bottom: 20), // เพิ่มระยะด้านบน button icon menu 30,20
        // padding: const NavBarPadding.symmetric(horizontal: 8, vertical:27),
-         padding: Platform.isIOS 
-      ? const NavBarPadding.only(top: 40, bottom: 10) // สำหรับ iOS
-      : const NavBarPadding.only(top: 30, bottom: 20), // สำหรับ Android
+      //    padding: Platform.isIOS 
+      // ? const NavBarPadding.only(top: 40, bottom: 10) // สำหรับ iOS
+      // : const NavBarPadding.only(top: 30, bottom: 20), // สำหรับ Android
         navBarStyle: NavBarStyle.style6,
       ),
            Positioned(

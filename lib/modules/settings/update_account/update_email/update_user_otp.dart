@@ -5,7 +5,7 @@ import 'package:deemmi/core/theme/app_colors.dart'; // Replace with actual impor
 import 'package:get/get.dart';
 
 class OTPVerificationPage extends StatefulWidget {
-  const OTPVerificationPage({Key? key}) : super(key: key);
+  const OTPVerificationPage({super.key});
 
   @override
   _OTPVerificationPageState createState() => _OTPVerificationPageState();

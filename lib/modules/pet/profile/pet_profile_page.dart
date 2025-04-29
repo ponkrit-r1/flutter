@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../core/domain/pet/pet_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 

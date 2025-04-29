@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:deemmi/modules/settings/update_account/update_username/update_username_controller.dart';
 
 class UpdateUsernamePage extends StatelessWidget {
-  const UpdateUsernamePage({Key? key}) : super(key: key);
+  const UpdateUsernamePage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -30,12 +30,12 @@ if (settings.authorizationStatus == AuthorizationStatus.authorized) {
 
     await _flutterLocalNotificationsPlugin.initialize(
       initSettings,
-      onSelectNotification: (String? payload) async {
-        if (payload != null) {
-          // Navigate to the specified route when notification is tapped
-          Get.toNamed(payload);
-        }
-      },
+      // onSelectNotification: (String? payload) async {
+      //   if (payload != null) {
+      //     // Navigate to the specified route when notification is tapped
+      //     Get.toNamed(payload);
+      //   }
+      // },
     );
 
     // Handle messages while the app is in the foreground

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:deemmi/core/domain/pet/pet_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../routes/app_routes.dart';
 
 class EditPetProtectionPage extends StatefulWidget {
   const EditPetProtectionPage({super.key});

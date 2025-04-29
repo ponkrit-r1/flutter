@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
 
 class UpdateEmailPage extends StatelessWidget {
-  const UpdateEmailPage({Key? key}) : super(key: key); 
+  const UpdateEmailPage({super.key}); 
 
   // Controller to capture email input
   //final TextEditingController emailController = TextEditingController();

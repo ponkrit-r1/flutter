@@ -3,6 +3,11 @@ allprojects {
         google()
         mavenCentral()
     }
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs << "-Xlint:-options"
+        options.compilerArgs.removeAll { it == "-Werror" }
+    }
+
 }
 
 buildscript {

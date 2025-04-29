@@ -3,7 +3,7 @@ import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:get/get.dart';
 
 class AddTagDetailQrPage extends StatelessWidget {
-  const AddTagDetailQrPage({Key? key}) : super(key: key);
+  const AddTagDetailQrPage({super.key});
 
   @override
   Widget build(BuildContext context) {

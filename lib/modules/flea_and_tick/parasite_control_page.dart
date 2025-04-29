@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_controller.dart';

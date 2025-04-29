@@ -74,8 +74,7 @@ class MyApp extends StatelessWidget {
   final String initialRoute;
   final Locale initialLocale;
 
-const MyApp({Key? key, required this.initialRoute, required this.initialLocale})
-      : super(key: key);
+const MyApp({super.key, required this.initialRoute, required this.initialLocale});
   // const MyApp({Key? key, required this.initialRoute}) : super(key: key);
 
   @override

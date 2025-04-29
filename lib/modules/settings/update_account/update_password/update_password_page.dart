@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:deemmi/modules/settings/update_account/update_password/update_password_controller.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({Key? key}) : super(key: key);
+  const ChangePasswordPage({super.key});
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();

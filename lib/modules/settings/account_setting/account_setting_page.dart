@@ -9,7 +9,7 @@ import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSettingPage extends StatefulWidget {
-  const AccountSettingPage({Key? key}) : super(key: key);
+  const AccountSettingPage({super.key});
 
   @override
   State<AccountSettingPage> createState() => _AccountSettingPageState();

@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/domain/pet/pet_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 

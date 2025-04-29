@@ -11,10 +11,7 @@ import '../../../routes/app_routes.dart';
 import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 
 import '../../../core/domain/pet/pet_model.dart';
-import '../../../core/global_widgets/global_confirm_dialog.dart';
-import '../../../core/theme/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:io';
 import 'package:deemmi/modules/settings/account_setting/account_setting_controller.dart';
 
 const mockDogImage =

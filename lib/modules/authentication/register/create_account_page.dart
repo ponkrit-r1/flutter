@@ -296,7 +296,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         onChanged: null,
         side: const BorderSide(color: AppColor.borderColor),
         checkColor: Colors.white,
-        fillColor: MaterialStateProperty.all(
+        fillColor: WidgetStateProperty.all(
             _controller.isTermAccepted ? AppColor.primary500 : Colors.white),
         controlAffinity:
             ListTileControlAffinity.leading, //  <-- leading Checkbox
