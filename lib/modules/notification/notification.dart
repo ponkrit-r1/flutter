@@ -57,7 +57,7 @@ class NotificationPage extends StatelessWidget {
     required IconData icon,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       color: isNew ? Colors.blue.shade100 : Colors.transparent,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class NotificationPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,

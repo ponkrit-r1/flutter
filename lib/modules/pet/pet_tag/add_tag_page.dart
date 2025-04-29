@@ -99,7 +99,7 @@ class AddTagPageContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Divider(
+            const Divider(
               color: Colors.grey,
               thickness: 1,
             ),
@@ -119,9 +119,9 @@ class AddTagPageContent extends StatelessWidget {
                 ],
               ),
               padding: const EdgeInsets.all(16.0),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'Tag ID',
                     style: TextStyle(

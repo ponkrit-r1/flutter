@@ -26,7 +26,7 @@ class SecondaryButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0),
                   side: BorderSide(color: activeColor)),
-              textStyle: Theme.of(context).textTheme.button),
+              textStyle: Theme.of(context).textTheme.labelLarge),
         ),
       ),
       child: ElevatedButton(

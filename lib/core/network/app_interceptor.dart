@@ -33,7 +33,7 @@ class AppInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
     // There are many
     if (err.response?.statusCode == 401) {
       debugPrint('Need refresh');
@@ -66,7 +66,7 @@ class AppInterceptor extends Interceptor {
   }
 
   Future<void> handleRetryRequest(
-    DioError err,
+    DioException err,
     ErrorInterceptorHandler handler,
   ) async {
     try {

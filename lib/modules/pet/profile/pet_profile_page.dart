@@ -480,16 +480,16 @@ void _showPetSelectionPopup(BuildContext context) async { //ดึงค่า�
     return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('ยืนยันการออก'),
-            content: Text('คุณต้องการออกจากหน้านี้หรือไม่?'),
+            title: const Text('ยืนยันการออก'),
+            content: const Text('คุณต้องการออกจากหน้านี้หรือไม่?'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text('ยกเลิก'),
+                child: const Text('ยกเลิก'),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text('ตกลง'),
+                child: const Text('ตกลง'),
               ),
             ],
           ),
@@ -961,7 +961,7 @@ Widget _buildUpcomingVaccineCard(
             ),
             child: Container(
               width: 6, // ✅ เพิ่มความกว้างให้ชัดขึ้น
-               color: Color(0xFF63F2BE), // ✅ สีขอบซ้าย
+               color: const Color(0xFF63F2BE), // ✅ สีขอบซ้าย
             ),
           ),
         ),

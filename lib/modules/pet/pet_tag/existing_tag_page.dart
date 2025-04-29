@@ -84,10 +84,10 @@ class ExistingTagPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                            // petModel.tagId ?? 'PTG-012345'
                             'PTG-012345',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
@@ -116,9 +116,9 @@ class ExistingTagPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text( //petModel.phoneNumber ?? '080 123 4567'
+                          const Text( //petModel.phoneNumber ?? '080 123 4567'
                              '080 123 4567',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),

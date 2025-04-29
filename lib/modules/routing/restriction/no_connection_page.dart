@@ -8,6 +8,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 class NoConnectionPage extends StatelessWidget {
+  const NoConnectionPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

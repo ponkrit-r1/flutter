@@ -90,7 +90,7 @@ const MyApp({Key? key, required this.initialRoute, required this.initialLocale})
       title: 'Pettagu',
       builder: (context, child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
           child: child ?? const SizedBox.shrink(),
         );
       },

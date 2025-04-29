@@ -72,7 +72,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       _startTimer();
       _isOtpIncorrect = false;
       _isButtonEnabled = false;
-      _otpControllers.forEach((controller) => controller.clear());
+      for (var controller in _otpControllers) {
+        controller.clear();
+      }
     });
 
     // Re-focus the first input field after clearing
@@ -239,7 +241,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              contentPadding: EdgeInsets.all(20),
+                              contentPadding: const EdgeInsets.all(20),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

@@ -197,7 +197,7 @@ class _PetListPageState extends State<PetListPage> {
                     Text(
                       petModel.name,
                       style: textTheme(context)
-                          .headline4!
+                          .headlineMedium!
                           .copyWith(color: AppColor.primary500),
                     ),
                     const SizedBox(height: 8),

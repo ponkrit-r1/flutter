@@ -68,7 +68,7 @@ class UpdatePasswordController extends GetxController {
         _error.value = response['data'] ?? "Failed to change the password.";
       }
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         if (e.response != null && e.response!.data is Map<String, dynamic>) {
           // Extracting the exact error message from the API response
           _error.value = e.response!.data['message'] ?? "An error occurred.";

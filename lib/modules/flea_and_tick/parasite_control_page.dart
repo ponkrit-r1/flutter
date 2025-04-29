@@ -18,6 +18,8 @@ class ParasiteCategory {
   });
 }
 class ParasiteControlPage extends StatefulWidget {
+  const ParasiteControlPage({super.key});
+
    @override
   _ParasiteControlPageState createState() => _ParasiteControlPageState();
 }
@@ -97,9 +99,9 @@ class _ParasiteControlPageState extends State<ParasiteControlPage> {
   void initState() {
     super.initState();
     // กำหนดค่าเริ่มต้นให้ทุกปีเป็น collapsed
-    historyData.keys.forEach((year) {
+    for (var year in historyData.keys) {
       expandedYears[year] = false;
-    });
+    }
   }
 
 
@@ -357,7 +359,7 @@ Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 15
             crossAxisAlignment: CrossAxisAlignment.start,
             children: category.parasites.map((p) => Row(
               children: [
-                Icon(Icons.check, color: Colors.green, size: 16), // ✅ ไอคอน ✔
+                const Icon(Icons.check, color: Colors.green, size: 16), // ✅ ไอคอน ✔
                 const SizedBox(width: 4),
                 Text(p, style: const TextStyle(color: Colors.black)),
               ],
@@ -477,7 +479,7 @@ void _showActionSheet(BuildContext context, Map<String, String> item) {
     context: context,
     backgroundColor: Colors.white, // ✅ ตั้งค่าให้พื้นหลังเป็นสีขาว
     barrierColor: Colors.black54,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)), // ✅ มุมโค้งด้านบน
     ),
     builder: (BuildContext context) {

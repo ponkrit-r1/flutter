@@ -5,6 +5,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 class MakeAppointmentPage extends StatefulWidget {
+  const MakeAppointmentPage({super.key});
+
   @override
   _MakeAppointmentPageState createState() => _MakeAppointmentPageState();
 }
@@ -23,8 +25,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
 
     if (petModel == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Error")),
-        body: Center(child: Text("Pet data is missing!")),
+        appBar: AppBar(title: const Text("Error")),
+        body: const Center(child: Text("Pet data is missing!")),
       );
     }
     return Scaffold(
@@ -47,9 +49,9 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "DHPPi (1st dose)",
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 4),
@@ -89,7 +91,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
                     icon: Icons.access_time,
                     hintText: selectedTime == null
                         ? "Select time"
-                        : "${selectedTime!.format(context)}",
+                        : selectedTime!.format(context),
                     onTap: () async {
                       TimeOfDay? picked = await showTimePicker(
                         context: context,
@@ -138,7 +140,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 30, 33, 212),
+                  backgroundColor: const Color.fromARGB(255, 30, 33, 212),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),

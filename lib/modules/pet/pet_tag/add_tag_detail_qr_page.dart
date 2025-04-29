@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
 
 class AddTagDetailQrPage extends StatelessWidget {
   const AddTagDetailQrPage({Key? key}) : super(key: key);

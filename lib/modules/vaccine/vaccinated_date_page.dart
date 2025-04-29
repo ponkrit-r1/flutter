@@ -5,6 +5,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 class VaccinatedDatePage extends StatefulWidget {
+  const VaccinatedDatePage({super.key});
+
   @override
   _VaccinatedDatePageState createState() => _VaccinatedDatePageState();
 }
@@ -23,8 +25,8 @@ class _VaccinatedDatePageState extends State<VaccinatedDatePage> {
 
     if (petModel == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Error")),
-        body: Center(child: Text("Pet data is missing!")),
+        appBar: AppBar(title: const Text("Error")),
+        body: const Center(child: Text("Pet data is missing!")),
       );
     }
     return Scaffold(
@@ -47,9 +49,9 @@ class _VaccinatedDatePageState extends State<VaccinatedDatePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "DHPPi (1st dose)",
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 4),
@@ -103,7 +105,7 @@ _buildRoundedDropdown(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 30, 33, 212),
+                  backgroundColor: const Color.fromARGB(255, 30, 33, 212),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),

@@ -47,7 +47,6 @@ import 'package:deemmi/modules/settings/update_account/update_password/update_pa
 import 'package:deemmi/modules/pet/pet_tag/add_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/existing_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/add_tag_detail_qr_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';

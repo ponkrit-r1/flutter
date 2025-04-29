@@ -45,7 +45,7 @@ class ConfirmDialog extends StatelessWidget {
             Center(
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: AppColor.textColor, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
@@ -58,7 +58,7 @@ class ConfirmDialog extends StatelessWidget {
                 description,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(color: AppColor.secondaryContentGray),
                 textAlign: TextAlign.center,
               ),

@@ -1,9 +1,6 @@
-import 'package:deemmi/core/global_widgets/primary_button.dart';
 import 'package:deemmi/core/global_widgets/primary_style_button.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';

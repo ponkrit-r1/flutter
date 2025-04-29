@@ -5,9 +5,6 @@ import 'package:deemmi/modules/pet/list/pet_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import '../../../core/domain/pet/pet_model.dart';
-import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
-import 'package:get/get.dart';
 import 'dart:io';
 
 class RootPage extends StatefulWidget {

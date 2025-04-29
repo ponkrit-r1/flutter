@@ -137,7 +137,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     final defaultPinTheme = PinTheme(
       width: 47,
       height: 48,
-      textStyle: Theme.of(context).textTheme.headline5,
+      textStyle: Theme.of(context).textTheme.headlineSmall,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(

@@ -133,7 +133,7 @@ class UpdateNamePage extends StatelessWidget {
                 width: double.infinity,
                 child: Obx(() {
                   if (controller.isUpdating) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   return ElevatedButton(
                     onPressed: () {

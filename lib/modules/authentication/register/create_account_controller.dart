@@ -150,7 +150,7 @@ class CreateAccountController extends GetxController {
     print("Account response: $accountResponse");
       return accountResponse;
     } catch (e) {
-        print("=====register api error 2 ======"+e.toString());
+        print("=====register api error 2 ======$e");
     
 
       if (e is AppError) {

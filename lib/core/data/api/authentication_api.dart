@@ -37,7 +37,7 @@ class AuthenticationAPI {
 
   Future<TermData> getLatestConditionFile() async {
     var response = await apiClient.getHTTP('/user-condition/condition_file');
-    print("--------->           term <---------"+response.toString());
+    print("--------->           term <---------$response");
     return TermData.fromJson(response.data);
   }
 

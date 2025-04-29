@@ -23,6 +23,8 @@ class Dose {
 }
 
 class VaccineProgramPage extends StatefulWidget {
+  const VaccineProgramPage({super.key});
+
   @override
   _VaccineProgramPageState createState() => _VaccineProgramPageState();
 }
@@ -140,12 +142,12 @@ doseList2,
         color: Colors.red[100],
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(Icons.warning, color: Colors.red),
-          const SizedBox(width: 8),
+          Icon(Icons.warning, color: Colors.red),
+          SizedBox(width: 8),
           Expanded(
-            child: const Text(
+            child: Text(
               'สัตว์เลี้ยงอายุต่ำกว่า 4 เดือน จำเป็นต้องได้รับวัคซีนรวมและพิษสุนัขบ้า อย่างละ 2 เข็ม',
               style: TextStyle(color: Colors.red, fontSize: 14),
             ),

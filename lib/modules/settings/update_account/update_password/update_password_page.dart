@@ -87,7 +87,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 width: double.infinity,
                 child: Obx(() {
                   if (controller.isUpdating) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   return ElevatedButton(
                     onPressed: () {
@@ -125,7 +125,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       children: [
         Text(
           hintText,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.black87,

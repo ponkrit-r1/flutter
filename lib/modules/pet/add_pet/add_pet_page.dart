@@ -638,7 +638,7 @@ Widget _dropDownFormField<T>(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: EdgeInsets.all(12),
+            contentPadding: const EdgeInsets.all(12),
           ),
         ),
       ),
@@ -652,8 +652,8 @@ Widget _dropDownFormField<T>(
       onChanged: (T? value) {
         onItemSelected(value);
       },
-      dropdownButtonProps: DropdownButtonProps(
-        icon: const Icon(
+      dropdownButtonProps: const DropdownButtonProps(
+        icon: Icon(
           Icons.keyboard_arrow_down_rounded,
           color: AppColor.secondaryContentGray,
         ),
@@ -938,7 +938,7 @@ Widget _dropDownFormField<T>(
                 },
                 child: Text(
                   stringRes(context)!.doneLabel,
-                  style: textTheme(context)!
+                  style: textTheme(context)
                       .labelLarge
                       ?.copyWith(color: AppColor.primary500),
                 )),

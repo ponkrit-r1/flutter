@@ -8,6 +8,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 class EditPetProtectionPage extends StatefulWidget {
+  const EditPetProtectionPage({super.key});
+
   @override
   _EditPetProtectionPageState createState() => _EditPetProtectionPageState();
 }
