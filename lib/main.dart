@@ -1,4 +1,3 @@
-
 import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/data/api/user_api.dart';
 import 'package:deemmi/core/network/api_client.dart';
@@ -21,11 +20,10 @@ import 'package:deemmi/modules/settings/account_setting/account_setting_controll
 import 'package:deemmi/core/data/repository/user_repository.dart';
 import 'package:deemmi/core/domain/auth/user_model.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-    // โหลดภาษาเริ่มต้นจาก SharedPreferences
+  // โหลดภาษาเริ่มต้นจาก SharedPreferences
   final prefs = await SharedPreferences.getInstance();
   final String languageCode = prefs.getString('language') ?? 'en';
 
@@ -39,21 +37,15 @@ void main() async {
   Get.put(appStorage, permanent: true);
   Get.put(apiClient, permanent: true);
 
-
-
-
-
   // Initialize AuthenticationAPI for SignInController
   final authAPI = AuthenticationAPI(apiClient, appStorage);
-  Get.put(SignInController(authAPI),
-      permanent: true); 
+  Get.put(SignInController(authAPI), permanent: true);
 
-
- //====================================new mar 19 
+  //====================================new mar 19
   // ✅ เพิ่ม appStorage ใน Constructor ของ UserAPI ด้วย mar 19
   final userAPI = UserAPI(apiClient, appStorage);
   Get.put(userAPI, permanent: true);
-    final userRepository = UserRepository(userAPI);
+  final userRepository = UserRepository(userAPI);
   Get.put(userRepository, permanent: true);
   // ✅ Bind AccountSettingController เพื่อใช้ใน HomePage
   Get.put(AccountSettingController(userRepository), permanent: true);
@@ -62,8 +54,7 @@ void main() async {
   await Firebase.initializeApp(); // Initialize Firebase
   NotificationService.initialize(); // Initialize the notification service
 
-
- runApp(MyApp(
+  runApp(MyApp(
     initialRoute: Routes.routing,
     initialLocale: Locale(languageCode),
   ));
@@ -74,29 +65,26 @@ class MyApp extends StatelessWidget {
   final String initialRoute;
   final Locale initialLocale;
 
-const MyApp({super.key, required this.initialRoute, required this.initialLocale});
+  const MyApp(
+      {super.key, required this.initialRoute, required this.initialLocale});
   // const MyApp({Key? key, required this.initialRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return GetMaterialApp(
       theme: appThemeData,
       debugShowCheckedModeBanner: false,
       title: 'Pettagu',
       builder: (context, child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: TextScaler.linear(1.0)),
           child: child ?? const SizedBox.shrink(),
         );
       },
-
       locale: initialLocale,
       fallbackLocale: const Locale('en'),
-     supportedLocales: const [
+      supportedLocales: const [
         Locale('en'), // ภาษาอังกฤษ
         Locale('th'), // ภาษาไทย
       ],
@@ -106,8 +94,6 @@ const MyApp({super.key, required this.initialRoute, required this.initialLocale}
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      
-  
       getPages: AppPages.pages,
       initialRoute: initialRoute,
     );

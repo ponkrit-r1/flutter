@@ -90,16 +90,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               title: stringRes(context)!.continueWithOtpLabel,
                               onPressed: _controller.isInformationCompleted
                                   ? () async {
-                                      print("=====isInformationCompleted=====: ${_controller.isInformationCompleted}");
+                                      print(
+                                          "=====isInformationCompleted=====: ${_controller.isInformationCompleted}");
 
                                       var isInformationCompleted = _controller
                                           .checkAndDisplayFieldError();
-                                          print("============Field error check=========: $isInformationCompleted");
+                                      print(
+                                          "============Field error check=========: $isInformationCompleted");
                                       if (isInformationCompleted) {
-                                           print("====confirm data=====");
+                                        print("====confirm data=====");
                                         var response =
                                             await _controller.createAccount();
-                                          print("======Response: $response");
+                                        print("======Response: $response");
                                         if (response != null) {
                                           navigateToOtpVerification(response);
                                         }

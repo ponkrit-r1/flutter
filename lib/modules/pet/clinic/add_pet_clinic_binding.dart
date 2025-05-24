@@ -11,7 +11,7 @@ class AddPetClinicBinding extends Bindings {
   void dependencies() {
     PetModel editingPet = Get.arguments[RouteParams.petModel];
     Get.lazyPut(
-          () => AddPetClinicController(
+      () => AddPetClinicController(
         PetRepository(
           PetAPI(
             Get.find(),

@@ -18,7 +18,7 @@ class PetProfileController extends GetxController {
 
   PetHealthInfo? get healthInfo => _healthInfo.value;
 
-  final RxList<PetClinic> _petClinics = RxList<PetClinic>([]);//RxList.empty();
+  final RxList<PetClinic> _petClinics = RxList<PetClinic>([]); //RxList.empty();
 
   List<PetClinic> get petClinics => _petClinics;
 
@@ -30,15 +30,15 @@ class PetProfileController extends GetxController {
 
   bool get expandClinicSection => _expandClinicSection.value;
 
-@override
-void onInit() { //add 19 mar
-  super.onInit();
+  @override
+  void onInit() {
+    //add 19 mar
+    super.onInit();
 
-  // ✅ ดึงข้อมูลสัตว์เลี้ยงล่าสุด
-  getHealthInfoData();
-  getClinicInformation();
-}
-
+    // ✅ ดึงข้อมูลสัตว์เลี้ยงล่าสุด
+    getHealthInfoData();
+    getClinicInformation();
+  }
 
   @override
   onReady() {
@@ -67,37 +67,32 @@ void onInit() { //add 19 mar
     _healthInfo.value = await petRepository.getPetHealthInfo(petModel);
   }
 
-   getHealthInfoDataWithNewSelect(PetModel petModel) async {
+  getHealthInfoDataWithNewSelect(PetModel petModel) async {
     _healthInfo.value = await petRepository.getPetHealthInfo(petModel);
   }
 
+  Future<List<PetClinic>> getClinicInformationWithNewSelect(
+      PetModel petModel) async {
+    if (petModel.id == null) return [];
 
-Future<List<PetClinic>> getClinicInformationWithNewSelect(PetModel petModel) async {
-  if (petModel.id == null) return [];
+    // ✅ ดึงข้อมูล Clinic ตาม petModel.id จาก API
+    var petClinics = await petRepository.getPetClinicById(petModel.id!);
 
-  // ✅ ดึงข้อมูล Clinic ตาม petModel.id จาก API
-  var petClinics = await petRepository.getPetClinicById(petModel.id!);
+    // ✅ ส่งค่าเข้า state เพื่อ refresh UI
+    getPetClinicWithNewSelect(petClinics);
 
-  // ✅ ส่งค่าเข้า state เพื่อ refresh UI
-  getPetClinicWithNewSelect(petClinics);
+    return petClinics;
+  }
 
-  return petClinics;
-}
-
-void getPetClinicWithNewSelect(List<PetClinic> clinics) {
-  _petClinics.value = clinics;
-  _petClinics.refresh(); // ✅ Refresh UI
-}
-
-
-
+  void getPetClinicWithNewSelect(List<PetClinic> clinics) {
+    _petClinics.value = clinics;
+    _petClinics.refresh(); // ✅ Refresh UI
+  }
 
   getClinicInformation() async {
     var availableClinic = await petRepository.getClinic();
     getPetClinic(availableClinic);
   }
-
-
 
   getPetClinic(List<Clinic> clinics) async {
     var response = await petRepository.getPetClinicById(petModel.id!);
@@ -115,22 +110,22 @@ void getPetClinicWithNewSelect(List<PetClinic> clinics) {
     _expandClinicSection.value = !expandClinicSection;
   }
 
-  setDisplaySetModel(PetModel petModel) async{ //ใช้ได้ ปกติ mar
+  setDisplaySetModel(PetModel petModel) async {
+    //ใช้ได้ ปกติ mar
     _displayPetModel.value = petModel;
 
 //====new for selected pet mar ====//
     petModel = petModel;
-  // ✅ เรียกฟังก์ชันเพื่ออัปเดตข้อมูลสุขภาพ
-  await getHealthInfoDataWithNewSelect(petModel);
+    // ✅ เรียกฟังก์ชันเพื่ออัปเดตข้อมูลสุขภาพ
+    await getHealthInfoDataWithNewSelect(petModel);
 
-  // ✅ ดึงข้อมูลคลินิกใหม่ และอัปเดต state
-  await getClinicInformationWithNewSelect(petModel);
-  //end new 
+    // ✅ ดึงข้อมูลคลินิกใหม่ และอัปเดต state
+    await getClinicInformationWithNewSelect(petModel);
+    //end new
   }
 
 //   setDisplaySetModel(PetModel petModel) { //ใช้ได้ ปกติ mar ใช้ได้
 //     _displayPetModel.value = petModel;
-
 
 // //====new for selected pet mar ====//
 //     petModel = petModel;
@@ -138,6 +133,6 @@ void getPetClinicWithNewSelect(List<PetClinic> clinics) {
 //    getClinicInformation();
 //   // ✅ Refresh เฉพาะ Clinic Section
 //   _petClinics.refresh();
-//   //end new 
+//   //end new
 //   }
 }

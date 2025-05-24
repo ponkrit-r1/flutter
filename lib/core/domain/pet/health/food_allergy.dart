@@ -4,8 +4,8 @@ class FoodAllergy {
   String name;
 
   FoodAllergy({
-     this.id,
-     this.pet,
+    this.id,
+    this.pet,
     required this.name,
   });
 

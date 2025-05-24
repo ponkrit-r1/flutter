@@ -26,7 +26,7 @@ class AccountSettingController extends GetxController {
   getMyProfile() async {
     _profile.value = await userRepository.getMyProfile();
 
-    print('${ _profile.value} <-------------  _profile.value');
+    print('${_profile.value} <-------------  _profile.value');
     update();
   }
 

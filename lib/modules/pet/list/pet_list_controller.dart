@@ -9,7 +9,8 @@ class PetListController extends GetxController {
 
   final RxList<PetModel> _petList = RxList();
 
-  final Rxn<PetModel> selectedPet = Rxn<PetModel>(); // ✅ เพิ่มตัวแปรเก็บ Pet ที่เลือก mar
+  final Rxn<PetModel> selectedPet =
+      Rxn<PetModel>(); // ✅ เพิ่มตัวแปรเก็บ Pet ที่เลือก mar
 
   PetListController(this.petRepository);
 
@@ -30,13 +31,10 @@ class PetListController extends GetxController {
       isLoading.value = true;
       _petList.value = await petRepository.getMyPet();
 
-
-       // ✅ ถ้ายังไม่มีค่า ให้เลือกตัวแรกใน list อัตโนมัติ  mar
+      // ✅ ถ้ายังไม่มีค่า ให้เลือกตัวแรกใน list อัตโนมัติ  mar
       if (selectedPet.value == null && _petList.isNotEmpty) {
         selectedPet.value = _petList.first;
       }
-
-
     } catch (e) {
       debugPrint(e.toString());
       //Temporary fix for 401 error
@@ -55,34 +53,28 @@ class PetListController extends GetxController {
       await petRepository.deletePet(pet.id!);
       await getMyPet();
 
-
-
-        // ✅ อัปเดต selectedPet หลังลบ mar
+      // ✅ อัปเดต selectedPet หลังลบ mar
       if (_petList.isNotEmpty) {
         selectedPet.value = _petList.first;
       } else {
         selectedPet.value = null;
       }
-
-
     } catch (e) {
       debugPrint(e.toString());
     } finally {
       isLoading.value = false;
     }
-
-
   }
 
-        // ✅ เพิ่มฟังก์ชันสำหรับอัปเดต Pet ที่เลือก mar
-  void  updateSelectedPet(PetModel pet) {
+  // ✅ เพิ่มฟังก์ชันสำหรับอัปเดต Pet ที่เลือก mar
+  void updateSelectedPet(PetModel pet) {
     selectedPet.value = pet;
   }
-  void syncSelectedPet() {
-  final profileController = Get.find<PetProfileController>();
-  if (selectedPet.value != null) {
-    profileController.setDisplaySetModel(selectedPet.value!);
-  }
-}
 
+  void syncSelectedPet() {
+    final profileController = Get.find<PetProfileController>();
+    if (selectedPet.value != null) {
+      profileController.setDisplaySetModel(selectedPet.value!);
+    }
+  }
 }

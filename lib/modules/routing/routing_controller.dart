@@ -11,12 +11,12 @@ class RoutingController extends GetxController {
   RoutingController({required this.appStorage});
 
   Future<String> getInitialRoute() async {
-    if(! (await hasNetwork())) {
+    if (!(await hasNetwork())) {
       return Routes.noConnection;
     }
     var session = await appStorage.getUserSession();
     if (session == null) {
-      if(appStorage.isFirstInstall()) {
+      if (appStorage.isFirstInstall()) {
         return Routes.onboarding;
       } else {
         return Routes.signIn;

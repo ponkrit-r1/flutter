@@ -38,6 +38,7 @@ class PetClinic {
   }
 
   assignPetClinic(List<Clinic> petClinics) {
-    petClinic = petClinics.firstWhereOrNull((element) => element.id == clinicId);
+    petClinic =
+        petClinics.firstWhereOrNull((element) => element.id == clinicId);
   }
 }

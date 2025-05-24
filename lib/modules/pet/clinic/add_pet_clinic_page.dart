@@ -9,7 +9,6 @@ import '../../../core/global_widgets/pettagu_text_field.dart';
 import '../../../core/global_widgets/primary_button.dart';
 import '../../../core/theme/app_colors.dart';
 
-
 class AddPetClinicPage extends StatefulWidget {
   const AddPetClinicPage({super.key});
 
@@ -21,13 +20,14 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
   final _controller = Get.find<AddPetClinicController>();
 
   @override
-void initState() { //check ว่าเป็น Add หรือ Edit เชคโดยรับค้่าจากหน้าที่เรียกใช้ หน้านี้ 
-  super.initState();
+  void initState() {
+    //check ว่าเป็น Add หรือ Edit เชคโดยรับค้่าจากหน้าที่เรียกใช้ หน้านี้
+    super.initState();
 
-  // ✅ ดึงค่า arguments จาก Get.to()
-  final PetClinic? clinic = Get.arguments?['clinic'];
-  _controller.setEditingClinic(clinic);
-}
+    // ✅ ดึงค่า arguments จาก Get.to()
+    final PetClinic? clinic = Get.arguments?['clinic'];
+    _controller.setEditingClinic(clinic);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,9 @@ void initState() { //check ว่าเป็น Add หรือ Edit เชค
         backgroundColor: Colors.white,
         elevation: 0.0,
         title: Text(
-          _controller.editingClinic != null 
-        ? stringRes(context)!.editPetClinicLabel  // ✅ ถ้าเป็น Edit
-        : stringRes(context)!.addPetClinicLabel , // ✅ ถ้าเป็น Add
+          _controller.editingClinic != null
+              ? stringRes(context)!.editPetClinicLabel // ✅ ถ้าเป็น Edit
+              : stringRes(context)!.addPetClinicLabel, // ✅ ถ้าเป็น Add
           style: textTheme(context).headlineSmall!.copyWith(
                 color: AppColor.textColor,
               ),
@@ -96,9 +96,11 @@ void initState() { //check ว่าเป็น Add หรือ Edit เชค
                               ),
                             )
                           : PrimaryButton(
-                               title: _controller.editingClinic != null 
-                ? stringRes(context)!.saveLabel // ✅ ถ้า Edit ให้เป็น Save
-                : stringRes(context)!.nextLabel, // ✅ ถ้า Add ให้เป็น Next
+                              title: _controller.editingClinic != null
+                                  ? stringRes(context)!
+                                      .saveLabel // ✅ ถ้า Edit ให้เป็น Save
+                                  : stringRes(context)!
+                                      .nextLabel, // ✅ ถ้า Add ให้เป็น Next
                               onPressed: _controller.otherClinicNameErrorText ==
                                       null
                                   ? () async {
@@ -115,22 +117,22 @@ void initState() { //check ว่าเป็น Add หรือ Edit เชค
                   const SizedBox(
                     height: 16,
                   ),
-
-                  if (_controller.editingClinic == null) // ✅ ถ้าเป็น Add ให้แสดง Skip
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text(
-                        stringRes(context)!.skipLabel,
-                        style: textTheme(context).bodyLarge?.copyWith(
-                              color: AppColor.primary500,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  if (_controller.editingClinic ==
+                      null) // ✅ ถ้าเป็น Add ให้แสดง Skip
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text(
+                          stringRes(context)!.skipLabel,
+                          style: textTheme(context).bodyLarge?.copyWith(
+                                color: AppColor.primary500,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
                       ),
                     ),
-                  ),
                   const SizedBox(
                     height: 16,
                   ),

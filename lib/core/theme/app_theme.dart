@@ -11,7 +11,7 @@ final ThemeData appThemeData = ThemeData(
   highlightColor: Colors.grey.shade50,
   textTheme: _textTheme,
   primaryTextTheme: _textTheme,
-  appBarTheme:  AppBarTheme(
+  appBarTheme: AppBarTheme(
       centerTitle: true,
       titleTextStyle: _textTheme.labelMedium,
       backgroundColor: Colors.transparent,
@@ -19,7 +19,6 @@ final ThemeData appThemeData = ThemeData(
   colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColor.primaryBlack)
       .copyWith(secondary: AppColor.secondary500),
   unselectedWidgetColor: Colors.white,
-
 );
 
 final _textTheme = GoogleFonts.poppinsTextTheme(TextTheme(

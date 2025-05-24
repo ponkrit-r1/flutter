@@ -277,11 +277,9 @@ class _PettaguTextField extends State<PettaguTextField> {
     if (widget.errorText != null) {
       return InkWell(
         onTap: () {
-          if(widget.obscureText) {
+          if (widget.obscureText) {
             _isPasswordVisible = true;
-            setState(() {
-
-            });
+            setState(() {});
           }
         },
         child: const Icon(

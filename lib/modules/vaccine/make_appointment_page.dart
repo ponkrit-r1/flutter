@@ -50,7 +50,9 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
             const Text(
               "DHPPi (1st dose)",
               style: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             const SizedBox(height: 4),
             const Text(
@@ -58,7 +60,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               style: TextStyle(color: Colors.black54, fontSize: 14),
             ),
             const SizedBox(height: 16),
-            const Text("Appointed details", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text("Appointed details",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -106,9 +109,11 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               ],
             ),
             const SizedBox(height: 8),
-            _buildRoundedContainer(icon: Icons.location_on, hintText: selectedLocation),
+            _buildRoundedContainer(
+                icon: Icons.location_on, hintText: selectedLocation),
             const SizedBox(height: 16),
-            const Text("Symptom before vaccine", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text("Symptom before vaccine",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -120,7 +125,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               child: DropdownButtonFormField<String>(
                 value: selectedSymptom,
                 decoration: const InputDecoration(border: InputBorder.none),
-                items: ["Normal", "Fever", "Cough", "Other"].map((String value) {
+                items:
+                    ["Normal", "Fever", "Cough", "Other"].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -139,13 +145,15 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 30, 33, 212),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
                   // Handle Save logic here
                 },
-                child: const Text("Save", style: TextStyle(fontSize: 16, color: Colors.white)),
+                child: const Text("Save",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
           ],
@@ -154,7 +162,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
     );
   }
 
-  Widget _buildRoundedContainer({required IconData icon, required String hintText, Function()? onTap}) {
+  Widget _buildRoundedContainer(
+      {required IconData icon, required String hintText, Function()? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -182,8 +191,18 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
 
   String _monthName(int month) {
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
     ];
     return months[month - 1];
   }

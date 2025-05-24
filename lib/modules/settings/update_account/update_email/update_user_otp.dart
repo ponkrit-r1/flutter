@@ -227,10 +227,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 ),
               ),
             const SizedBox(height: 30),
-           ElevatedButton(
+            ElevatedButton(
               onPressed: _isButtonEnabled
                   ? () {
-  
                       _validateOTP(); // Call  OTP validation logic
                       // Show popup dialog if OTP is valid
                       if (!_isOtpIncorrect) {
@@ -245,7 +244,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                   SizedBox(
+                                  SizedBox(
                                     width: 70, // Adjust as needed
                                     height: 70,
                                     child: ClipOval(
@@ -257,8 +256,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                       ),
                                     ),
                                   ),
-                                 const  SizedBox(height: 20),
-                                 const Text(
+                                  const SizedBox(height: 20),
+                                  const Text(
                                     'Your email has been updated',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -266,8 +265,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                 const SizedBox(height: 20),
-                            SizedBox(
+                                  const SizedBox(height: 20),
+                                  SizedBox(
                                     width: double
                                         .infinity, // Makes the button take the full width of the popup
                                     child: ElevatedButton(
@@ -279,7 +278,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
-                                       backgroundColor:
+                                        backgroundColor:
                                             const Color(0xFF2563EB),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -294,19 +293,17 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                       ),
                                     ),
                                   ),
-
                                 ],
                               ),
                             );
                           },
                         );
                       }
-
                     }
                   : null,
-                 
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isButtonEnabled ? const Color(0xFF2563EB) : Colors.grey,
+                backgroundColor:
+                    _isButtonEnabled ? const Color(0xFF2563EB) : Colors.grey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

@@ -12,7 +12,8 @@ extension StringFormatValidation on String {
   }
 
   bool isThaiPhoneNumber() {
-    RegExp thaiPhoneRegex =  RegExp(r'^(0\d{8,9}|\+66\d{8,9}|\+66[2-9]\d{7,8}|0[2-9]\d{7,8})$');
+    RegExp thaiPhoneRegex =
+        RegExp(r'^(0\d{8,9}|\+66\d{8,9}|\+66[2-9]\d{7,8}|0[2-9]\d{7,8})$');
     return thaiPhoneRegex.hasMatch(this);
   }
 }

@@ -22,7 +22,8 @@ class SecondaryButton extends StatelessWidget {
       data: Theme.of(context).copyWith(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-              foregroundColor: activeColor, elevation: 0,
+              foregroundColor: activeColor,
+              elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0),
                   side: BorderSide(color: activeColor)),
@@ -32,12 +33,12 @@ class SecondaryButton extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: WidgetStateProperty.resolveWith<double>(
-                (Set<WidgetState> states) {
+            (Set<WidgetState> states) {
               return 0;
             },
           ),
           backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                (Set<WidgetState> states) {
+            (Set<WidgetState> states) {
               if (states.contains(WidgetState.disabled)) return Colors.grey;
               return backgroundColor;
             },

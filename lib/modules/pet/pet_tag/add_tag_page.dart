@@ -51,14 +51,13 @@ class AddTagPageContent extends StatelessWidget {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-
                 //Handle add tag action here (e.g., navigate to QR code scanner page)
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const QrCodeScannerPage(),
                 ));
 
                 // Mock scanning a QR code (for testing)
-              // _simulateQrCodeScan(context);
+                // _simulateQrCodeScan(context);
               },
               child: Container(
                 width: 150,
@@ -263,7 +262,6 @@ class QrCodeScannerPage extends StatelessWidget {
     );
   }
 }
-
 
 class DashedBorderPainter extends CustomPainter {
   @override

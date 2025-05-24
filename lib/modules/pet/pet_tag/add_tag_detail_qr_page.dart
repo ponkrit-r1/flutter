@@ -7,7 +7,7 @@ class AddTagDetailQrPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     // Retrieve the petModel from arguments
+    // Retrieve the petModel from arguments
     final petModel = Get.arguments['petModel'];
 
     return Scaffold(

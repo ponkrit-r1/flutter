@@ -39,7 +39,7 @@ class _AddPetProtectionPageState extends State<AddPetProtectionPage> {
 
   @override
   Widget build(BuildContext context) {
-     final PetModel petModel = Get.arguments[RouteParams.petModel];
+    final PetModel petModel = Get.arguments[RouteParams.petModel];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -90,7 +90,7 @@ class _AddPetProtectionPageState extends State<AddPetProtectionPage> {
   //     ),
   //   );
   // }
-Widget _buildHeaderCard() {
+  Widget _buildHeaderCard() {
     return GestureDetector(
       onTap: () => _showPopup(),
       child: Padding(
@@ -113,7 +113,6 @@ Widget _buildHeaderCard() {
     );
   }
 
-
   void _showPopup() {
     Get.dialog(
       Dialog(
@@ -134,7 +133,8 @@ Widget _buildHeaderCard() {
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                     child: Image.asset('assets/images/table_flea.png', width: MediaQuery.of(Get.context!).size.width),
+                    child: Image.asset('assets/images/table_flea.png',
+                        width: MediaQuery.of(Get.context!).size.width),
                   ),
                 ),
               ),
@@ -152,8 +152,6 @@ Widget _buildHeaderCard() {
       ),
     );
   }
-
-
 
   Widget _buildDropdownSearch() {
     return Container(
@@ -224,7 +222,8 @@ Widget _buildHeaderCard() {
       child: const Center(
         child: Text(
           'Add',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );

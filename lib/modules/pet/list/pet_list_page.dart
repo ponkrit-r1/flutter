@@ -21,7 +21,6 @@ class PetListPage extends StatefulWidget {
 class _PetListPageState extends State<PetListPage> {
   final _controller = Get.find<PetListController>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +30,7 @@ class _PetListPageState extends State<PetListPage> {
         elevation: 0.0,
         title: Text(
           AppLocalizations.of(context)!.mypet,
-          style:  textTheme(context)
+          style: textTheme(context)
               .headlineSmall!
               .copyWith(color: AppColor.textColor),
         ),
@@ -39,7 +38,7 @@ class _PetListPageState extends State<PetListPage> {
         //   onPressed: () {},
         //   icon: const Icon(Icons.menu_rounded),
         // ),
-               leading: null,
+        leading: null,
         actions: [
           IconButton(
               onPressed: () {

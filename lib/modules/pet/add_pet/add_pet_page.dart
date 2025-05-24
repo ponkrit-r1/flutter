@@ -12,7 +12,6 @@ import '../../../core/theme/app_colors.dart';
 import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
-
 class AddPetPage extends StatefulWidget {
   const AddPetPage({super.key});
 
@@ -24,501 +23,513 @@ class _AddPetPageState extends State<AddPetPage> {
   final _globalKey = GlobalKey<ScaffoldMessengerState>();
 
   final _controller = Get.find<AddPetController>();
- final PetListController _petController = Get.find<PetListController>();
+  final PetListController _petController = Get.find<PetListController>();
 
- @override
+  @override
   void dispose() {
-    _petController.getMyPet(); // เรียกใช้ getMyPet เพื่ออัปเดตรายการสัตว์เลี้ยงเมื่อปิดหน้า
+    _petController
+        .getMyPet(); // เรียกใช้ getMyPet เพื่ออัปเดตรายการสัตว์เลี้ยงเมื่อปิดหน้า
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-      return PopScope(
-      canPop: true, // กำหนดว่าให้สามารถปิดหน้านี้ได้หรือไม่
-  onPopInvoked: (result) async {
-     _petController.getMyPet();
-  
-  },
-    child: ScaffoldMessenger(
-      key: _globalKey,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Text(
-            _controller.editingPet != null
-                ? stringRes(context)!.editPetLabel
-                : stringRes(context)!.addPetInfoLabel,
-            style: textTheme(context).headlineSmall!.copyWith(
-                  color: AppColor.textColor,
-                ),
-          ),
-        ),
-        body: SafeArea(
-          child: Container(
-            color: AppColor.secondaryBgColor,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Obx(
-                      () => InkWell(
-                        onTap: () async {
-                          final result = await ImagePicker().pickImage(
-                            imageQuality: 70,
-                            maxWidth: 1440,
-                            source: ImageSource.gallery,
-                          );
-                          if (result != null) {
-                            _controller.setSelectedImage(result);
-                          }
-                        },
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 256,
-                              width: double.infinity,
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: _controller.displaySelectedImage == null
-                                    ? Column(
-                                        children: [
-                                          const SizedBox(height: 48),
-                                          const Icon(
-                                            Icons.photo_library_outlined,
-                                            color: AppColor.primary500,
-                                            size: 56,
-                                          ),
-                                          const SizedBox(height: 24),
-                                          Text.rich(
-                                            TextSpan(
-                                              text: stringRes(context)!
-                                                  .addYourPetPhoto,
-                                              style: textTheme(context)
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                    color: AppColor.textColor,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                              children: <TextSpan>[
-                                                const TextSpan(text: ' '),
+    return PopScope(
+        canPop: true, // กำหนดว่าให้สามารถปิดหน้านี้ได้หรือไม่
+        onPopInvoked: (result) async {
+          _petController.getMyPet();
+        },
+        child: ScaffoldMessenger(
+          key: _globalKey,
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0.0,
+              title: Text(
+                _controller.editingPet != null
+                    ? stringRes(context)!.editPetLabel
+                    : stringRes(context)!.addPetInfoLabel,
+                style: textTheme(context).headlineSmall!.copyWith(
+                      color: AppColor.textColor,
+                    ),
+              ),
+            ),
+            body: SafeArea(
+              child: Container(
+                color: AppColor.secondaryBgColor,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Obx(
+                          () => InkWell(
+                            onTap: () async {
+                              final result = await ImagePicker().pickImage(
+                                imageQuality: 70,
+                                maxWidth: 1440,
+                                source: ImageSource.gallery,
+                              );
+                              if (result != null) {
+                                _controller.setSelectedImage(result);
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 256,
+                                  width: double.infinity,
+                                  child: Card(
+                                    margin: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: _controller.displaySelectedImage ==
+                                            null
+                                        ? Column(
+                                            children: [
+                                              const SizedBox(height: 48),
+                                              const Icon(
+                                                Icons.photo_library_outlined,
+                                                color: AppColor.primary500,
+                                                size: 56,
+                                              ),
+                                              const SizedBox(height: 24),
+                                              Text.rich(
                                                 TextSpan(
                                                   text: stringRes(context)!
-                                                      .browseLabel,
+                                                      .addYourPetPhoto,
                                                   style: textTheme(context)
                                                       .bodyLarge
                                                       ?.copyWith(
                                                         color:
-                                                            AppColor.primary500,
+                                                            AppColor.textColor,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
+                                                  children: <TextSpan>[
+                                                    const TextSpan(text: ' '),
+                                                    TextSpan(
+                                                      text: stringRes(context)!
+                                                          .browseLabel,
+                                                      style: textTheme(context)
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                            color: AppColor
+                                                                .primary500,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
+                                                textAlign: TextAlign.start,
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                stringRes(context)!
+                                                    .maximumSizeLabel,
+                                                style: textTheme(context)
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                      color: AppColor
+                                                          .formTextColor,
+                                                    ),
+                                              ),
+                                              const SizedBox(height: 48),
+                                            ],
+                                          )
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.memory(
+                                              _controller.displaySelectedImage!,
+                                              fit: BoxFit.cover,
                                             ),
-                                            textAlign: TextAlign.start,
                                           ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            stringRes(context)!
-                                                .maximumSizeLabel,
-                                            style: textTheme(context)
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color: AppColor.formTextColor,
-                                                ),
-                                          ),
-                                          const SizedBox(height: 48),
-                                        ],
-                                      )
-                                    : ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.memory(
-                                          _controller.displaySelectedImage!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                              ),
-                            ),
-                            if (_controller.shouldDisplayImageTooLargeError)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
-                                child: Text(
-                                  "Image too large",
-                                  style: textTheme(context).bodySmall?.copyWith(
-                                      color: AppColor.redError,
-                                      fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                          ],
+                                if (_controller.shouldDisplayImageTooLargeError)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16.0),
+                                    child: Text(
+                                      "Image too large",
+                                      style: textTheme(context)
+                                          .bodySmall
+                                          ?.copyWith(
+                                              color: AppColor.redError,
+                                              fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      stringRes(context)!.petTypeLabel,
-                      style: textTheme(context).bodyMedium?.copyWith(
-                          color: AppColor.textColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Obx(
-                      () => tabSelectorWidget(
-                        _controller.animalTypes,
-                        _controller.selectedPetType,
-                        (value, idx) => _controller.setPetType(value, idx),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      stringRes(context)!.petNameLabel,
-                      style: textTheme(context).bodyMedium?.copyWith(
-                          color: AppColor.textColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    _petNameForm(context),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
                         Text(
-                          stringRes(context)!.microchipIdLabel,
+                          stringRes(context)!.petTypeLabel,
                           style: textTheme(context).bodyMedium?.copyWith(
                               color: AppColor.textColor,
                               fontWeight: FontWeight.w600),
                         ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Obx(
+                          () => tabSelectorWidget(
+                            _controller.animalTypes,
+                            _controller.selectedPetType,
+                            (value, idx) => _controller.setPetType(value, idx),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
                         Text(
-                          "(${stringRes(context)!.optionalLabel})",
-                          style: textTheme(context).bodySmall?.copyWith(
-                              color: AppColor.secondaryContentGray,
+                          stringRes(context)!.petNameLabel,
+                          style: textTheme(context).bodyMedium?.copyWith(
+                              color: AppColor.textColor,
                               fontWeight: FontWeight.w600),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    _microchipForm(context),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      stringRes(context)!.breedLabel,
-                      style: textTheme(context).bodyMedium?.copyWith(
-                          color: AppColor.textColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    // Obx(
-                    //   () => _dropDownFormField<AnimalBreed>(
-                    //     (value) {
-                    //       if (value != null) {
-                    //         _controller.setSelectedBreed(value);
-                    //       }
-                    //     },
-                    //     _controller.animalBreed,
-                    //    _controller.selectedBreed,
-                    //     stringRes(context)!.selectLabel,
-                    //   ),
-                    // ),
-Obx(
-  () => _dropDownFormField<AnimalBreed>(
-    (value) {
-      if (value != null) {
-        _controller.setSelectedBreed(value);
-      }
-    },
-    _controller.animalBreed,  // รายการข้อมูลทั้งหมดในรูปแบบ List<AnimalBreed>
-    _controller.selectedBreed, // ดึงค่าออกจาก Rx
-    stringRes(context)!.selectLabel,
-  ),
-),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      stringRes(context)!.genderLabel,
-                      style: textTheme(context).bodyMedium?.copyWith(
-                          color: AppColor.textColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Obx(
-                      () => tabSelectorWidget<String>(
-                        [
-                          stringRes(context)!.maleLabel,
-                          stringRes(context)!.femaleLabel,
-                          stringRes(context)!.dontKnowLabel,
-                        ],
-                        _controller.selectGender ?? '',
-                        (value, idx) => _controller.setGender(value, idx),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      stringRes(context)!.dateOfBirthLabel,
-                      style: textTheme(context).bodyMedium?.copyWith(
-                          color: AppColor.textColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Obx(
-                      () => InkWell(
-                        onTap: () {
-                          _showDatePicker();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                width: 1,
-                                color: AppColor.borderColor,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(100.0),
-                              )),
-                          child: SizedBox(
-                            height: 54,
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 16),
-                                  Text(
-                                    _controller.displayDate ??
-                                        stringRes(context)!
-                                            .selectDateOfBirthLabel,
-                                    style: textTheme(context)
-                                        .bodyLarge!
-                                        .copyWith(
-                                          color: AppColor.secondaryContentGray,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                    textAlign: TextAlign.center,
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        _petNameForm(context),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              stringRes(context)!.microchipIdLabel,
+                              style: textTheme(context).bodyMedium?.copyWith(
+                                  color: AppColor.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "(${stringRes(context)!.optionalLabel})",
+                              style: textTheme(context).bodySmall?.copyWith(
+                                  color: AppColor.secondaryContentGray,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        _microchipForm(context),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Text(
+                          stringRes(context)!.breedLabel,
+                          style: textTheme(context).bodyMedium?.copyWith(
+                              color: AppColor.textColor,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        // Obx(
+                        //   () => _dropDownFormField<AnimalBreed>(
+                        //     (value) {
+                        //       if (value != null) {
+                        //         _controller.setSelectedBreed(value);
+                        //       }
+                        //     },
+                        //     _controller.animalBreed,
+                        //    _controller.selectedBreed,
+                        //     stringRes(context)!.selectLabel,
+                        //   ),
+                        // ),
+                        Obx(
+                          () => _dropDownFormField<AnimalBreed>(
+                            (value) {
+                              if (value != null) {
+                                _controller.setSelectedBreed(value);
+                              }
+                            },
+                            _controller
+                                .animalBreed, // รายการข้อมูลทั้งหมดในรูปแบบ List<AnimalBreed>
+                            _controller.selectedBreed, // ดึงค่าออกจาก Rx
+                            stringRes(context)!.selectLabel,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Text(
+                          stringRes(context)!.genderLabel,
+                          style: textTheme(context).bodyMedium?.copyWith(
+                              color: AppColor.textColor,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Obx(
+                          () => tabSelectorWidget<String>(
+                            [
+                              stringRes(context)!.maleLabel,
+                              stringRes(context)!.femaleLabel,
+                              stringRes(context)!.dontKnowLabel,
+                            ],
+                            _controller.selectGender ?? '',
+                            (value, idx) => _controller.setGender(value, idx),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Text(
+                          stringRes(context)!.dateOfBirthLabel,
+                          style: textTheme(context).bodyMedium?.copyWith(
+                              color: AppColor.textColor,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Obx(
+                          () => InkWell(
+                            onTap: () {
+                              _showDatePicker();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    width: 1,
+                                    color: AppColor.borderColor,
                                   ),
-                                  const Spacer(),
-                                  const Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    color: AppColor.secondaryContentGray,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(100.0),
+                                  )),
+                              child: SizedBox(
+                                height: 54,
+                                child: Center(
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(width: 16),
+                                      Text(
+                                        _controller.displayDate ??
+                                            stringRes(context)!
+                                                .selectDateOfBirthLabel,
+                                        style: textTheme(context)
+                                            .bodyLarge!
+                                            .copyWith(
+                                              color:
+                                                  AppColor.secondaryContentGray,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const Spacer(),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: AppColor.secondaryContentGray,
+                                      ),
+                                      const SizedBox(width: 16),
+                                    ],
                                   ),
-                                  const SizedBox(width: 16),
-                                ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Obx(
-                      () => _controller.displayPetAge != null
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text.rich(
-                                TextSpan(
-                                  text: stringRes(context)!.ageLabel,
-                                  style:
-                                      textTheme(context).bodyMedium?.copyWith(
-                                            color: AppColor.textColor,
-                                          ),
-                                  children: <TextSpan>[
-                                    const TextSpan(text: ': '),
+                        Obx(
+                          () => _controller.displayPetAge != null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text.rich(
                                     TextSpan(
-                                      text:
-                                          "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
+                                      text: stringRes(context)!.ageLabel,
                                       style: textTheme(context)
                                           .bodyMedium
                                           ?.copyWith(
-                                            color: AppColor.secondary500,
+                                            color: AppColor.textColor,
                                           ),
+                                      children: <TextSpan>[
+                                        const TextSpan(text: ': '),
+                                        TextSpan(
+                                          text:
+                                              "${_controller.displayPetAge} ${stringRes(context)!.monthsLabel}",
+                                          style: textTheme(context)
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: AppColor.secondary500,
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          stringRes(context)!.weightLabel,
-                          style: textTheme(context).bodyMedium?.copyWith(
-                              color: AppColor.textColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "(${stringRes(context)!.optionalLabel})",
-                          style: textTheme(context).bodySmall?.copyWith(
-                              color: AppColor.secondaryContentGray,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    _weightForm(context),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          stringRes(context)!.animalCareSystemLabel,
-                          style: textTheme(context).bodyMedium?.copyWith(
-                              color: AppColor.textColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "(${stringRes(context)!.optionalLabel})",
-                          style: textTheme(context).bodySmall?.copyWith(
-                              color: AppColor.secondaryContentGray,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Obx(
-                      () => tabSelectorWidget(
-                        [
-                          stringRes(context)!.indoorLabel,
-                          stringRes(context)!.outdoorLabel,
-                        ],
-                        _controller.selectedCareSystem ?? '',
-                        (value, idx) => _controller.setCareSystem(value, idx),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          stringRes(context)!.specialCharacteristicsLabel,
-                          style: textTheme(context).bodyMedium?.copyWith(
-                              color: AppColor.textColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "(${stringRes(context)!.optionalLabel})",
-                          style: textTheme(context).bodySmall?.copyWith(
-                              color: AppColor.secondaryContentGray,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    _characteristicForm(context),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        height: 48,
-                        width: double.infinity,
-                        child: _controller.isLoading
-                            ? const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        AppColor.secondary500),
+                                    textAlign: TextAlign.start,
                                   ),
-                                ),
-                              )
-                            : PrimaryButton(
-                                title: _controller.editingPet != null
-                                    ? stringRes(context)!.saveLabel
-                                    : stringRes(context)!.nextLabel,
-                                onPressed: _controller.isInformationCompleted
-                                    ? () {
-                                        _controller.onNextActionClick();
-                                      }
-                                    : null,
-                                color: AppColor.primary500,
-                              ),
-                      ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              stringRes(context)!.weightLabel,
+                              style: textTheme(context).bodyMedium?.copyWith(
+                                  color: AppColor.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "(${stringRes(context)!.optionalLabel})",
+                              style: textTheme(context).bodySmall?.copyWith(
+                                  color: AppColor.secondaryContentGray,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        _weightForm(context),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              stringRes(context)!.animalCareSystemLabel,
+                              style: textTheme(context).bodyMedium?.copyWith(
+                                  color: AppColor.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "(${stringRes(context)!.optionalLabel})",
+                              style: textTheme(context).bodySmall?.copyWith(
+                                  color: AppColor.secondaryContentGray,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Obx(
+                          () => tabSelectorWidget(
+                            [
+                              stringRes(context)!.indoorLabel,
+                              stringRes(context)!.outdoorLabel,
+                            ],
+                            _controller.selectedCareSystem ?? '',
+                            (value, idx) =>
+                                _controller.setCareSystem(value, idx),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              stringRes(context)!.specialCharacteristicsLabel,
+                              style: textTheme(context).bodyMedium?.copyWith(
+                                  color: AppColor.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "(${stringRes(context)!.optionalLabel})",
+                              style: textTheme(context).bodySmall?.copyWith(
+                                  color: AppColor.secondaryContentGray,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        _characteristicForm(context),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Obx(
+                          () => SizedBox(
+                            height: 48,
+                            width: double.infinity,
+                            child: _controller.isLoading
+                                ? const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                AppColor.secondary500),
+                                      ),
+                                    ),
+                                  )
+                                : PrimaryButton(
+                                    title: _controller.editingPet != null
+                                        ? stringRes(context)!.saveLabel
+                                        : stringRes(context)!.nextLabel,
+                                    onPressed:
+                                        _controller.isInformationCompleted
+                                            ? () {
+                                                _controller.onNextActionClick();
+                                              }
+                                            : null,
+                                    color: AppColor.primary500,
+                                  ),
+                          ),
+                        ),
+                        Center(
+                          child: _controller.editingPet ==
+                                  null // ✅ เช็คว่าถ้าเป็นโหมด `add` ให้แสดงปุ่ม
+                              ? TextButton(
+                                  onPressed: () {
+                                    _petController.getMyPet();
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    stringRes(context)!.maybeLaterLabel,
+                                    style:
+                                        textTheme(context).bodyLarge?.copyWith(
+                                              color: AppColor.primary500,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                  ),
+                                )
+                              : const SizedBox
+                                  .shrink(), // ✅ ซ่อนปุ่มในกรณีที่เป็น `edit`
+                          // child: TextButton(
+                          //   onPressed: () {
+                          //       _petController.getMyPet();
+                          //     Get.back();
+                          //   },
+                          //   child: Text(
+                          //     stringRes(context)!.maybeLaterLabel,
+                          //     style: textTheme(context).bodyLarge?.copyWith(
+                          //           color: AppColor.primary500,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //   ),
+                          // ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
                     ),
-                    Center(
-                       child: _controller.editingPet == null // ✅ เช็คว่าถ้าเป็นโหมด `add` ให้แสดงปุ่ม
-      ? TextButton(
-          onPressed: () {
-            _petController.getMyPet();   
-            Get.back();
-          },
-          child: Text(
-            stringRes(context)!.maybeLaterLabel,
-            style: textTheme(context).bodyLarge?.copyWith(
-                  color: AppColor.primary500,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        )
-      : const SizedBox.shrink(), // ✅ ซ่อนปุ่มในกรณีที่เป็น `edit`
-                      // child: TextButton(
-                      //   onPressed: () {   
-                      //       _petController.getMyPet();   
-                      //     Get.back();
-                      //   },
-                      //   child: Text(
-                      //     stringRes(context)!.maybeLaterLabel,
-                      //     style: textTheme(context).bodyLarge?.copyWith(
-                      //           color: AppColor.primary500,
-                      //           fontWeight: FontWeight.bold,
-                      //         ),
-                      //   ),
-                      // ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
-    )
-      );
+        ));
   }
 
   _petNameForm(BuildContext context) {
@@ -612,61 +623,55 @@ Obx(
   //   );
   // }
 
-Widget _dropDownFormField<T>(
-  Function(T?) onItemSelected,
-  List<T> items,
-  T? selectedValue,
-  String hintValue,
-) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border.all(
-        width: 1,
-        color: AppColor.borderColor,
+  Widget _dropDownFormField<T>(
+    Function(T?) onItemSelected,
+    List<T> items,
+    T? selectedValue,
+    String hintValue,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: AppColor.borderColor,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(100)),
       ),
-      borderRadius: const BorderRadius.all(Radius.circular(100)),
-    ),
-    child: DropdownSearch<T>(
-      items: items,
-      selectedItem: selectedValue,
-      popupProps: PopupProps.menu(
-        showSearchBox: true,
-        searchFieldProps: TextFieldProps(
-          decoration: InputDecoration(
-            hintText: 'Search...',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+      child: DropdownSearch<T>(
+        items: items,
+        selectedItem: selectedValue,
+        popupProps: PopupProps.menu(
+          showSearchBox: true,
+          searchFieldProps: TextFieldProps(
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              contentPadding: const EdgeInsets.all(12),
             ),
-            contentPadding: const EdgeInsets.all(12),
+          ),
+        ),
+        dropdownDecoratorProps: const DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(16.0),
+          ),
+        ),
+        itemAsString: (T item) => item.toString(),
+        onChanged: (T? value) {
+          onItemSelected(value);
+        },
+        dropdownButtonProps: const DropdownButtonProps(
+          icon: Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: AppColor.secondaryContentGray,
           ),
         ),
       ),
-      dropdownDecoratorProps: const DropDownDecoratorProps(
-        dropdownSearchDecoration:  InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(16.0),
-        ),
-      ),
-      itemAsString: (T item) => item.toString(),
-      onChanged: (T? value) {
-        onItemSelected(value);
-      },
-      dropdownButtonProps: const DropdownButtonProps(
-        icon: Icon(
-          Icons.keyboard_arrow_down_rounded,
-          color: AppColor.secondaryContentGray,
-        ),
-      ),
-    ),
-  );
-}
-
- 
-
-
-
-
+    );
+  }
 
   showForgotPasswordDialog(BuildContext context) {}
 
