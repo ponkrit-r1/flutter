@@ -1,5 +1,6 @@
 // update_username_controller.dart
 import 'package:deemmi/core/data/repository/user_repository.dart';
+import 'package:deemmi/core/utils/validator/format_validator.dart';
 import 'package:get/get.dart';
 
 class UpdateUsernameController extends GetxController {
@@ -15,16 +16,21 @@ class UpdateUsernameController extends GetxController {
   String get error => _error.value;
 
   void validateUsername(String newUsername) {
-    if (newUsername.length < 6) {
-      _error.value = 'Username must be at least 6 characters long';
+    if (newUsername.length < 2) {
+      _error.value = 'Ensure this field has at least 2 characters long';
+    } else if (!newUsername.isValidUsername()) {
+      _error.value = 'Ensure this field has at least 2 characters and can contain letters, ., -, or _';
     } else {
       _error.value = '';
     }
   }
 
   Future<void> updateUsername(String newUsername) async {
-    if (newUsername.length < 6) {
-      _error.value = 'Ensure this field has at least 6 characters';
+    if (newUsername.length < 2) {
+      _error.value = 'Ensure this field has at least 2 characters';
+      return;
+    } else if (!newUsername.isValidUsername()) {
+      _error.value = 'Username must be at least 2 characters and can contain letters, ., -, or _';
       return;
     }
 

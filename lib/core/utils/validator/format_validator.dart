@@ -15,4 +15,9 @@ extension StringFormatValidation on String {
     RegExp thaiPhoneRegex =  RegExp(r'^(0\d{8,9}|\+66\d{8,9}|\+66[2-9]\d{7,8}|0[2-9]\d{7,8})$');
     return thaiPhoneRegex.hasMatch(this);
   }
+
+  bool isValidUsername() {
+    RegExp usernameRegex = RegExp(r'^[a-zA-Z._-]{2,}$');
+    return usernameRegex.hasMatch(this);
+  }
 }
