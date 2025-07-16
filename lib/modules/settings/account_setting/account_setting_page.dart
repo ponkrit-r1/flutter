@@ -9,7 +9,7 @@ import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSettingPage extends StatefulWidget {
-  const AccountSettingPage({Key? key}) : super(key: key);
+  const AccountSettingPage({super.key});
 
   @override
   State<AccountSettingPage> createState() => _AccountSettingPageState();
@@ -59,9 +59,10 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             Get.offAllNamed(Routes.root);
           },
         ),
-        title:  Text(
+        title: Text(
           AppLocalizations.of(context)!.settings,
-          style:const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
@@ -83,98 +84,97 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     );
   }
 
-Widget _buildLanguageSelection() {
-  return Container(
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
-          spreadRadius: 2,
-          blurRadius: 5,
-          offset: const Offset(0, 3),
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocalizations.of(context)!.language,
-                                  style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w700, // ตัวหนา
-    fontSize: 16,
-    color: Colors.black,
-  ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            _buildLanguageButton(
-              'th',
-              AppLocalizations.of(context)!.th,
-              "assets/icons/th.png", // พาธไปที่รูปไอคอนธงไทย
-            ),
-            const SizedBox(width: 10),
-            _buildLanguageButton(
-              'en',
-              AppLocalizations.of(context)!.en,
-              'assets/icons/en.png', // พาธไปที่รูปไอคอนธงอเมริกา
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildLanguageButton(String language, String label, String iconPath) {
-  final isActive = _selectedLanguage == language;
-
-  return Expanded(
-    child: GestureDetector(
-      onTap: () => _saveLanguagePreference(language),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        decoration: BoxDecoration(
-          color: isActive ? Colors.blue.shade100 : Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(language == 'th' ? 30 : 0),
-            bottomLeft: Radius.circular(language == 'th' ? 30 : 0),
-            topRight: Radius.circular(language == 'en' ? 30 : 0),
-            bottomRight: Radius.circular(language == 'en' ? 30 : 0),
+  Widget _buildLanguageSelection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
           ),
-          border: Border.all(
-            color: isActive ? Colors.blue : Colors.grey.shade300,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              iconPath,
-              width: 24,
-              height: 24,
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.language,
+            style: const TextStyle(
+              fontFamily: 'NotoSansThai',
+              fontWeight: FontWeight.w700, // ตัวหนา
+              fontSize: 16,
+              color: Colors.black,
             ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isActive ? Colors.blue : Colors.grey.shade700,
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              _buildLanguageButton(
+                'th',
+                AppLocalizations.of(context)!.th,
+                "assets/icons/th.png", // พาธไปที่รูปไอคอนธงไทย
               ),
+              const SizedBox(width: 10),
+              _buildLanguageButton(
+                'en',
+                AppLocalizations.of(context)!.en,
+                'assets/icons/en.png', // พาธไปที่รูปไอคอนธงอเมริกา
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageButton(String language, String label, String iconPath) {
+    final isActive = _selectedLanguage == language;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => _saveLanguagePreference(language),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          decoration: BoxDecoration(
+            color: isActive ? Colors.blue.shade100 : Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(language == 'th' ? 30 : 0),
+              bottomLeft: Radius.circular(language == 'th' ? 30 : 0),
+              topRight: Radius.circular(language == 'en' ? 30 : 0),
+              bottomRight: Radius.circular(language == 'en' ? 30 : 0),
             ),
-          ],
+            border: Border.all(
+              color: isActive ? Colors.blue : Colors.grey.shade300,
+              width: 2,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                iconPath,
+                width: 24,
+                height: 24,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: isActive ? Colors.blue : Colors.grey.shade700,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   //   Widget _buildLanguageButton(String language, String label) {
   //   final isActive = _selectedLanguage == language;
@@ -220,21 +220,27 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
             _buildAccountSettingItem(
               AppLocalizations.of(context)!.email,
               profile?.email ?? '',
-              onTap: () => _navigateToUpdate(Routes.update_email, {
-                'email': profile?.email ?? '',
-              }, controller),
+              onTap: () => _navigateToUpdate(
+                  Routes.update_email,
+                  {
+                    'email': profile?.email ?? '',
+                  },
+                  controller),
             ),
             const SizedBox(height: 20),
             _buildAccountSettingItem(
               AppLocalizations.of(context)!.username,
               profile?.username ?? '',
-              onTap: () => _navigateToUpdate(Routes.update_username, {
-                'username': profile?.username ?? '',
-              }, controller),
+              onTap: () => _navigateToUpdate(
+                  Routes.update_username,
+                  {
+                    'username': profile?.username ?? '',
+                  },
+                  controller),
             ),
             const SizedBox(height: 20),
             _buildAccountSettingItem(
-             AppLocalizations.of(context)!.password,
+              AppLocalizations.of(context)!.password,
               AppLocalizations.of(context)!.change_password,
               onTap: () => Get.toNamed(Routes.update_password),
             ),
@@ -244,10 +250,13 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
               profile != null
                   ? '${profile.firstName} ${profile.lastName}'.trim()
                   : '',
-              onTap: () => _navigateToUpdate(Routes.update_name, {
-                'first_name': profile?.firstName ?? '',
-                'last_name': profile?.lastName ?? '',
-              }, controller),
+              onTap: () => _navigateToUpdate(
+                  Routes.update_name,
+                  {
+                    'first_name': profile?.firstName ?? '',
+                    'last_name': profile?.lastName ?? '',
+                  },
+                  controller),
             ),
           ],
         );
@@ -255,106 +264,108 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
     );
   }
 
-
   Widget _buildDeleteAccountButton(AccountSettingController controller) {
-       final profile = controller.profile;
-  return Container(
-    width: double.infinity,
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    child: ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.deleteAccount,
-                style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w700, // ตัวหนา
-    fontSize: 16,
-    color: Colors.red,
-  ),
-              ),
-        content: Text(AppLocalizations.of(context)!.deletAccountMessage
-        ,
-          style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w300, // ตัวหนา
-    fontSize: 14,
-    color: Colors.black,
-  ),),
-
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(AppLocalizations.of(context)!.deleteAccountCancel,
-                                  style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w300, // ตัวหนา
-    fontSize: 16,
-    color: Colors.black,
-  ),
+    final profile = controller.profile;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  AppLocalizations.of(context)!.deleteAccount,
+                  style: const TextStyle(
+                    fontFamily: 'NotoSansThai',
+                    fontWeight: FontWeight.w700, // ตัวหนา
+                    fontSize: 16,
+                    color: Colors.red,
                   ),
                 ),
-                TextButton(
-                  onPressed: () async {
-                    // เรียกฟังก์ชัน mock API
-                    // ตัวอย่าง: print("ยืนยันลบบัญชี");
-                    Navigator.of(context).pop();
+                content: Text(
+                  AppLocalizations.of(context)!.deletAccountMessage,
+                  style: const TextStyle(
+                    fontFamily: 'NotoSansThai',
+                    fontWeight: FontWeight.w300, // ตัวหนา
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(
+                      AppLocalizations.of(context)!.deleteAccountCancel,
+                      style: const TextStyle(
+                        fontFamily: 'NotoSansThai',
+                        fontWeight: FontWeight.w300, // ตัวหนา
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      // เรียกฟังก์ชัน mock API
+                      // ตัวอย่าง: print("ยืนยันลบบัญชี");
+                      Navigator.of(context).pop();
 
-                    try {
-                      var response = await userRepository.deleteUser();
+                      try {
+                        var response = await userRepository.deleteUser();
 
-                      if (response == true) {
-                        // Show success or redirect to login screen
-                        Get.find<SignInController>().signOut(); // Log out after deletion
-                      } else {
-                        Get.snackbar("Error", "Failed to delete account");
+                        if (response == true) {
+                          // Show success or redirect to login screen
+                          Get.find<SignInController>()
+                              .signOut(); // Log out after deletion
+                        } else {
+                          Get.snackbar("Error", "Failed to delete account");
+                        }
+                      } catch (e) {
+                        Get.snackbar("Error", "Something went wrong: $e");
                       }
-                    } catch (e) {
-                      Get.snackbar("Error", "Something went wrong: $e");
-                    }
-                  },
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.red,
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.red,
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.deleteAccountOk,
+                      style: const TextStyle(
+                        fontFamily: 'NotoSansThai',
+                        fontWeight: FontWeight.w300, // ตัวหนา
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-                  child: Text(AppLocalizations.of(context)!.deleteAccountOk,
-                                                    style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w300, // ตัวหนา
-    fontSize: 14,
-    color: Colors.black,
-  ),
-                  ),
-                ),
-              ],
-            );
-          },
-          barrierDismissible: false,
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
-        side: const BorderSide(color: Colors.red),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+                ],
+              );
+            },
+            barrierDismissible: false,
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+          foregroundColor: Colors.white,
+          side: const BorderSide(color: Colors.red),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+        child: Text(
+          AppLocalizations.of(context)!.deleteAccount,
+          style: const TextStyle(
+            fontFamily: 'NotoSansThai',
+            fontWeight: FontWeight.w700, // ตัวหนา
+            fontSize: 16,
+            color: Colors.white,
+          ),
+        ),
       ),
-   child: Text(
-  AppLocalizations.of(context)!.deleteAccount,
-                                  style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w700, // ตัวหนา
-    fontSize: 16,
-    color: Colors.white,
-  ),
-),
-    ),
-  );
-}
-
+    );
+  }
 
   Future<void> _navigateToUpdate(String route, Map<String, String> arguments,
       AccountSettingController controller) async {
@@ -378,12 +389,12 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
             flex: 2,
             child: Text(
               title,
-                                           style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w500, // ตัวหนา
-    fontSize: 14,
-    color: Colors.black,
-  ),
+              style: const TextStyle(
+                fontFamily: 'NotoSansThai',
+                fontWeight: FontWeight.w500, // ตัวหนา
+                fontSize: 14,
+                color: Colors.black,
+              ),
             ),
           ),
           Expanded(
@@ -392,12 +403,12 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
               alignment: Alignment.centerRight,
               child: Text(
                 value,
-                                                 style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w300, // ตัวหนา
-    fontSize: 14,
-    color: Colors.black,
-  ),
+                style: const TextStyle(
+                  fontFamily: 'NotoSansThai',
+                  fontWeight: FontWeight.w300, // ตัวหนา
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
@@ -430,19 +441,15 @@ Widget _buildLanguageButton(String language, String label, String iconPath) {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
         ),
-        child:  Text(AppLocalizations.of(context)!.logout
-        ,
-                                         style: const TextStyle(
-    fontFamily: 'NotoSansThai',
-    fontWeight: FontWeight.w700, // ตัวหนา
-    fontSize: 16,
-    color: Colors.red,
-  ),
-         
-         
-         
-         
-         ),
+        child: Text(
+          AppLocalizations.of(context)!.logout,
+          style: const TextStyle(
+            fontFamily: 'NotoSansThai',
+            fontWeight: FontWeight.w700, // ตัวหนา
+            fontSize: 16,
+            color: Colors.red,
+          ),
+        ),
       ),
     );
   }

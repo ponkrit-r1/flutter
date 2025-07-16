@@ -151,7 +151,7 @@ class AddPetController extends GetxController {
 
   setSelectedImage(XFile file) async {
     var fileInMB = (await file.length()) / (1024 * 1024);
-    if (fileInMB > 5)  {
+    if (fileInMB > 5) {
       _shouldDisplayImageTooLargeError.value = true;
       return;
     } else {

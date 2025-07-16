@@ -85,18 +85,17 @@ class CreateAccountController extends GetxController {
   //   termData = await authenticationAPI.getLatestConditionFile();
   // }
   getTermData() async {
-  print("------call get TermData-------");
-  try {
-    var response = await authenticationAPI.getLatestConditionFile();
-    termData = response;
-    print("------TermData fetched successfully: ${termData?.id}-------");
+    print("------call get TermData-------");
+    try {
+      var response = await authenticationAPI.getLatestConditionFile();
+      termData = response;
+      print("------TermData fetched successfully: ${termData?.id}-------");
     } catch (e) {
-    print("------Error fetching TermData: ${e.toString()}-------");
-  } finally {
-    update(); 
+      print("------Error fetching TermData: ${e.toString()}-------");
+    } finally {
+      update();
+    }
   }
-}
-
 
   setTermAccept(bool termAccepted) {
     _isTermAccepted.value = termAccepted;
@@ -104,8 +103,9 @@ class CreateAccountController extends GetxController {
   }
 
   setCreateAccountApiError(dynamic response) {
-    _emailTextError.value = response['email'] != null ?
-        List.from(response['email']).firstOrNull?.toString() : null;
+    _emailTextError.value = response['email'] != null
+        ? List.from(response['email']).firstOrNull?.toString()
+        : null;
     _firstNameTextError.value = response['first_name'] != null
         ? List.from(response['first_name']).firstOrNull?.toString()
         : null;
@@ -125,13 +125,13 @@ class CreateAccountController extends GetxController {
   }
 
   Future<User?> createAccount() async {
-        print("---register api----");
+    print("---register api----");
     if (termData == null) {
-         print("---start call termData----");
-         return null;
+      print("---start call termData----");
+      return null;
     }
     try {
-  print("=======******call register api=====");
+      print("=======******call register api=====");
       _isLoading.value = true;
       var accountResponse = await authenticationAPI.register(
         CreateAccountModel(
@@ -141,25 +141,24 @@ class CreateAccountController extends GetxController {
           email: emailController.text,
           firstName: firstNameController.text,
           lastName: lastNameController.text,
-          confirmedConditionId: termData?.id ?? 0,  // ใส่ค่า default หาก termData เป็น null
-
+          confirmedConditionId:
+              termData?.id ?? 0, // ใส่ค่า default หาก termData เป็น null
         ),
       );
       clearFieldError();
-       print("---API response received---");
-    print("Account response: $accountResponse");
+      print("---API response received---");
+      print("Account response: $accountResponse");
       return accountResponse;
     } catch (e) {
-        print("=====register api error 2 ======"+e.toString());
-    
+      print("=====register api error 2 ======$e");
 
       if (e is AppError) {
-    setCreateAccountApiError(e.response);
-    debugPrint(e.response);
-    print("=====register api error ======" + e.response);
-  } else {
-    print("Unexpected error type: ${e.runtimeType}");
-  }
+        setCreateAccountApiError(e.response);
+        debugPrint(e.response);
+        print("=====register api error ======" + e.response);
+      } else {
+        print("Unexpected error type: ${e.runtimeType}");
+      }
       return null;
     } finally {
       _isLoading.value = false;

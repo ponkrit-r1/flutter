@@ -24,10 +24,8 @@ class AnswerChoice {
   @override
   bool operator ==(Object other) =>
       other is AnswerChoice && toString() == other.toString();
-      @override
-      int get hashCode => Object.hash(option.index, toString()
-
-  );
+  @override
+  int get hashCode => Object.hash(option.index, toString());
 }
 
 enum AnswerOption {

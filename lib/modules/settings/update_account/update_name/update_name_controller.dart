@@ -58,9 +58,6 @@ class UpdateNameController extends GetxController {
   }
 }
 
-
-
-
 // // update_name_controller.dart
 // import 'package:deemmi/core/data/repository/user_repository.dart';
 // import 'package:get/get.dart';

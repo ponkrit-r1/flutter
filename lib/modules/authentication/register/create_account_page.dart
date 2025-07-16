@@ -90,16 +90,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                               title: stringRes(context)!.continueWithOtpLabel,
                               onPressed: _controller.isInformationCompleted
                                   ? () async {
-                                      print("=====isInformationCompleted=====: ${_controller.isInformationCompleted}");
+                                      print(
+                                          "=====isInformationCompleted=====: ${_controller.isInformationCompleted}");
 
                                       var isInformationCompleted = _controller
                                           .checkAndDisplayFieldError();
-                                          print("============Field error check=========: $isInformationCompleted");
+                                      print(
+                                          "============Field error check=========: $isInformationCompleted");
                                       if (isInformationCompleted) {
-                                           print("====confirm data=====");
+                                        print("====confirm data=====");
                                         var response =
                                             await _controller.createAccount();
-                                          print("======Response: $response");
+                                        print("======Response: $response");
                                         if (response != null) {
                                           navigateToOtpVerification(response);
                                         }
@@ -296,7 +298,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         onChanged: null,
         side: const BorderSide(color: AppColor.borderColor),
         checkColor: Colors.white,
-        fillColor: MaterialStateProperty.all(
+        fillColor: WidgetStateProperty.all(
             _controller.isTermAccepted ? AppColor.primary500 : Colors.white),
         controlAffinity:
             ListTileControlAffinity.leading, //  <-- leading Checkbox

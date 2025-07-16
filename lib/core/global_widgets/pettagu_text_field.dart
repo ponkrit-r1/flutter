@@ -45,7 +45,7 @@ class PettaguTextField extends StatefulWidget {
   final int? maxLength;
 
   const PettaguTextField({
-    Key? key,
+    super.key,
     this.controller,
     required this.hintText,
     this.labelText,
@@ -68,7 +68,7 @@ class PettaguTextField extends StatefulWidget {
     this.isPicker = false,
     this.fillColor = Colors.transparent,
     this.maxLength,
-  }) : super(key: key);
+  });
 
   @override
   _PettaguTextField createState() => _PettaguTextField();
@@ -277,11 +277,9 @@ class _PettaguTextField extends State<PettaguTextField> {
     if (widget.errorText != null) {
       return InkWell(
         onTap: () {
-          if(widget.obscureText) {
+          if (widget.obscureText) {
             _isPasswordVisible = true;
-            setState(() {
-
-            });
+            setState(() {});
           }
         },
         child: const Icon(

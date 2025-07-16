@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:deemmi/core/domain/pet/pet_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../routes/app_routes.dart';
 
 class EditPetProtectionPage extends StatefulWidget {
+  const EditPetProtectionPage({super.key});
+
   @override
   _EditPetProtectionPageState createState() => _EditPetProtectionPageState();
 }
@@ -30,7 +28,8 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
     final Map<String, String>? args = Get.arguments;
     if (args != null) {
       selectedProtection = args['title'];
-      selectedDate = DateFormat('d MMM yyyy').parse(args['intakeDate'] ?? DateFormat('d MMM yyyy').format(DateTime.now()));
+      selectedDate = DateFormat('d MMM yyyy').parse(args['intakeDate'] ??
+          DateFormat('d MMM yyyy').format(DateTime.now()));
     }
   }
 
@@ -91,7 +90,7 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
     );
   }
 
-Widget _buildHeaderCard() {
+  Widget _buildHeaderCard() {
     return GestureDetector(
       onTap: () => _showPopup(),
       child: Padding(
@@ -114,7 +113,6 @@ Widget _buildHeaderCard() {
     );
   }
 
-
   void _showPopup() {
     Get.dialog(
       Dialog(
@@ -135,7 +133,8 @@ Widget _buildHeaderCard() {
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                     child: Image.asset('assets/images/table_flea.png', width: MediaQuery.of(Get.context!).size.width),
+                    child: Image.asset('assets/images/table_flea.png',
+                        width: MediaQuery.of(Get.context!).size.width),
                   ),
                 ),
               ),
@@ -224,29 +223,32 @@ Widget _buildHeaderCard() {
       child: const Center(
         child: Text(
           'Save change',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 
-Widget _buildDeleteButton() {
-  return Center( // ✅ ทำให้ปุ่มอยู่ตรงกลาง
-    child: TextButton(
-      onPressed: () {
-        _showDeleteConfirmationDialog(context);
-      },
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12), // ✅ ปรับขนาดปุ่ม
+  Widget _buildDeleteButton() {
+    return Center(
+      // ✅ ทำให้ปุ่มอยู่ตรงกลาง
+      child: TextButton(
+        onPressed: () {
+          _showDeleteConfirmationDialog(context);
+        },
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 32, vertical: 12), // ✅ ปรับขนาดปุ่ม
+        ),
+        child: const Text(
+          'Delete',
+          style: TextStyle(
+              color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
-      child: const Text(
-        'Delete',
-        style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-    ),
-  );
-}
-
+    );
+  }
 
   void _showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
@@ -254,17 +256,20 @@ Widget _buildDeleteButton() {
       barrierColor: Colors.black54,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(CupertinoIcons.delete_solid, color: Colors.red, size: 50),
+                const Icon(CupertinoIcons.delete_solid,
+                    color: Colors.red, size: 50),
                 const SizedBox(height: 12),
                 Text(
                   'Delete $selectedProtection protection?',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
@@ -286,9 +291,11 @@ Widget _buildDeleteButton() {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          Get.snackbar('Deleted', '$selectedProtection has been removed.');
+                          Get.snackbar('Deleted',
+                              '$selectedProtection has been removed.');
                         },
-                        child: const Text('Delete', style: TextStyle(color: Colors.red)),
+                        child: const Text('Delete',
+                            style: TextStyle(color: Colors.red)),
                       ),
                     ),
                   ],

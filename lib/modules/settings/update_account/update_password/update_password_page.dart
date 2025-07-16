@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:deemmi/modules/settings/update_account/update_password/update_password_controller.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({Key? key}) : super(key: key);
+  const ChangePasswordPage({super.key});
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -87,7 +87,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 width: double.infinity,
                 child: Obx(() {
                   if (controller.isUpdating) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   return ElevatedButton(
                     onPressed: () {
@@ -125,7 +125,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       children: [
         Text(
           hintText,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.black87,

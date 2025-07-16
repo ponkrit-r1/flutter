@@ -15,15 +15,14 @@ class ConfirmDialog extends StatelessWidget {
   final Color confirmColor;
 
   const ConfirmDialog(
-      {Key? key,
+      {super.key,
       required this.onConfirm,
       required this.title,
       required this.description,
       required this.confirmText,
       this.topWidget,
       this.hideCancel = false,
-      this.confirmColor = AppColor.redError})
-      : super(key: key);
+      this.confirmColor = AppColor.redError});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class ConfirmDialog extends StatelessWidget {
             Center(
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: AppColor.textColor, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
@@ -58,7 +57,7 @@ class ConfirmDialog extends StatelessWidget {
                 description,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(color: AppColor.secondaryContentGray),
                 textAlign: TextAlign.center,
               ),

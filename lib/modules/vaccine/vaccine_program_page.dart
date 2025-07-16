@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/domain/pet/pet_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
-
 
 class Dose {
   final String title;
@@ -23,6 +19,8 @@ class Dose {
 }
 
 class VaccineProgramPage extends StatefulWidget {
+  const VaccineProgramPage({super.key});
+
   @override
   _VaccineProgramPageState createState() => _VaccineProgramPageState();
 }
@@ -37,26 +35,24 @@ class _VaccineProgramPageState extends State<VaccineProgramPage> {
 //   '5 years old',
 // ];
 
-List<Dose> doseList1 = [
-  Dose(title: '1st dose', suggestedDate: 'Jan, 2024'),
-  Dose(title: '2nd dose'),
-  Dose(title: '3rd dose'),
-  Dose(title: '4th dose'),
-];
+  List<Dose> doseList1 = [
+    Dose(title: '1st dose', suggestedDate: 'Jan, 2024'),
+    Dose(title: '2nd dose'),
+    Dose(title: '3rd dose'),
+    Dose(title: '4th dose'),
+  ];
 
+  List<Dose> doseList2 = [
+    Dose(title: '1st dose', suggestedDate: 'Oct, 2024'),
+    Dose(title: '2nd dose'),
+  ];
 
-List<Dose> doseList2 = [
-  Dose(title: '1st dose', suggestedDate: 'Oct, 2024'),
-  Dose(title: '2nd dose'),
-
-];
-
-List<Dose> annuallyVaccineList = [
-  Dose(title: '2 years old'),
-  Dose(title: '3 years old'),
-  Dose(title: '4 years old'),
-  Dose(title: '5 years old'),
-];
+  List<Dose> annuallyVaccineList = [
+    Dose(title: '2 years old'),
+    Dose(title: '3 years old'),
+    Dose(title: '4 years old'),
+    Dose(title: '5 years old'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +70,8 @@ List<Dose> annuallyVaccineList = [
             const SizedBox(width: 8),
             const Text(
               'Vaccine program',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),
           ],
         ),
@@ -103,7 +100,7 @@ List<Dose> annuallyVaccineList = [
                   'Distemper + Parvo',
                   'Distemper, Hepatitis (Adenovirus), Parvovirus, Parainfluenza, Leptospirosis',
                   [
-                    _buildDoseItem('1st dose',petModel, 'Sep, 2024'),
+                    _buildDoseItem('1st dose', petModel, 'Sep, 2024'),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -111,20 +108,19 @@ List<Dose> annuallyVaccineList = [
                   petModel,
                   'DHPPi',
                   'Distemper, Hepatitis (Adenovirus), Parvovirus, Parainfluenza, Leptospirosis',
-                   doseList1,
-                    annuallyVaccineList, 
-                    'assets/icons/vaccine.webp',
+                  doseList1,
+                  annuallyVaccineList,
+                  'assets/icons/vaccine.webp',
                 ),
                 const SizedBox(height: 16),
                 _buildTabVaccineCard(
                   petModel,
-  'Rabies',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-doseList2,
-  annuallyVaccineList, // ✅ ใช้ annual vaccine list เหมือนกับ DHPPi
-  'assets/images/rabies.png', // ✅ ไอคอนใหม่
-),
-
+                  'Rabies',
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                  doseList2,
+                  annuallyVaccineList, // ✅ ใช้ annual vaccine list เหมือนกับ DHPPi
+                  'assets/images/rabies.png', // ✅ ไอคอนใหม่
+                ),
               ],
             ),
           ),
@@ -140,12 +136,12 @@ doseList2,
         color: Colors.red[100],
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(Icons.warning, color: Colors.red),
-          const SizedBox(width: 8),
+          Icon(Icons.warning, color: Colors.red),
+          SizedBox(width: 8),
           Expanded(
-            child: const Text(
+            child: Text(
               'สัตว์เลี้ยงอายุต่ำกว่า 4 เดือน จำเป็นต้องได้รับวัคซีนรวมและพิษสุนัขบ้า อย่างละ 2 เข็ม',
               style: TextStyle(color: Colors.red, fontSize: 14),
             ),
@@ -155,11 +151,12 @@ doseList2,
     );
   }
 
-  Widget _buildExpandableVaccineCard(String title, String description, List<Widget> doses) {
+  Widget _buildExpandableVaccineCard(
+      String title, String description, List<Widget> doses) {
     final bool isExpanded = _expandedState[title] ?? false;
 
     return Card(
-     color: const Color(0xFFF8FAFC),
+      color: const Color(0xFFF8FAFC),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
@@ -167,7 +164,8 @@ doseList2,
       child: Column(
         children: [
           ListTile(
-            leading: Image.asset('assets/icons/vaccine.webp', width: 40, height: 40),
+            leading:
+                Image.asset('assets/icons/vaccine.webp', width: 40, height: 40),
             title: Text(
               title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -178,7 +176,9 @@ doseList2,
             ),
             trailing: IconButton(
               icon: Icon(
-                isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
                 color: Colors.grey,
               ),
               onPressed: () {
@@ -190,7 +190,8 @@ doseList2,
           ),
           if (isExpanded)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: doses,
@@ -201,228 +202,240 @@ doseList2,
     );
   }
 
-Widget _buildTabVaccineCard(PetModel petModel,String title, String description,
- List<Dose> doseList, List<Dose> annualDoseList, String iconPath) {
-  final bool isExpanded = _expandedState[title] ?? false;
+  Widget _buildTabVaccineCard(
+      PetModel petModel,
+      String title,
+      String description,
+      List<Dose> doseList,
+      List<Dose> annualDoseList,
+      String iconPath) {
+    final bool isExpanded = _expandedState[title] ?? false;
 
-  return Card(
-     color: const Color(0xFFF8FAFC),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12.0),
-    ),
-    elevation: 3,
-    child: Column(
-      children: [
-        ListTile(
-          leading: Image.asset(iconPath, width: 40, height: 40), // ✅ ไอคอนเปลี่ยนตาม param
-          title: Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(width: 6),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(6),
+    return Card(
+      color: const Color(0xFFF8FAFC),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      elevation: 3,
+      child: Column(
+        children: [
+          ListTile(
+            leading: Image.asset(iconPath,
+                width: 40, height: 40), // ✅ ไอคอนเปลี่ยนตาม param
+            title: Row(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                child: const Text(
-                  'Required',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                const SizedBox(width: 6),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text(
+                    'Required',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+            subtitle: Text(
+              description,
+              style: const TextStyle(color: Colors.black54, fontSize: 14),
+            ),
+            trailing: IconButton(
+              icon: Icon(
+                isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+                color: Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  _expandedState[title] = !isExpanded;
+                });
+              },
+            ),
+          ),
+          if (isExpanded)
+            DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  const TabBar(
+                    labelColor: Colors.black,
+                    indicatorColor: Colors.blue,
+                    tabs: [
+                      Tab(text: '1st year vaccine'),
+                      Tab(text: 'Annually vaccine'),
+                    ],
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 10,
+                      maxHeight: _calculateHeight(doseList.length),
+                    ),
+                    child: TabBarView(
+                      children: [
+                        /// ✅ Tab 1: 1st year vaccine
+                        _buildDoseListView(
+                            doseList, "No vaccine program available", petModel),
+
+                        /// ✅ Tab 2: Annually vaccine
+                        _buildDoseListView(annualDoseList,
+                            "No Annually program available", petModel),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDoseListView(
+      List<Dose> doses, String emptyMessage, PetModel petModel) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: doses.isEmpty
+            ? Center(
+                child: Text(
+                  emptyMessage,
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+              )
+            : Scrollbar(
+                thumbVisibility: true,
+                child: ListView.builder(
+                  shrinkWrap: false,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: doses.length,
+                  itemBuilder: (context, index) {
+                    return _buildDoseItem(
+                      doses[index].title,
+                      petModel,
+                      doses[index]
+                          .suggestedDate, // ✅ ใช้ suggestedDate จาก Object
+                    );
+                  },
+                ),
+              ),
+      ),
+    );
+  }
+
+  double _calculateHeight(int itemCount) {
+    if (itemCount == 1) {
+      return MediaQuery.of(context).size.height * 0.12;
+    } else if (itemCount == 2) {
+      return MediaQuery.of(context).size.height * 0.25;
+    } else if (itemCount == 3) {
+      return MediaQuery.of(context).size.height * 0.35;
+    } else {
+      return MediaQuery.of(context).size.height * 0.45;
+    }
+  }
+
+  Widget _buildDoseItem(String doseTitle, PetModel petModel,
+      [String? suggestedDate, bool isAppointed = false]) {
+    bool shouldShowSuggestedDate =
+        doseTitle.toLowerCase().contains("1st dose") || isAppointed;
+
+    return Container(
+      padding: const EdgeInsets.all(7), // ✅ ป้องกัน Overflow
+      margin: const EdgeInsets.symmetric(
+          vertical: 1), // ✅ ให้มีช่องว่างเล็กน้อยระหว่าง Dose
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // ✅ จัดให้ทุกอย่างอยู่ชิดซ้าย
+        children: [
+          // ✅ Dose Title + Suggested Date (แสดงเฉพาะ item แรก หรือที่จอง)
+          Row(
+            children: [
+              const Icon(Icons.check_circle, color: Colors.grey),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  shouldShowSuggestedDate && suggestedDate != null
+                      ? "$doseTitle (Suggest date: $suggestedDate)"
+                      : doseTitle,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
-          subtitle: Text(
-            description,
-            style: const TextStyle(color: Colors.black54, fontSize: 14),
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: Colors.grey,
-            ),
-            onPressed: () {
-              setState(() {
-                _expandedState[title] = !isExpanded;
-              });
-            },
-          ),
-        ),
-        if (isExpanded)
-          DefaultTabController(
-            length: 2,
-            child: Column(
+          const SizedBox(height: 1), // ✅ ลดระยะห่างให้พอดี
+          // ✅ Make Appointment + Vaccination Date
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 20), // ✅ จัดให้ชิดซ้ายเหมือน Dose
+            child: Row(
               children: [
-                const TabBar(
-                  labelColor: Colors.black,
-                  indicatorColor: Colors.blue,
-                  tabs: [
-                    Tab(text: '1st year vaccine'),
-                    Tab(text: 'Annually vaccine'),
-                  ],
-                ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 10,
-                   maxHeight: _calculateHeight(doseList.length), 
+                TextButton(
+                  onPressed: () {
+                    print(
+                        "==========================Navigating to make appointment with petModel: ${petModel.toJson()}"); // ตรวจสอบค่า
+                    Get.toNamed(Routes.make_appointment, arguments: {
+                      RouteParams.petModel: petModel,
+                    });
+                  },
+                  child: const Text(
+                    "Make appointment",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12),
                   ),
-                  child: TabBarView(
-                    children: [
-            /// ✅ Tab 1: 1st year vaccine
-            _buildDoseListView(doseList, "No vaccine program available",petModel),
-
-            /// ✅ Tab 2: Annually vaccine
-            _buildDoseListView(annualDoseList, "No Annually program available",petModel),
-                    ],
+                ),
+                const Text("|", style: TextStyle(color: Colors.black38)),
+                TextButton(
+                  onPressed: () {
+                    print(
+                        "==========================Navigating to vaccinated_page with petModel: ${petModel.toJson()}"); // ตรวจสอบค่า
+                    Get.toNamed(Routes.vaccinated_date, arguments: {
+                      RouteParams.petModel: petModel,
+                    });
+                  },
+                  child: const Text(
+                    "Vaccination date",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12),
                   ),
                 ),
               ],
             ),
           ),
-      ],
-    ),
-  );
-}
-
-
-
-
-
-Widget _buildDoseListView(List<Dose> doses, String emptyMessage, PetModel petModel) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-    child: Container(
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        ],
       ),
-      child: doses.isEmpty
-          ? Center(
-              child: Text(
-                emptyMessage,
-                style: const TextStyle(fontSize: 14, color: Colors.black54),
-              ),
-            )
-          : Scrollbar(
-              thumbVisibility: true,
-              child: ListView.builder(
-                shrinkWrap: false,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: doses.length,
-                itemBuilder: (context, index) {
-                  return _buildDoseItem(
-                    doses[index].title,
-                    petModel,
-                    doses[index].suggestedDate, // ✅ ใช้ suggestedDate จาก Object
-                  );
-                },
-              ),
-            ),
-    ),
-  );
-}
-
-
-
-  double _calculateHeight(int itemCount) {
-  if (itemCount == 1) {
-    return MediaQuery.of(context).size.height * 0.12;
-  } else if (itemCount == 2) {
-    return MediaQuery.of(context).size.height * 0.25;
-  } else if (itemCount == 3) {
-    return MediaQuery.of(context).size.height * 0.35;
-  } else {
-    return MediaQuery.of(context).size.height * 0.45;
+    );
   }
 }
-
-
-Widget _buildDoseItem(String doseTitle,PetModel petModel, [String? suggestedDate, bool isAppointed = false]) {
-  bool shouldShowSuggestedDate = doseTitle.toLowerCase().contains("1st dose") || isAppointed;
-
-  return Container(
-    padding: const EdgeInsets.all(7), // ✅ ป้องกัน Overflow
-    margin: const EdgeInsets.symmetric(vertical: 1), // ✅ ให้มีช่องว่างเล็กน้อยระหว่าง Dose
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // ✅ จัดให้ทุกอย่างอยู่ชิดซ้าย
-      children: [
-        // ✅ Dose Title + Suggested Date (แสดงเฉพาะ item แรก หรือที่จอง)
-        Row(
-          children: [
-            const Icon(Icons.check_circle, color: Colors.grey),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                shouldShowSuggestedDate && suggestedDate != null
-                    ? "$doseTitle (Suggest date: $suggestedDate)"
-                    : doseTitle,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 1), // ✅ ลดระยะห่างให้พอดี
-        // ✅ Make Appointment + Vaccination Date
-        Padding(
-          padding: const EdgeInsets.only(left: 20), // ✅ จัดให้ชิดซ้ายเหมือน Dose
-          child: Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                      print("==========================Navigating to make appointment with petModel: ${petModel.toJson()}"); // ตรวจสอบค่า
-                    Get.toNamed(Routes.make_appointment, arguments: {
-                     RouteParams.petModel: petModel,
-                  });
-
-                },
-                child: const Text(
-                  "Make appointment",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 12),
-                ),
-              ),
-              const Text("|", style: TextStyle(color: Colors.black38)),
-              TextButton(
-                onPressed: () {
-  print("==========================Navigating to vaccinated_page with petModel: ${petModel.toJson()}"); // ตรวจสอบค่า
-                      Get.toNamed(Routes.vaccinated_date, arguments: {
-                     RouteParams.petModel: petModel,
-                  });
-                },
-                child: const Text(
-                  "Vaccination date",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 12),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-
-
-
-
-}
-
 
 // import 'package:flutter/material.dart';
 // import 'package:deemmi/core/domain/pet/pet_model.dart';
 // import 'package:get/get.dart';
 // import '../../../core/theme/app_colors.dart';
 // import '../../../routes/app_routes.dart';
-
-
 
 // class VaccineProgramPage extends StatefulWidget {
 //   @override

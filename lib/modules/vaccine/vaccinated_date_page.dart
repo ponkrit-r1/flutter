@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:deemmi/core/domain/pet/pet_model.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 class VaccinatedDatePage extends StatefulWidget {
+  const VaccinatedDatePage({super.key});
+
   @override
   _VaccinatedDatePageState createState() => _VaccinatedDatePageState();
 }
@@ -23,8 +23,8 @@ class _VaccinatedDatePageState extends State<VaccinatedDatePage> {
 
     if (petModel == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Error")),
-        body: Center(child: Text("Pet data is missing!")),
+        appBar: AppBar(title: const Text("Error")),
+        body: const Center(child: Text("Pet data is missing!")),
       );
     }
     return Scaffold(
@@ -47,10 +47,12 @@ class _VaccinatedDatePageState extends State<VaccinatedDatePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "DHPPi (1st dose)",
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             const SizedBox(height: 4),
             const Text(
@@ -58,7 +60,8 @@ class _VaccinatedDatePageState extends State<VaccinatedDatePage> {
               style: TextStyle(color: Colors.black54, fontSize: 14),
             ),
             const SizedBox(height: 16),
-            const Text("Vaccinated date", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text("Vaccinated date",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             _buildRoundedContainer(
               icon: Icons.calendar_today,
@@ -80,37 +83,40 @@ class _VaccinatedDatePageState extends State<VaccinatedDatePage> {
               },
             ),
             const SizedBox(height: 8),
-            _buildRoundedContainer(icon: Icons.location_on, hintText: selectedLocation),
-            const SizedBox(height: 8),
-_buildRoundedDropdown(
-  "Select vaccine brand", 
-  ["Brand A", "Brand B", "Brand C"], 
-  selectedVaccineBrand, // ✅ ใช้ตัวแปร selectedVaccineBrand แทน
-  (newValue) => selectedVaccineBrand = newValue,
-),
-            const SizedBox(height: 16),
-            const Text("Symptom after vaccine", style: TextStyle(fontWeight: FontWeight.bold)),
+            _buildRoundedContainer(
+                icon: Icons.location_on, hintText: selectedLocation),
             const SizedBox(height: 8),
             _buildRoundedDropdown(
-  "Normal", 
-  ["Normal", "Fever", "Cough","Other"], 
-  selectedSymptom, // ✅ ใช้ตัวแปร selectedVaccineBrand แทน
-  (newValue) => selectedSymptom = newValue,
-),
-          
+              "Select vaccine brand",
+              ["Brand A", "Brand B", "Brand C"],
+              selectedVaccineBrand, // ✅ ใช้ตัวแปร selectedVaccineBrand แทน
+              (newValue) => selectedVaccineBrand = newValue,
+            ),
+            const SizedBox(height: 16),
+            const Text("Symptom after vaccine",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            _buildRoundedDropdown(
+              "Normal",
+              ["Normal", "Fever", "Cough", "Other"],
+              selectedSymptom, // ✅ ใช้ตัวแปร selectedVaccineBrand แทน
+              (newValue) => selectedSymptom = newValue,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 30, 33, 212),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  backgroundColor: const Color.fromARGB(255, 30, 33, 212),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
                   // Handle Save logic here
                 },
-                child: const Text("Save", style: TextStyle(fontSize: 16, color: Colors.white)),
+                child: const Text("Save",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
           ],
@@ -119,7 +125,8 @@ _buildRoundedDropdown(
     );
   }
 
-  Widget _buildRoundedContainer({required IconData icon, required String hintText, Function()? onTap}) {
+  Widget _buildRoundedContainer(
+      {required IconData icon, required String hintText, Function()? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -145,44 +152,54 @@ _buildRoundedDropdown(
     );
   }
 
-Widget _buildRoundedDropdown(String defaultValue, List<String> items, String selectedValue, Function(String) onChanged) {
-  // ✅ เพิ่ม "Select vaccine brand" เข้าไปใน items หากไม่มี
-  if (!items.contains(defaultValue)) {
-    items.insert(0, defaultValue);
+  Widget _buildRoundedDropdown(String defaultValue, List<String> items,
+      String selectedValue, Function(String) onChanged) {
+    // ✅ เพิ่ม "Select vaccine brand" เข้าไปใน items หากไม่มี
+    if (!items.contains(defaultValue)) {
+      items.insert(0, defaultValue);
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: DropdownButtonFormField<String>(
+        value: selectedValue, // ✅ ใช้ selectedValue ที่เปลี่ยนแปลงได้
+        decoration: const InputDecoration(border: InputBorder.none),
+        items: items.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            setState(() {
+              onChanged(newValue);
+            });
+          }
+        },
+      ),
+    );
   }
-
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(30),
-      border: Border.all(color: Colors.grey.shade300),
-    ),
-    padding: const EdgeInsets.symmetric(horizontal: 12),
-    child: DropdownButtonFormField<String>(
-      value: selectedValue, // ✅ ใช้ selectedValue ที่เปลี่ยนแปลงได้
-      decoration: const InputDecoration(border: InputBorder.none),
-      items: items.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (String? newValue) {
-        if (newValue != null) {
-          setState(() {
-            onChanged(newValue);
-          });
-        }
-      },
-    ),
-  );
-}
-
 
   String _monthName(int month) {
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
     ];
     return months[month - 1];
   }

@@ -5,7 +5,7 @@ import 'package:deemmi/core/theme/app_colors.dart'; // Replace with actual impor
 import 'package:get/get.dart';
 
 class OTPVerificationPage extends StatefulWidget {
-  const OTPVerificationPage({Key? key}) : super(key: key);
+  const OTPVerificationPage({super.key});
 
   @override
   _OTPVerificationPageState createState() => _OTPVerificationPageState();
@@ -72,7 +72,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       _startTimer();
       _isOtpIncorrect = false;
       _isButtonEnabled = false;
-      _otpControllers.forEach((controller) => controller.clear());
+      for (var controller in _otpControllers) {
+        controller.clear();
+      }
     });
 
     // Re-focus the first input field after clearing
@@ -225,10 +227,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 ),
               ),
             const SizedBox(height: 30),
-           ElevatedButton(
+            ElevatedButton(
               onPressed: _isButtonEnabled
                   ? () {
-  
                       _validateOTP(); // Call  OTP validation logic
                       // Show popup dialog if OTP is valid
                       if (!_isOtpIncorrect) {
@@ -239,11 +240,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              contentPadding: EdgeInsets.all(20),
+                              contentPadding: const EdgeInsets.all(20),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                   SizedBox(
+                                  SizedBox(
                                     width: 70, // Adjust as needed
                                     height: 70,
                                     child: ClipOval(
@@ -255,8 +256,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                       ),
                                     ),
                                   ),
-                                 const  SizedBox(height: 20),
-                                 const Text(
+                                  const SizedBox(height: 20),
+                                  const Text(
                                     'Your email has been updated',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -264,8 +265,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                 const SizedBox(height: 20),
-                            SizedBox(
+                                  const SizedBox(height: 20),
+                                  SizedBox(
                                     width: double
                                         .infinity, // Makes the button take the full width of the popup
                                     child: ElevatedButton(
@@ -277,7 +278,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
-                                       backgroundColor:
+                                        backgroundColor:
                                             const Color(0xFF2563EB),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -292,19 +293,17 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                                       ),
                                     ),
                                   ),
-
                                 ],
                               ),
                             );
                           },
                         );
                       }
-
                     }
                   : null,
-                 
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isButtonEnabled ? const Color(0xFF2563EB) : Colors.grey,
+                backgroundColor:
+                    _isButtonEnabled ? const Color(0xFF2563EB) : Colors.grey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

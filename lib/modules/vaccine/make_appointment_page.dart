@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:deemmi/core/domain/pet/pet_model.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 
 class MakeAppointmentPage extends StatefulWidget {
+  const MakeAppointmentPage({super.key});
+
   @override
   _MakeAppointmentPageState createState() => _MakeAppointmentPageState();
 }
@@ -23,8 +23,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
 
     if (petModel == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Error")),
-        body: Center(child: Text("Pet data is missing!")),
+        appBar: AppBar(title: const Text("Error")),
+        body: const Center(child: Text("Pet data is missing!")),
       );
     }
     return Scaffold(
@@ -47,10 +47,12 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "DHPPi (1st dose)",
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             const SizedBox(height: 4),
             const Text(
@@ -58,7 +60,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               style: TextStyle(color: Colors.black54, fontSize: 14),
             ),
             const SizedBox(height: 16),
-            const Text("Appointed details", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text("Appointed details",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -89,7 +92,7 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
                     icon: Icons.access_time,
                     hintText: selectedTime == null
                         ? "Select time"
-                        : "${selectedTime!.format(context)}",
+                        : selectedTime!.format(context),
                     onTap: () async {
                       TimeOfDay? picked = await showTimePicker(
                         context: context,
@@ -106,9 +109,11 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               ],
             ),
             const SizedBox(height: 8),
-            _buildRoundedContainer(icon: Icons.location_on, hintText: selectedLocation),
+            _buildRoundedContainer(
+                icon: Icons.location_on, hintText: selectedLocation),
             const SizedBox(height: 16),
-            const Text("Symptom before vaccine", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text("Symptom before vaccine",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -120,7 +125,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               child: DropdownButtonFormField<String>(
                 value: selectedSymptom,
                 decoration: const InputDecoration(border: InputBorder.none),
-                items: ["Normal", "Fever", "Cough", "Other"].map((String value) {
+                items:
+                    ["Normal", "Fever", "Cough", "Other"].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -138,14 +144,16 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 30, 33, 212),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  backgroundColor: const Color.fromARGB(255, 30, 33, 212),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
                   // Handle Save logic here
                 },
-                child: const Text("Save", style: TextStyle(fontSize: 16, color: Colors.white)),
+                child: const Text("Save",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
           ],
@@ -154,7 +162,8 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
     );
   }
 
-  Widget _buildRoundedContainer({required IconData icon, required String hintText, Function()? onTap}) {
+  Widget _buildRoundedContainer(
+      {required IconData icon, required String hintText, Function()? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -182,8 +191,18 @@ class _MakeAppointmentPageState extends State<MakeAppointmentPage> {
 
   String _monthName(int month) {
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
     ];
     return months[month - 1];
   }

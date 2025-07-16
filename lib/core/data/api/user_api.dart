@@ -42,7 +42,7 @@ class UserAPI {
 
   Future<bool> delete() async {
     var response = await apiClient.deleteHTTP('/user-detail/');
-    
+
     if (response?.statusCode == 200) {
       return true;
     } else {
@@ -51,11 +51,11 @@ class UserAPI {
   }
 
 //update username account setting  field
-Future<bool> updateUsername(String username) async {
+  Future<bool> updateUsername(String username) async {
     try {
       var response = await apiClient.patchHTTP(
         '/user-detail/',
-        {'username': username}, 
+        {'username': username},
       );
 
       // If the request is successful, return true
@@ -95,7 +95,6 @@ Future<bool> updateUsername(String username) async {
       return false;
     }
   }
-  
 
   // user_api.dart
 // user_api.dart
@@ -137,6 +136,4 @@ Future<bool> updateUsername(String username) async {
       };
     }
   }
-
-
 }

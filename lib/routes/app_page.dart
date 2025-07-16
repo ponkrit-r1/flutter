@@ -28,12 +28,9 @@ import 'package:deemmi/modules/routing/routing_page.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_binding.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_page.dart';
 
-
 import 'package:deemmi/modules/settings/update_account/update_email/update_email_page.dart';
 
-
 import 'package:deemmi/modules/settings/update_account/update_email/update_user_otp.dart';
-
 
 import 'package:deemmi/modules/settings/update_account/update_username/update_username_page.dart';
 import 'package:deemmi/modules/settings/update_account/update_username/update_username_binding.dart';
@@ -47,7 +44,6 @@ import 'package:deemmi/modules/settings/update_account/update_password/update_pa
 import 'package:deemmi/modules/pet/pet_tag/add_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/existing_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/add_tag_detail_qr_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
@@ -187,7 +183,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.vaccine_program,
-      page: () =>  VaccineProgramPage(),
+      page: () => VaccineProgramPage(),
     ),
     GetPage(
       name: Routes.make_appointment,
@@ -205,7 +201,7 @@ abstract class AppPages {
       name: Routes.add_pet_protection,
       page: () => AddPetProtectionPage(),
     ),
-       GetPage(
+    GetPage(
       name: Routes.edit_pet_protection,
       page: () => EditPetProtectionPage(),
     ),

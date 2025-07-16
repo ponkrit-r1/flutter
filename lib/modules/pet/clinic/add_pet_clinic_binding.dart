@@ -1,5 +1,4 @@
 import 'package:deemmi/modules/pet/clinic/add_pet_clinic_controller.dart';
-import 'package:deemmi/modules/pet/health_info/pet_health_info_controller.dart';
 import 'package:get/get.dart';
 
 import '../../../core/data/api/pet_api.dart';
@@ -12,7 +11,7 @@ class AddPetClinicBinding extends Bindings {
   void dependencies() {
     PetModel editingPet = Get.arguments[RouteParams.petModel];
     Get.lazyPut(
-          () => AddPetClinicController(
+      () => AddPetClinicController(
         PetRepository(
           PetAPI(
             Get.find(),

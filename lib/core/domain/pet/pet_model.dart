@@ -92,6 +92,7 @@ class PetModel {
 
   assignBreedInfo(List<AnimalBreed> breedList) {
     displayBreed =
-        breedList.firstWhereOrNull((element) => element.id == breed)?.name ?? '';
+        breedList.firstWhereOrNull((element) => element.id == breed)?.name ??
+            '';
   }
 }

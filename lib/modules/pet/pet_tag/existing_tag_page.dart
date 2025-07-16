@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
 
 class ExistingTagPage extends StatelessWidget {
-  const ExistingTagPage({Key? key}) : super(key: key);
+  const ExistingTagPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +84,10 @@ class ExistingTagPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                           // petModel.tagId ?? 'PTG-012345'
+                          const Text(
+                            // petModel.tagId ?? 'PTG-012345'
                             'PTG-012345',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
@@ -116,9 +116,10 @@ class ExistingTagPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text( //petModel.phoneNumber ?? '080 123 4567'
-                             '080 123 4567',
-                            style: const TextStyle(
+                          const Text(
+                            //petModel.phoneNumber ?? '080 123 4567'
+                            '080 123 4567',
+                            style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),

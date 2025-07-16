@@ -11,8 +11,8 @@ class ChronicDisease {
 
   factory ChronicDisease.fromJson(Map<String, dynamic> json) {
     return ChronicDisease(
-      id: json['id'] ,
-      pet: json['pet'] ,
+      id: json['id'],
+      pet: json['pet'],
       name: json['name'] ?? '',
     );
   }

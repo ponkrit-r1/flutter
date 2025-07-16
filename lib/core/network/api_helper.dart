@@ -10,9 +10,9 @@ typedef HttpLibraryMethod<T> = Future<Response<T>> Function();
 Future<Response<T>> mapException<T>(HttpLibraryMethod<T> method) async {
   try {
     return await method();
-  } on DioError catch (err) {
+  } on DioException catch (err) {
     switch (err.type) {
-      case DioErrorType.badResponse:
+      case DioExceptionType.badResponse:
         switch (err.response?.statusCode) {
           case 500:
             throw AppError(type: AppErrorType.server);
@@ -34,13 +34,13 @@ Future<Response<T>> mapException<T>(HttpLibraryMethod<T> method) async {
               throw AppError(type: AppErrorType.unknown);
             }
         }
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         throw AppError(type: AppErrorType.cancel);
-      case DioErrorType.connectionTimeout:
-      case DioErrorType.sendTimeout:
-      case DioErrorType.receiveTimeout:
-      case DioErrorType.unknown:
-      case DioErrorType.badCertificate:
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.unknown:
+      case DioExceptionType.badCertificate:
       case DioExceptionType.connectionError:
         throw AppError(type: AppErrorType.networkError);
     }

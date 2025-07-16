@@ -4,14 +4,13 @@ import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
 
 class UpdateEmailPage extends StatelessWidget {
-  UpdateEmailPage({Key? key}) : super(key: key); 
+  const UpdateEmailPage({super.key});
 
   // Controller to capture email input
   //final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     final String initialEmail = Get.arguments['email'] ?? '';
     final TextEditingController emailController =
         TextEditingController(text: initialEmail);
@@ -92,7 +91,7 @@ class UpdateEmailPage extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                   backgroundColor: const Color(0xFF2563EB), // Button color
+                  backgroundColor: const Color(0xFF2563EB), // Button color
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

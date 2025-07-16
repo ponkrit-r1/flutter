@@ -14,7 +14,6 @@ import '../../../core/theme/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:deemmi/core/services/notification_service.dart';
 
-
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -34,41 +33,42 @@ class _SignInPageState extends State<SignInPage> {
     super.initState();
     _controller.displayError = onDisplaySnackBar;
 
-
-
-      // Initialize Notification Service and get device token
-  Firebase.initializeApp(); 
-  initializeNotifications();
+    // Initialize Notification Service and get device token
+    Firebase.initializeApp();
+    initializeNotifications();
   }
 
   Future<void> initializeNotifications() async {
-  // Initialize the notification service
+    // Initialize the notification service
 
-  print("-------------------------------Initializing Notification Service...");
-  NotificationService.initialize();
+    print(
+        "-------------------------------Initializing Notification Service...");
+    NotificationService.initialize();
 
-  // Get the device token
-  String? deviceToken = await FirebaseMessaging.instance.getToken();
-  if (deviceToken != null) {
-    print("================================Device Token: $deviceToken");
-    // You can send the device token to your backend server here
-    NotificationService.sendTokenToServer(deviceToken);
-  } else {
-    print("====================================Failed to get device token");
-  }
-
-  FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-  print("====----New Device Token: $newToken");
-  NotificationService.sendTokenToServer(newToken);
-});
-
-  // Handle notification clicks if the app was launched from a terminated state
-  FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-    if (message?.data['route'] == '/signIn') {
-      Get.toNamed('/signIn');
+    // Get the device token
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
+    if (deviceToken != null) {
+      print("================================Device Token: $deviceToken");
+      // You can send the device token to your backend server here
+      NotificationService.sendTokenToServer(deviceToken);
+    } else {
+      print("====================================Failed to get device token");
     }
-  });
-}
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+      print("====----New Device Token: $newToken");
+      NotificationService.sendTokenToServer(newToken);
+    });
+
+    // Handle notification clicks if the app was launched from a terminated state
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message?.data['route'] == '/signIn') {
+        Get.toNamed('/signIn');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:deemmi/core/theme/app_colors.dart';
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
 
 class AddTagDetailQrPage extends StatelessWidget {
-  const AddTagDetailQrPage({Key? key}) : super(key: key);
+  const AddTagDetailQrPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-     // Retrieve the petModel from arguments
+    // Retrieve the petModel from arguments
     final petModel = Get.arguments['petModel'];
 
     return Scaffold(

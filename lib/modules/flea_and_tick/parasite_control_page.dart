@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import 'package:deemmi/modules/pet/list/pet_list_controller.dart';
 import 'package:deemmi/modules/pet/profile/pet_profile_controller.dart';
@@ -17,10 +16,14 @@ class ParasiteCategory {
     required this.parasites,
   });
 }
+
 class ParasiteControlPage extends StatefulWidget {
-   @override
+  const ParasiteControlPage({super.key});
+
+  @override
   _ParasiteControlPageState createState() => _ParasiteControlPageState();
 }
+
 class _ParasiteControlPageState extends State<ParasiteControlPage> {
   final controller = Get.find<PetProfileController>();
   final PetListController _petController = Get.find<PetListController>();
@@ -50,8 +53,6 @@ class _ParasiteControlPageState extends State<ParasiteControlPage> {
 
   // เก็บสถานะ Expand/Collapse ของแต่ละปี
   final Map<int, bool> expandedYears = {};
-
-
 
   // Mock Data สำหรับ Active Protection
   final List<Map<String, String>> activeProtections = [
@@ -97,11 +98,10 @@ class _ParasiteControlPageState extends State<ParasiteControlPage> {
   void initState() {
     super.initState();
     // กำหนดค่าเริ่มต้นให้ทุกปีเป็น collapsed
-    historyData.keys.forEach((year) {
+    for (var year in historyData.keys) {
       expandedYears[year] = false;
-    });
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,8 @@ class _ParasiteControlPageState extends State<ParasiteControlPage> {
           onPressed: () => Get.back(),
         ),
       ),
-      body: SingleChildScrollView( // ทำให้หน้าทั้งหน้า Scroll ได้
+      body: SingleChildScrollView(
+        // ทำให้หน้าทั้งหน้า Scroll ได้
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -134,8 +135,9 @@ class _ParasiteControlPageState extends State<ParasiteControlPage> {
               _buildAddProtectionButton(),
               const SizedBox(height: 16),
               _buildActiveProtectionList(), // แสดง Active Protection
-               const SizedBox(height: 16),
-              if (historyData.isNotEmpty) _buildHistorySection(), // แสดง History ถ้ามีข้อมูล
+              const SizedBox(height: 16),
+              if (historyData.isNotEmpty)
+                _buildHistorySection(), // แสดง History ถ้ามีข้อมูล
             ],
           ),
         ),
@@ -143,77 +145,82 @@ class _ParasiteControlPageState extends State<ParasiteControlPage> {
     );
   }
 
-Widget _buildHistorySection() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Text(
-          'History',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ),
-      Column(
-        children: historyData.keys.map((year) => _buildYearHistory(year)).toList(),
-      ),
-    ],
-  );
-}
-Widget _buildYearHistory(int year) {
-  return Column(
-    children: [
-      GestureDetector(
-        onTap: () {
-          setState(() {
-            expandedYears[year] = !(expandedYears[year] ?? false);
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8), // เพิ่มระยะห่างขวาของตัวเลข
-                child: Text(
-                  '$year',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const Expanded(
-                child: Divider(
-                  color: Color.fromARGB(255, 188, 185, 185), // เปลี่ยนเป็นสีเทาอ่อน
-                  thickness: 1,
-                ),
-              ),
-              Icon(
-                expandedYears[year] ?? false
-                    ? Icons.expand_less
-                    : Icons.expand_more,
-                color: Colors.black,
-              ),
-            ],
+  Widget _buildHistorySection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            'History',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-      ),
-      if (expandedYears[year] ?? false)
         Column(
-          children: historyData[year]!.map((item) => _buildHistoryCard(item)).toList(),
+          children:
+              historyData.keys.map((year) => _buildYearHistory(year)).toList(),
         ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
+  Widget _buildYearHistory(int year) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              expandedYears[year] = !(expandedYears[year] ?? false);
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      right: 8), // เพิ่มระยะห่างขวาของตัวเลข
+                  child: Text(
+                    '$year',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Expanded(
+                  child: Divider(
+                    color: Color.fromARGB(
+                        255, 188, 185, 185), // เปลี่ยนเป็นสีเทาอ่อน
+                    thickness: 1,
+                  ),
+                ),
+                Icon(
+                  expandedYears[year] ?? false
+                      ? Icons.expand_less
+                      : Icons.expand_more,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (expandedYears[year] ?? false)
+          Column(
+            children: historyData[year]!
+                .map((item) => _buildHistoryCard(item))
+                .toList(),
+          ),
+      ],
+    );
+  }
 
-
-
-   Widget _buildHistoryCard(Map<String, String> item) {
+  Widget _buildHistoryCard(Map<String, String> item) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ListTile(
-        leading: Image.asset(item['image'] ?? '', width: 50, height: 50, fit: BoxFit.contain),
+        leading: Image.asset(item['image'] ?? '',
+            width: 50, height: 50, fit: BoxFit.contain),
         title: Text(
           item['title'] ?? '',
           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -259,7 +266,6 @@ Widget _buildYearHistory(int year) {
     );
   }
 
-
   void _showPopup() {
     Get.dialog(
       Dialog(
@@ -280,7 +286,8 @@ Widget _buildYearHistory(int year) {
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                     child: Image.asset('assets/images/table_flea.png', width: MediaQuery.of(Get.context!).size.width),
+                    child: Image.asset('assets/images/table_flea.png',
+                        width: MediaQuery.of(Get.context!).size.width),
                   ),
                 ),
               ),
@@ -299,75 +306,82 @@ Widget _buildYearHistory(int year) {
     );
   }
 
-Widget _buildParasiteCategoryList() {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Expanded(
-        flex: 1, // ✅ กำหนดพื้นที่ด้านซ้าย
-        child: Column(
-          children: [
-            _buildParasiteCategoryCard(categories[0], height: 110), // Tick, Flea
-            const SizedBox(height: 8),
-            _buildParasiteCategoryCard(categories[2], height: 100), // Heartworm
-          ],
+  Widget _buildParasiteCategoryList() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 1, // ✅ กำหนดพื้นที่ด้านซ้าย
+          child: Column(
+            children: [
+              _buildParasiteCategoryCard(categories[0],
+                  height: 110), // Tick, Flea
+              const SizedBox(height: 8),
+              _buildParasiteCategoryCard(categories[2],
+                  height: 100), // Heartworm
+            ],
+          ),
         ),
-      ),
-      const SizedBox(width: 8), // ✅ ระยะห่างระหว่าง Columns
-      Expanded(
-        flex: 1, // ✅ กำหนดพื้นที่ด้านขวา
-        child: _buildParasiteCategoryCard(categories[1], height: 218), // Gastrointestinal
-      ),
-    ],
-  );
-}
+        const SizedBox(width: 8), // ✅ ระยะห่างระหว่าง Columns
+        Expanded(
+          flex: 1, // ✅ กำหนดพื้นที่ด้านขวา
+          child: _buildParasiteCategoryCard(categories[1],
+              height: 218), // Gastrointestinal
+        ),
+      ],
+    );
+  }
 
 //   Widget _buildParasiteCategoryList() {
 //     return Column(
 //       children: categories.map((category) => _buildParasiteCategoryCard(category)).toList(),
 //     );
 //   }
-Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 150}) {
-  return Container(
-    width: double.infinity,
-    height: height, // ✅ ปรับความสูงตามที่กำหนด
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12.0),
-      image: DecorationImage(
-        opacity: 1.0,
-        image: AssetImage(category.backgroundImage),
-        fit: BoxFit.cover,
+  Widget _buildParasiteCategoryCard(ParasiteCategory category,
+      {double height = 150}) {
+    return Container(
+      width: double.infinity,
+      height: height, // ✅ ปรับความสูงตามที่กำหนด
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
+        image: DecorationImage(
+          opacity: 1.0,
+          image: AssetImage(category.backgroundImage),
+          fit: BoxFit.cover,
+        ),
       ),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            category.title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              category.title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: category.parasites.map((p) => Row(
-              children: [
-                Icon(Icons.check, color: Colors.green, size: 16), // ✅ ไอคอน ✔
-                const SizedBox(width: 4),
-                Text(p, style: const TextStyle(color: Colors.black)),
-              ],
-            )).toList(),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: category.parasites
+                  .map((p) => Row(
+                        children: [
+                          const Icon(Icons.check,
+                              color: Colors.green, size: 16), // ✅ ไอคอน ✔
+                          const SizedBox(width: 4),
+                          Text(p, style: const TextStyle(color: Colors.black)),
+                        ],
+                      ))
+                  .toList(),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
 // Widget _buildParasiteCategoryCard(ParasiteCategory category) {
 //   return Padding(
@@ -424,7 +438,8 @@ Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 15
       child: const Center(
         child: Text(
           '+ Add pet protection',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -442,7 +457,9 @@ Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 15
               ),
               const SizedBox(height: 8),
               Column(
-                children: activeProtections.map((item) => _buildActiveProtectionCard(item)).toList(),
+                children: activeProtections
+                    .map((item) => _buildActiveProtectionCard(item))
+                    .toList(),
               ),
             ],
           );
@@ -453,7 +470,8 @@ Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 15
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ListTile(
-        leading: Image.asset(item['image'] ?? '', width: 50, height: 50, fit: BoxFit.contain),
+        leading: Image.asset(item['image'] ?? '',
+            width: 50, height: 50, fit: BoxFit.contain),
         title: Text(
           item['title'] ?? '',
           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -462,125 +480,144 @@ Widget _buildParasiteCategoryCard(ParasiteCategory category, {double height = 15
           'Intake date: ${item['intakeDate']}\nNext intake suggest: ${item['nextIntakeSuggest']}',
           style: const TextStyle(fontSize: 12, color: Colors.black54),
         ),
-      trailing: Builder(
-  builder: (context) => IconButton(
-    icon: const Icon(Icons.more_vert, color: Colors.black),
-    onPressed: () => _showActionSheet(context, item), // ✅ ใช้ context ที่สร้างใหม่
-  ),
-),
+        trailing: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.more_vert, color: Colors.black),
+            onPressed: () =>
+                _showActionSheet(context, item), // ✅ ใช้ context ที่สร้างใหม่
+          ),
+        ),
       ),
     );
   }
 
-void _showActionSheet(BuildContext context, Map<String, String> item) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.white, // ✅ ตั้งค่าให้พื้นหลังเป็นสีขาว
-    barrierColor: Colors.black54,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)), // ✅ มุมโค้งด้านบน
-    ),
-    builder: (BuildContext context) {
-      return Wrap(
-        children: [
-          ListTile(
-            leading: const Icon(CupertinoIcons.eye, color: Colors.blue),
-            title: const Text('Edit protection', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500)),
-            trailing: const Icon(CupertinoIcons.chevron_forward, color: Colors.blue), // ✅ เพิ่มลูกศร
-            onTap: () {
-              Navigator.pop(context);
-              Get.toNamed(Routes.edit_pet_protection, arguments: item);
-            },
-          ),
-          ListTile(
-            leading: const Icon(CupertinoIcons.delete, color: Colors.red),
-            title: const Text('Delete', style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500)),
-            trailing: const Icon(CupertinoIcons.chevron_forward, color: Colors.red), // ✅ เพิ่มลูกศร
-            onTap: () {
-              Navigator.pop(context);
+  void _showActionSheet(BuildContext context, Map<String, String> item) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white, // ✅ ตั้งค่าให้พื้นหลังเป็นสีขาว
+      barrierColor: Colors.black54,
+      shape: const RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.vertical(top: Radius.circular(16)), // ✅ มุมโค้งด้านบน
+      ),
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(CupertinoIcons.eye, color: Colors.blue),
+              title: const Text('Edit protection',
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.w500)),
+              trailing: const Icon(CupertinoIcons.chevron_forward,
+                  color: Colors.blue), // ✅ เพิ่มลูกศร
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed(Routes.edit_pet_protection, arguments: item);
+              },
+            ),
+            ListTile(
+              leading: const Icon(CupertinoIcons.delete, color: Colors.red),
+              title: const Text('Delete',
+                  style: TextStyle(
+                      color: Colors.red, fontWeight: FontWeight.w500)),
+              trailing: const Icon(CupertinoIcons.chevron_forward,
+                  color: Colors.red), // ✅ เพิ่มลูกศร
+              onTap: () {
+                Navigator.pop(context);
 
-               _showDeleteConfirmationDialog(context, item); // ✅ เรียก Popup Delete
-             // Get.snackbar('Deleted', '${item['title']} has been removed.');
-            },
-          ),
-          const Divider(), // ✅ เส้นคั่นระหว่างตัวเลือกกับปุ่ม Cancel
-          ListTile(
-            title: const Center(child: Text('Cancel', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
-            onTap: () => Navigator.pop(context),
-          ),
-        ],
-      );
-    },
-  );
-}
+                _showDeleteConfirmationDialog(
+                    context, item); // ✅ เรียก Popup Delete
+                // Get.snackbar('Deleted', '${item['title']} has been removed.');
+              },
+            ),
+            const Divider(), // ✅ เส้นคั่นระหว่างตัวเลือกกับปุ่ม Cancel
+            ListTile(
+              title: const Center(
+                  child: Text('Cancel',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500))),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 // ✅ Popup Delete Confirmation
-void _showDeleteConfirmationDialog(BuildContext context, Map<String, String> item) {
-  showDialog(
-    context: context,
-    barrierColor: Colors.black54,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), // ✅ ทำให้ขอบโค้ง
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(CupertinoIcons.delete_solid, color: Colors.red, size: 50), // ✅ ไอคอนถังขยะสีแดง
-              const SizedBox(height: 12),
-              Text(
-                'Delete ${item['title']} protection?',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                "This action can't be undone.",
-                style: TextStyle(fontSize: 14, color: Colors.black54),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey[200], // ✅ ปุ่ม Cancel สีเทา
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  void _showDeleteConfirmationDialog(
+      BuildContext context, Map<String, String> item) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16)), // ✅ ทำให้ขอบโค้ง
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(CupertinoIcons.delete_solid,
+                    color: Colors.red, size: 50), // ✅ ไอคอนถังขยะสีแดง
+                const SizedBox(height: 12),
+                Text(
+                  'Delete ${item['title']} protection?',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  "This action can't be undone.",
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                          backgroundColor:
+                              Colors.grey[200], // ✅ ปุ่ม Cancel สีเทา
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: const Text('Cancel',
+                            style: TextStyle(color: Colors.black)),
                       ),
-                      child: const Text('Cancel', style: TextStyle(color: Colors.black)),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Get.snackbar('Deleted', '${item['title']} has been removed.');
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.red, // ✅ ปุ่ม Delete สีแดง
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Get.snackbar(
+                              'Deleted', '${item['title']} has been removed.');
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.red, // ✅ ปุ่ม Delete สีแดง
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: const Text('Delete',
+                            style: TextStyle(color: Colors.white)),
                       ),
-                      child: const Text('Delete', style: TextStyle(color: Colors.white)),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }
-
-
-}
-
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter/cupertino.dart';
@@ -709,7 +746,6 @@ void _showDeleteConfirmationDialog(BuildContext context, Map<String, String> ite
 //     );
 //   }
 
-
 //   void _showPopup() {
 //     Get.dialog(
 //       Dialog(
@@ -795,12 +831,11 @@ void _showDeleteConfirmationDialog(BuildContext context, Map<String, String> ite
 //         padding: const EdgeInsets.symmetric(vertical: 16),
 //       ),
 //       onPressed: () {
-     
-   
+
 //       Get.toNamed(Routes.add_pet_protection, arguments: {
 //          RouteParams.petModel: controller.petModel,
 //       });
-  
+
 //       },
 //       child: const Center(
 //         child: Text(

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
 
 class AddTagPage extends StatelessWidget {
-  const AddTagPage({Key? key}) : super(key: key);
+  const AddTagPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AddTagPage extends StatelessWidget {
 class AddTagPageContent extends StatelessWidget {
   final dynamic petModel; // Declare petModel as class-level field
 
-  const AddTagPageContent({Key? key, required this.petModel}) : super(key: key);
+  const AddTagPageContent({super.key, required this.petModel});
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +51,13 @@ class AddTagPageContent extends StatelessWidget {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-
                 //Handle add tag action here (e.g., navigate to QR code scanner page)
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const QrCodeScannerPage(),
                 ));
 
                 // Mock scanning a QR code (for testing)
-              // _simulateQrCodeScan(context);
+                // _simulateQrCodeScan(context);
               },
               child: Container(
                 width: 150,
@@ -99,7 +98,7 @@ class AddTagPageContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Divider(
+            const Divider(
               color: Colors.grey,
               thickness: 1,
             ),
@@ -119,9 +118,9 @@ class AddTagPageContent extends StatelessWidget {
                 ],
               ),
               padding: const EdgeInsets.all(16.0),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'Tag ID',
                     style: TextStyle(
@@ -227,7 +226,7 @@ class AddTagPageContent extends StatelessWidget {
 }
 
 class QrCodeScannerPage extends StatelessWidget {
-  const QrCodeScannerPage({Key? key}) : super(key: key);
+  const QrCodeScannerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +262,6 @@ class QrCodeScannerPage extends StatelessWidget {
     );
   }
 }
-
 
 class DashedBorderPainter extends CustomPainter {
   @override

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:deemmi/modules/settings/update_account/update_name/update_name_controller.dart';
 
 class UpdateNamePage extends StatelessWidget {
-  const UpdateNamePage({Key? key}) : super(key: key);
+  const UpdateNamePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,7 @@ class UpdateNamePage extends StatelessWidget {
                 width: double.infinity,
                 child: Obx(() {
                   if (controller.isUpdating) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   return ElevatedButton(
                     onPressed: () {

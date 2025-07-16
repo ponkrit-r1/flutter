@@ -4,7 +4,7 @@ import 'package:deemmi/core/data/repository/user_repository.dart';
 import 'package:deemmi/core/data/api/user_api.dart';
 
 class UpdateUsernameBinding extends Bindings {
-@override
+  @override
   void dependencies() {
     // Ensure UserAPI is also registered if needed.
     Get.lazyPut<UserAPI>(() => UserAPI(Get.find(), Get.find()));

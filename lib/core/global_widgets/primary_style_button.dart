@@ -32,20 +32,20 @@ class PrimaryStyleButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ButtonStyle(
-          elevation: MaterialStateProperty.resolveWith<double>(
-            (Set<MaterialState> states) {
+          elevation: WidgetStateProperty.resolveWith<double>(
+            (Set<WidgetState> states) {
               return 0;
             },
           ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) return Colors.white;
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) return Colors.white;
               return Colors.white;
             },
           ),
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
                 return AppColor.disableColor;
               }
               return color;

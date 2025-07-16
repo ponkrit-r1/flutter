@@ -40,18 +40,19 @@ class AddPetClinicController extends GetxController {
 
   final Rxn<PetClinic> _editingClinic = Rxn(); //เพิ่มเพิ่อเชค Add/Edit
 
-PetClinic? get editingClinic => _editingClinic.value;//เพิ่มเพิ่อเชค Add/Edit
+  PetClinic? get editingClinic => _editingClinic.value; //เพิ่มเพิ่อเชค Add/Edit
 
-  void setEditingClinic(PetClinic? clinic) {//เพิ่มเพิ่อเชค Add/Edit
-  _editingClinic.value = clinic;
-  if (clinic != null) {
-    otherClinicName.text = clinic.otherClinicName ?? '';
-    otherClinicPhoneNumber.text = clinic.otherClinicTelephone ?? '';
-    _selectedClinic.value = clinics.firstWhereOrNull(
-      (c) => c.id == clinic.clinicId,
-    );
+  void setEditingClinic(PetClinic? clinic) {
+    //เพิ่มเพิ่อเชค Add/Edit
+    _editingClinic.value = clinic;
+    if (clinic != null) {
+      otherClinicName.text = clinic.otherClinicName ?? '';
+      otherClinicPhoneNumber.text = clinic.otherClinicTelephone ?? '';
+      _selectedClinic.value = clinics.firstWhereOrNull(
+        (c) => c.id == clinic.clinicId,
+      );
+    }
   }
-}
 
   @override
   onReady() {
@@ -59,7 +60,7 @@ PetClinic? get editingClinic => _editingClinic.value;//เพิ่มเพิ�
     super.onReady();
     otherClinicName.addListener(() {
       if (otherClinicNameErrorText?.isNotEmpty == true) {
-        if(otherClinicName.text.isNotEmpty) {
+        if (otherClinicName.text.isNotEmpty) {
           _otherClinicNameErrorText.value = null;
         }
       }
@@ -88,8 +89,6 @@ PetClinic? get editingClinic => _editingClinic.value;//เพิ่มเพิ�
       ),
     );
   }
-
-
 
   checkInformation() {
     if (_selectedClinic.value?.id == -1) {
