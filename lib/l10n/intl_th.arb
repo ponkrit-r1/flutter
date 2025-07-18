@@ -102,7 +102,7 @@
    "resendOtpLabel": "ส่งรหัส OTP อีกครั้ง",
    "continueWithOtpLabel": "ดำเนินการยืนยันตัวตนผ่านรหัส OTP",
    "invalidEmailLabel": "อีเมลไม่ถูกต้อง",
-   "invalidPasswordLabel": "รหัสต้องมีคามยาวอย่างน้อย 8 ตัวอักษร\n1 มีตัวอักษรพิมพ์เล็ก (a-z)\n1 มีตัวอักษรพิมพ์ใหญ่ (A-Z)\n1 number\n มีอักขระพิเศษอย่างน้อย 1 ตัว",
+   "invalidPasswordLabel": "รหัสต้องมีคามยาวอย่างน้อย 8 ตัวอักษร\n1 มีตัวอักษรพิมพ์เล็ก (a-z)\n1 มีตัวอักษรพิมพ์ใหญ่ (A-Z)",
    "passwordNotMatch": "รหัสผ่านไม่ตรงกัน",
    "placeHolderTermAndCondition": "Placeholder",
    "scrollToBottomLabel": "เลื่อนไปด้านScroll down to agree",
