@@ -55,6 +55,15 @@ class PetHealthInfoController extends GetxController {
 
   List<VaccineType> get vaccineTypeOptions => _vaccineTypeOptions;
 
+  // Change: Store per-row vaccine brand options
+  final RxList<List<VaccineBrand>> _vaccineBrandOptionsList =
+      <List<VaccineBrand>>[].obs;
+
+  List<VaccineBrand> vaccineBrandOptionsAt(int idx) =>
+      idx < _vaccineBrandOptionsList.length
+          ? _vaccineBrandOptionsList[idx]
+          : [];
+
   final RxList<VaccineBrand> _vaccineBrandOptions = RxList.empty();
 
   List<VaccineAllergyObject?> get vaccineAllergyList => _vaccineAllergyList;
@@ -206,6 +215,8 @@ class PetHealthInfoController extends GetxController {
           brand: null,
         ),
       );
+      // Add empty brand options for new row
+      _vaccineBrandOptionsList.add([]);
     }
   }
 
@@ -257,10 +268,25 @@ class PetHealthInfoController extends GetxController {
     }
   }
 
+  Future<void> updateVaccineBrandOptionsByTypeAt(
+      int idx, int? vaccineTypeId) async {
+    final result =
+        await petRepository.getVaccineBrand(vaccineTypeId: vaccineTypeId);
+    if (idx < _vaccineBrandOptionsList.length) {
+      _vaccineBrandOptionsList[idx] = result;
+    } else {
+      // Fill up to idx with empty lists if needed
+      while (_vaccineBrandOptionsList.length <= idx) {
+        _vaccineBrandOptionsList.add([]);
+      }
+      _vaccineBrandOptionsList[idx] = result;
+    }
+  }
+
   onSetVaccineAllergyType(
     int idx,
     VaccineType type,
-  ) {
+  ) async {
     var currentItem = _vaccineAllergyList.elementAt(idx);
     if (currentItem != null) {
       _vaccineAllergyList[idx] = currentItem.copyWith(
@@ -272,7 +298,9 @@ class PetHealthInfoController extends GetxController {
         brand: null,
       );
     }
-    //TODO use id as reference instead need to discuss with BE
+    // Update vaccine brand options for this row
+    await updateVaccineBrandOptionsByTypeAt(idx, type.id);
+
     if (type.name == otherVaccineTypeName) {
       _vaccineAllergyList[idx] = _vaccineAllergyList[idx]?.copyWith(
         otherVaccineType:
@@ -304,7 +332,15 @@ class PetHealthInfoController extends GetxController {
   getVaccineData() async {
     _vaccineTypeOptions.value =
         await petRepository.getVaccineType(editingPet.animalType);
-    _vaccineBrandOptions.value = await petRepository.getVaccineBrand();
+    // Add custom 'Other' type to the list
+    _vaccineTypeOptions.add(VaccineType(
+      id: -1, // Unique id for 'Other'
+      name: otherVaccineTypeName,
+      animalType: editingPet.animalType,
+      type: '', // Provide a default or appropriate value for 'type'
+      brands: const [],
+      doses: const [], // Provide empty list for required parameter
+    ));
   }
 
   onDeleteFoodAllergy(int idx) {
@@ -321,6 +357,9 @@ class PetHealthInfoController extends GetxController {
 
   onDeleteVaccineAllergy(int idx) {
     _vaccineAllergyList.removeAt(idx);
+    if (idx < _vaccineBrandOptionsList.length) {
+      _vaccineBrandOptionsList.removeAt(idx);
+    }
   }
 
   disposeTextEditor() {
