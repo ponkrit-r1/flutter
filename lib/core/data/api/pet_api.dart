@@ -1,7 +1,11 @@
 import 'package:deemmi/core/domain/pet/clinic.dart';
+import 'package:deemmi/core/domain/pet/health/vaccine/pet_vaccine_record.dart';
 import 'package:deemmi/core/domain/pet/health/vaccine/vaccine_type.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:deemmi/core/domain/pet/pet_protection_product.dart';
+import 'package:deemmi/core/domain/pet/pet_protection.dart';
+import 'package:intl/intl.dart';
 
 import '../../domain/auth/animal_breed.dart';
 import '../../domain/auth/animal_type.dart';
@@ -104,15 +108,24 @@ class PetAPI {
     return petResponse;
   }
 
-  Future<List<VaccineType>> getVaccineType(int animalType) async {
-    var response = await apiClient.getHTTP('/mypet/settings/vaccine-type/');
+  Future<List<VaccineType>> getVaccineType(int? animalType) async {
+    final query = animalType != null ? {'animal_type': animalType} : null;
+    var response = await apiClient.getHTTP(
+      '/mypet/settings/vaccine-type/',
+      queryParameters: query,
+    );
     return List<VaccineType>.from(
       response.data.map((e) => VaccineType.fromJson(e)),
     );
   }
 
-  Future<List<VaccineBrand>> getVaccineBrand() async {
-    var response = await apiClient.getHTTP('/mypet/settings/vaccine-brand/');
+  Future<List<VaccineBrand>> getVaccineBrand({int? vaccineTypeId}) async {
+    final query =
+        vaccineTypeId != null ? {'vaccine_type': vaccineTypeId} : null;
+    var response = await apiClient.getHTTP(
+      '/mypet/settings/vaccine-brand/',
+      queryParameters: query,
+    );
     return List<VaccineBrand>.from(
       response.data.map((e) => VaccineBrand.fromJson(e)),
     );
@@ -158,5 +171,107 @@ class PetAPI {
       healthInfo.toJson(),
     );
     return response?.data;
+  }
+
+  Future<List<PetProtectionProduct>> getPetProtectionProducts(
+      [String? petType]) async {
+    final response = await apiClient.getHTTP(
+      '/mypet/pet-protection-products/',
+      queryParameters: petType != null ? {'pet_type': petType} : null,
+    );
+    return List<PetProtectionProduct>.from(
+      response.data.map((e) => PetProtectionProduct.fromJson(e)),
+    );
+  }
+
+  Future<void> addPetProtection(
+      int petId, int productId, DateTime intakeDate) async {
+    await apiClient.postHTTP(
+      '/mypet/flea-tick-control/',
+      {
+        'pet': petId,
+        'product_id': productId,
+        'intake_date': DateFormat('yyyy-MM-dd').format(intakeDate),
+      },
+    );
+  }
+
+  Future<void> updatePetProtection(
+      int protectionId, int productId, DateTime intakeDate) async {
+    await apiClient.patchHTTP(
+      '/mypet/flea-tick-control/$protectionId/',
+      {
+        'product_id': productId,
+        'intake_date': DateFormat('yyyy-MM-dd').format(intakeDate),
+      },
+    );
+  }
+
+  Future<List<PetProtection>> getPetProtections(int petId,
+      {bool? isActive}) async {
+    final queryParameters = <String, dynamic>{};
+    if (isActive != null) {
+      queryParameters['is_active'] = isActive.toString();
+    }
+    queryParameters['pet'] = petId.toString();
+    final response = await apiClient.getHTTP(
+      '/mypet/flea-tick-control/',
+      queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+    );
+    if (response.data is List) {
+      return List<PetProtection>.from(
+        response.data.map((e) => PetProtection.fromJson(e)),
+      );
+    } else if (response.data is Map) {
+      // In case API returns a single object
+      return [PetProtection.fromJson(response.data)];
+    }
+    return [];
+  }
+
+  Future<void> deletePetProtection(int protectionId) async {
+    await apiClient.deleteHTTP('/mypet/flea-tick-control/$protectionId/');
+  }
+
+  Future<List<PetVaccineRecord>> getPetVaccineRecords(int petId) async {
+    final response = await apiClient.getHTTP(
+      '/program/pet-vaccine-records/',
+      queryParameters: {'pet': petId},
+    );
+    return List<PetVaccineRecord>.from(
+      response.data.map((e) => PetVaccineRecord.fromJson(e)),
+    );
+  }
+
+  Future<PetVaccineRecord> updatePetVaccineRecord(
+      int recordId, Map<String, dynamic> data) async {
+    final response = await apiClient.patchHTTP(
+      '/program/pet-vaccine-records/$recordId/',
+      data,
+    );
+    return PetVaccineRecord.fromJson(response.data);
+  }
+
+  Future<PetVaccineRecord> getPetVaccineRecord(int recordId) async {
+    final response = await apiClient.getHTTP(
+      '/program/pet-vaccine-records/$recordId/',
+    );
+    return PetVaccineRecord.fromJson(response.data);
+  }
+
+  Future<List<VaccineBrand>> getVaccineBrands(
+      {required int vaccineTypeId}) async {
+    try {
+      final response = await apiClient.getHTTP(
+        '/mypet/settings/vaccine-brand/',
+        queryParameters: {'vaccine_type': vaccineTypeId},
+      );
+
+      return List<VaccineBrand>.from(
+        response.data.map((json) => VaccineBrand.fromJson(json)),
+      );
+    } catch (e) {
+      throw Exception('Error fetching vaccine brands: $e');
+    }
   }
 }

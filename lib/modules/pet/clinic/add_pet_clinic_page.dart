@@ -1,3 +1,4 @@
+import 'package:deemmi/common/widgets/app_dropdown_form_field.dart';
 import 'package:deemmi/core/domain/pet/clinic.dart';
 import 'package:deemmi/core/domain/pet/pet_clinic.dart';
 import 'package:deemmi/core/utils/widget_extension.dart';
@@ -195,55 +196,17 @@ class _AddPetClinicPageState extends State<AddPetClinicPage> {
     );
   }
 
-  _dropDownFormField<T>(
+  Widget _dropDownFormField<T>(
     Function(T?) onItemSelected,
     List<T> items,
     T? selectedValue,
     String hintValue,
   ) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: AppColor.borderColor,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(100))),
-      child: DropdownButtonFormField<T>(
-        value: selectedValue,
-        decoration: const InputDecoration(
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: EdgeInsets.all(16.0)),
-        items: items.map((T value) {
-          return DropdownMenuItem<T>(
-            value: value,
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(value.toString(),
-                    style: textTheme(context).bodyMedium)),
-          );
-        }).toList(),
-        isExpanded: true,
-        icon: const Icon(
-          Icons.keyboard_arrow_down_rounded,
-          color: AppColor.secondaryContentGray,
-        ),
-        hint: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            hintValue,
-            style: textTheme(context).bodyMedium!.copyWith(
-                  color: AppColor.secondaryContentGray,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                ),
-          ),
-        ),
-        onChanged: (value) {
-          onItemSelected(value);
-        },
-      ),
+    return AppDropDownFormField<T>(
+      selectedValue: selectedValue,
+      hintValue: hintValue,
+      items: items,
+      onItemSelected: onItemSelected,
     );
   }
 }

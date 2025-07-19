@@ -14,6 +14,7 @@ class PetProfileBinding extends Bindings {
         petRepository: PetRepository(
           PetAPI(Get.find(), Get.find()),
         ),
+        clinicService: Get.find(),
       ),
     );
   }

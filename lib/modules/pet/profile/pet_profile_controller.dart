@@ -5,10 +5,12 @@ import '../../../core/domain/pet/clinic.dart';
 import '../../../core/domain/pet/health/pet_health_info.dart';
 import '../../../core/domain/pet/pet_clinic.dart';
 import '../../../core/domain/pet/pet_model.dart';
+import '../../../core/services/clinic_service.dart';
 
 class PetProfileController extends GetxController {
   final PetRepository petRepository;
-  final PetModel petModel;
+  late PetModel petModel;
+  final ClinicService clinicService;
 
   late Rx<PetModel> _displayPetModel;
 
@@ -49,9 +51,11 @@ class PetProfileController extends GetxController {
   }
 
   PetProfileController({
-    required this.petModel,
+    required PetModel petModel,
     required this.petRepository,
+    required this.clinicService,
   }) {
+    this.petModel = petModel;
     _displayPetModel = petModel.obs;
   }
 
@@ -90,7 +94,7 @@ class PetProfileController extends GetxController {
   }
 
   getClinicInformation() async {
-    var availableClinic = await petRepository.getClinic();
+    List<Clinic> availableClinic = clinicService.clinics;
     getPetClinic(availableClinic);
   }
 
@@ -111,7 +115,7 @@ class PetProfileController extends GetxController {
   }
 
   setDisplaySetModel(PetModel petModel) async {
-    //ใช้ได้ ปกติ mar
+    this.petModel = petModel;
     _displayPetModel.value = petModel;
 
 //====new for selected pet mar ====//

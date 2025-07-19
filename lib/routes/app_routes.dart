@@ -1,3 +1,5 @@
+import 'package:deemmi/core/domain/pet/pet_protection.dart';
+
 abstract class Routes {
   static const initialPage = routing;
   static const signIn = '/signIn';
@@ -48,7 +50,10 @@ abstract class RouteParams {
   static const userName = 'username';
   static const password = 'password';
   static const petModel = 'pet_model';
+  static const petProtection = 'pet_protection';
   static const healthInfoModel = 'pet_health_info';
+  static const recordId = 'record_id';
+  static const vaccineTypeId = 'vaccine_type_id';
 }
 
 abstract class RouteAction {

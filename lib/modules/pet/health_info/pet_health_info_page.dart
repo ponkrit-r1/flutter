@@ -668,76 +668,93 @@ class _PetHealthInfoPageState extends State<PetHealthInfoPage> {
     bool showDelete,
   ) {
     var vaccineItem = _controller.vaccineAllergyList.elementAt(idx);
-    return Column(
-      children: [
-        Row(
+    final isOtherType =
+        vaccineItem?.type?.name == PetHealthInfoController.otherVaccineTypeName;
+
+    Future<void> initBrandOptions() async {
+      if (vaccineItem?.type != null && !isOtherType) {
+        await _controller.updateVaccineBrandOptionsByTypeAt(
+            idx, vaccineItem!.type!.id);
+      }
+    }
+
+    return FutureBuilder(
+      future: initBrandOptions(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Column(
           children: [
-            Expanded(
-              child: Text(
-                "$label #${idx + 1}",
-                style: textTheme(context).bodyMedium?.copyWith(
-                    color: AppColor.textColor, fontWeight: FontWeight.w600),
-              ),
-            ),
-            if (showDelete)
-              InkWell(
-                child: const Icon(
-                  Icons.delete_rounded,
-                  color: AppColor.textColor,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "$label #${idx + 1}",
+                    style: textTheme(context).bodyMedium?.copyWith(
+                        color: AppColor.textColor, fontWeight: FontWeight.w600),
+                  ),
                 ),
-                onTap: () {
-                  onDelete(idx);
+                if (showDelete)
+                  InkWell(
+                    child: const Icon(
+                      Icons.delete_rounded,
+                      color: AppColor.textColor,
+                    ),
+                    onTap: () {
+                      onDelete(idx);
+                    },
+                  )
+              ],
+            ),
+            const SizedBox(height: 12),
+            _dropDownFormField<VaccineType>(
+              (value) {
+                if (value != null) {
+                  _controller.onSetVaccineAllergyType(idx, value);
+                }
+              },
+              _controller.vaccineTypeOptions,
+              _controller.vaccineAllergyList.elementAt(idx)?.type,
+              "Type",
+            ),
+            const SizedBox(height: 12),
+            if (!isOtherType)
+              _dropDownFormField<VaccineBrand>(
+                (value) {
+                  if (value != null) {
+                    _controller.onSetVaccineAllergyBrand(idx, value);
+                  }
                 },
-              )
+                _controller.vaccineBrandOptionsAt(idx),
+                _controller.vaccineAllergyList.elementAt(idx)?.brand,
+                "Brand",
+              ),
+            if (isOtherType) ...[
+              PettaguTextField(
+                hintText: "Add vaccine type",
+                keyboardType: TextInputType.text,
+                controller: vaccineItem?.otherVaccineType,
+                fillColor: Colors.white,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(40),
+                ],
+              ),
+              PettaguTextField(
+                hintText: "Add vaccine brand (optional)",
+                keyboardType: TextInputType.text,
+                controller: vaccineItem?.otherVaccineBrand,
+                fillColor: Colors.white,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(40),
+                ],
+              ),
+            ],
+            const SizedBox(height: 8),
           ],
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        _dropDownFormField<VaccineType>(
-          (value) {
-            if (value != null) {
-              _controller.onSetVaccineAllergyType(idx, value);
-            }
-          },
-          _controller.vaccineTypeOptions,
-          _controller.vaccineAllergyList.elementAt(idx)?.type,
-          "Type",
-        ),
-        const SizedBox(height: 12),
-        if (vaccineItem?.type?.name !=
-            PetHealthInfoController.otherVaccineTypeName)
-          _dropDownFormField<VaccineBrand>(
-            (value) {
-              if (value != null) {
-                _controller.onSetVaccineAllergyBrand(idx, value);
-              }
-            },
-            _controller.vaccineBrandOptions,
-            _controller.vaccineAllergyList.elementAt(idx)?.brand,
-            "Brand",
-          ),
-        if (vaccineItem?.type?.name ==
-            PetHealthInfoController.otherVaccineTypeName) ...[
-          PettaguTextField(
-              hintText: "Add vaccine type",
-              keyboardType: TextInputType.text,
-              controller: vaccineItem?.otherVaccineType,
-              fillColor: Colors.white,
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(40),
-              ]),
-          PettaguTextField(
-              hintText: "Add vaccine brand (optional)",
-              keyboardType: TextInputType.text,
-              controller: vaccineItem?.otherVaccineBrand,
-              fillColor: Colors.white,
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(40),
-              ]),
-        ],
-        const SizedBox(height: 8),
-      ],
+        );
+      },
     );
   }
 
