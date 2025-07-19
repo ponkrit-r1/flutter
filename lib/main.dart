@@ -1,5 +1,7 @@
 import 'package:deemmi/core/data/api/authentication_api.dart';
 import 'package:deemmi/core/data/api/user_api.dart';
+import 'package:deemmi/core/data/api/pet_api.dart';
+import 'package:deemmi/core/data/repository/pet_repository.dart';
 import 'package:deemmi/core/network/api_client.dart';
 import 'package:deemmi/core/network/url.dart';
 import 'package:deemmi/routes/app_page.dart';
@@ -18,11 +20,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:deemmi/core/services/notification_service.dart';
 import 'package:deemmi/modules/settings/account_setting/account_setting_controller.dart';
 import 'package:deemmi/core/data/repository/user_repository.dart';
-import 'package:deemmi/core/domain/auth/user_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:deemmi/core/services/clinic_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load();
   // โหลดภาษาเริ่มต้นจาก SharedPreferences
   final prefs = await SharedPreferences.getInstance();
   final String languageCode = prefs.getString('language') ?? 'en';
@@ -50,6 +53,16 @@ void main() async {
   // ✅ Bind AccountSettingController เพื่อใช้ใน HomePage
   Get.put(AccountSettingController(userRepository), permanent: true);
 //=============================end
+
+  final petAPI = Get.put(PetAPI(Get.find(), Get.find()), permanent: true);
+  final petRepository = Get.put(PetRepository(petAPI), permanent: true);
+  try {
+    final clinicService =
+        Get.put(ClinicService(petRepository), permanent: true);
+    await clinicService.initializeClinics();
+  } catch (e) {
+    print('Error registering ClinicService: $e');
+  }
 
   await Firebase.initializeApp(); // Initialize Firebase
   NotificationService.initialize(); // Initialize the notification service

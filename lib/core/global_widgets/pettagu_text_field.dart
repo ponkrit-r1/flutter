@@ -66,7 +66,7 @@ class PettaguTextField extends StatefulWidget {
     this.readOnly = false,
     this.isSearch = false,
     this.isPicker = false,
-    this.fillColor = Colors.transparent,
+    this.fillColor = Colors.white,
     this.maxLength,
   });
 
@@ -309,8 +309,6 @@ class _PettaguTextField extends State<PettaguTextField> {
       return _clearButton();
     } else if (widget.isPicker) {
       return const Icon(Icons.chevron_right_rounded);
-    } else {
-      return null;
     }
     return null;
   }

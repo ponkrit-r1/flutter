@@ -1,49 +1,50 @@
+import 'package:deemmi/core/network/app_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:deemmi/core/domain/pet/pet_protection_product.dart';
+import 'package:deemmi/core/domain/pet/pet_protection.dart';
+import 'package:deemmi/core/domain/pet/pet_model.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import '../../../routes/app_routes.dart';
+import 'pet_protection_controller.dart';
 
 class EditPetProtectionPage extends StatefulWidget {
   const EditPetProtectionPage({super.key});
 
   @override
-  _EditPetProtectionPageState createState() => _EditPetProtectionPageState();
+  EditPetProtectionPageState createState() => EditPetProtectionPageState();
 }
 
-class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
-  final List<Map<String, String>> petProtectionItems = [
-    {'name': 'B-mectin', 'image': 'assets/images/b_mectin.png'},
-    {'name': 'Bravecto', 'image': 'assets/images/bravecto.png'},
-    {'name': 'Canimax', 'image': 'assets/images/canimax.png'},
-    {'name': 'Drontal PLUS', 'image': 'assets/images/drontal.png'},
-    {'name': 'NexGard Spectra', 'image': 'assets/images/nextgard.png'},
-  ];
+class EditPetProtectionPageState extends State<EditPetProtectionPage> {
+  final PetProtectionController controller = Get.put(PetProtectionController());
 
-  String? selectedProtection;
-  DateTime selectedDate = DateTime.now();
+  late PetProtection item;
+  late PetModel petModel;
 
   @override
   void initState() {
     super.initState();
-    final Map<String, String>? args = Get.arguments;
-    if (args != null) {
-      selectedProtection = args['title'];
-      selectedDate = DateFormat('d MMM yyyy').parse(args['intakeDate'] ??
-          DateFormat('d MMM yyyy').format(DateTime.now()));
-    }
+
+    item = Get.arguments[RouteParams.petProtection];
+    petModel = Get.arguments[RouteParams.petModel];
+
+    controller.fetchPetProtectionItems(
+      petModel.animalType == 1 ? 'dog' : 'cat',
+      item: item,
+    );
   }
 
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: controller.selectedDate.value,
       firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      lastDate: DateTime.now(), // Disable future dates
     );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+    if (picked != null && picked != controller.selectedDate.value) {
+      controller.setSelectedDate(picked);
     }
   }
 
@@ -58,11 +59,7 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
           'Edit protection',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
-        // leading: IconButton(
-        //   // icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //   // onPressed: () => Get.back(),
-        // ),
-        leading: Container(), //ซ่อนปุ่ม back
+        leading: Container(), // Hide back button
         actions: [
           IconButton(
             icon: const Icon(Icons.close, color: Colors.black),
@@ -77,13 +74,29 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
           children: [
             _buildHeaderCard(),
             const SizedBox(height: 16),
-            _buildDropdownSearch(),
-            const SizedBox(height: 16),
-            _buildDatePicker(),
+            const Text(
+              "Product",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Obx(() => _buildDropdownSearch()),
+            const SizedBox(height: 8),
+            const Text(
+              "Intake date",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Obx(() => _buildDatePicker()),
             const SizedBox(height: 24),
             _buildSaveButton(),
-            const SizedBox(height: 16),
-            _buildDeleteButton(),
+            // const SizedBox(height: 16),
+            // _buildDeleteButton(),
           ],
         ),
       ),
@@ -155,33 +168,66 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
 
   Widget _buildDropdownSearch() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.only(left: 12, right: 0, top: 4, bottom: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         border: Border.all(color: Colors.grey.shade400),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          isExpanded: true,
-          hint: const Text('Select pet protection'),
-          value: selectedProtection,
-          onChanged: (newValue) {
-            setState(() {
-              selectedProtection = newValue;
-            });
-          },
-          items: petProtectionItems.map((item) {
-            return DropdownMenuItem<String>(
-              value: item['name'],
-              child: Row(
-                children: [
-                  Image.asset(item['image']!, width: 24, height: 24),
-                  const SizedBox(width: 8),
-                  Text(item['name']!),
-                ],
+      child: DropdownSearch<PetProtectionProduct>(
+        items: controller.petProtectionItems,
+        itemAsString: (item) => item.name,
+        onChanged: (value) {
+          controller.setSelectedProtection(value);
+        },
+        selectedItem: controller.selectedProtection.value,
+        dropdownBuilder: (context, item) {
+          if (item == null) {
+            return const Text("Select pet protection");
+          }
+          return Row(
+            children: [
+              item.image.startsWith('http')
+                  ? Image.network(item.image, width: 24, height: 24)
+                  : Image.asset(item.image, width: 24, height: 24),
+              const SizedBox(width: 8),
+              Text(
+                item.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            );
-          }).toList(),
+            ],
+          );
+        },
+        dropdownDecoratorProps: const DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "Select pet protection",
+            hintStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        popupProps: PopupProps.menu(
+          showSearchBox: true,
+          itemBuilder: (context, item, isSelected) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: Row(
+              children: [
+                item.image.startsWith('http')
+                    ? Image.network(item.image, width: 24, height: 24)
+                    : Image.asset(item.image, width: 24, height: 24),
+                const SizedBox(width: 8),
+                Text(item.name),
+              ],
+            ),
+          ),
+          searchFieldProps: TextFieldProps(
+            decoration: InputDecoration(
+              hintText: "Search...",
+            ),
+          ),
         ),
       ),
     );
@@ -199,7 +245,8 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(DateFormat('d MMM yyyy').format(selectedDate)),
+            Text(
+                DateFormat('d MMM yyyy').format(controller.selectedDate.value)),
             const Icon(Icons.calendar_today, color: Colors.grey),
           ],
         ),
@@ -216,9 +263,8 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
         ),
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
-      onPressed: () {
-        // TODO: Implement save functionality
-        Get.back(); // ปิดหน้า Edit หลังจากกด Save
+      onPressed: () async {
+        await _updateProtection();
       },
       child: const Center(
         child: Text(
@@ -230,16 +276,48 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
     );
   }
 
+  // ...now you can use 'item' anywhere in this class, including _updateProtection()
+  Future<void> _updateProtection() async {
+    if (controller.selectedProtection.value == null) {
+      Get.snackbar('Error', 'Please select a protection product.');
+      return;
+    }
+
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+      await controller.petRepository.updatePetProtection(
+        item.id,
+        controller.selectedProtection.value!.id,
+        controller.selectedDate.value,
+      );
+      Navigator.of(context).pop(); // Remove loading
+      Get.back(); // Close page after save
+      Get.snackbar('Success', 'Protection updated successfully.');
+    } catch (e) {
+      Navigator.of(context).pop(); // Remove loading
+      String errorMessage = 'Failed to add pet protection.';
+      if (e is AppError &&
+          e.type == AppErrorType.errorResponse &&
+          e.response?['intake_date'] != null) {
+        errorMessage = "Intake date cannot be in the future.";
+      }
+
+      Get.snackbar('Error', errorMessage);
+    }
+  }
+
   Widget _buildDeleteButton() {
     return Center(
-      // ✅ ทำให้ปุ่มอยู่ตรงกลาง
       child: TextButton(
         onPressed: () {
           _showDeleteConfirmationDialog(context);
         },
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 32, vertical: 12), // ✅ ปรับขนาดปุ่ม
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         ),
         child: const Text(
           'Delete',
@@ -267,7 +345,7 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
                     color: Colors.red, size: 50),
                 const SizedBox(height: 12),
                 Text(
-                  'Delete $selectedProtection protection?',
+                  'Delete ${controller.selectedProtection.value?.name ?? ''} protection?',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
@@ -292,7 +370,7 @@ class _EditPetProtectionPageState extends State<EditPetProtectionPage> {
                         onPressed: () {
                           Navigator.pop(context);
                           Get.snackbar('Deleted',
-                              '$selectedProtection has been removed.');
+                              '${controller.selectedProtection.value?.name ?? ''} has been removed.');
                         },
                         child: const Text('Delete',
                             style: TextStyle(color: Colors.red)),

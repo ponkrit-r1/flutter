@@ -40,6 +40,8 @@ class PetModel {
     return (now.difference(dob).inDays ~/ 30);
   }
 
+  int get ageInWeeks => DateTime.now().difference(dob).inDays ~/ 7;
+
   // Factory method to create an instance of PetModel from a JSON object
   factory PetModel.fromJson(Map<String, dynamic> json) {
     return PetModel(

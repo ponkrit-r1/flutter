@@ -5,6 +5,28 @@ An App for Pet Owner
 ## Getting Started
 Use fvm for Flutter version please check the installation guide [here](https://fvm.app/documentation/getting-started/installation)
 
+## Development Setup
+
+1. **Clone the repository** and navigate to the project directory.
+
+2. **Environment Variables**  
+   Copy `.env.example` to `.env` and update the values as needed for your local setup:
+   ```
+   cp .env.example .env
+   ```
+   - `.env.example` contains the required environment variables for development.
+   - Update `BASE_API_URL` in your `.env` file to match your backend API endpoint.
+
+3. **Install dependencies**  
+   ```
+   flutter pub get
+   ```
+
+4. **Run the app**  
+   ```
+   flutter run
+   ```
+
 ## State Management
 We use [GetX](https://github.com/jonataslaw/getx) as a core library for state management, dependency injection, and route management. 
 Although GetX has sparked some controversy within the developer community, using it correctly and avoiding the singleton method should result in a smooth experience.

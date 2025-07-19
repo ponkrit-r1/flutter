@@ -44,6 +44,8 @@ import 'package:deemmi/modules/settings/update_account/update_password/update_pa
 import 'package:deemmi/modules/pet/pet_tag/add_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/existing_tag_page.dart';
 import 'package:deemmi/modules/pet/pet_tag/add_tag_detail_qr_page.dart';
+import 'package:deemmi/modules/vaccine/make_appointment_binding.dart';
+import 'package:deemmi/modules/vaccine/vaccinated_date_binding.dart';
 import 'package:get/get.dart';
 
 import '../modules/pet/list/pet_list_binding.dart';
@@ -53,6 +55,7 @@ import 'app_routes.dart';
 import 'package:deemmi/modules/vaccine/vaccine_program_page.dart';
 import 'package:deemmi/modules/vaccine/make_appointment_page.dart';
 import 'package:deemmi/modules/vaccine/vaccinated_date_page.dart';
+import 'package:deemmi/modules/vaccine/vaccine_program_binding.dart';
 
 import 'package:deemmi/modules/flea_and_tick/parasite_control_page.dart';
 import 'package:deemmi/modules/flea_and_tick/add_pet_protection_page.dart';
@@ -184,14 +187,17 @@ abstract class AppPages {
     GetPage(
       name: Routes.vaccine_program,
       page: () => VaccineProgramPage(),
+      binding: VaccineProgramBinding(),
     ),
     GetPage(
       name: Routes.make_appointment,
       page: () => MakeAppointmentPage(),
+      binding: MakeAppointmentBinding(),
     ),
     GetPage(
       name: Routes.vaccinated_date,
       page: () => VaccinatedDatePage(),
+      binding: VaccinatedDateBinding(),
     ),
     GetPage(
       name: Routes.parasite_control,
